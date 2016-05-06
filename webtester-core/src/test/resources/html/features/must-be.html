@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Feature: @Must Trigger</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../_style.css">
+    <style>
+        body {
+        font-family: Verdana, Arial, sans-serif;
+        font-style: normal;
+        font-size: 14px;
+        }
+        .login-table {
+        border: 1px solid #666666;
+        margin:auto;
+        padding: 10px;
+        text-align: right;
+        }
+        .text-field {
+        border: 1px solid #666666;
+        }
+        .button {
+        border: 1px solid #666666;
+        background-color: #CCCCCC;
+        }
+    </style>
+</head>
+<body>
+
+<div id="errorMessage" style="display: none; background-color: #FF0000">Wrong Credentials!</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div style="text-align: center;">
+    <form id="loginForm"
+          name="loginForm">
+        <table class="login-table">
+            <tr>
+                <td>Username:</td>
+                <td><input id="username" type="text" name="username" class="text-field" /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input id="password" type="password" name="password" class="text-field" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: right">
+                    <input id="login" type="submit" value="Login" class="button" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

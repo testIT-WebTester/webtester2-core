@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../_style.css">
+	<script type="text/javascript">
+		function buttonClicked(){
+			document.getElementById("clickMeButton").value = "Clicked!";
+		}
+	</script>
+</head>
+<body>
+
+	<h1>Button Test Page</h1>
+	<h3>This page contains elements for testing the functionality of the Button page fragment class.</h3>
+
+	<hr>
+	<br><br>
+	
+	<table>
+		<tbody>
+			<tr>
+				<td>A button that changes it's lavel when clicked</td>
+				<td>
+					<input id="clickMeButton" type="button" onclick="javascript:buttonClicked()" value="Click Me!">
+				</td>
+			</tr>
+			<tr>
+				<td>All types of supported buttons</td>
+				<td>
+					<button id="button" value="normal_button">Button</button>
+					<br>
+					<input type="submit" id="input_submit" value="Input: Submit">
+					<br>
+					<input type="reset" id="input_reset" value="Input: Reset">
+					<br>
+					<input type="button" id="input_button" value="Input: Button">
+				</td>
+			</tr>
+			<tr>
+				<td>Buttons without labels</td>
+				<td>
+					<button id="buttonWithoutLabel"></button>
+					<br>
+					<input type="submit" id="inputButtonWithoutLabel">
+				</td>
+			</tr>
+			<tr>
+				<td>Not a Button</td>
+				<td><input id="noButton" type="text"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<br><br>
+	<hr>
+
+</body>
+</html>

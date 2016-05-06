@@ -1,0 +1,31 @@
+body {
+    font-family: sans-serif;
+    background-color: #fefefe;
+}
+h1 {
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+hr {
+    border-style: dotted;
+    border-width: 1px;
+}
+table {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #bbbbbb;
+}
+td {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dedede;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}

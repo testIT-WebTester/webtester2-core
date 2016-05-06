@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Feature: Mouse Utilities</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../_style.css">
+    <script type="text/javascript">
+
+	function buttonClicked(number){
+        document.getElementById('div' + number).innerHTML="Clicked";
+	}
+
+	function buttonDoubleClicked(number){
+        document.getElementById('div' + number).innerHTML="Double Clicked";
+	}
+
+	function buttonContextClicked(number){
+        document.getElementById('div' + number).innerHTML="Context Clicked";
+	}
+
+	function buttonMovedTo(number){
+        document.getElementById('div' + number).innerHTML="Moved To";
+	}
+
+</script>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>First Button</td>
+        <td>
+            <button
+                id="firstButton"
+                onclick="javascript:buttonClicked(1)"
+                ondblclick="javascript:buttonDoubleClicked(1)"
+                oncontextmenu="javascript:buttonContextClicked(1)"
+                onmouseover="javascript:buttonMovedTo(1)"
+            >#1</button>
+        </td>
+        <td><div id="div1"></div></td>
+    </tr>
+    <tr>
+        <td>Second Button</td>
+        <td>
+            <button
+                id="secondButton"
+                onclick="javascript:buttonClicked(2)"
+                ondblclick="javascript:buttonDoubleClicked(2)"
+                oncontextmenu="javascript:buttonContextClicked(2)"
+                onmouseover="javascript:buttonMovedTo(2)"
+            >#2</button>
+        </td>
+        <td><div id="div2"></div></td>
+    </tr>
+    <tr>
+        <td>Third Button</td>
+        <td>
+            <button
+                id="thirdButton"
+                onclick="javascript:buttonClicked(3)"
+                ondblclick="javascript:buttonDoubleClicked(3)"
+                oncontextmenu="javascript:buttonContextClicked(3)"
+                onmouseover="javascript:buttonMovedTo(3)"
+            >#3</button>
+        </td>
+        <td><div id="div3"></div></td>
+    </tr>
+</table>
+
+</body>
+</html>

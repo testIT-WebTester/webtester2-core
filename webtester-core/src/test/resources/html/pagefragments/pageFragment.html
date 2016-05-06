@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../_style.css">
+</head>
+<body>
+
+	<h1>PageFragment Test Page</h1>
+	<h3>This page contains elements for testing the functionality of the PageFragment base class.</h3>
+
+	<hr>
+	<br><br>
+	
+	<table>
+		<tbody>
+			<tr>
+				<td>A simple page fragment</td>
+				<td><div id="pageFragment">This is a page fragment (DIV)</div></td>
+			</tr>
+			<tr>
+				<td>An invisible page fragment</td>
+				<td>
+					<div id="invisiblePageFragment" style="display: none">
+						This is an invisible page fragment (DIV)
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>A page fragment with attributes</td>
+				<td>
+					<div id="withAttributes"
+					     foo="hello world"
+						 bar="">
+						This is a page fragment with attributes: foo, bar
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>A page fragment with style</td>
+				<td>
+					<div id="withStyle" style="text-decoration: underline;">
+						This is a page fragment with styles: "text-decoration: underline;"
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>A enabled page fragment</td>
+				<td>
+					<input id="enabled">
+				</td>
+			</tr>
+			<tr>
+				<td>A disabled page fragment</td>
+				<td>
+					<input id="disabled" disabled>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<br><br>
+	<hr>
+
+</body>
+</html>

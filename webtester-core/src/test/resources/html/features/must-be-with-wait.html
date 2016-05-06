@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Feature: @Must Trigger</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../_style.css">
+    <script type="text/javascript">
+
+	function displayButtonWithDelay(buttonId){
+		setTimeout(function() {
+			displayButton(buttonId)
+		}, 500);
+	}
+
+	function displayButton(buttonId){
+
+		var buttonStyle = document.getElementById(buttonId).style
+
+		buttonStyle.display='inline'
+		buttonStyle.visibility='visible'
+
+	}
+
+</script>
+</head>
+<body onload="javascript:displayButtonWithDelay('button')">
+
+<input id="button" type="button" style="display: none" value="Delayed Button">
+
+</body>
+</html>

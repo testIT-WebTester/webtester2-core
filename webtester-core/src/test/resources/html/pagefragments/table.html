@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../_style.css">
+</head>
+<body>
+
+	<h1>Table Test Page</h1>
+	<h3>This page contains elements for testing the functionality of the Table page fragment class.</h3>
+
+	<hr>
+	<br><br>
+
+	<table>
+		<tbody>
+			<tr>
+				<td>A table with declared header, body and footer</td>
+				<td>
+					<table id="modernTable">
+						<thead>
+							<tr>
+								<th>Header 1</th>
+								<th>Header 2</th>
+								<th>Header 3</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>R1C1</td>
+								<td>R1C2</td>
+								<td>R1C3</td>
+							</tr>
+							<tr>
+								<td>R2C1</td>
+								<td>R2C2</td>
+								<td>R2C3</td>
+							</tr>
+							<tr>
+								<td>R3C1</td>
+								<td>R3C2</td>
+								<td>R3C3</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td>Footer 1</td>
+								<td>Footer 2</td>
+								<td>Footer 3</td>
+							</tr>
+						</tfoot>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>A classical table</td>
+				<td>
+					<table id="classicTable">
+						<tr>
+							<th>Header 1</th>
+							<th>Header 2</th>
+							<th>Header 3</th>
+						</tr>
+						<tr>
+							<td>R1C1</td>
+							<td>R1C2</td>
+							<td>R1C3</td>
+						</tr>
+						<tr>
+							<td>R2C1</td>
+							<td>R2C2</td>
+							<td>R2C3</td>
+						</tr>
+						<tr>
+							<td>R3C1</td>
+							<td>R3C2</td>
+							<td>R3C3</td>
+						</tr>
+						<tr>
+							<td>Footer 1</td>
+							<td>Footer 2</td>
+							<td>Footer 3</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>An empty table without rows</td>
+				<td><table id="emptyTable"></table></td>
+			</tr>
+			<tr>
+				<td>An table with one empty rows</td>
+				<td>
+					<table id="emptyRowTable">
+						<tr>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>Not a Table</td>
+				<td><span id="noTable">This is not a Table</span></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br><br>
+	<hr>
+
+</body>
+</html>

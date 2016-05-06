@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Feature: Mouse Utilities</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../_style.css">
+    <script type="text/javascript">
+
+    function onBodyLoad() {
+        setTimeout(function() {
+            document.getElementById('becomesVisible').style.display='inline'
+        }, 500);
+    }
+
+</script>
+</head>
+<body onload="javascript:onBodyLoad()">
+
+<table>
+    <tr>
+        <td>Will become visible after 500ms</td>
+        <td>
+            <button id="becomesVisible" style="display: none;">Hello World!</button>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
