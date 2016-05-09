@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<name>testIT | WebTester</name>
-	<url>https://github.com/testIT-WebTester/webtester-core</url>
+	<url>https://github.com/testIT-WebTester/webtester2-core</url>
 	<description>A best practice framework for testing web based applications.</description>
 	<inceptionYear>2013</inceptionYear>
 
@@ -27,9 +27,9 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git@github.com:testIT-WebTester/webtester-core.git</connection>
-		<developerConnection>scm:git:git@github.com:testIT-WebTester/webtester-core.git</developerConnection>
-		<url>git@github.com:testIT-WebTester/webtester-core.git</url>
+		<connection>scm:git:git@github.com:testIT-WebTester/webtester2-core.git</connection>
+		<developerConnection>scm:git:git@github.com:testIT-WebTester/webtester2-core.git</developerConnection>
+		<url>git@github.com:testIT-WebTester/webtester2-core.git</url>
 	</scm>
 
 	<prerequisites>
