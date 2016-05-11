@@ -3,22 +3,19 @@
 # @IdentifyUsing
 This annotation is used to tell the framework how the fragment(s) should be resolved when a page fragment returning method
 is invoked.
-The annotation provides all necessary information to identify the corresponding element(s) in the DOM of the displayed page.
+The annotation provides all necessary information to identify the corresponding element(s) in the DOM of the displayed page:
 
-**Properties:**
+- `how`: Which `ByProducer` to use. I.e. `CssSelector`, `Id`, `XPath` etc. Defaults to `CssSelector`.
+- `value`: The value to be used by the mechanism.
 
-- `value` - A String containing identification data for the method to use the format depends on the used `ByProducer` 
-defined with the `how` property.
-- `how` - The by producer being used to identify the object in the DOM. This is a class reference to any `ByProducer` 
-implementing class.
+Methods annotated with `@IdentifyUsing` must not have arguments and can only return:
 
-**Constraints:**
+- Subclass of `PageFragment`
+- `List` of subclass of `PageFragment`
+- `Set` of subclass of `PageFragment`
+- `Stream` of subclass of `PageFragment`
 
-- Annotated method must return either `PageFragment`, `List<PageFragment>`, `Set<PageFragment>` or `Stream<PageFragment>` 
-(subclasses of `PageFragment` are possible).
-
-## Example on Page
-
+**Example for page:**
 ```java
 public interface FooPage extends Page {
 
@@ -37,8 +34,7 @@ public interface FooPage extends Page {
 }
 ```
 
-## Example as Part of Page Fragment
-
+**Example for page fragment:**
 ```java
 public interface SearchWidget extends PageFragment {
 
@@ -50,3 +46,8 @@ public interface SearchWidget extends PageFragment {
 
 }
 ```
+
+# Linked Documentation
+
+- [Pages](page.md)
+- [Page Fragments](page-fragment.md)

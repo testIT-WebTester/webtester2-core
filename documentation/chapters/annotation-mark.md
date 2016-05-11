@@ -1,16 +1,15 @@
 [Home](../README.md)
 
 # @Mark
-This annotation can be added to methods of `PageFragment` subclasses in order to mark the page fragment in case the method
-is invoked.
-
-The marking feature can be activated / deactivated by setting the `markings.enabled` property.
+This annotation can be added to methods of `PageFragment` subclasses in order to mark the fragment in case the method
+is invoked. The 'marking' is done by setting different style attributes for the underlying element.
 
 The following marking types are available:
 
 - USED - the state of the fragment was changed
 - READ - the state of the fragment was read
 
+The marking feature can be activated / deactivated by setting the `markings.enabled` property.
 The color of each of these types can be configured by changing any of the following properties:
 
 - `markings.used.background`
@@ -18,13 +17,13 @@ The color of each of these types can be configured by changing any of the follow
 - `markings.read.background`
 - `markings.read.outline`
 
-Colors are specified as HEX RGB color codes, i.e. `#ffaa99`.
+> Colors are specified as HEX RGB color codes, i.e. `#ffaa99`.
 
-## Example
-
+**Example:**
 ```java
 public interface FooFragment extends PageFragment {
  
+    // calling this method will mark the FooFragment as used
     @Mark(As.USED)
     default void doSomething() {
         ...
@@ -32,3 +31,7 @@ public interface FooFragment extends PageFragment {
  
 }
 ```
+
+# Linked Documentation
+
+- [Page Fragments](page-fragment.md)

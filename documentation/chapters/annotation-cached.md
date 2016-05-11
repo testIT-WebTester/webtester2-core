@@ -1,18 +1,20 @@
 [Home](../README.md)
 
 # @Cached
-This annotation can be added to `PageFragment` returning methods of `Page` or `PageFragment` subclasses.
-It will override the configured default caching behavior of the returned page fragment.
+This annotation can be added to `@IdentifyUsing` annotated methods of `Page` or `PageFragment` subclasses.
+It will *override* the configured default caching behavior (property: `caches.enabled`) of the returned page fragment.
 
-> Caching will remember resolved `WebElement` instances for up to 5 seconds.
+> If caching is enabled, resolved `WebElement` instances will be remembered for up to `5` seconds.
+This mechanism is intended to reduce lookup time when executing multiple operations on the same web element in a short 
+period of time where it is unlikely for the element to change. Please note, that enabling caching in AJAX heavy 
+applications might make your tests unstable and increase the occurrence of `StaleElementReferenceException`.
 
-**Constraints:**
+**Cacheable Return Types:**
 
-- Annotated methods must be identification methods (@IdentifyUsing).
-- Annotated methods must not return collection of page fragments.
+- Single `PageFragment` instances
+- Lists, Sets and Streams of `PageFragment` instances
 
-## Example for Page
-
+**Example for page:**
 ```java
 public interface FooPage extends Page {
  
@@ -29,8 +31,7 @@ public interface FooPage extends Page {
 }
 ```
 
-## Example for Page Fragment
-
+**Example for page fragment:**
 ```java
 public interface FooWidget extends PageFragment {
  
@@ -46,3 +47,8 @@ public interface FooWidget extends PageFragment {
  
 }
 ```
+
+# Linked Documentation
+
+- [Pages](page.md)
+- [Page Fragments](page-fragment.md)

@@ -14,4 +14,4 @@ browser.findBy(ByProducers.id("username"));
 
 # Linked Documentation
 
-- [Ad-Hoc Finding of Page Fragments](ad-hoc-find.md)
+- [Ad-Hoc Finding](ad-hoc-find.md)

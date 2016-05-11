@@ -1,19 +1,20 @@
 [Home](../README.md)
 
 # Browser
+WebTester provides an abstraction layer on top of Selenium's WebDriver called (rather fittingly) `Browser`.
 
 ## Interfaces
+There are several important interfaces related to browsers.
 
-### Browser
+**Browser:**
 A `Browser` provides a streamlined and context centric API for the interaction with a web browser.
+It is the main entry point to the framework.
 
-### BrowserBuilder
-A `BrowserBuilder` provides the framework for initializing `Browser` instances and setting custom service implementations.
-Customizable services are:
+**BrowserBuilder:**
+A `BrowserBuilder` provides a builder API for initializing `Browser` instances and setting custom service implementations 
+like the [`Configuration`](configuration.md).
 
-- [`Configuration`](configuration.md)
-
-### BrowserFactory
+**BrowserFactory:**
 A `BrowserFactory` creates an abstraction over the `Browser` initialisation based on project-global settings.
 They are intended to allow easy browser initialization and encapsulation of the underlying configuration / initialization
 processes.
@@ -27,7 +28,7 @@ processes.
 Each of them comes in their own support module. The Firefox's and Internet Explorer's factory implementations are optimized 
 for performance.
 
-### ProxyConfiguration
+**ProxyConfiguration:**
 In order to configure a proxy you can either configure it manually when initializing the `WebDriver` or
 you can implement a `ProxyConfiguration` and provide it to the `BrowserFactory` before creating a `Browser` instance.
 
@@ -36,7 +37,7 @@ ProxyConfiguration pc = createProxyConfiguration();
 Browser browser = new FirefoxFactory().withProxyConfiguration(pc).createBrowser();
 ```
 
-## The WebDriver Browser
+## The Web Driver Browser
 The `WebDriverBrowser` class implements `Browser` and is used to wrap a Selenium `WebDriver`.
 Instances can be created by using the `WebDriverBrowser's` factory methods:
 

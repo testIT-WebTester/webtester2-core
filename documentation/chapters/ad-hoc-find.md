@@ -1,38 +1,45 @@
 [Home](../README.md)
 
-# Ad-Hoc finding of Page Objects
-The `Browser`, `Page` and `PageFragment` classes provide entry points to the "ad-hoc finding" API.
-This allows you to apply a more script style approach to your tests.
+# Ad-Hoc Finding API
 
-**Doing so might be useful in the following circumstances:**
+It is not always the best solution to declare page fragments via public `@IdentifyUsing` method.
+Sometimes it is necessary to find a certain fragment programmatically:
 
-- You don't have an unique identification property for initializing a `PageFragment` field and need to take a programmatic 
-approach 
-- You want to rapidly prototype your tests scenarios
-- You want to execute some border cases upon elements and don't like to declare those as fields in your pages
-- Getting to a specific page fragment is not possible using `@IdentifyUsing`
+- Maybe the fragment is only used in very special cases and should therefore not be public...
+- Maybe you need a list of fragments fitting certain parameters which can not be expressed with CSS or XPath..
+- Or maybe are just prototyping your approach and don't want to implement page objects, yet...
 
-## Examples
+For these cases the Ad-Hoc finding API was developed.
+This API can be accessed through a `Browser`, `Page` or a `PageFragment`.
+Depending on where the API is accessed the search context for fragments might differ:
+
+- `Browser`: The whole HTML page is searched for the fragment.
+- `Page`: The whole HTML page is searched for the fragment.
+- `PageFragment`: The area between the page fragment's open and close tags is searched for the fragment. 
+
+There are several ways to start finding fragments, here are a few examples:
+
 ```java
-// find an element by its ID 'fooId' as a GenericElement 
+// find an element by it's ID 'fooId' as a generic element 
 GenericElement element = getBrowser()
     .find("#fooId");
 
-// find many elements by their shared CSS class 'foo' as a stream of GenericElement
+// find many elements by their shared CSS class 'foo' as a stream of generic elements
 Stream<GenericElement> elements = getBrowser()
     .findMany(".foo");
     
-// find a TextField by it's ID - Identification first
+// find an element by it's ID 'textField' as a text field (identifier first)
 TextField textField = getBrowser()
     .findBy(id("textField"))
     .as(TextField.class);
     
-// find a TextField by it's ID - class first
+// find an element by it's ID 'textField' as a text field (class first)
 TextField textField = getBrowser()
     .find(TextField.class)
     .by(id("textField"));
 
-// find all all elements with the CSS class 'foo' within an element with ID 'group' as TextFields
+// find all all elements with the CSS class 'foo'
+// within an element with ID 'group' as a stream of text fields
 Stream<TextField> textFields = getBrowser()
     .find("#group")
     .findBy(css(".foo"))
@@ -41,6 +48,7 @@ Stream<TextField> textFields = getBrowser()
 
 # Linked Documentation
 
-- [Conditions](conditions.md)
-- [ByProducers](by-producers.md)
+- [Page Fragments](page-fragment.md)
 - [Generic Elements](generic-element.md)
+- [ByProducers](by-producers.md)
+- [Conditions](conditions.md)

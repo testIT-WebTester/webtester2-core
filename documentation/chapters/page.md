@@ -1,6 +1,6 @@
 [Home](../README.md)
 
-# Page Objects
+# Pages
 
 ## The Page Object Pattern
 The WebTester framework's architecture and design is based around the Page Object Pattern.
@@ -73,8 +73,7 @@ For mor information about page fragments see [Chapter: Page Fragment](page-fragm
 Multiple page fragments of a page can be retrieved as a `Set`, `List` or `Stream` by simply declaring any of those 
 as the return type of a `@IdentifyUsing` annotated method:
 
-### Example
-
+**Example:**
 ```java
 public interface CollectionPage extends Page {
 
@@ -90,15 +89,15 @@ public interface CollectionPage extends Page {
 }
 ```
 
-# Relevant Annotations
+## Relevant Annotations
 These annotations can be used within a `Page`.
 
-- [@IdentifyUsing](annotation-identify-using.md)
-- [@PostConstruct](annotation-post-construct.md)
-- [@Must](annotation-must.md)
-- [@Named](annotation-named.md)
 - [@Action](annotation-action.md)
 - [@Cached](annotation-cached.md)
+- [@IdentifyUsing](annotation-identify-using.md)
+- [@Must](annotation-must.md)
+- [@Named](annotation-named.md)
+- [@PostConstruct](annotation-post-construct.md)
 - [@Wait](annotation-wait.md)
 
 # Anatomy of a Page 
@@ -200,3 +199,7 @@ public int getNumberOfSearchResults () {
     return counter;
 }
 ```
+
+# Linked Documentation
+
+- [Page Fragments](page-fragment.md)

@@ -85,15 +85,19 @@ public interface SearchWidget extends PageFragment {
 }
 ```
 
-# Relevant Annotations
+## Relevant Annotations
 These annotations can be used within a `PageFragment`.
 
+- [@Action](annotation-action.md)
 - [@Attribute](annotation-attribute.md)
+- [@Cached](annotation-cached.md)
 - [@IdentifyUsing](annotation-identify-using.md)
-- [@PostConstruct](annotation-post-construct.md)
+- [@Mark](annotation-mark.md)
 - [@Must](annotation-must.md)
 - [@Named](annotation-named.md)
-- [@Action](annotation-action.md)
-- [@Cached](annotation-cached.md)
+- [@PostConstruct](annotation-post-construct.md)
 - [@Wait](annotation-wait.md)
-- [@Mark](annotation-mark.md)
+
+# Linked Documentation
+
+- [Pages](page.md)
