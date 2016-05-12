@@ -6,18 +6,19 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.internal.annotations.ReturnsName;
-import info.novatec.testit.webtester.internal.annotations.ReturnsWebElement;
-import info.novatec.testit.webtester.pagefragments.annotations.Cached;
-import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
-import info.novatec.testit.webtester.pagefragments.annotations.Mark;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
-import info.novatec.testit.webtester.pagefragments.annotations.Named;
 import info.novatec.testit.webtester.adhoc.AdHocFinder;
+import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.browser.operations.JavaScript;
 import info.novatec.testit.webtester.internal.OffersAdHocFinding;
 import info.novatec.testit.webtester.internal.OffersBrowserGetter;
 import info.novatec.testit.webtester.internal.OffersPageCreation;
+import info.novatec.testit.webtester.internal.annotations.ReturnsName;
+import info.novatec.testit.webtester.internal.annotations.ReturnsWebElement;
+import info.novatec.testit.webtester.pagefragments.annotations.As;
+import info.novatec.testit.webtester.pagefragments.annotations.Cached;
+import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.annotations.Mark;
+import info.novatec.testit.webtester.pagefragments.annotations.Named;
 
 
 /**
@@ -138,6 +139,27 @@ public interface PageFragment extends OffersBrowserGetter, OffersAdHocFinding, O
      */
     default Optional<String> getAttribute(String attributeName) {
         return Optional.ofNullable(webElement().getAttribute(attributeName));
+    }
+
+    /**
+     * Sets the value of an attribute of this {@link PageFragment} using JavaScript.
+     * <p>
+     * <b>Example:</b>
+     * <pre>
+     * // will change the value of a text field to 'foo'
+     * textField.setAttribute("value", "foo");
+     * </pre>
+     *
+     * @param attributeName the name of the attribute to set
+     * @param value the value to set the attribute to
+     * @see PageFragment
+     * @see JavaScript
+     * @since 2.0
+     */
+    default void setAttribute(String attributeName, String value) {
+        String escapedValue = StringUtils.replace(value, "\"", "\\\"");
+        String script = "arguments[0]." + attributeName + " = \"" + escapedValue + "\"";
+        getBrowser().javaScript().execute(script, this, value);
     }
 
     /**

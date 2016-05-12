@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import integration.BaseIntegrationTest;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.pagefragments.TextField;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.annotations.Named;
 import info.novatec.testit.webtester.pages.Page;
@@ -112,6 +113,22 @@ public class PageFragmentIntegrationTest extends BaseIntegrationTest {
     public void nonExistingAttributesAreReturnedAsEmptyOptionals() {
         Optional<String> value = page.withAttributes().getAttribute("xur");
         assertThat(value).isEmpty();
+    }
+
+    /* set attribute */
+
+    @Test
+    public void setAttribute() {
+        TextField textField = page.textField();
+        textField.setAttribute("value", "hello world!");
+        assertThat(textField.getText()).isEqualTo("hello world!");
+    }
+
+    @Test
+    public void setAttributeWithCharactersThatNeedEscaping() {
+        TextField textField = page.textField();
+        textField.setAttribute("value", "hello \"world!\"");
+        assertThat(textField.getText()).isEqualTo("hello \"world!\"");
     }
 
     /* get CSS values */
@@ -239,6 +256,9 @@ public class PageFragmentIntegrationTest extends BaseIntegrationTest {
         PageFragment enabled();
         @IdentifyUsing("#disabled")
         PageFragment disabled();
+
+        @IdentifyUsing("#textField")
+        TextField textField();
 
         @IdentifyUsing("#pageFragment")
         Stream<PageFragment> pageFragments();
