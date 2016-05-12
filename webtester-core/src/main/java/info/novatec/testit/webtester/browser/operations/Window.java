@@ -16,6 +16,7 @@ import info.novatec.testit.webtester.events.browser.RefreshedPageEvent;
 import info.novatec.testit.webtester.events.browser.SetWindowPositionEvent;
 import info.novatec.testit.webtester.events.browser.SetWindowSizeEvent;
 import info.novatec.testit.webtester.internal.ActionTemplate;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
@@ -140,6 +141,23 @@ public class Window extends BaseBrowserOperation {
             .fireEvent(browser -> new SetWindowSizeEvent(width, height));
         log.debug("set size of current window ({}) to width={} and height={}", getHandle(), width, height);
         return browser();
+    }
+
+    /**
+     * Scrolls the window to the given {@link PageFragment}.
+     * <p>
+     * This is done by using the {@code scrollIntoView(true)} JavaScript function on the underlying element.
+     * Since all JavaScript functionality depends heavily on the used browser this might not work in all environments.
+     * See <a href="https://developer.mozilla.org/en/docs/Web/API/Element/scrollIntoView">MDN Web API</a> for details.
+     *
+     * @param fragment the fragment to scroll into view
+     * @return the original browser of this operation
+     * @see JavaScript
+     * @since 2.0
+     */
+    public Browser scrollTo(PageFragment fragment) {
+        log.debug("scrolling [{}] into view", fragment.getName().orElse(fragment.toString()));
+        return browser().javaScript().execute("arguments[0].scrollIntoView(true)", fragment);
     }
 
     /**

@@ -55,7 +55,7 @@ public class JavaScript extends BaseBrowserOperation {
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0
      */
-    public Object executeWithReturn(String script, PageFragment fragment, Object... parameters) {
+    public <T> T executeWithReturn(String script, PageFragment fragment, Object... parameters) {
         Object[] parameterArray = new Object[parameters.length + 1];
         parameterArray[0] = fragment.webElement();
         System.arraycopy(parameters, 0, parameterArray, 1, parameters.length);
@@ -87,12 +87,12 @@ public class JavaScript extends BaseBrowserOperation {
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0
      */
-    public Object executeWithReturn(String script, Object... parameters) {
+    public <T> T executeWithReturn(String script, Object... parameters) {
         if (!(webDriver() instanceof JavascriptExecutor)) {
             throw new UnsupportedOperationException("WebDriver does not support JavaScript execution!");
         }
         JavascriptExecutor javascriptExecutor = ( JavascriptExecutor ) webDriver();
-        return javascriptExecutor.executeScript(script, parameters);
+        return (T) javascriptExecutor.executeScript(script, parameters);
     }
 
 }
