@@ -37,12 +37,6 @@ public class MouseUtilsFeatureTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void demonstrateToPageFragment(){
-        Mouse.to(page.firstButton()).move();
-        assertThat(page.getMessage(1)).isEqualTo("Moved To");
-    }
-
-    @Test
     public void demonstrateSequence(){
 
         Mouse.sequence()

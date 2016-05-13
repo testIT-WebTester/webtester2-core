@@ -48,14 +48,10 @@ In addition to these single actions the `Mouse` utility class provides several m
 with a fluent syntax:
 
 - `on(PageFragment)`
-- `to(PageFragment)`
 - `sequence()`
 
 ## Mouse.on()
 Provides methods which can be executed on the given `PageFragment`.
-
-## Mouse.to()
-Provides methods which can be executed to the given `PageFragment`.
 
 ## Mouse.sequence()
 Provides methods which can be executed in sequence.
@@ -66,9 +62,6 @@ Provides methods which can be executed in sequence.
 Mouse.on(button).click();
 Mouse.on(button).doubleClick();
 Mouse.on(button).contextClick();
- 
-// actions to fragments
-Mouse.to(image).move();
  
 // sequence
 Mouse.sequence().moveTo(image).click();

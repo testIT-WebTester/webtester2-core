@@ -26,7 +26,6 @@ import info.novatec.testit.webtester.waiting.Wait;
  * This class is used to perform a variety of mouse related actions.
  *
  * @see MouseOnAction
- * @see MouseToAction
  * @see MouseDragAction
  * @see MouseActionSequence
  * @since 2.0
@@ -213,17 +212,6 @@ public final class Mouse {
      */
     public static MouseOnAction on(PageFragment fragment) {
         return new MouseOnAction(fragment);
-    }
-
-    /**
-     * Creates a new {@link MouseToAction} for the given {@link PageFragment}.
-     *
-     * @param fragment the page fragment to use
-     * @return the created action
-     * @since 2.0
-     */
-    public static MouseToAction to(PageFragment fragment) {
-        return new MouseToAction(fragment);
     }
 
     /**
