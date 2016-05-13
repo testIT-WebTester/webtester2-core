@@ -96,7 +96,7 @@ These annotations can be used within a `PageFragment`.
 - [@Must](annotation-must.md)
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)
-- [@Wait](annotation-wait.md)
+- [@WaitUntil](annotation-wait-until.md)
 
 # Linked Documentation
 

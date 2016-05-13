@@ -11,18 +11,23 @@ import lombok.extern.slf4j.Slf4j;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.internal.proxies.PageFragmentModel;
 import info.novatec.testit.webtester.internal.proxies.PageFragmentModel.PageFragmentModelBuilder;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.annotations.Cached;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.annotations.Named;
+import info.novatec.testit.webtester.pagefragments.annotations.WaitUntil;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
-import info.novatec.testit.webtester.pagefragments.annotations.Wait;
+import info.novatec.testit.webtester.waiting.Wait;
 
 
 @Slf4j
 public class IdentifyUsingImpl implements Implementation {
+
+    public static final String COULD_NOT_CREATE_PREDICATE_INSTANCE_MSG =
+        "Could not create Predicate instance! Default constructor might be missing";
 
     private static final String IDENTIFIED_BY_NAME = "%s identified by %s: %s";
 
@@ -70,11 +75,24 @@ public class IdentifyUsingImpl implements Implementation {
         }
 
         PageFragment pageFragment = factory.pageFragment(modelBuilder.build());
-        if (method.isAnnotationPresent(Wait.class)) {
-            method.getAnnotation(Wait.class).value().waitWith(pageFragment);
-        }
+        waitIfAnnotationPresent(method, pageFragment);
         return pageFragment;
 
+    }
+
+    private void waitIfAnnotationPresent(Method method, PageFragment fragment) {
+        WaitUntil waitAnnotation = method.getAnnotation(WaitUntil.class);
+        if (method.isAnnotationPresent(WaitUntil.class)) {
+            doWaitUntil(waitAnnotation, fragment);
+        }
+    }
+
+    private void doWaitUntil(WaitUntil waitAnnotation, PageFragment fragment) {
+        try {
+            Wait.until(fragment).is(waitAnnotation.value().newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new IllegalSignatureException(COULD_NOT_CREATE_PREDICATE_INSTANCE_MSG, e);
+        }
     }
 
     @SuppressWarnings("unchecked")

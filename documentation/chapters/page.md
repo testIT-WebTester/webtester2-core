@@ -98,7 +98,7 @@ These annotations can be used within a `Page`.
 - [@Must](annotation-must.md)
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)
-- [@Wait](annotation-wait.md)
+- [@WaitUntil](annotation-wait-until.md)
 
 # Anatomy of a Page 
 Pages generally provide four kinds of methods:

@@ -48,19 +48,19 @@ public interface FooWidget extends PageFragment {
 }
 ```
 
-## Combination with @Wait
+## Combination with @WaitUntil
 
-The `@Must` annotation can be used in combination with `@Wait`. This is especially useful in AJAX heavy applications where
-a fragment might be created with a short delay.
+The `@Must` annotation can be used in combination with `WaitUntil`. This is especially useful in AJAX heavy applications
+where a fragment might be created with a short delay.
 
 **Example:**
-In this example the `widget` is checked as soon as `BarPage` is initialized. But `@Wait` will be triggered when invoking 
+In this example the `widget` is checked as soon as `BarPage` is initialized. But `WaitUntil` will be triggered when invoking 
 the method assuring that the widget is present before checking if it is visible.
 ```java
 public interface BarPage extends Page {
  
     @Must(Be.VISIBLE)
-    @Wait(Until.PRESENT)
+    WaitUntil(Present.class)
     @IdentifyUsing("#bar")
     BarWidget widget();
  
@@ -74,4 +74,4 @@ public interface BarPage extends Page {
 - [Pages](page.md)
 - [Page Fragments](page-fragment.md)
 - [@PostConstruct](annotation-post-construct.md)
-- [@Wait](annotation-wait.md)
+- [@WaitUntil](annotation-wait-until.md)

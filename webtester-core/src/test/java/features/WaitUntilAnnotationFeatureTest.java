@@ -7,15 +7,16 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
+import info.novatec.testit.webtester.conditions.pagefragments.Present;
+import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.annotations.WaitUntil;
 import info.novatec.testit.webtester.pages.Page;
-import info.novatec.testit.webtester.pagefragments.annotations.Until;
-import info.novatec.testit.webtester.pagefragments.annotations.Wait;
 import info.novatec.testit.webtester.waiting.TimeoutException;
 
 
-public class WaitAnnotationFeatureTest extends BaseIntegrationTest {
+public class WaitUntilAnnotationFeatureTest extends BaseIntegrationTest {
 
     @Before
     public void openPage() {
@@ -52,11 +53,11 @@ public class WaitAnnotationFeatureTest extends BaseIntegrationTest {
 
     public interface FeaturePage extends Page {
 
-        @Wait(Until.VISIBLE)
+        @WaitUntil(Visible.class)
         @IdentifyUsing("#becomesVisible")
         Button becomesVisible();
 
-        @Wait(Until.PRESENT)
+        @WaitUntil(Present.class)
         @IdentifyUsing("#unknown")
         Button neverPresent();
 
