@@ -24,12 +24,18 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<!-- Optional dependency on assertj-core. Projects using this module should
+			<!-- Provided Selenium dependency used to have access to the Selenium API. -->
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-support</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- Provided dependency on assertj-core. Projects using this module should
 				provide their own version of the assertj dependency and not be forced to 
 				inherit this one! -->
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<!-- Test dependency on webtester-core in order to access test utility classes. -->
