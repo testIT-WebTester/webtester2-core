@@ -16,10 +16,10 @@ Wait.exactly(150, TimeUnit.MILLISECONDS);
 Wait.exactly(1, TimeUnit.HOURS);
  
 // waits until the hidden field is visible on the DOM - with default timeout
-Wait.until(hiddenField, is(visible()));
+Wait.until(hiddenField).is(visible());
  
 // waits until the hidden field is visible on the DOM - with custom timeout
-Wait.withTimeoutOf(10, TimeUnit.SECONDS).until(hiddenField, is(visible()));
+Wait.withTimeoutOf(10, TimeUnit.SECONDS).until(hiddenField).is(visible());
 ```
 
 # Linked Documentation
