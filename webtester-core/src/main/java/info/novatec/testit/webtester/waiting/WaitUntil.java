@@ -27,16 +27,20 @@ public class WaitUntil<T extends PageFragment> {
         this.timeUnit = timeUnit;
     }
 
-    public WaitUntil<T> is(Predicate<T> condition) throws TimeoutException {
+    public WaitUntil<T> has(Predicate<? super T> condition) throws TimeoutException {
+        return is(condition);
+    }
+
+    public WaitUntil<T> is(Predicate<? super T> condition) throws TimeoutException {
         WaitOperations.waitUntil(timeout, timeUnit, fragment, condition);
         return this;
     }
 
-    public WaitUntil<T> isNot(Predicate<T> condition) throws TimeoutException {
+    public WaitUntil<T> isNot(Predicate<? super T> condition) throws TimeoutException {
         return not(condition);
     }
 
-    public WaitUntil<T> not(Predicate<T> condition) throws TimeoutException {
+    public WaitUntil<T> not(Predicate<? super T> condition) throws TimeoutException {
         WaitOperations.waitUntil(timeout, timeUnit, fragment, Conditions.not(condition));
         return this;
     }
