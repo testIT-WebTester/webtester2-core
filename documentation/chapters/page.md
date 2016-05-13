@@ -95,9 +95,9 @@ These annotations can be used within a `Page`.
 - [@Action](annotation-action.md)
 - [@Cached](annotation-cached.md)
 - [@IdentifyUsing](annotation-identify-using.md)
-- [@Must](annotation-must.md)
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)
+- [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md)
 - [@WaitUntil](annotation-wait-until.md)
 
 # Anatomy of a Page 

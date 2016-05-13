@@ -14,10 +14,10 @@
   - [@Cached](chapters/annotation-cached.md)
   - [@IdentifyUsing](chapters/annotation-identify-using.md)
   - [@Mark](chapters/annotation-mark.md)
-  - [@Must](chapters/annotation-must.md)
   - [@Named](chapters/annotation-named.md)
   - [@PostConstruct](chapters/annotation-post-construct.md)
-  - [@Wait](chapters/annotation-wait-until.md)
+  - [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md)
+  - [@WaitUntil](chapters/annotation-wait-until.md)
 - Utility Classes
   - [Conditions](chapters/conditions.md)
   - [ByProducers](chapters/by-producers.md)

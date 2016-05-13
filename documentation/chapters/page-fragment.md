@@ -93,9 +93,9 @@ These annotations can be used within a `PageFragment`.
 - [@Cached](annotation-cached.md)
 - [@IdentifyUsing](annotation-identify-using.md)
 - [@Mark](annotation-mark.md)
-- [@Must](annotation-must.md)
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)
+- [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md)
 - [@WaitUntil](annotation-wait-until.md)
 
 # Linked Documentation

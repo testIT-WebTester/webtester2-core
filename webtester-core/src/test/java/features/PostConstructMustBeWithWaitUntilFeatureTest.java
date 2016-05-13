@@ -6,16 +6,16 @@ import org.junit.Test;
 import integration.BaseIntegrationTest;
 
 import info.novatec.testit.webtester.conditions.pagefragments.PresentAndVisible;
+import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.internal.must.MustConditionException;
 import info.novatec.testit.webtester.pagefragments.Button;
-import info.novatec.testit.webtester.pagefragments.annotations.Be;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
-import info.novatec.testit.webtester.pagefragments.annotations.Must;
+import info.novatec.testit.webtester.pagefragments.annotations.PostConstructMustBe;
 import info.novatec.testit.webtester.pagefragments.annotations.WaitUntil;
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class MustWithWaitUntilFeatureTest extends BaseIntegrationTest {
+public class PostConstructMustBeWithWaitUntilFeatureTest extends BaseIntegrationTest {
 
     @Before
     public void openPage() {
@@ -41,7 +41,7 @@ public class MustWithWaitUntilFeatureTest extends BaseIntegrationTest {
 
     public interface PassingFeaturePage extends Page {
 
-        @Must(Be.VISIBLE)
+        @PostConstructMustBe(Visible.class)
         @WaitUntil(PresentAndVisible.class)
         @IdentifyUsing("#button")
         Button button();
@@ -50,7 +50,7 @@ public class MustWithWaitUntilFeatureTest extends BaseIntegrationTest {
 
     public interface FailingFeaturePage extends Page {
 
-        @Must(Be.VISIBLE)
+        @PostConstructMustBe(Visible.class)
         @IdentifyUsing("#button")
         Button button();
 

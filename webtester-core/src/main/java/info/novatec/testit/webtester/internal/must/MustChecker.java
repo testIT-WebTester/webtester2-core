@@ -11,19 +11,18 @@ import java.util.function.Predicate;
 
 import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pagefragments.annotations.Be;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
-import info.novatec.testit.webtester.pagefragments.annotations.Must;
+import info.novatec.testit.webtester.pagefragments.annotations.PostConstructMustBe;
 import info.novatec.testit.webtester.pages.Page;
 
 
 public final class MustChecker {
 
     private static final String ILLEGAL_SIGNATURE_MSG =
-        "invalid @Must method declarations (returns PageFragment and has no parameters): ";
+        "invalid @PostConstructMustBe method declarations (returns PageFragment and has no parameters): ";
 
     private static Predicate<Method> isIdentificationMethod = method -> method.isAnnotationPresent(IdentifyUsing.class);
-    private static Predicate<Method> isMustMethod = method -> method.isAnnotationPresent(Must.class);
+    private static Predicate<Method> isMustMethod = method -> method.isAnnotationPresent(PostConstructMustBe.class);
     private static Predicate<Method> isRelevantMethod = isIdentificationMethod.and(isMustMethod);
     private static Predicate<Method> returnsPageFragment =
         method -> PageFragment.class.isAssignableFrom(method.getReturnType());
@@ -76,13 +75,13 @@ public final class MustChecker {
 
     private static void invoke(Method method, Object object) {
         try {
-            Must annotation = method.getAnnotation(Must.class);
+            PostConstructMustBe annotation = method.getAnnotation(PostConstructMustBe.class);
             PageFragment fragment = ( PageFragment ) method.invoke(object);
-            Be condition = annotation.value();
-            if (!condition.checkFor(fragment)) {
-                throw new MustConditionException("condition not met for method (" + method + "): " + condition);
+            Predicate<PageFragment> predicate = annotation.value().newInstance();
+            if (!predicate.test(fragment)) {
+                throw new MustConditionException("condition not met for method (" + method + "): " + predicate);
             }
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
             throw new MustConditionException(e);
         }
     }

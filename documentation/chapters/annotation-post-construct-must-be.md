@@ -1,28 +1,23 @@
 [Home](../README.md)
 
-# @Must
+# @PostConstructMustBe
 This annotation can be added to `@IdentifyUsing` annotated methods of `Page` or `PageFragment` subclasses.
 Every annotated method will be invoked after an instance of this subclass was initialized and the condition provided by 
 the annotation will be checked. This mechanism is intended to be used in order to prevent unnecessary `@PostConstruct` 
 methods to check basic conditions of parts of the page / fragment. As with `@PostConstruct`, the order in which these 
 methods are invoked / checked is not deterministic!
 
+It is important to note that not all Predicate classes will work with this annotation.
+The mechanism with which the predicate is evaluated will initialize the given class via reflection
+and needs a default constructor to work!
+
 > Collection and Streams are currently NOT supported!
-
-**The following conditions are available:**
-
-- `VISIBLE`: The fragment is displayed on the current page.
-- `PRESENT`: The fragment is present in the current page's DOM.
-- `PRESENT_AND_VISIBLE`: The fragment is present in the current page's DOM and is displayed.
-- `ENABLED`: The fragment is enabled / not disabled.
-- `EDITABLE`: The fragment is enabled and not 'read-only'
-- `INTERACTABLE`: The fragment is visible and editable.
 
 **Example for page:**
 ```java
 public interface FooPage extends Page {
  
-    @Must(Be.VISIBLE)
+    @PostConstructMustBe(Visible.class)
     @IdentifyUsing("#foo")
     FooWidget widget();
  
@@ -35,11 +30,11 @@ public interface FooPage extends Page {
 ```java
 public interface FooWidget extends PageFragment {
  
-    @Must(Be.VISIBLE)
+    @PostConstructMustBe(Visible.class)
     @IdentifyUsing("#one")
     TextField fieldOne();
     
-    @Must(Be.VISIBLE)
+    @PostConstructMustBe(Visible.class)
     @IdentifyUsing("#two")
     TextField fieldTwo();
  
@@ -50,8 +45,8 @@ public interface FooWidget extends PageFragment {
 
 ## Combination with @WaitUntil
 
-The `@Must` annotation can be used in combination with `WaitUntil`. This is especially useful in AJAX heavy applications
-where a fragment might be created with a short delay.
+The `@PostConstructMustBe` annotation can be used in combination with `WaitUntil`. This is especially useful in AJAX heavy
+applications where a fragment might be created with a short delay.
 
 **Example:**
 In this example the `widget` is checked as soon as `BarPage` is initialized. But `WaitUntil` will be triggered when invoking 
@@ -59,8 +54,8 @@ the method assuring that the widget is present before checking if it is visible.
 ```java
 public interface BarPage extends Page {
  
-    @Must(Be.VISIBLE)
-    WaitUntil(Present.class)
+    @PostConstructMustBe(Visible.class)
+    @WaitUntil(Present.class)
     @IdentifyUsing("#bar")
     BarWidget widget();
  

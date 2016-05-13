@@ -5,16 +5,17 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
+import info.novatec.testit.webtester.conditions.pagefragments.Present;
+import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.internal.must.MustConditionException;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.TextField;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
-import info.novatec.testit.webtester.pagefragments.annotations.Must;
-import info.novatec.testit.webtester.pagefragments.annotations.Be;
+import info.novatec.testit.webtester.pagefragments.annotations.PostConstructMustBe;
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class MustBeOnPagesFeatureTest extends BaseIntegrationTest {
+public class PostConstructMustBeBeOnPagesFeatureTest extends BaseIntegrationTest {
 
     @Before
     public void openPage() {
@@ -40,19 +41,19 @@ public class MustBeOnPagesFeatureTest extends BaseIntegrationTest {
 
     public interface PassingFeaturePage extends Page {
 
-        @Must(Be.VISIBLE)
+        @PostConstructMustBe(Visible.class)
         @IdentifyUsing("#username")
         TextField username();
 
     }
 
     public interface InheritedFailingFeaturePage extends FailingFeaturePage {
-        // no own @Must condition - it should fail because of inheritance
+        // no own @PostConstructMustBe condition - it should fail because of inheritance
     }
 
     public interface FailingFeaturePage extends Page {
 
-        @Must(Be.PRESENT)
+        @PostConstructMustBe(Present.class)
         @IdentifyUsing("#unknown")
         PageFragment unknown();
 

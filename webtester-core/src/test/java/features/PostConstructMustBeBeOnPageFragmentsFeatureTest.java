@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
+import info.novatec.testit.webtester.conditions.pagefragments.Editable;
+import info.novatec.testit.webtester.conditions.pagefragments.Present;
+import info.novatec.testit.webtester.conditions.pagefragments.PresentAndVisible;
+import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.internal.must.MustConditionException;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.Form;
@@ -12,12 +16,11 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.PasswordField;
 import info.novatec.testit.webtester.pagefragments.TextField;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
-import info.novatec.testit.webtester.pagefragments.annotations.Must;
-import info.novatec.testit.webtester.pagefragments.annotations.Be;
+import info.novatec.testit.webtester.pagefragments.annotations.PostConstructMustBe;
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class MustBeOnPageFragmentsFeatureTest extends BaseIntegrationTest {
+public class PostConstructMustBeBeOnPageFragmentsFeatureTest extends BaseIntegrationTest {
 
     @Before
     public void openPage(){
@@ -56,15 +59,15 @@ public class MustBeOnPageFragmentsFeatureTest extends BaseIntegrationTest {
 
     public interface PassingLoginForm extends Form {
 
-        @Must(Be.EDITABLE)
+        @PostConstructMustBe(Editable.class)
         @IdentifyUsing("#username")
         TextField username();
 
-        @Must(Be.PRESENT_AND_VISIBLE)
+        @PostConstructMustBe(PresentAndVisible.class)
         @IdentifyUsing("#password")
         PasswordField password();
 
-        @Must(Be.VISIBLE)
+        @PostConstructMustBe(Visible.class)
         @IdentifyUsing("#login")
         Button login();
 
@@ -76,7 +79,7 @@ public class MustBeOnPageFragmentsFeatureTest extends BaseIntegrationTest {
 
     public interface FailingLoginForm extends Form {
 
-        @Must(Be.PRESENT)
+        @PostConstructMustBe(Present.class)
         @IdentifyUsing("#unknown")
         PageFragment unknown();
 
