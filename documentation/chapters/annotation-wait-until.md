@@ -12,6 +12,9 @@ and needs a default constructor to work!
 
 > Collection and Streams are currently NOT supported!
 
+A timeout can be configured by setting the `timeout` and `unit` properties of the annotation.
+If no custom timeout is set the host browser's configuration defaults are used. 
+
 **Example for page:**
 ```java
 public interface FooPage extends Page {
@@ -33,7 +36,7 @@ public interface FooWidget extends PageFragment {
     @IdentifyUsing("#one")
     TextField fieldOne();
     
-    @WaitUntil(Visible.class)
+    @WaitUntil(value=Visible.class, timeout=500, unit=TimeUnit.MILLISECONDS)
     @IdentifyUsing("#two")
     TextField fieldTwo();
  
