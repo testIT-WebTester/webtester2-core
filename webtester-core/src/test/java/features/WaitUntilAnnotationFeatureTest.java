@@ -2,6 +2,8 @@ package features;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +59,7 @@ public class WaitUntilAnnotationFeatureTest extends BaseIntegrationTest {
         @IdentifyUsing("#becomesVisible")
         Button becomesVisible();
 
-        @WaitUntil(Present.class)
+        @WaitUntil(value = Present.class, timeout = 50, unit = TimeUnit.MILLISECONDS)
         @IdentifyUsing("#unknown")
         Button neverPresent();
 

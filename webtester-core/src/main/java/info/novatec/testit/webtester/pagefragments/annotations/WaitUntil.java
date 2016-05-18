@@ -4,8 +4,10 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
+import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.conditions.pagefragments.Disabled;
 import info.novatec.testit.webtester.conditions.pagefragments.Editable;
@@ -17,6 +19,7 @@ import info.novatec.testit.webtester.conditions.pagefragments.PresentAndVisible;
 import info.novatec.testit.webtester.conditions.pagefragments.ReadOnly;
 import info.novatec.testit.webtester.conditions.pagefragments.Selected;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
+import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pages.Page;
 
@@ -24,7 +27,8 @@ import info.novatec.testit.webtester.pages.Page;
 /**
  * Identification methods of {@link Page pages} and {@link PageFragment page fragments} can be annotation with this
  * annotation. With it the framework will wait until the specified {@link #value() predicate} returns true or the timeout is
- * reached.
+ * reached. In case no custom timeout is configured, the defaults of the host {@link Browser browser's} {@link
+ * Configuration} is used.
  * <p>
  * <b>Important:</b> The used predicate class must provide a default constructor! Hence not all of our provided {@link
  * Conditions} will work. The following conditions can be used:
@@ -63,6 +67,23 @@ public @interface WaitUntil {
      */
     Class<? extends Predicate<PageFragment>> value();
 
-    // TODO: timeout
+    /**
+     * The timeout to use. Defaults to {@code 0} which will signal the framework to use the {@link Browser browser's}
+     * configured default timeout. The default unit of time is seconds. This can be changed by also setting the {@link
+     * #unit()} property.
+     *
+     * @return the timeout to use
+     * @since 2.0
+     */
+    int timeout() default 0;
+
+    /**
+     * The {@link TimeUnit} to use for the timeout. This will only be used in case {@link #timeout()} is set to a value
+     * greater than {@code 0}. The smallest unit that will have an effect is milliseconds!
+     *
+     * @return the time unit to use
+     * @since 2.0
+     */
+    TimeUnit unit() default TimeUnit.SECONDS;
 
 }

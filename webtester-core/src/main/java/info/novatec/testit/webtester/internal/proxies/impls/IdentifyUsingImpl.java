@@ -2,6 +2,7 @@ package info.novatec.testit.webtester.internal.proxies.impls;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.openqa.selenium.SearchContext;
@@ -87,9 +88,14 @@ public class IdentifyUsingImpl implements Implementation {
         }
     }
 
-    private void doWaitUntil(WaitUntil waitAnnotation, PageFragment fragment) {
+    private void doWaitUntil(WaitUntil annotation, PageFragment fragment) {
         try {
-            Wait.until(fragment).is(waitAnnotation.value().newInstance());
+            Predicate<? super PageFragment> condition = annotation.value().newInstance();
+            if (annotation.timeout() > 0) {
+                Wait.withTimeoutOf(annotation.timeout(), annotation.unit()).until(fragment).is(condition);
+            } else {
+                Wait.until(fragment).is(condition);
+            }
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalSignatureException(COULD_NOT_CREATE_PREDICATE_INSTANCE_MSG, e);
         }
