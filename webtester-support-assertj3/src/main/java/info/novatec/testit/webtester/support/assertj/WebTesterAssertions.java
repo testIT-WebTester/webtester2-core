@@ -16,28 +16,93 @@ import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.Se
 import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.SingleSelectAssert;
 
 
+/**
+ * This class contains a number of entry points for WebTester related {@link Assertions}.
+ *
+ * @see PageFragmentAssert
+ * @see SelectableAssert
+ * @see ButtonAssert
+ * @see SingleSelectAssert
+ * @see MultiSelectAssert
+ * @see GenericTextFieldAssert
+ * @since 2.0
+ */
 public final class WebTesterAssertions extends Assertions {
 
+    /**
+     * Creates a new {@link PageFragmentAssert} for the given {@link PageFragment}.
+     *
+     * @param actual the page fragment to assert
+     * @return the new assert instance
+     * @see PageFragment
+     * @see PageFragmentAssert
+     * @since 2.0
+     */
     public static PageFragmentAssert assertThat(PageFragment actual) {
         return new PageFragmentAssert(actual);
     }
 
+    /**
+     * Creates a new {@link SelectableAssert} for the given {@link Selectable}.
+     *
+     * @param actual the selectable to assert
+     * @return the new assert instance
+     * @see Selectable
+     * @see SelectableAssert
+     * @since 2.0
+     */
     public static SelectableAssert assertThat(Selectable actual) {
         return new SelectableAssert(actual);
     }
 
+    /**
+     * Creates a new {@link ButtonAssert} for the given {@link Button}.
+     *
+     * @param actual the button to assert
+     * @return the new assert instance
+     * @see Button
+     * @see ButtonAssert
+     * @since 2.0
+     */
     public static ButtonAssert assertThat(Button actual) {
         return new ButtonAssert(actual);
     }
 
+    /**
+     * Creates a new {@link SingleSelectAssert} for the given {@link SingleSelect}.
+     *
+     * @param actual the single select to assert
+     * @return the new assert instance
+     * @see SingleSelect
+     * @see SingleSelectAssert
+     * @since 2.0
+     */
     public static SingleSelectAssert assertThat(SingleSelect actual) {
         return new SingleSelectAssert(actual);
     }
 
+    /**
+     * Creates a new {@link MultiSelectAssert} for the given {@link MultiSelect}.
+     *
+     * @param actual the multi select to assert
+     * @return the new assert instance
+     * @see MultiSelect
+     * @see MultiSelectAssert
+     * @since 2.0
+     */
     public static MultiSelectAssert assertThat(MultiSelect actual) {
         return new MultiSelectAssert(actual);
     }
 
+    /**
+     * Creates a new {@link GenericTextFieldAssert} for the given {@link GenericTextField}.
+     *
+     * @param actual the text field to assert
+     * @return the new assert instance
+     * @see GenericTextField
+     * @see GenericTextFieldAssert
+     * @since 2.0
+     */
     public static GenericTextFieldAssert assertThat(GenericTextField actual) {
         return new GenericTextFieldAssert(actual);
     }

@@ -24,8 +24,14 @@ public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B ext
         super(actual, selfType);
     }
 
-    // TODO document
-
+    /**
+     * Asserts that the {@link GenericSelect select's} options have the given texts in order.
+     *
+     * @param texts the expected texts
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionTexts()
+     * @since 2.0
+     */
     public A hasOptionsWithTexts(String... texts) {
         String errorMessage = "Expected select's option texts to be <%s>, but were <%s>.";
         List<String> actualTexts = actual.getOptionTexts();
@@ -34,6 +40,14 @@ public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B ext
         return ( A ) this;
     }
 
+    /**
+     * Asserts that the {@link GenericSelect select's} options have the given texts in any order.
+     *
+     * @param texts the expected texts
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionTexts()
+     * @since 2.0
+     */
     public A hasOptionsWithTextsInAnyOrder(String... texts) {
         String errorMessage = "Expected select's option texts to be <%s> in any order, but were <%s>.";
         List<String> actualTexts = actual.getOptionTexts();
@@ -42,6 +56,14 @@ public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B ext
         return ( A ) this;
     }
 
+    /**
+     * Asserts that the {@link GenericSelect select's} options have the given values in order.
+     *
+     * @param values the expected values
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionValues()
+     * @since 2.0
+     */
     public A hasOptionsWithValues(String... values) {
         String errorMessage = "Expected select's option values to be <%s>, but were <%s>.";
         List<String> actualValues = actual.getOptionValues();
@@ -50,6 +72,14 @@ public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B ext
         return ( A ) this;
     }
 
+    /**
+     * Asserts that the {@link GenericSelect select's} options have the given values in any order.
+     *
+     * @param values the expected values
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionValues()
+     * @since 2.0
+     */
     public A hasOptionsWithValuesInAnyOrder(String... values) {
         String errorMessage = "Expected select's option values to be <%s> in any order, but were <%s>.";
         List<String> actualValues = actual.getOptionValues();
@@ -58,12 +88,27 @@ public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B ext
         return ( A ) this;
     }
 
+    /**
+     * Asserts that the {@link GenericSelect select} has any options.
+     *
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionCount()
+     * @since 2.0
+     */
     public A hasOptions() {
         String errorMessage = "Expected select to have options, but it didn't.";
         assertThat(actual.getOptionCount()).overridingErrorMessage(errorMessage).isNotZero();
         return ( A ) this;
     }
 
+    /**
+     * Asserts that the {@link GenericSelect select} has the given number of options.
+     *
+     * @param numberOfOptions the number of options
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionCount()
+     * @since 2.0
+     */
     public A hasOptions(Integer numberOfOptions) {
         String errorMessage = "Expected select to have <%s> options, but it had <%s>.";
         Integer actualNumberOfOptions = actual.getOptionCount();
@@ -72,6 +117,13 @@ public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B ext
         return ( A ) this;
     }
 
+    /**
+     * Asserts that the {@link GenericSelect select} has no options.
+     *
+     * @return same assertion instance for fluent API
+     * @see GenericSelect#getOptionCount()
+     * @since 2.0
+     */
     public A hasNoOptions() {
         String errorMessage = "Expected select to have no options, but it did have <%s>.";
         int actualNumberOfOptions = actual.getOptionCount();

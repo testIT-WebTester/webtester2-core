@@ -18,8 +18,6 @@ import info.novatec.testit.webtester.pages.Page;
 
 public class PostConstructInvokerTest {
 
-    // TODO: Usage of TestContext is not Thread safe! Alternatives?
-
     @Test
     public void testInvocationOfPostConstructMethodsOfPageClass(){
 

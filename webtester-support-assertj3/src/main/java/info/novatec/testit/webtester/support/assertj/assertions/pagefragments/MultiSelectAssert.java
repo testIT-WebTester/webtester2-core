@@ -70,14 +70,27 @@ public class MultiSelectAssert extends AbstractSelectAssert<MultiSelectAssert, M
         return this;
     }
 
-    // TODO document
-
+    /**
+     * Asserts that the {@link MultiSelect multi select} has any selected options.
+     *
+     * @return same assertion instance for fluent API
+     * @see MultiSelect#getSelectionCount()
+     * @since 2.0
+     */
     public MultiSelectAssert hasSelectedOptions() {
         String errorMessage = "Expected select to have selected options, but it didn't.";
         assertThat(actual.getSelectionCount()).overridingErrorMessage(errorMessage).isNotZero();
         return this;
     }
 
+    /**
+     * Asserts that the {@link MultiSelect multi select} has the given number of selected options.
+     *
+     * @param numberOfSelectedOptions the number of selected options
+     * @return same assertion instance for fluent API
+     * @see MultiSelect#getSelectionCount()
+     * @since 2.0
+     */
     public MultiSelectAssert hasSelectedOptions(Integer numberOfSelectedOptions) {
         String errorMessage = "Expected select to have <%s> selected options, but it had <%s>.";
         Integer actualNumber = actual.getSelectionCount();
@@ -86,6 +99,13 @@ public class MultiSelectAssert extends AbstractSelectAssert<MultiSelectAssert, M
         return this;
     }
 
+    /**
+     * Asserts that the {@link MultiSelect multi select} has no selected options.
+     *
+     * @return same assertion instance for fluent API
+     * @see MultiSelect#getSelectionCount()
+     * @since 2.0
+     */
     public MultiSelectAssert hasNoSelectedOptions() {
         String errorMessage = "Expected select to have no selected options, but it had <%s>.";
         int actualNumber = actual.getSelectionCount();

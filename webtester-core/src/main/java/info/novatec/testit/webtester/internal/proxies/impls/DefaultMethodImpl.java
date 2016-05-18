@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultMethodImpl implements Implementation {
 
-    // TODO nicer implementation?
     private static Constructor<MethodHandles.Lookup> methodHandlesConstructor;
     static {
         try {

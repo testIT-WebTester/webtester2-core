@@ -251,7 +251,6 @@ public interface PageFragment extends OffersBrowserGetter, OffersAdHocFinding, O
      * @since 2.0
      */
     default boolean isEnabled() {
-        // TODO: move to separate trait interface
         return webElement().isEnabled();
     }
 
@@ -267,7 +266,6 @@ public interface PageFragment extends OffersBrowserGetter, OffersAdHocFinding, O
      * @since 2.0
      */
     default boolean isDisabled() {
-        // TODO: move to separate trait interface
         return !isEnabled();
     }
 
