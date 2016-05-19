@@ -90,7 +90,6 @@ These annotations can be used within a `PageFragment`.
 
 - [@Action](annotation-action.md)
 - [@Attribute](annotation-attribute.md)
-- [@Cached](annotation-cached.md)
 - [@IdentifyUsing](annotation-identify-using.md)
 - [@Mark](annotation-mark.md)
 - [@Named](annotation-named.md)

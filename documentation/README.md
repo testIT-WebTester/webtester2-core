@@ -11,7 +11,6 @@
 - Annotations
   - [@Action](chapters/annotation-action.md)
   - [@Attribute](chapters/annotation-attribute.md)
-  - [@Cached](chapters/annotation-cached.md)
   - [@IdentifyUsing](chapters/annotation-identify-using.md)
   - [@Mark](chapters/annotation-mark.md)
   - [@Named](chapters/annotation-named.md)

@@ -15,7 +15,6 @@ import info.novatec.testit.webtester.internal.OffersPageCreation;
 import info.novatec.testit.webtester.internal.annotations.ReturnsName;
 import info.novatec.testit.webtester.internal.annotations.ReturnsWebElement;
 import info.novatec.testit.webtester.pagefragments.annotations.As;
-import info.novatec.testit.webtester.pagefragments.annotations.Cached;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 import info.novatec.testit.webtester.pagefragments.annotations.Named;
@@ -71,14 +70,9 @@ public interface PageFragment extends OffersBrowserGetter, OffersAdHocFinding, O
 
     /**
      * Returns the underlying {@link WebElement} of this {@link PageFragment}.
-     * <p>
-     * Depending on the global and local caching configuration this will either return the same element each time it is
-     * called (for a certain amount of time) OR resolve the element each time it is called. Caching is recommended in cases
-     * where the element is not changed dynamically by the page (i.e. no AJAX).
      *
      * @return the web element
      * @see WebElement
-     * @see Cached
      * @see PageFragment
      * @since 2.0
      */

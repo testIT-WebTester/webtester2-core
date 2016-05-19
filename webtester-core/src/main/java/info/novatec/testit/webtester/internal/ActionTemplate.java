@@ -5,13 +5,11 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.openqa.selenium.StaleElementReferenceException;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.markings.Marker;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 public final class ActionTemplate {
@@ -42,16 +40,11 @@ public final class ActionTemplate {
             this.browser = browser;
         }
 
-        @SuppressWarnings({"unchecked", "PMD.AvoidCatchingGenericException"})
+        @SuppressWarnings({ "unchecked", "PMD.AvoidCatchingGenericException" })
         public A execute(Consumer<T> consumer) {
             try {
-                try {
-                    consumer.accept(subject);
-                } catch (StaleElementReferenceException e) {
-                    WebElementFinder.clearCache();
-                    consumer.accept(subject);
-                }
-            } catch (RuntimeException e){
+                consumer.accept(subject);
+            } catch (RuntimeException e) {
                 browser.events().fireExceptionEvent(e);
                 throw e;
             }
@@ -80,16 +73,11 @@ public final class ActionTemplate {
             this.browser = browser;
         }
 
-        @SuppressWarnings({"unchecked", "PMD.AvoidCatchingGenericException"})
+        @SuppressWarnings({ "unchecked", "PMD.AvoidCatchingGenericException" })
         public A execute(BiConsumer<T, T> consumer) {
             try {
-                try {
-                    consumer.accept(subject1, subject2);
-                } catch (StaleElementReferenceException e) {
-                    WebElementFinder.clearCache();
-                    consumer.accept(subject1, subject2);
-                }
-            } catch (RuntimeException e){
+                consumer.accept(subject1, subject2);
+            } catch (RuntimeException e) {
                 browser.events().fireExceptionEvent(e);
                 throw e;
             }
@@ -118,7 +106,7 @@ public final class ActionTemplate {
 
         public PageFragmentAction<T> fireEvent(Function<T, Event> function) {
             EventSystem eventSystem = getEventSystem();
-            if(eventSystem.isEnabled()) {
+            if (eventSystem.isEnabled()) {
                 eventSystem.fireEvent(function.apply(getSubject()));
             }
             return this;
@@ -144,7 +132,7 @@ public final class ActionTemplate {
 
         public PageFragmentsAction<T> fireEvent(BiFunction<T, T, Event> function) {
             EventSystem eventSystem = getEventSystem();
-            if(eventSystem.isEnabled()) {
+            if (eventSystem.isEnabled()) {
                 eventSystem.fireEvent(function.apply(getSubject1(), getSubject2()));
             }
             return this;
@@ -172,7 +160,7 @@ public final class ActionTemplate {
 
         public BrowserAction<T> fireEvent(Function<T, Event> function) {
             EventSystem eventSystem = getEventSystem();
-            if(eventSystem.isEnabled()) {
+            if (eventSystem.isEnabled()) {
                 eventSystem.fireEvent(function.apply(getSubject()));
             }
             return this;

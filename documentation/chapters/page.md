@@ -93,7 +93,6 @@ public interface CollectionPage extends Page {
 These annotations can be used within a `Page`.
 
 - [@Action](annotation-action.md)
-- [@Cached](annotation-cached.md)
 - [@IdentifyUsing](annotation-identify-using.md)
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)

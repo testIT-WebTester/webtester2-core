@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.internal.WebElementFinder;
 import info.novatec.testit.webtester.internal.proxies.arounds.EventProducingImplementationDecorator;
 import info.novatec.testit.webtester.internal.proxies.befores.ActionOperation;
 import info.novatec.testit.webtester.internal.proxies.befores.BeforeOperation;
@@ -49,19 +48,9 @@ public class PageFragmentProxyHandler implements InvocationHandler {
         Class<? extends PageFragment> pageFragmentClass = model.getType();
         MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
         Supplier<WebElement> webElementSupplier = () -> {
-
             SearchContext searchContext = model.getSearchContextSupplier().get();
             By by = model.getBy();
-
-            WebElement webElement;
-            if (model.isUseCache()) {
-                webElement = WebElementFinder.findCached(searchContext, by);
-            } else {
-                webElement = WebElementFinder.find(searchContext, by);
-            }
-
-            return webElement;
-
+            return searchContext.findElement(by);
         };
         EventProducingImplementationDecorator eventDecorator =
             new EventProducingImplementationDecorator(browser, webElementSupplier);
@@ -150,11 +139,6 @@ public class PageFragmentProxyHandler implements InvocationHandler {
         beforeOperations.stream()
             .filter(operation -> operation.shouldBeInvokedFor(method))
             .forEach(operation -> operation.invoke(proxy, method, args));
-    }
-
-    private Object findImplementationAndExecute(Object proxy, Method method, Object[] args) throws Throwable {
-        Implementation implementation = findImplementation(method);
-        return implementation.invoke(proxy, method, args);
     }
 
     private Implementation findImplementation(Method method) {

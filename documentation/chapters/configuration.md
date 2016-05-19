@@ -80,10 +80,6 @@ The following shows all default properties loaded by the `DefaultFileConfigurati
 The values are the same as the fallback values of the `BaseConfiguration` implementation.
 
 ```properties
-# Weather or not caches (i.e. of web elements) should be enabled by default.
-# TYPE: boolean [true, false]
-caches.enabled = false
-
 # Weather or not the events should be fired.
 # TYPE: boolean [true, false]
 events.enabled = true

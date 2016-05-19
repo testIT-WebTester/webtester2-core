@@ -10,13 +10,11 @@ import org.openqa.selenium.SearchContext;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.internal.proxies.PageFragmentModel;
 import info.novatec.testit.webtester.internal.proxies.PageFragmentModel.PageFragmentModelBuilder;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pagefragments.annotations.Cached;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.annotations.Named;
 import info.novatec.testit.webtester.pagefragments.annotations.WaitUntil;
@@ -60,20 +58,12 @@ public class IdentifyUsingImpl implements Implementation {
 
         log.debug("creating new proxy for '{}'", method);
 
-        Configuration configuration = browser.configuration();
-
         PageFragmentModelBuilder modelBuilder = PageFragmentModel.builder()
             .browser(browser)
             .type(getReturnType(method))
             .by(ByProducers.createBy(method.getAnnotation(IdentifyUsing.class)))
             .searchContextSupplier(searchContextSupplier)
-            .name(getName(method))
-            .useCache(configuration.isCachingEnabled());
-
-        if (method.isAnnotationPresent(Cached.class)) {
-            Cached annotation = method.getAnnotation(Cached.class);
-            modelBuilder.useCache(annotation.value());
-        }
+            .name(getName(method));
 
         PageFragment pageFragment = factory.pageFragment(modelBuilder.build());
         waitIfAnnotationPresent(method, pageFragment);

@@ -32,6 +32,4 @@ public class PageFragmentModel {
     @NonNull
     private String name = "";
 
-    private boolean useCache;
-
 }

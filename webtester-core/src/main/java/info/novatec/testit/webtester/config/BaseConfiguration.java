@@ -53,16 +53,6 @@ public class BaseConfiguration implements Configuration {
     /* named properties */
 
     @Override
-    public boolean isCachingEnabled() {
-        return getBooleanProperty(key(NamedProperties.CACHES), Boolean.FALSE);
-    }
-
-    @Override
-    public Configuration setCaching(boolean active) {
-        return setProperty(key(NamedProperties.CACHES), active);
-    }
-
-    @Override
     public long getActionDeceleration() {
         return getLongProperty(key(NamedProperties.ACTIONS_DECELERATION), 0L);
     }

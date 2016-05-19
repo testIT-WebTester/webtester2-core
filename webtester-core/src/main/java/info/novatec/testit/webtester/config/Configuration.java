@@ -11,7 +11,6 @@ import info.novatec.testit.webtester.config.exceptions.SetNullValuesException;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.pagefragments.annotations.Action;
-import info.novatec.testit.webtester.pagefragments.annotations.Cached;
 import info.novatec.testit.webtester.waiting.Wait;
 
 
@@ -38,25 +37,6 @@ import info.novatec.testit.webtester.waiting.Wait;
  * @since 2.0
  */
 public interface Configuration {
-
-    /**
-     * Returns whether or not caching mechanisms are globally enabled.
-     *
-     * @return true if caching is enabled by default
-     * @see Cached
-     * @since 2.0
-     */
-    boolean isCachingEnabled();
-
-    /**
-     * Set whether or not caching mechanisms are globally enabled.
-     *
-     * @param active true if caching should be enabled by default
-     * @return the same instance for fluent API use
-     * @see Cached
-     * @since 2.0
-     */
-    Configuration setCaching(boolean active);
 
     /**
      * Returns the number of milliseconds actions should be decelerated.

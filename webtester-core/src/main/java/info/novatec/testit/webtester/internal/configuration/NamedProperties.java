@@ -6,11 +6,6 @@ import java.util.Set;
 
 public enum NamedProperties {
 
-    @Documentation("Weather or not caches (i.e. of web elements) should be enabled by default.")
-    @TypeDefinition(Constants.BOOLEAN)
-    @DefaultValue("false")
-    CACHES("caches.enabled"),
-
     @Documentation("Weather or not the events should be fired.")
     @TypeDefinition(Constants.BOOLEAN)
     @DefaultValue("true")
