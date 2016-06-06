@@ -2,6 +2,7 @@
 
 ## Welcome to the testIT WebTester 2 documentation!
 
+- [Getting Started](chapters/gettingstarted.md)
 - [Browser](chapters/browser.md)
 - [Configuration](chapters/configuration.md)
 - [Event System](chapters/event-system.md)
