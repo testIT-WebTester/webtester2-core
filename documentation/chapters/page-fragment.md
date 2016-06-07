@@ -94,7 +94,7 @@ These annotations can be used within a `PageFragment`.
 - [@Mark](annotation-mark.md)
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)
-- [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md)
+- [@PostConstructMustBe](annotation-post-construct-must-be.md)
 - [@WaitUntil](annotation-wait-until.md)
 
 # Linked Documentation

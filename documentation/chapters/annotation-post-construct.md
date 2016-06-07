@@ -11,7 +11,7 @@ The order in which multiple annotated methods are invoked is not deterministic.
 Since these methods are invoked using reflection, it is not possible to have method arguments!
 
 As an alternative for `@PostConstruct` the `@PostConstructMustBe` annotation can be used on page fragment returning methods.
-For more about that see [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md).
+For more about that see [@PostConstructMustBe](annotation-post-construct-must-be.md).
 
 **Example for page:**
 ```java
@@ -55,4 +55,4 @@ public interface FooWidget extends PageFragment {
 
 - [Pages](page.md)
 - [Page Fragments](page-fragment.md)
-- [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md)
+- [@PostConstructMustBe](annotation-post-construct-must-be.md)
