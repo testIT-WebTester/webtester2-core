@@ -118,12 +118,12 @@ Rules:
 - Method does not change multiple states.
 
 ```java
-public LoginPage setFirstName(String name){
+default LoginPage setFirstName(String name){
     firstName.setText(name);
     return this;
 }
  
-public LoginPage selectBirthMonth(String month){
+default LoginPage selectBirthMonth(String month){
     birthMonth.selectByText(month);
     return this;
 }
@@ -142,12 +142,12 @@ Rules:
 - Method does not change multiple states.
 
 ```java
-public MainPage clickLogin(){
+default MainPage clickLogin(){
     login.click();
     return create(MainPage.class);
 }
  
-public LoginPage clickLoginExpectingError(){
+default LoginPage clickLoginExpectingError(){
     login.click();
     return create(LoginPage.class);
 }
@@ -164,13 +164,13 @@ Rules:
 - Method does change multiple states.
 
 ```java
-public MainPage login(User user){
+default MainPage login(User user){
     return setUsername(user.getUsername())
         .setPassword(user.getPassword())
         .clickLogin();
 }
  
-public LoginPage loginExpectingError(User user){
+default LoginPage loginExpectingError(User user){
     return setUsername(user.getUsername())
         .setPassword(user.getPassword())
         .clickLoginExpectingError();
@@ -188,11 +188,11 @@ Rules:
 - Method does not change any states.
 
 ```java
-public String getErrorMessage () {
+default String getErrorMessage () {
     return errorMessage.getText();
 }
  
-public int getNumberOfSearchResults () {
+default int getNumberOfSearchResults () {
     int counter = 0;
     // some logic
     return counter;
