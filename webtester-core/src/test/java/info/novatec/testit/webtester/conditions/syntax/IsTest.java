@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-import java.util.function.Predicate;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -21,17 +20,17 @@ public class IsTest {
     PageFragment fragment;
 
     @Test
-    public void testThatPredicateEvaluatesCorrectly_True() {
+    public void testThatConditionEvaluatesCorrectly_True() {
         Is<PageFragment> cut = buildClassUnderTest()
-            .withPredicateReturning(true)
+            .withConditionReturning(true)
             .build();
         assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
-    public void testThatPredicateEvaluatesCorrectly_False() {
+    public void testThatConditionEvaluatesCorrectly_False() {
         Is<PageFragment> cut = buildClassUnderTest()
-            .withPredicateReturning(false)
+            .withConditionReturning(false)
             .build();
         assertThat(cut.test(fragment)).isFalse();
     }
@@ -45,16 +44,16 @@ public class IsTest {
     @SuppressWarnings("unchecked")
     class IsTestBuilder {
 
-        Predicate<PageFragment> predicate;
+        Condition<PageFragment> condition;
 
-        IsTestBuilder withPredicateReturning(boolean result) {
-            predicate = mock(Predicate.class);
-            doReturn(result).when(predicate).test(fragment);
+        IsTestBuilder withConditionReturning(boolean result) {
+            condition = mock(Condition.class);
+            doReturn(result).when(condition).test(fragment);
             return this;
         }
 
         Is<PageFragment> build() {
-            return new Is<>(predicate);
+            return new Is<>(condition);
         }
 
     }

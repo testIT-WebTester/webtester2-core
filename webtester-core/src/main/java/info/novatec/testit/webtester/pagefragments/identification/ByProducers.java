@@ -1,8 +1,8 @@
 package info.novatec.testit.webtester.pagefragments.identification;
 
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.openqa.selenium.By;
 
@@ -29,7 +29,7 @@ import info.novatec.testit.webtester.pagefragments.identification.producers.XPat
  */
 public final class ByProducers {
 
-    private static final Map<Class<? extends ByProducer>, ByProducer> BY_PRODUCER_CACHE = new HashMap<>();
+    private static final Map<Class<? extends ByProducer>, ByProducer> BY_PRODUCER_CACHE = new ConcurrentHashMap<>();
 
     public static By className(String value) {
         return createBy(ClassName.class, value);

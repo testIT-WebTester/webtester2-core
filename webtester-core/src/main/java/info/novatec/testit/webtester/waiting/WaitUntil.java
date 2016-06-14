@@ -1,8 +1,8 @@
 package info.novatec.testit.webtester.waiting;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -60,7 +60,7 @@ public class WaitUntil<T extends PageFragment> {
      * @see Conditions
      * @since 2.0
      */
-    public WaitUntil<T> has(Predicate<? super T> condition) throws TimeoutException {
+    public WaitUntil<T> has(Condition<? super T> condition) throws TimeoutException {
         return is(condition);
     }
 
@@ -74,7 +74,7 @@ public class WaitUntil<T extends PageFragment> {
      * @see Conditions
      * @since 2.0
      */
-    public WaitUntil<T> is(Predicate<? super T> condition) throws TimeoutException {
+    public WaitUntil<T> is(Condition<? super T> condition) throws TimeoutException {
         WaitOperations.waitUntil(timeout, timeUnit, fragment, condition);
         return this;
     }
@@ -89,7 +89,7 @@ public class WaitUntil<T extends PageFragment> {
      * @see Conditions
      * @since 2.0
      */
-    public WaitUntil<T> isNot(Predicate<? super T> condition) throws TimeoutException {
+    public WaitUntil<T> isNot(Condition<? super T> condition) throws TimeoutException {
         return not(condition);
     }
 
@@ -103,7 +103,7 @@ public class WaitUntil<T extends PageFragment> {
      * @see Conditions
      * @since 2.0
      */
-    public WaitUntil<T> not(Predicate<? super T> condition) throws TimeoutException {
+    public WaitUntil<T> not(Condition<? super T> condition) throws TimeoutException {
         WaitOperations.waitUntil(timeout, timeUnit, fragment, Conditions.not(condition));
         return this;
     }

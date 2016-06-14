@@ -1,21 +1,21 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
-import java.util.function.Predicate;
-
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * {@link Predicate} to be used in order to check if a {@link PageFragment page fragment} is interactable.
+ * {@link Condition} to be used in order to check if a {@link PageFragment page fragment} is interactable.
  * <p>
  * A page fragment is considered interactable if it is present, visible and enabled.
  *
+ * @see Condition
  * @see Present
  * @see Visible
  * @see Enabled
  * @since 2.0
  */
-public class Interactable implements Predicate<PageFragment> {
+public class Interactable implements Condition<PageFragment> {
 
     private final Present present = new Present();
     private final Visible visible = new Visible();

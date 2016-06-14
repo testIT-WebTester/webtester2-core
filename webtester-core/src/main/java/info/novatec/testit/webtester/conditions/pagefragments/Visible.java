@@ -1,17 +1,17 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
-import java.util.function.Predicate;
-
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * {@link Predicate} to be used in order to check if a {@link PageFragment page fragment} is visible.
+ * {@link Condition} to be used in order to check if a {@link PageFragment page fragment} is visible.
  *
+ * @see Condition
  * @see PageFragment#isVisible()
  * @since 2.0
  */
-public class Visible implements Predicate<PageFragment> {
+public class Visible implements Condition<PageFragment> {
 
     @Override
     public boolean test(PageFragment pageFragment) {

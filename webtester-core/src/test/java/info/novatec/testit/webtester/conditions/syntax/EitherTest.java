@@ -7,7 +7,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +14,7 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -26,73 +26,73 @@ public class EitherTest {
     PageFragment fragment;
 
     @Test
-    public void testThatPredicateEvaluatesOrCorrectly_TrueTrue() {
+    public void testThatConditionEvaluatesOrCorrectly_TrueTrue() {
         Either<PageFragment> cut = buildClassUnderTest()
-            .addPredicateReturning(true)
-            .addPredicateReturning(true)
+            .addConditionReturning(true)
+            .addConditionReturning(true)
             .build();
         assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
-    public void testThatPredicateEvaluatesOrCorrectly_TrueFalse() {
+    public void testThatConditionEvaluatesOrCorrectly_TrueFalse() {
         Either<PageFragment> cut = buildClassUnderTest()
-            .addPredicateReturning(true)
-            .addPredicateReturning(false)
+            .addConditionReturning(true)
+            .addConditionReturning(false)
             .build();
         assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
-    public void testThatPredicateEvaluatesOrCorrectly_FalseTrue() {
+    public void testThatConditionEvaluatesOrCorrectly_FalseTrue() {
         Either<PageFragment> cut = buildClassUnderTest()
-            .addPredicateReturning(false)
-            .addPredicateReturning(true)
+            .addConditionReturning(false)
+            .addConditionReturning(true)
             .build();
         assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
-    public void testThatPredicateEvaluatesOrCorrectly_FalseFalse() {
+    public void testThatConditionEvaluatesOrCorrectly_FalseFalse() {
         Either<PageFragment> cut = buildClassUnderTest()
-            .addPredicateReturning(false)
-            .addPredicateReturning(false)
+            .addConditionReturning(false)
+            .addConditionReturning(false)
             .build();
         assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
-    public void testThatPredicatesAreCalledInOrder() {
+    public void testThatConditionsAreCalledInOrder() {
 
-        Predicate<PageFragment> firstPredicate = createPredicateReturning(false);
-        Predicate<PageFragment> secondPredicate = createPredicateReturning(false);
-        Predicate<PageFragment> thirdPredicate = createPredicateReturning(false);
+        Condition<PageFragment> first = createConditionReturning(false);
+        Condition<PageFragment> second = createConditionReturning(false);
+        Condition<PageFragment> third = createConditionReturning(false);
 
-        Either<PageFragment> cut = buildClassUnderTest().addPredicate(firstPredicate)
-            .addPredicate(secondPredicate)
-            .addPredicate(thirdPredicate)
+        Either<PageFragment> cut = buildClassUnderTest().addCondition(first)
+            .addCondition(second)
+            .addCondition(third)
             .build();
         cut.test(fragment);
 
-        InOrder inOrder = inOrder(firstPredicate, secondPredicate, thirdPredicate);
-        inOrder.verify(firstPredicate).test(fragment);
-        inOrder.verify(secondPredicate).test(fragment);
-        inOrder.verify(thirdPredicate).test(fragment);
+        InOrder inOrder = inOrder(first, second, third);
+        inOrder.verify(first).test(fragment);
+        inOrder.verify(second).test(fragment);
+        inOrder.verify(third).test(fragment);
         inOrder.verifyNoMoreInteractions();
 
     }
 
     @Test
-    public void testThatFirstPositiveEvaluationStopsTheEvaluationOfRemainingPredicates() {
+    public void testThatFirstPositiveEvaluationStopsTheEvaluationOfRemainingConditions() {
 
-        Predicate<PageFragment> firstPredicate = createPredicateReturning(true);
-        Predicate<PageFragment> secondPredicate = createPredicateReturning(true);
+        Condition<PageFragment> first = createConditionReturning(true);
+        Condition<PageFragment> second = createConditionReturning(true);
 
-        Either<PageFragment> cut = buildClassUnderTest().addPredicate(firstPredicate).addPredicate(secondPredicate).build();
+        Either<PageFragment> cut = buildClassUnderTest().addCondition(first).addCondition(second).build();
         cut.test(fragment);
 
-        InOrder inOrder = inOrder(firstPredicate, secondPredicate);
-        inOrder.verify(firstPredicate).test(fragment);
+        InOrder inOrder = inOrder(first, second);
+        inOrder.verify(first).test(fragment);
         inOrder.verifyNoMoreInteractions();
 
     }
@@ -103,30 +103,30 @@ public class EitherTest {
         return new EitherTestBuilder();
     }
 
-    Predicate<PageFragment> createPredicateReturning(boolean result) {
-        Predicate<PageFragment> predicate = mock(Predicate.class);
-        doReturn(result).when(predicate).test(fragment);
-        return predicate;
+    Condition<PageFragment> createConditionReturning(boolean result) {
+        Condition<PageFragment> condition = mock(Condition.class);
+        doReturn(result).when(condition).test(fragment);
+        return condition;
     }
 
     class EitherTestBuilder {
 
-        List<Predicate<PageFragment>> predicates = new LinkedList<>();
+        List<Condition<PageFragment>> conditions = new LinkedList<>();
 
-        EitherTestBuilder addPredicateReturning(boolean result) {
-            Predicate<PageFragment> predicate = mock(Predicate.class);
-            doReturn(result).when(predicate).test(fragment);
-            predicates.add(predicate);
+        EitherTestBuilder addConditionReturning(boolean result) {
+            Condition<PageFragment> condition = mock(Condition.class);
+            doReturn(result).when(condition).test(fragment);
+            conditions.add(condition);
             return this;
         }
 
-        EitherTestBuilder addPredicate(Predicate<PageFragment> predicate) {
-            predicates.add(predicate);
+        EitherTestBuilder addCondition(Condition<PageFragment> condition) {
+            conditions.add(condition);
             return this;
         }
 
         Either<PageFragment> build() {
-            return new Either<>(predicates.toArray(new Predicate[predicates.size()]));
+            return new Either<>(conditions.toArray(new Condition[conditions.size()]));
         }
 
     }
