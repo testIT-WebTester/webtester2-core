@@ -1,6 +1,7 @@
 package info.novatec.testit.webtester.waiting;
 
 import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,22 +18,22 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class WaitsTest {
+public class WaitOperationsTest {
 
     @Mock
     Supplier<Boolean> supplier;
 
     @Test
-    public void testGenericWaitUntil_GoodCase() {
-        when(supplier.get()).thenReturn(false, false, true);
-        WaitOperations.waitUntil(100, TimeUnit.MILLISECONDS, 20, supplier);
-        verify(supplier, times(3)).get();
+    public void conditionIsCheckedAtLeastOnceEvenWithoutTimeout() {
+        doReturn(true).when(supplier).get();
+        WaitOperations.waitUntil(0, TimeUnit.MILLISECONDS, 100, supplier);
+        verify(supplier, times(1)).get();
     }
 
     @Test(expected = TimeoutException.class)
-    public void testGenericWaitUntil_BadCase() {
+    public void conditionIsCheckedAtMostTimeoutDividedByIntervalTimes() {
+        doReturn(false).when(supplier).get();
         try {
-            when(supplier.get()).thenReturn(false);
             WaitOperations.waitUntil(50, TimeUnit.MILLISECONDS, 25, supplier);
         } finally {
             verify(supplier, atMost(2)).get();
@@ -40,15 +41,23 @@ public class WaitsTest {
     }
 
     @Test
-    public void testGenericWaitUntil_OriginalExceptionAsCauseOfTimeout() {
+    public void conditionIsCheckedUntilItMatches() {
+        when(supplier.get()).thenReturn(false, false, true);
+        WaitOperations.waitUntil(100, TimeUnit.MILLISECONDS, 5, supplier);
+        verify(supplier, times(3)).get();
+    }
+
+    @Test
+    public void timeoutExceptionHasOriginalExceptionAsItsCause() {
         Throwable expected = new IllegalStateException();
         try {
             when(supplier.get()).thenThrow(expected);
-            WaitOperations.waitUntil(50, TimeUnit.MILLISECONDS, 25, supplier);
+            WaitOperations.waitUntil(0, TimeUnit.MILLISECONDS, 0, supplier);
             Assert.fail("exception not reached");
         } catch (TimeoutException e) {
             Assertions.assertThat(e.getCause()).isSameAs(expected);
         }
     }
+
 
 }
