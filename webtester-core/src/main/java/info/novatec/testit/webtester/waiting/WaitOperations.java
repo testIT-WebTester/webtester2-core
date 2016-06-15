@@ -128,7 +128,7 @@ final class WaitOperations {
         boolean conditionMet = false;
         RuntimeException lastException = null;
 
-        while (!conditionMet && timeSince(start) < effectiveTimeout) {
+        do {
             try {
                 conditionMet = condition.get();
                 log.trace("condition '{}' met: {}", condition, conditionMet);
@@ -136,7 +136,7 @@ final class WaitOperations {
             } catch (RuntimeException e) {
                 lastException = e;
             }
-        }
+        } while (!conditionMet && timeSince(start) < effectiveTimeout);
 
         if (!conditionMet) {
             log.debug("condition not met: {}", condition);
