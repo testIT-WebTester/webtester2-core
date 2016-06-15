@@ -35,7 +35,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class FocusTest {
+public class FocusSetterTest {
 
     private static final int INDEX = 42;
     private static final String NAME_OR_ID = "fooBar";
@@ -50,7 +50,7 @@ public class FocusTest {
 
     Browser browser;
     EventSystem eventSystem;
-    Focus cut;
+    FocusSetter cut;
 
     @Before
     public void init() throws IOException {
@@ -58,7 +58,7 @@ public class FocusTest {
         doReturn(true).when(configuration).isEventSystemEnabled();
         browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
         eventSystem = browser.events();
-        cut = new Focus(browser);
+        cut = new FocusSetter(browser);
     }
 
     /* focusing on frame by index */

@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.events.browser;
 
 import lombok.Getter;
 
-import info.novatec.testit.webtester.browser.operations.Window;
+import info.novatec.testit.webtester.browser.operations.CurrentWindow;
 import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
@@ -15,7 +15,7 @@ import info.novatec.testit.webtester.events.EventSystem;
  * @see Event
  * @see EventListener
  * @see EventSystem
- * @see Window#setSize(int, int)
+ * @see CurrentWindow#setSize(int, int)
  * @since 2.0
  */
 @Getter

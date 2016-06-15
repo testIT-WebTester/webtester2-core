@@ -11,7 +11,7 @@ import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class WindowIntegrationTest extends BaseIntegrationTest {
+public class CurrentWindowIntegrationTest extends BaseIntegrationTest {
 
     @Override
     protected String getHTMLFilePath() {

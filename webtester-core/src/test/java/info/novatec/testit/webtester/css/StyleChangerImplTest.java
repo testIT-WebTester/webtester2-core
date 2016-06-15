@@ -19,7 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.WebDriverException;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.operations.JavaScript;
+import info.novatec.testit.webtester.browser.operations.JavaScriptExecutor;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -31,7 +31,7 @@ public class StyleChangerImplTest {
     @Mock
     Browser browser;
     @Mock
-    JavaScript javaScript;
+    JavaScriptExecutor javaScript;
 
     @InjectMocks
     StyleChangerImpl cut;

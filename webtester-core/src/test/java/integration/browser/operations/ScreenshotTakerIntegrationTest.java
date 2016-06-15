@@ -12,7 +12,7 @@ import org.junit.rules.TemporaryFolder;
 import integration.BaseIntegrationTest;
 
 
-public class ScreenshotIntegrationTest extends BaseIntegrationTest {
+public class ScreenshotTakerIntegrationTest extends BaseIntegrationTest {
 
     /**
      * Matches timestamp based file names like: 2016-01-03T10_15_30.201.png

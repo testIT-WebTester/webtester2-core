@@ -6,13 +6,13 @@ import org.openqa.selenium.WebDriver;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.operations.AlertHandler;
-import info.novatec.testit.webtester.browser.operations.Focus;
-import info.novatec.testit.webtester.browser.operations.JavaScript;
-import info.novatec.testit.webtester.browser.operations.Navigate;
-import info.novatec.testit.webtester.browser.operations.Open;
-import info.novatec.testit.webtester.browser.operations.PageSource;
-import info.novatec.testit.webtester.browser.operations.Screenshot;
-import info.novatec.testit.webtester.browser.operations.Window;
+import info.novatec.testit.webtester.browser.operations.FocusSetter;
+import info.novatec.testit.webtester.browser.operations.JavaScriptExecutor;
+import info.novatec.testit.webtester.browser.operations.Navigator;
+import info.novatec.testit.webtester.browser.operations.UrlOpener;
+import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
+import info.novatec.testit.webtester.browser.operations.ScreenshotTaker;
+import info.novatec.testit.webtester.browser.operations.CurrentWindow;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -47,18 +47,18 @@ public final class WebDriverBrowser implements Browser {
 
     private final WebDriver webDriver;
 
-    private final Open open;
-    private final Window window;
-    private final Navigate navigate;
+    private final UrlOpener open;
+    private final CurrentWindow window;
+    private final Navigator navigate;
     private final AlertHandler alert;
-    private final Screenshot screenshot;
-    private final PageSource pageSource;
-    private final JavaScript javaScript;
+    private final ScreenshotTaker screenshot;
+    private final PageSourceSaver pageSource;
+    private final JavaScriptExecutor javaScript;
     private final EventSystem eventSystem;
     private final AdHocFinder adHocFinder;
     private final PageFactory pageFactory;
 
-    private final Focus focus;
+    private final FocusSetter focus;
     private boolean closed;
 
     private WebDriverBrowser(Configuration configuration, WebDriver webDriver) {
@@ -66,14 +66,14 @@ public final class WebDriverBrowser implements Browser {
         this.configuration = configuration;
         this.webDriver = webDriver;
 
-        this.open = new Open(this);
-        this.window = new Window(this);
-        this.navigate = new Navigate(this);
+        this.open = new UrlOpener(this);
+        this.window = new CurrentWindow(this);
+        this.navigate = new Navigator(this);
         this.alert = new AlertHandler(this);
-        this.screenshot = new Screenshot(this);
-        this.pageSource = new PageSource(this);
-        this.javaScript = new JavaScript(this);
-        this.focus = new Focus(this);
+        this.screenshot = new ScreenshotTaker(this);
+        this.pageSource = new PageSourceSaver(this);
+        this.javaScript = new JavaScriptExecutor(this);
+        this.focus = new FocusSetter(this);
         this.eventSystem = new EventSystemImpl(this);
         this.adHocFinder = new AdHocFinder(this);
         this.pageFactory = new PageFactory(this);
@@ -124,22 +124,22 @@ public final class WebDriverBrowser implements Browser {
     }
 
     @Override
-    public Open open() {
+    public UrlOpener open() {
         return open;
     }
 
     @Override
-    public Window currentWindow() {
+    public CurrentWindow currentWindow() {
         return window;
     }
 
     @Override
-    public Focus focus() {
+    public FocusSetter focus() {
         return focus;
     }
 
     @Override
-    public Navigate navigate() {
+    public Navigator navigate() {
         return navigate;
     }
 
@@ -149,17 +149,17 @@ public final class WebDriverBrowser implements Browser {
     }
 
     @Override
-    public Screenshot screenshot() {
+    public ScreenshotTaker screenshot() {
         return screenshot;
     }
 
     @Override
-    public PageSource pageSource() {
+    public PageSourceSaver pageSource() {
         return pageSource;
     }
 
     @Override
-    public JavaScript javaScript() {
+    public JavaScriptExecutor javaScript() {
         return javaScript;
     }
 

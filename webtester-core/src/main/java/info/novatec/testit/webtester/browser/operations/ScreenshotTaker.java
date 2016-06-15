@@ -36,15 +36,15 @@ import info.novatec.testit.webtester.events.browser.TookScreenshotEvent;
  * @since 2.0
  */
 @Slf4j
-public class Screenshot extends BaseBrowserOperation {
+public class ScreenshotTaker extends BaseBrowserOperation {
 
     /**
-     * Creates a new {@link Screenshot} for the given {@link Browser}.
+     * Creates a new {@link ScreenshotTaker} for the given {@link Browser}.
      *
      * @param browser the browser to use
      * @since 2.0
      */
-    public Screenshot(Browser browser) {
+    public ScreenshotTaker(Browser browser) {
         super(browser);
     }
 

@@ -7,7 +7,7 @@ import java.nio.file.Path;
 
 import lombok.Getter;
 
-import info.novatec.testit.webtester.browser.operations.PageSource;
+import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -22,13 +22,13 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see Event
  * @see EventListener
  * @see EventSystem
- * @see PageSource#save()
- * @see PageSource#save(String, String)
- * @see PageSource#save(Path, String)
- * @see PageSource#save(File, String)
- * @see PageSource#save(String)
- * @see PageSource#save(Path)
- * @see PageSource#save(File)
+ * @see PageSourceSaver#save()
+ * @see PageSourceSaver#save(String, String)
+ * @see PageSourceSaver#save(Path, String)
+ * @see PageSourceSaver#save(File, String)
+ * @see PageSourceSaver#save(String)
+ * @see PageSourceSaver#save(Path)
+ * @see PageSourceSaver#save(File)
  * @since 2.0
  */
 @SuppressWarnings("serial")

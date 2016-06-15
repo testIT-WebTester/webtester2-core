@@ -6,7 +6,7 @@ import java.net.URL;
 
 import lombok.Getter;
 
-import info.novatec.testit.webtester.browser.operations.Open;
+import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -21,12 +21,12 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see Event
  * @see EventListener
  * @see EventSystem
- * @see Open#url(String)
- * @see Open#url(URL)
- * @see Open#url(String, Class)
- * @see Open#url(URL, Class)
- * @see Open#defaultEntryPoint()
- * @see Open#defaultEntryPoint(Class)
+ * @see UrlOpener#url(String)
+ * @see UrlOpener#url(URL)
+ * @see UrlOpener#url(String, Class)
+ * @see UrlOpener#url(URL, Class)
+ * @see UrlOpener#defaultEntryPoint()
+ * @see UrlOpener#defaultEntryPoint(Class)
  * @since 2.0
  */
 @SuppressWarnings("serial")

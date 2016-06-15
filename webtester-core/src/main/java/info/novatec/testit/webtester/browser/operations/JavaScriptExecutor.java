@@ -13,15 +13,15 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see #execute(String, PageFragment, Object...)
  * @since 2.0
  */
-public class JavaScript extends BaseBrowserOperation {
+public class JavaScriptExecutor extends BaseBrowserOperation {
 
     /**
-     * Creates a new {@link JavaScript} for the given {@link Browser}.
+     * Creates a new {@link JavaScriptExecutor} for the given {@link Browser}.
      *
      * @param browser the browser to use
      * @since 2.0
      */
-    public JavaScript(Browser browser) {
+    public JavaScriptExecutor(Browser browser) {
         super(browser);
     }
 
@@ -33,13 +33,11 @@ public class JavaScript extends BaseBrowserOperation {
      * @param script the JavaScript code to be executed on the current page
      * @param fragment the target {@link PageFragment}
      * @param parameters any of Boolean, Long, String, List, WebElement or null.
-     * @return the original browser of this operation
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0
      */
-    public Browser execute(String script, PageFragment fragment, Object... parameters) {
+    public void execute(String script, PageFragment fragment, Object... parameters) {
         executeWithReturn(script, fragment, parameters);
-        return browser();
     }
 
     /**
@@ -67,13 +65,11 @@ public class JavaScript extends BaseBrowserOperation {
      *
      * @param script the JavaScript code to be executed on the current page
      * @param parameters any of Boolean, Long, String, List, WebElement or null.
-     * @return the original browser of this operation
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0
      */
-    public Browser execute(String script, Object... parameters) {
+    public void execute(String script, Object... parameters) {
         executeWithReturn(script, parameters);
-        return browser();
     }
 
     /**

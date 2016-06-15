@@ -33,7 +33,7 @@ import info.novatec.testit.webtester.pages.Page;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class OpenTest {
+public class UrlOpenerTest {
 
     static final String URL = "http://www.examples.com";
     static final URL URL_OBJECT = TestUtils.toUrl(URL);
@@ -48,7 +48,7 @@ public class OpenTest {
 
     EventSystem eventSystem;
 
-    Open cut;
+    UrlOpener cut;
 
     @Before
     public void init() {
@@ -64,7 +64,7 @@ public class OpenTest {
 
         doReturn(true).when(configuration).isEventSystemEnabled();
 
-        cut = new Open(browser);
+        cut = new UrlOpener(browser);
 
         setDefaultEntryPoint(URL);
 
@@ -171,24 +171,24 @@ public class OpenTest {
 
     /* method execution */
 
-    Browser executeDefaultEntryPoint() {
-        return cut.defaultEntryPoint();
+    void executeDefaultEntryPoint() {
+        cut.defaultEntryPoint();
     }
 
     Page executeDefaultEntryPointWithPage() {
         return cut.defaultEntryPoint(Page.class);
     }
 
-    Browser executeUrlObject() {
-        return cut.url(URL_OBJECT);
+    void executeUrlObject() {
+        cut.url(URL_OBJECT);
     }
 
     Page executeUrlObjectWithPage() {
         return cut.url(URL_OBJECT, Page.class);
     }
 
-    Browser executeUrlString() {
-        return cut.url(URL);
+    void executeUrlString() {
+        cut.url(URL);
     }
 
     Page executeUrlStringWithPage() {

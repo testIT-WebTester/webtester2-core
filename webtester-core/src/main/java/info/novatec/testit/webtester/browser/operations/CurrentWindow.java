@@ -32,15 +32,15 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @since 2.0
  */
 @Slf4j
-public class Window extends BaseBrowserOperation {
+public class CurrentWindow extends BaseBrowserOperation {
 
     /**
-     * Creates a new {@link Window} for the given {@link Browser}.
+     * Creates a new {@link CurrentWindow} for the given {@link Browser}.
      *
      * @param browser the browser to use
      * @since 2.0
      */
-    public Window(Browser browser) {
+    public CurrentWindow(Browser browser) {
         super(browser);
     }
 
@@ -60,31 +60,27 @@ public class Window extends BaseBrowserOperation {
     /**
      * Refreshes the content of the currently focused window.
      *
-     * @return the original browser of this operation
      * @see WebDriver.Navigation#refresh()
      * @since 2.0
      */
-    public Browser refresh() {
+    public void refresh() {
         ActionTemplate.browser(browser())
             .execute(browser -> browser.webDriver().navigate().refresh())
             .fireEvent(browser -> new RefreshedPageEvent());
         log.debug("refreshed current window ({})", getHandle());
-        return browser();
     }
 
     /**
      * Maximizes the currently focused window.
      *
-     * @return the original browser of this operation
      * @see WebDriver.Window#maximize()
      * @since 2.0
      */
-    public Browser maximize() {
+    public void maximize() {
         ActionTemplate.browser(browser())
             .execute(browser -> getWindowManager(browser).maximize())
             .fireEvent(browser -> new MaximizedWindowEvent());
         log.debug("maximized current window ({})", getHandle());
-        return browser();
     }
 
     /**
@@ -94,17 +90,15 @@ public class Window extends BaseBrowserOperation {
      * <p>
      * This feature should be used with caution!
      *
-     * @return the original browser of this operation
      * @since 2.0
      */
-    public Browser toggleFullScreen() {
+    public void toggleFullScreen() {
         ActionTemplate.browser(browser()).execute(browser -> {
             WebDriver webDriver = browser.webDriver();
             WebElement rootElement = webDriver.findElement(By.tagName("html"));
             rootElement.sendKeys(Keys.F11);
         });
         log.debug("made current window ({}) display in full screen", getHandle());
-        return browser();
     }
 
     /**
@@ -113,16 +107,14 @@ public class Window extends BaseBrowserOperation {
      *
      * @param x the X coordinate part (horizontal)
      * @param y the Y coordinate part (vertical)
-     * @return the original browser of this operation
      * @see WebDriver.Window#setPosition(Point)
      * @since 2.0
      */
-    public Browser setPosition(int x, int y) {
+    public void setPosition(int x, int y) {
         ActionTemplate.browser(browser())
             .execute(browser -> getWindowManager(browser).setPosition(new Point(x, y)))
             .fireEvent(browser -> new SetWindowPositionEvent(x, y));
         log.debug("set position of current window ({}) to x={} and y={}", getHandle(), x, y);
-        return browser();
     }
 
     /**
@@ -131,16 +123,14 @@ public class Window extends BaseBrowserOperation {
      *
      * @param width the new width of the window
      * @param height the new height of the window
-     * @return the original browser of this operation
      * @see WebDriver.Window#setSize(Dimension)
      * @since 2.0
      */
-    public Browser setSize(int width, int height) {
+    public void setSize(int width, int height) {
         ActionTemplate.browser(browser())
             .execute(browser -> getWindowManager(browser).setSize(new Dimension(width, height)))
             .fireEvent(browser -> new SetWindowSizeEvent(width, height));
         log.debug("set size of current window ({}) to width={} and height={}", getHandle(), width, height);
-        return browser();
     }
 
     /**
@@ -151,30 +141,26 @@ public class Window extends BaseBrowserOperation {
      * See <a href="https://developer.mozilla.org/en/docs/Web/API/Element/scrollIntoView">MDN Web API</a> for details.
      *
      * @param fragment the fragment to scroll into view
-     * @return the original browser of this operation
-     * @see JavaScript
+     * @see JavaScriptExecutor
      * @since 2.0
      */
-    public Browser scrollTo(PageFragment fragment) {
+    public void scrollTo(PageFragment fragment) {
         log.debug("scrolling [{}] into view", fragment.getName().orElse(fragment.toString()));
-        return browser().javaScript().execute("arguments[0].scrollIntoView(true)", fragment);
+        browser().javaScript().execute("arguments[0].scrollIntoView(true)", fragment);
     }
 
     /**
      * Closes the currently focused window. If that window was the last open window, the browser wil be closed as well
      * making it unusable in the future. Use this method with care!
      *
-     * @return the original browser of this operation
      * @see WebDriver#close()
      * @since 2.0
      */
-    public Browser close() {
+    public void close() {
         log.debug("closing current window ({})", getHandle());
-        ActionTemplate.browser(browser()).execute(browser -> {
-            browser.webDriver().close();
-            browser.webDriver().switchTo().defaultContent();
-        }).fireEvent(browser -> new ClosedWindowEvent());
-        return browser();
+        ActionTemplate.browser(browser())
+            .execute(browser -> browser.webDriver().close())
+            .fireEvent(browser -> new ClosedWindowEvent());
     }
 
     private WebDriver.Window getWindowManager(Browser browser) {

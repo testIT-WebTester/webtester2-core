@@ -20,15 +20,15 @@ import info.novatec.testit.webtester.internal.ActionTemplate;
  * @since 2.0
  */
 @Slf4j
-public class Navigate extends BaseBrowserOperation {
+public class Navigator extends BaseBrowserOperation {
 
     /**
-     * Creates a new {@link Navigate} for the given {@link Browser}.
+     * Creates a new {@link Navigator} for the given {@link Browser}.
      *
      * @param browser the browser to use
      * @since 2.0
      */
-    public Navigate(Browser browser) {
+    public Navigator(Browser browser) {
         super(browser);
     }
 
@@ -36,60 +36,52 @@ public class Navigate extends BaseBrowserOperation {
      * Navigates backwards in the {@link Browser} history N times.
      *
      * @param times the number of times the backwards navigation should be executed
-     * @return the original browser of this operation
      * @see #backwards()
      * @see WebDriver.Navigation#back()
      * @since 2.0
      */
-    public Browser backwards(int times) {
+    public void backwards(int times) {
         IntStream.range(0, times).forEach(i -> backwards());
-        return browser();
     }
 
     /**
      * Navigates backwards in the {@link Browser} history. If there is no history
      * available, this method will do nothing.
      *
-     * @return the original browser of this operation
      * @see WebDriver.Navigation#back()
      * @since 2.0
      */
-    public Browser backwards() {
+    public void backwards() {
         ActionTemplate.browser(browser())
             .execute(browser -> browser.webDriver().navigate().back())
             .fireEvent(browser -> new NavigatedBackwardsEvent());
         log.debug("navigated backwards in browser history");
-        return browser();
     }
 
     /**
      * Navigates forwards in the {@link Browser} history N times.
      *
      * @param times the number of times the forwards navigation should be executed
-     * @return the original browser of this operation
      * @see #forwards()
      * @see WebDriver.Navigation#forward()
      * @since 2.0
      */
-    public Browser forwards(int times) {
+    public void forwards(int times) {
         IntStream.range(0, times).forEach(i -> forwards());
-        return browser();
     }
 
     /**
      * Navigates forwards in the {@link Browser} history. If there is no forward
      * page available, this method will do nothing.
      *
-     * @return the original browser of this operation
      * @see WebDriver.Navigation#forward()
      * @since 2.0
      */
-    public Browser forwards() {
+    public void forwards() {
         ActionTemplate.browser(browser())
             .execute(browser -> browser.webDriver().navigate().forward())
             .fireEvent(browser -> new NavigatedForwardsEvent());
         log.debug("navigated forwards in browser history");
-        return browser();
     }
 
 }

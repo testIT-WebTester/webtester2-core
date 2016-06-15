@@ -18,7 +18,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class JavaScriptTest {
+public class JavaScriptExecutorTest {
 
     static final String JAVA_SCRIPT = "alert('Hello World!')";
 
@@ -34,13 +34,6 @@ public class JavaScriptTest {
         WebDriver webDriver = javaScriptExecutingWebDriver();
         javaScriptFor(webDriver).execute(JAVA_SCRIPT, "param1", "param2");
         verify(( JavascriptExecutor ) webDriver).executeScript(JAVA_SCRIPT, "param1", "param2");
-    }
-
-    @Test
-    public void justParametersWithoutReturnReturnsBrowser() {
-        Browser browser = browserFor(javaScriptExecutingWebDriver());
-        Browser returnBrowser = new JavaScript(browser).execute(JAVA_SCRIPT, "param");
-        assertThat(returnBrowser).isSameAs(browser);
     }
 
     @Test
@@ -65,13 +58,6 @@ public class JavaScriptTest {
     }
 
     @Test
-    public void pageFragmentAndParametersWithoutReturnReturnsBrowser() {
-        Browser browser = browserFor(javaScriptExecutingWebDriver());
-        Browser returnBrowser = new JavaScript(browser).execute(JAVA_SCRIPT, pageFragment(), "param");
-        assertThat(returnBrowser).isSameAs(browser);
-    }
-
-    @Test
     public void pageFragmentAndParametersWithReturn() {
 
         WebDriver webDriver = javaScriptExecutingWebDriver();
@@ -93,8 +79,8 @@ public class JavaScriptTest {
 
     /* utilities */
 
-    JavaScript javaScriptFor(WebDriver webDriver) {
-        return new JavaScript(browserFor(webDriver));
+    JavaScriptExecutor javaScriptFor(WebDriver webDriver) {
+        return new JavaScriptExecutor(browserFor(webDriver));
     }
 
     Browser browserFor(WebDriver webDriver) {

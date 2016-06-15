@@ -24,7 +24,7 @@ import info.novatec.testit.webtester.events.browser.NavigatedForwardsEvent;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class NavigateTest {
+public class NavigatorTest {
 
     @Mock
     WebDriver webDriver;
@@ -33,14 +33,14 @@ public class NavigateTest {
 
     Browser browser;
     EventSystem eventSystem;
-    Navigate cut;
+    Navigator cut;
 
     @Before
     public void init() throws IOException {
         doReturn(navigation).when(webDriver).navigate();
         browser = WebDriverBrowser.forWebDriver(webDriver).build();
         eventSystem = browser.events();
-        cut = new Navigate(browser);
+        cut = new Navigator(browser);
     }
 
     /* forwards */

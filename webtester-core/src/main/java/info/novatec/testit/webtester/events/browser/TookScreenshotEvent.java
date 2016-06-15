@@ -7,7 +7,7 @@ import java.nio.file.Path;
 
 import lombok.Getter;
 
-import info.novatec.testit.webtester.browser.operations.Screenshot;
+import info.novatec.testit.webtester.browser.operations.ScreenshotTaker;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -22,13 +22,13 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see Event
  * @see EventListener
  * @see EventSystem
- * @see Screenshot#takeAndStore()
- * @see Screenshot#takeAndStore(String)
- * @see Screenshot#takeAndStore(Path)
- * @see Screenshot#takeAndStore(File)
- * @see Screenshot#takeAndStore(String, String)
- * @see Screenshot#takeAndStore(Path, String)
- * @see Screenshot#takeAndStore(File, String)
+ * @see ScreenshotTaker#takeAndStore()
+ * @see ScreenshotTaker#takeAndStore(String)
+ * @see ScreenshotTaker#takeAndStore(Path)
+ * @see ScreenshotTaker#takeAndStore(File)
+ * @see ScreenshotTaker#takeAndStore(String, String)
+ * @see ScreenshotTaker#takeAndStore(Path, String)
+ * @see ScreenshotTaker#takeAndStore(File, String)
  * @since 2.0
  */
 @SuppressWarnings("serial")

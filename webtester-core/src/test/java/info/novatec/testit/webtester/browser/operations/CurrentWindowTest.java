@@ -2,7 +2,6 @@ package info.novatec.testit.webtester.browser.operations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -29,15 +27,15 @@ import info.novatec.testit.webtester.events.browser.SetWindowSizeEvent;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class WindowTest {
+public class CurrentWindowTest {
 
     private WebDriver webDriver;
-    private Window cut;
+    private CurrentWindow cut;
 
     @Before
     public void init() throws IOException {
         webDriver = MockFactory.webDriver();
-        cut = new Window(WebDriverBrowser.forWebDriver(webDriver).build());
+        cut = new CurrentWindow(WebDriverBrowser.forWebDriver(webDriver).build());
     }
 
     /* window handle */
@@ -122,9 +120,7 @@ public class WindowTest {
     @Test
     public void closingWindowDelegatesToCorrectWebDriverMethods() {
         cut.close();
-        InOrder inOrder = inOrder(webDriver, targetLocator());
-        inOrder.verify(webDriver).close();
-        inOrder.verify(targetLocator()).defaultContent();
+        verify(webDriver).close();
     }
 
     @Test

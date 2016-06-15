@@ -11,16 +11,18 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.WebDriver;
 
+import integration.browser.operations.ScreenshotTakerIntegrationTest;
+
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.WebDriverBrowser;
 
 
 /**
  * Since taking screenshots is a very complex (in the sense of involved classes and systems) operation this class is mainly
- * integration tests by {@link integration.browser.operations.ScreenshotIntegrationTest}.
+ * integration tests by {@link ScreenshotTakerIntegrationTest}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ScreenshotTest {
+public class ScreenshotTakerTest {
 
     @Mock
     WebDriver webDriver;
@@ -29,7 +31,7 @@ public class ScreenshotTest {
     public void takingScreenshotWithUnsupportedWebDriverReturnsEmptyOptional() {
 
         Browser browser = WebDriverBrowser.buildForWebDriver(webDriver);
-        Screenshot cut = new Screenshot(browser);
+        ScreenshotTaker cut = new ScreenshotTaker(browser);
 
         Optional<File> file = cut.takeAndStore();
         assertThat(file).isEmpty();

@@ -15,15 +15,15 @@ public class BaseBrowserOperation {
         this.browser = browser;
     }
 
-    protected final Browser browser() {
+    protected Browser browser() {
         return browser;
     }
 
-    protected final Configuration configuration() {
+    protected Configuration configuration() {
         return browser.configuration();
     }
 
-    protected final WebDriver webDriver() {
+    protected WebDriver webDriver() {
         return browser.webDriver();
     }
 

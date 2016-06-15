@@ -44,13 +44,12 @@ public class AlertHandler extends BaseBrowserOperation {
      *
      * @param username the username to use
      * @param password the password to use
-     * @return the original browser of this operation
      * @see Alert#authenticateUsing(Credentials)
      * @since 2.0
      */
     @Beta
-    public Browser authenticateWith(String username, String password) {
-        return authenticateWith(new UserAndPassword(username, password));
+    public void authenticateWith(String username, String password) {
+        authenticateWith(new UserAndPassword(username, password));
     }
 
     /**
@@ -59,15 +58,13 @@ public class AlertHandler extends BaseBrowserOperation {
      * This operation is decalred as "BETA" by the Selenium developers and might break in the future in case it changes.
      *
      * @param credentials the credentials to use
-     * @return the original browser of this operation
      * @see Alert#authenticateUsing(Credentials)
      * @since 2.0
      */
     @Beta
-    public Browser authenticateWith(Credentials credentials) {
+    public void authenticateWith(Credentials credentials) {
         ActionTemplate.browser(browser()).execute(browser -> webDriver().switchTo().alert().authenticateUsing(credentials));
         log.debug("authenticated using credentials: {}", credentials);
-        return browser();
     }
 
     /**
@@ -76,17 +73,16 @@ public class AlertHandler extends BaseBrowserOperation {
      * <p>
      * Fires {@link AcceptedAlertEvent} in case a alert was successfully accepted.
      *
-     * @return the original browser of this operation
      * @see Alert#accept()
      * @since 2.0
      */
-    public Browser acceptIfPresent() {
+    public void acceptIfPresent() {
         if (isPresent()) {
             log.debug("alert was visible");
-            return accept();
+            accept();
+        } else {
+            log.debug("alert was not visible");
         }
-        log.debug("alert was not visible");
-        return browser();
     }
 
     /**
@@ -94,12 +90,11 @@ public class AlertHandler extends BaseBrowserOperation {
      * <p>
      * Fires {@link AcceptedAlertEvent} in case a alert was successfully accepted.
      *
-     * @return the original browser of this operation
      * @throws NoAlertPresentException in case no alert is present
      * @see Alert#accept()
      * @since 2.0
      */
-    public Browser accept() throws NoAlertPresentException {
+    public void accept() throws NoAlertPresentException {
         StringBuilder builder = new StringBuilder();
         ActionTemplate.browser(browser()).execute(browser -> {
             Alert alert = webDriver().switchTo().alert();
@@ -107,7 +102,6 @@ public class AlertHandler extends BaseBrowserOperation {
             alert.accept();
         }).fireEvent(browser -> new AcceptedAlertEvent(builder.toString()));
         log.debug("alert was accepted");
-        return browser();
     }
 
     /**
@@ -116,17 +110,16 @@ public class AlertHandler extends BaseBrowserOperation {
      * <p>
      * Fires {@link DeclinedAlertEvent} in case a alert was successfully accepted.
      *
-     * @return the original browser of this operation
      * @see Alert#dismiss()
      * @since 2.0
      */
-    public Browser declineIfPresent() {
+    public void declineIfPresent() {
         if (isPresent()) {
             log.debug("alert was visible");
-            return decline();
+            decline();
+        } else {
+            log.debug("alert was not visible");
         }
-        log.debug("alert was not visible");
-        return browser();
     }
 
     /**
@@ -134,12 +127,11 @@ public class AlertHandler extends BaseBrowserOperation {
      * <p>
      * Fires {@link DeclinedAlertEvent} in case a alert was successfully accepted.
      *
-     * @return the original browser of this operation
      * @throws NoAlertPresentException in case no alert is present
      * @see Alert#dismiss()
      * @since 2.0
      */
-    public Browser decline() throws NoAlertPresentException {
+    public void decline() throws NoAlertPresentException {
         StringBuilder builder = new StringBuilder();
         ActionTemplate.browser(browser()).execute(browser -> {
             Alert alert = webDriver().switchTo().alert();
@@ -147,7 +139,6 @@ public class AlertHandler extends BaseBrowserOperation {
             alert.dismiss();
         }).fireEvent(browser -> new DeclinedAlertEvent(builder.toString()));
         log.debug("alert was declined");
-        return browser();
     }
 
     /**

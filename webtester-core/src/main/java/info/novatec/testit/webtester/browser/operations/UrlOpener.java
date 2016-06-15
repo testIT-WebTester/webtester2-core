@@ -25,30 +25,29 @@ import info.novatec.testit.webtester.internal.ActionTemplate;
  * @since 2.0
  */
 @Slf4j
-public class Open extends BaseBrowserOperation {
+public class UrlOpener extends BaseBrowserOperation {
 
     /**
-     * Creates a new {@link Open} for the given {@link Browser}.
+     * Creates a new {@link UrlOpener} for the given {@link Browser}.
      *
      * @param browser the browser to use
      * @since 2.0
      */
-    public Open(Browser browser) {
+    public UrlOpener(Browser browser) {
         super(browser);
     }
 
     /**
      * Navigates to the default entry point configured in {@link Configuration#getDefaultEntryPoint()}.
      *
-     * @return the original browser of this operation
      * @see org.openqa.selenium.WebDriver#get(String)
      * @since 2.0
      */
-    public Browser defaultEntryPoint() {
+    public void defaultEntryPoint() {
         String entryPoint = configuration().getDefaultEntryPoint()
             .filter(StringUtils::isNotBlank)
             .orElseThrow(() -> new IllegalStateException("no default entry point defined"));
-        return url(entryPoint);
+        url(entryPoint);
     }
 
     /**
@@ -62,7 +61,8 @@ public class Open extends BaseBrowserOperation {
      * @since 2.0
      */
     public <T extends Page> T defaultEntryPoint(Class<T> pageClass) {
-        return defaultEntryPoint().create(pageClass);
+        defaultEntryPoint();
+        return browser().create(pageClass);
     }
 
     /**
@@ -76,7 +76,8 @@ public class Open extends BaseBrowserOperation {
      * @since 2.0
      */
     public <T extends Page> T url(URL url, Class<T> pageClass) {
-        return url(url).create(pageClass);
+        url(url);
+        return browser().create(pageClass);
     }
 
     /**
@@ -90,35 +91,33 @@ public class Open extends BaseBrowserOperation {
      * @since 2.0
      */
     public <T extends Page> T url(String url, Class<T> pageClass) {
-        return url(url).create(pageClass);
+        url(url);
+        return browser().create(pageClass);
     }
 
     /**
      * Navigates to the given url.
      *
      * @param url the URL to open
-     * @return the original browser of this operation
      * @see org.openqa.selenium.WebDriver#get(String)
      * @since 2.0
      */
-    public Browser url(URL url) {
-        return url(url.toString());
+    public void url(URL url) {
+        url(url.toString());
     }
 
     /**
      * Navigates to the given url.
      *
      * @param url the URL to open
-     * @return the original browser of this operation
      * @see org.openqa.selenium.WebDriver#get(String)
      * @since 2.0
      */
-    public Browser url(String url) {
+    public void url(String url) {
         ActionTemplate.browser(browser())
             .execute(browser -> webDriver().get(url))
             .fireEvent(browser -> new OpenedUrlEvent(url));
         log.debug("opened URL: {}", url);
-        return browser();
     }
 
 }

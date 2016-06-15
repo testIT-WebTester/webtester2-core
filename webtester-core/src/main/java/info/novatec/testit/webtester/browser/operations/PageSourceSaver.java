@@ -32,15 +32,15 @@ import info.novatec.testit.webtester.events.browser.SavedSourceCodeEvent;
  * @since 2.0
  */
 @Slf4j
-public class PageSource extends BaseBrowserOperation {
+public class PageSourceSaver extends BaseBrowserOperation {
 
     /**
-     * Creates a new {@link PageSource} for the given {@link Browser}.
+     * Creates a new {@link PageSourceSaver} for the given {@link Browser}.
      *
      * @param browser the browser to use
      * @since 2.0
      */
-    public PageSource(Browser browser) {
+    public PageSourceSaver(Browser browser) {
         super(browser);
     }
 

@@ -3,13 +3,13 @@ package info.novatec.testit.webtester.browser;
 import org.openqa.selenium.WebDriver;
 
 import info.novatec.testit.webtester.browser.operations.AlertHandler;
-import info.novatec.testit.webtester.browser.operations.Focus;
-import info.novatec.testit.webtester.browser.operations.JavaScript;
-import info.novatec.testit.webtester.browser.operations.Navigate;
-import info.novatec.testit.webtester.browser.operations.Open;
-import info.novatec.testit.webtester.browser.operations.PageSource;
-import info.novatec.testit.webtester.browser.operations.Screenshot;
-import info.novatec.testit.webtester.browser.operations.Window;
+import info.novatec.testit.webtester.browser.operations.FocusSetter;
+import info.novatec.testit.webtester.browser.operations.JavaScriptExecutor;
+import info.novatec.testit.webtester.browser.operations.Navigator;
+import info.novatec.testit.webtester.browser.operations.UrlOpener;
+import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
+import info.novatec.testit.webtester.browser.operations.ScreenshotTaker;
+import info.novatec.testit.webtester.browser.operations.CurrentWindow;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -54,14 +54,14 @@ import info.novatec.testit.webtester.internal.OffersPageCreation;
  * @see BrowserBuilder
  * @see BrowserFactory
  * @see Configuration
- * @see Open
- * @see Window
- * @see Navigate
- * @see Focus
+ * @see UrlOpener
+ * @see CurrentWindow
+ * @see Navigator
+ * @see FocusSetter
  * @see AlertHandler
- * @see Screenshot
- * @see PageSource
- * @see JavaScript
+ * @see ScreenshotTaker
+ * @see PageSourceSaver
+ * @see JavaScriptExecutor
  * @since 2.0
  */
 public interface Browser extends OffersPageCreation, OffersAdHocFinding {
@@ -98,44 +98,45 @@ public interface Browser extends OffersPageCreation, OffersAdHocFinding {
 	 
      * @param url the URL to open
      * @return the same instance for fluent API use
-     * @see Open#url(String)
+     * @see UrlOpener#url(String)
      * @since 2.0
      */
     default Browser open(String url) {
-        return open().url(url);
+        open().url(url);
+        return this;
     }
 
     /**
-     * Returns this {@link Browser browser's} {@link Open open} operations.
+     * Returns this {@link Browser browser's} {@link UrlOpener open} operations.
      *
      * @return the open operations
      * @since 2.0
      */
-    Open open();
+    UrlOpener open();
 
     /**
-     * Returns this {@link Browser browser's} {@link Window window} operations.
+     * Returns this {@link Browser browser's} {@link CurrentWindow window} operations.
      *
      * @return the window operations
      * @since 2.0
      */
-    Window currentWindow();
+    CurrentWindow currentWindow();
 
     /**
-     * Returns this {@link Browser browser's} {@link Navigate navigation} operations.
+     * Returns this {@link Browser browser's} {@link Navigator navigation} operations.
      *
      * @return the navigation operations
      * @since 2.0
      */
-    Navigate navigate();
+    Navigator navigate();
 
     /**
-     * Returns this {@link Browser browser's} {@link Focus focus} operations.
+     * Returns this {@link Browser browser's} {@link FocusSetter focus} operations.
      *
      * @return the focus operations
      * @since 2.0
      */
-    Focus focus();
+    FocusSetter focus();
 
     /**
      * Returns this {@link Browser browser's} {@link AlertHandler alert} operations.
@@ -146,28 +147,28 @@ public interface Browser extends OffersPageCreation, OffersAdHocFinding {
     AlertHandler alert();
 
     /**
-     * Returns this {@link Browser browser's} {@link Screenshot screenshot} operations.
+     * Returns this {@link Browser browser's} {@link ScreenshotTaker screenshot} operations.
      *
      * @return the screenshot operations
      * @since 2.0
      */
-    Screenshot screenshot();
+    ScreenshotTaker screenshot();
 
     /**
-     * Returns this {@link Browser browser's} {@link PageSource page source} operations.
+     * Returns this {@link Browser browser's} {@link PageSourceSaver page source} operations.
      *
      * @return the page source operations
      * @since 2.0
      */
-    PageSource pageSource();
+    PageSourceSaver pageSource();
 
     /**
-     * Returns this {@link Browser browser's} {@link JavaScript} operations.
+     * Returns this {@link Browser browser's} {@link JavaScriptExecutor} operations.
      *
      * @return the JavaScript operations
      * @since 2.0
      */
-    JavaScript javaScript();
+    JavaScriptExecutor javaScript();
 
 
     /**

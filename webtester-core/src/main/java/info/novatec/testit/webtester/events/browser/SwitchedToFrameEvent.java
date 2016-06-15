@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 import lombok.Getter;
 
-import info.novatec.testit.webtester.browser.operations.Focus;
+import info.novatec.testit.webtester.browser.operations.FocusSetter;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -20,9 +20,9 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see Event
  * @see EventListener
  * @see EventSystem
- * @see Focus#onFrame(int)
- * @see Focus#onFrame(String)
- * @see Focus#onFrame(PageFragment)
+ * @see FocusSetter#onFrame(int)
+ * @see FocusSetter#onFrame(String)
+ * @see FocusSetter#onFrame(PageFragment)
  * @since 2.0
  */
 @SuppressWarnings("serial")

@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import info.novatec.testit.webtester.adhoc.AdHocFinder;
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.operations.JavaScript;
+import info.novatec.testit.webtester.browser.operations.JavaScriptExecutor;
 import info.novatec.testit.webtester.internal.OffersAdHocFinding;
 import info.novatec.testit.webtester.internal.OffersBrowserGetter;
 import info.novatec.testit.webtester.internal.OffersPageCreation;
@@ -147,7 +147,7 @@ public interface PageFragment extends OffersBrowserGetter, OffersAdHocFinding, O
      * @param attributeName the name of the attribute to set
      * @param value the value to set the attribute to
      * @see PageFragment
-     * @see JavaScript
+     * @see JavaScriptExecutor
      * @since 2.0
      */
     default void setAttribute(String attributeName, String value) {
