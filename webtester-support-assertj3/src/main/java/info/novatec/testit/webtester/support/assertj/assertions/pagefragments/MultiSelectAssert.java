@@ -16,7 +16,7 @@ import info.novatec.testit.webtester.support.assertj.WebTesterAssertions;
  * @see MultiSelect
  * @since 2.0
  */
-public class MultiSelectAssert extends AbstractSelectAssert<MultiSelectAssert, MultiSelect> {
+public class MultiSelectAssert extends GenericSelectAssert<MultiSelectAssert, MultiSelect> {
 
     public MultiSelectAssert(MultiSelect actual) {
         super(actual, MultiSelectAssert.class);

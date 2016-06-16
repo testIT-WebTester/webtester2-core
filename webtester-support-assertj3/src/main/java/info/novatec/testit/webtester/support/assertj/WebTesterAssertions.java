@@ -3,12 +3,14 @@ package info.novatec.testit.webtester.support.assertj;
 import org.assertj.core.api.Assertions;
 
 import info.novatec.testit.webtester.pagefragments.Button;
+import info.novatec.testit.webtester.pagefragments.GenericSelect;
 import info.novatec.testit.webtester.pagefragments.GenericTextField;
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
 import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.ButtonAssert;
+import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.GenericSelectAssert;
 import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.GenericTextFieldAssert;
 import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.MultiSelectAssert;
 import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.PageFragmentAssert;
@@ -66,6 +68,19 @@ public final class WebTesterAssertions extends Assertions {
      */
     public static ButtonAssert assertThat(Button actual) {
         return new ButtonAssert(actual);
+    }
+
+    /**
+     * Creates a new {@link GenericSelectAssert} for the given {@link GenericSelect}.
+     *
+     * @param actual the select to assert
+     * @return the new assert instance
+     * @see GenericSelect
+     * @see GenericSelectAssert
+     * @since 2.0
+     */
+    public static GenericSelectAssert assertThat(GenericSelect actual) {
+        return new GenericSelectAssert(actual, GenericSelectAssert.class);
     }
 
     /**
