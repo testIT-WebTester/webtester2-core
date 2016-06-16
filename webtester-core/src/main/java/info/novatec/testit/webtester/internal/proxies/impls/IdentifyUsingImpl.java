@@ -2,7 +2,6 @@ package info.novatec.testit.webtester.internal.proxies.impls;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.openqa.selenium.SearchContext;
@@ -10,6 +9,7 @@ import org.openqa.selenium.SearchContext;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.internal.proxies.PageFragmentModel;
@@ -80,7 +80,7 @@ public class IdentifyUsingImpl implements Implementation {
 
     private void doWaitUntil(WaitUntil annotation, PageFragment fragment) {
         try {
-            Predicate<? super PageFragment> condition = annotation.value().newInstance();
+            Condition<? super PageFragment> condition = annotation.value().newInstance();
             if (annotation.timeout() > 0) {
                 Wait.withTimeoutOf(annotation.timeout(), annotation.unit()).until(fragment).is(condition);
             } else {

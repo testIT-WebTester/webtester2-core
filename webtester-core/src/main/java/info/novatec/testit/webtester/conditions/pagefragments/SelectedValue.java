@@ -1,18 +1,18 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
-import java.util.function.Predicate;
-
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
 
 
 /**
- * {@link Predicate} to be used in order to check if a {@link SingleSelect single-select} has a certain selected value.
+ * {@link Condition} to be used in order to check if a {@link SingleSelect single-select} has a certain selected value.
  *
+ * @see Condition
  * @see SingleSelect
  * @see SingleSelect#getSelectionValue()
  * @since 2.0
  */
-public class SelectedValue implements Predicate<SingleSelect> {
+public class SelectedValue implements Condition<SingleSelect> {
 
     private final String expectedValue;
 

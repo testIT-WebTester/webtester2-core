@@ -1,20 +1,20 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
-import java.util.function.Predicate;
-
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
 
 
 /**
- * {@link Predicate} to be used in order to check if the {@link Selectable selectable} {@link PageFragment page fragment} is
+ * {@link Condition} to be used in order to check if the {@link Selectable selectable} {@link PageFragment page fragment} is
  * selected.
  *
+ * @see Condition
  * @see Selectable
  * @see Selectable#isSelected()
  * @since 2.0
  */
-public class Selected implements Predicate<Selectable> {
+public class Selected implements Condition<Selectable> {
 
     @Override
     public boolean test(Selectable selectable) {

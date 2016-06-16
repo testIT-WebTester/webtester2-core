@@ -5,8 +5,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.function.Predicate;
 
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.conditions.pagefragments.Disabled;
 import info.novatec.testit.webtester.conditions.pagefragments.Editable;
@@ -27,7 +27,7 @@ import info.novatec.testit.webtester.pages.Page;
  * annotation. Doing so will trigger an automatic post construct check on the page / page fragment after it's
  * initialization. This check will take the {@link PostConstructMustBe @PostConstructMustBe's} condition and evaluate it.
  * <p>
- * <b>Important:</b> The used predicate class must provide a default constructor! Hence not all of our provided {@link
+ * <b>Important:</b> The used condition class must provide a default constructor! Hence not all of our provided {@link
  * Conditions} will work. The following conditions can be used:
  * <ul>
  * <li>{@link Disabled}</li>
@@ -56,7 +56,7 @@ import info.novatec.testit.webtester.pages.Page;
  * TextField username();
  * </pre>
  *
- * @see Predicate
+ * @see Condition
  * @see Conditions
  * @since 2.0
  */
@@ -66,11 +66,11 @@ import info.novatec.testit.webtester.pages.Page;
 public @interface PostConstructMustBe {
 
     /**
-     * The {@link Predicate} predicate to use for the must check.
+     * The {@link Condition} condition to use for the must check.
      *
-     * @return the predicate to use
+     * @return the condition to use
      * @since 2.0
      */
-    Class<? extends Predicate<PageFragment>> value();
+    Class<? extends Condition<PageFragment>> value();
 
 }

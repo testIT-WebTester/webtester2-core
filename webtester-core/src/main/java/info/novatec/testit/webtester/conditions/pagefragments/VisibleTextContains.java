@@ -1,18 +1,18 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
-import java.util.function.Predicate;
-
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * {@link Predicate} to be used in order to check if a {@link PageFragment page fragments's} visible text contains a certain
+ * {@link Condition} to be used in order to check if a {@link PageFragment page fragments's} visible text contains a certain
  * string.
  *
+ * @see Condition
  * @see PageFragment#getVisibleText()
  * @since 2.0
  */
-public class VisibleTextContains implements Predicate<PageFragment> {
+public class VisibleTextContains implements Condition<PageFragment> {
 
     private final String partialText;
 

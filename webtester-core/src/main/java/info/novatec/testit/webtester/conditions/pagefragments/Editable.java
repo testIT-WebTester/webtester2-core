@@ -1,21 +1,21 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
-import java.util.function.Predicate;
-
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * {@link Predicate} to be used in order to check if a {@link PageFragment page fragment} is 'editable'.
+ * {@link Condition} to be used in order to check if a {@link PageFragment page fragment} is 'editable'.
  * <p>
  * A page fragment is considered editable if it is present, visible, enabled and NOT read-only.
  *
+ * @see Condition
  * @see ReadOnly
  * @see Enabled
  * @see Visible
  * @since 2.0
  */
-public class Editable implements Predicate<PageFragment> {
+public class Editable implements Condition<PageFragment> {
 
     private final Present present = new Present();
     private final Visible visible = new Visible();

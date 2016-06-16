@@ -5,9 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.conditions.pagefragments.Disabled;
 import info.novatec.testit.webtester.conditions.pagefragments.Editable;
@@ -26,11 +26,11 @@ import info.novatec.testit.webtester.pages.Page;
 
 /**
  * Identification methods of {@link Page pages} and {@link PageFragment page fragments} can be annotation with this
- * annotation. With it the framework will wait until the specified {@link #value() predicate} returns true or the timeout is
+ * annotation. With it the framework will wait until the specified {@link #value() condition} returns true or the timeout is
  * reached. In case no custom timeout is configured, the defaults of the host {@link Browser browser's} {@link
  * Configuration} is used.
  * <p>
- * <b>Important:</b> The used predicate class must provide a default constructor! Hence not all of our provided {@link
+ * <b>Important:</b> The used condition class must provide a default constructor! Hence not all of our provided {@link
  * Conditions} will work. The following conditions can be used:
  * <ul>
  * <li>{@link Disabled}</li>
@@ -60,12 +60,12 @@ import info.novatec.testit.webtester.pages.Page;
 public @interface WaitUntil {
 
     /**
-     * The until predicate to use for the wait operation.
+     * The until condition to use for the wait operation.
      *
-     * @return the until predicate to use
+     * @return the until condition to use
      * @since 2.0
      */
-    Class<? extends Predicate<PageFragment>> value();
+    Class<? extends Condition<PageFragment>> value();
 
     /**
      * The timeout to use. Defaults to {@code 0} which will signal the framework to use the {@link Browser browser's}

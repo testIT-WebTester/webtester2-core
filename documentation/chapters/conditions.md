@@ -1,11 +1,12 @@
 [Home](../README.md)
 
 # The Conditions Utility Class
-The utility class `Conditions` provides several factory methods for creating `Predicate` instances.
-These can be (re-)used in the following sub-systems:
+The utility class `Conditions` provides several factory methods for creating `Condition` instances.
+These are specialized subclasses of Java 8's `Predicate` interface and can be used in the following sub-systems:
 
-- Filtering a streams of page fragments
-- Conditions for wait operations
+- Waiting: `@Wait` and `Wait.until(..)`
+- Post Construct Assertions: `@PostConstructMustBe(...)`
+- Filtering of `PageFragement` Streams
 
 ```java
 // ad-hoc finding of page fragments with filter
@@ -13,8 +14,6 @@ browser.findMany(".textfield").filter(Conditions.is(Conditions.visible()));
 // waiting until a certain condition is met
 Wait.until(textField).has(Conditions.text("foo"));
 ```
-
-Since all of these implement Java's `Predicate` interface it is easy to create your own conditions if need be.
 
 ## Syntax
 

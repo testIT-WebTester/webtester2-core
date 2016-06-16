@@ -1,11 +1,11 @@
 package info.novatec.testit.webtester.waiting;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import lombok.extern.slf4j.Slf4j;
 
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -38,7 +38,7 @@ final class WaitOperations {
     }
 
     /**
-     * Waits until the given {@link Predicate condition} is met by the provided
+     * Waits until the given {@link Condition condition} is met by the provided
      * {@link PageFragment page fragment}. Allows for the configuration of the
      * timeout's {@link TimeUnit time unit}. The check interval of the page
      * object's browser's configuration is used.
@@ -60,12 +60,12 @@ final class WaitOperations {
      * <code>true</code> within the allowed time frame
      */
     public static <T extends PageFragment> T waitUntil(long timeout, TimeUnit unit, T fragment,
-        Predicate<? super T> condition) {
+        Condition<? super T> condition) {
         return waitUntil(timeout, unit, getWaitInterval(fragment), fragment, condition);
     }
 
     /**
-     * Waits until the given {@link Predicate condition} is met by the provided
+     * Waits until the given {@link Condition condition} is met by the provided
      * {@link PageFragment page fragment}. Allows for the configuration of the
      * timeout's {@link TimeUnit time unit} and check interval.
      * <p>
@@ -89,7 +89,7 @@ final class WaitOperations {
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static <T extends PageFragment> T waitUntil(long timeout, TimeUnit unit, long interval, final T fragment,
-        final Predicate<? super T> condition) {
+        final Condition<? super T> condition) {
         try {
             waitUntil(timeout, unit, interval, () -> condition.test(fragment));
         } catch (RuntimeException e) {

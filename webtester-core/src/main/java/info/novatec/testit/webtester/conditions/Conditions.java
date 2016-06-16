@@ -1,7 +1,6 @@
 package info.novatec.testit.webtester.conditions;
 
 import java.util.Collection;
-import java.util.function.Predicate;
 
 import info.novatec.testit.webtester.conditions.pagefragments.Attribute;
 import info.novatec.testit.webtester.conditions.pagefragments.AttributeWithValue;
@@ -36,16 +35,16 @@ public final class Conditions {
 
     /* syntax */
 
-    public static <T> Is<T> is(Predicate<T> predicate) {
-        return new Is<>(predicate);
+    public static <T> Is<T> is(Condition<T> condition) {
+        return new Is<>(condition);
     }
 
-    public static <T> Has<T> has(Predicate<T> predicate) {
-        return new Has<>(predicate);
+    public static <T> Has<T> has(Condition<T> condition) {
+        return new Has<>(condition);
     }
 
-    public static <T> Not<T> not(Predicate<T> predicate) {
-        return new Not<>(predicate);
+    public static <T> Not<T> not(Condition<T> condition) {
+        return new Not<>(condition);
     }
 
     /* other */
