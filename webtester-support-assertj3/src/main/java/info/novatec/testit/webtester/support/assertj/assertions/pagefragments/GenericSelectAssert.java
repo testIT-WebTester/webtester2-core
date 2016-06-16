@@ -17,10 +17,10 @@ import info.novatec.testit.webtester.support.assertj.WebTesterAssertions;
  * @since 2.0
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class AbstractSelectAssert<A extends AbstractSelectAssert, B extends GenericSelect>
+public class GenericSelectAssert<A extends GenericSelectAssert, B extends GenericSelect>
     extends AbstractPageFragmentAssert<A, B> {
 
-    protected AbstractSelectAssert(B actual, Class<A> selfType) {
+    public GenericSelectAssert(B actual, Class<A> selfType) {
         super(actual, selfType);
     }
 
