@@ -109,7 +109,7 @@ public final class WebTesterMatchers extends Matchers {
     }
 
     public static <T extends MultiSelect> Matcher<T> selectionWithTexts(String... texts) {
-        return new SelectionTextsMatcher<>(Arrays.asList(texts));
+        return selectionWithTexts(Arrays.asList(texts));
     }
 
     public static <T extends MultiSelect> Matcher<T> selectionWithTexts(List<String> texts) {
@@ -117,7 +117,7 @@ public final class WebTesterMatchers extends Matchers {
     }
 
     public static <T extends MultiSelect> Matcher<T> selectionWithValues(String... values) {
-        return new SelectionValuesMatcher<>(Arrays.asList(values));
+        return selectionWithValues(Arrays.asList(values));
     }
 
     public static <T extends MultiSelect> Matcher<T> selectionWithValues(List<String> values) {
@@ -125,7 +125,7 @@ public final class WebTesterMatchers extends Matchers {
     }
 
     public static <T extends MultiSelect> Matcher<T> selectionWithIndices(Integer... indices) {
-        return new SelectionIndicesMatcher<>(Arrays.asList(indices));
+        return selectionWithIndices(Arrays.asList(indices));
     }
 
     public static <T extends MultiSelect> Matcher<T> selectionWithIndices(List<Integer> indices) {
@@ -169,7 +169,7 @@ public final class WebTesterMatchers extends Matchers {
     }
 
     public static <T extends GenericSelect> Matcher<T> optionsWithTexts(String... texts) {
-        return new OptionsTextsMatcher<>(Arrays.asList(texts));
+        return optionsWithTexts(Arrays.asList(texts));
     }
 
     public static <T extends GenericSelect> Matcher<T> optionsWithTexts(List<String> texts) {
@@ -177,7 +177,7 @@ public final class WebTesterMatchers extends Matchers {
     }
 
     public static <T extends GenericSelect> Matcher<T> optionsWithValues(String... values) {
-        return new OptionsValuesMatcher<>(Arrays.asList(values));
+        return optionsWithValues(Arrays.asList(values));
     }
 
     public static <T extends GenericSelect> Matcher<T> optionsWithValues(List<String> values) {
