@@ -5,10 +5,10 @@ import static java.lang.String.format;
 import lombok.Getter;
 
 import info.novatec.testit.webtester.browser.operations.FocusSetter;
+import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -26,26 +26,30 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @since 2.0
  */
 @SuppressWarnings("serial")
-@Getter
 public class SwitchedToFrameEvent extends AbstractEvent {
 
+    @Getter
     private final String target;
+    private final String type;
 
     public SwitchedToFrameEvent(String nameOrId) {
         this.target = nameOrId;
+        this.type = "name or id";
     }
 
     public SwitchedToFrameEvent(int index) {
         this.target = String.valueOf(index);
+        this.type = "index";
     }
 
     public SwitchedToFrameEvent(PageFragment frame) {
         this.target = frame.getName().orElse("unknown");
+        this.type = "page fragment";
     }
 
     @Override
     public String describe() {
-        return format("switched to frame using: %s", target);
+        return format("switched to frame using: %s '%s'", type, target);
     }
 
 }

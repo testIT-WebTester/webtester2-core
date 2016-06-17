@@ -29,8 +29,8 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see UrlOpener#defaultEntryPoint(Class)
  * @since 2.0
  */
-@SuppressWarnings("serial")
 @Getter
+@SuppressWarnings("serial")
 public class OpenedUrlEvent extends AbstractEvent {
 
     private final String url;
@@ -41,7 +41,7 @@ public class OpenedUrlEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return format("opened url %s", url);
+        return format("opened url: '%s'", url);
     }
 
 }

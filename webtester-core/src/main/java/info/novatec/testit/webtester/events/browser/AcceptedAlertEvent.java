@@ -23,8 +23,8 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see AlertHandler#acceptIfPresent()
  * @since 2.0
  */
-@SuppressWarnings("serial")
 @Getter
+@SuppressWarnings("serial")
 public class AcceptedAlertEvent extends AbstractEvent {
 
     private final String alertMessage;
@@ -35,7 +35,7 @@ public class AcceptedAlertEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return format("accepted an alert message with message: %s", alertMessage);
+        return format("accepted an alert with message: '%s'", alertMessage);
     }
 
 }

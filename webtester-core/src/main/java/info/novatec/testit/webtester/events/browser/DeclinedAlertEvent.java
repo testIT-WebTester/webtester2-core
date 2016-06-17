@@ -35,7 +35,7 @@ public class DeclinedAlertEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return format("declined an alert message with message: %s", alertMessage);
+        return format("declined an alert with message: '%s'", alertMessage);
     }
 
 }

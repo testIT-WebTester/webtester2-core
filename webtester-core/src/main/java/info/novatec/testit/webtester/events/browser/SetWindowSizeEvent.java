@@ -32,7 +32,7 @@ public class SetWindowSizeEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return "set window position: width=" + width + ", height=" + height;
+        return "set window size: width=" + width + ", height=" + height;
     }
 
 }
