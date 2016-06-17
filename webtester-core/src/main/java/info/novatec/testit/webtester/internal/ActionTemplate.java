@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.css.DefaultStyleChanger;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.markings.Marker;
@@ -100,8 +101,11 @@ public final class ActionTemplate {
 
     public static class PageFragmentAction<T extends PageFragment> extends Action<T, PageFragmentAction<T>> {
 
+        private Marker marker;
+
         public PageFragmentAction(T subject) {
             super(subject, subject.getBrowser());
+            marker = new Marker(new DefaultStyleChanger());
         }
 
         public PageFragmentAction<T> fireEvent(Function<T, Event> function) {
@@ -113,12 +117,12 @@ public final class ActionTemplate {
         }
 
         public PageFragmentAction<T> markAsUsed() {
-            Marker.markAsUsed(getSubject());
+            marker.markAsUsed(getSubject());
             return this;
         }
 
         public PageFragmentAction<T> markAsRead() {
-            Marker.markAsRead(getSubject());
+            marker.markAsRead(getSubject());
             return this;
         }
 
@@ -126,8 +130,11 @@ public final class ActionTemplate {
 
     public static class PageFragmentsAction<T extends PageFragment> extends BiAction<T, PageFragmentsAction<T>> {
 
+        private Marker marker;
+
         public PageFragmentsAction(T subject1, T subject2) {
             super(subject1, subject2, subject1.getBrowser());
+            marker = new Marker(new DefaultStyleChanger());
         }
 
         public PageFragmentsAction<T> fireEvent(BiFunction<T, T, Event> function) {
@@ -139,14 +146,14 @@ public final class ActionTemplate {
         }
 
         public PageFragmentsAction<T> markAsUsed() {
-            Marker.markAsUsed(getSubject1());
-            Marker.markAsUsed(getSubject2());
+            marker.markAsUsed(getSubject1());
+            marker.markAsUsed(getSubject2());
             return this;
         }
 
         public PageFragmentsAction<T> markAsRead() {
-            Marker.markAsRead(getSubject1());
-            Marker.markAsRead(getSubject2());
+            marker.markAsRead(getSubject1());
+            marker.markAsRead(getSubject2());
             return this;
         }
 

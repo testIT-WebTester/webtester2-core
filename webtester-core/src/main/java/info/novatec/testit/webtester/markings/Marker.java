@@ -8,7 +8,6 @@ import org.openqa.selenium.support.Color;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.css.CssProperties;
 import info.novatec.testit.webtester.css.StyleChanger;
-import info.novatec.testit.webtester.css.StyleChangerImpl;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -21,27 +20,12 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see CssProperties
  * @since 2.0
  */
-public final class Marker {
+public class Marker {
 
-    private static StyleChanger styleChanger = new StyleChangerImpl();
+    private StyleChanger styleChanger;
 
-    /**
-     * Marks the given {@link PageFragment page fragment} as 'used' using the configured colors from the page object's
-     * browser's {@link Configuration configuration}.
-     *
-     * @param pageFragment the page fragment to mark.
-     * @see StyleChanger
-     * @see PageFragment
-     * @see CssProperties
-     * @since 2.0
-     */
-    public static void markAsUsed(PageFragment pageFragment) {
-        Configuration configuration = pageFragment.getBrowser().configuration();
-        if (configuration.isMarkingsEnabled()) {
-            Color backgroundColor = configuration.getMarkingsColorUsedBackground();
-            Color outlineColor = configuration.getMarkingsColorUsedOutline();
-            markElement(pageFragment, backgroundColor, outlineColor);
-        }
+    public Marker(StyleChanger styleChanger) {
+        this.styleChanger = styleChanger;
     }
 
     /**
@@ -54,7 +38,7 @@ public final class Marker {
      * @see CssProperties
      * @since 2.0
      */
-    public static void markAsRead(PageFragment fragment) {
+    public void markAsRead(PageFragment fragment) {
         Configuration configuration = fragment.getBrowser().configuration();
         if (configuration.isMarkingsEnabled()) {
             Color backgroundColor = configuration.getMarkingsColorReadBackground();
@@ -63,7 +47,26 @@ public final class Marker {
         }
     }
 
-    private static void markElement(PageFragment fragment, Color backgroundColor, Color outlineColor) {
+    /**
+     * Marks the given {@link PageFragment page fragment} as 'used' using the configured colors from the page object's
+     * browser's {@link Configuration configuration}.
+     *
+     * @param pageFragment the page fragment to mark.
+     * @see StyleChanger
+     * @see PageFragment
+     * @see CssProperties
+     * @since 2.0
+     */
+    public void markAsUsed(PageFragment pageFragment) {
+        Configuration configuration = pageFragment.getBrowser().configuration();
+        if (configuration.isMarkingsEnabled()) {
+            Color backgroundColor = configuration.getMarkingsColorUsedBackground();
+            Color outlineColor = configuration.getMarkingsColorUsedOutline();
+            markElement(pageFragment, backgroundColor, outlineColor);
+        }
+    }
+
+    private void markElement(PageFragment fragment, Color backgroundColor, Color outlineColor) {
 
         Map<String, String> cssStyleAttributes = new HashMap<>();
         cssStyleAttributes.put(CssProperties.OUTLINE_STYLE, "solid");
@@ -73,9 +76,6 @@ public final class Marker {
 
         styleChanger.changeStyleInformation(fragment, cssStyleAttributes);
 
-    }
-
-    private Marker() {
     }
 
 }

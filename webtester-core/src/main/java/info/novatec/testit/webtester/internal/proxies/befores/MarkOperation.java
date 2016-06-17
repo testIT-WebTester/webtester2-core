@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import lombok.extern.slf4j.Slf4j;
 
+import info.novatec.testit.webtester.css.DefaultStyleChanger;
 import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
@@ -12,6 +13,12 @@ import info.novatec.testit.webtester.markings.Marker;
 
 @Slf4j
 public class MarkOperation implements BeforeOperation {
+
+    private Marker marker;
+
+    public MarkOperation() {
+        this.marker = new Marker(new DefaultStyleChanger());
+    }
 
     @Override
     public boolean shouldBeInvokedFor(Method method) {
@@ -26,9 +33,9 @@ public class MarkOperation implements BeforeOperation {
 
     private void markPageFragment(PageFragment proxy, As as) {
         if (As.READ == as) {
-            Marker.markAsRead(proxy);
+            marker.markAsRead(proxy);
         } else if (As.USED == as) {
-            Marker.markAsUsed(proxy);
+            marker.markAsUsed(proxy);
         }
     }
 
