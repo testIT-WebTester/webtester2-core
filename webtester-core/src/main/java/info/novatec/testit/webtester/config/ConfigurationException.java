@@ -14,8 +14,4 @@ public class ConfigurationException extends WebTesterException {
         super(message);
     }
 
-    protected ConfigurationException(Throwable cause) {
-        super(cause);
-    }
-
 }

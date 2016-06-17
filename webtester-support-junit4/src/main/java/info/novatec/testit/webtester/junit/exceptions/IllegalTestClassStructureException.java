@@ -11,8 +11,4 @@ public class IllegalTestClassStructureException extends WebTesterJUnitSupportExc
         super(message);
     }
 
-    public IllegalTestClassStructureException(Throwable cause) {
-        super(cause);
-    }
-
 }

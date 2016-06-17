@@ -8,10 +8,6 @@ public class TimeoutException extends WebTesterException {
         super(message);
     }
 
-    public TimeoutException(Throwable cause) {
-        super(cause);
-    }
-
     public TimeoutException(String message, Throwable cause) {
         super(message, cause);
     }

@@ -9,10 +9,6 @@ public class IllegalSignatureException extends WebTesterException {
         super(message);
     }
 
-    public IllegalSignatureException(Throwable cause) {
-        super(cause);
-    }
-
     public IllegalSignatureException(String message, Throwable cause) {
         super(message, cause);
     }

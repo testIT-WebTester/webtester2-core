@@ -14,8 +14,4 @@ public class WebTesterJUnitSupportException extends WebTesterException {
         super(message);
     }
 
-    protected WebTesterJUnitSupportException(Throwable cause) {
-        super(cause);
-    }
-
 }
