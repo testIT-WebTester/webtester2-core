@@ -1,5 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache%20License%202.0-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Build Status](https://travis-ci.org/testIT-WebTester/webtester2-core.svg?branch=master)](https://travis-ci.org/testIT-WebTester/webtester2-core)
+[![codecov](https://codecov.io/gh/testIT-WebTester/webtester2-core/branch/master/graph/badge.svg)](https://codecov.io/gh/testIT-WebTester/webtester2-core)
 
 ![testIT WebTester](documentation/images/logo-650x157.png)
 
