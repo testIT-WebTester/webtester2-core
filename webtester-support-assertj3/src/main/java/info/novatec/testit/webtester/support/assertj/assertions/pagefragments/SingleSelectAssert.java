@@ -14,7 +14,7 @@ import info.novatec.testit.webtester.support.assertj.WebTesterAssertions;
  * @see SingleSelect
  * @since 2.0
  */
-public class SingleSelectAssert extends AbstractSelectAssert<SingleSelectAssert, SingleSelect> {
+public class SingleSelectAssert extends GenericSelectAssert<SingleSelectAssert, SingleSelect> {
 
     public SingleSelectAssert(SingleSelect actual) {
         super(actual, SingleSelectAssert.class);

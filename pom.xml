@@ -103,6 +103,7 @@
 		<version.findbugs.maven.plugin>3.0.3</version.findbugs.maven.plugin>
 		<version.license.maven.plugin>1.8</version.license.maven.plugin>
 		<version.jacoco.maven.plugin>0.7.6.201602180812</version.jacoco.maven.plugin>
+		<version.pitest.maven.plugin>1.1.10</version.pitest.maven.plugin>
 
 	</properties>
 
@@ -287,13 +288,18 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 			</plugin>
-
 			<plugin>
 				<!-- record coverage metrics -->
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 			</plugin>
-
+			
+			<plugin>
+				<!-- execute mutation tests -->
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+			</plugin>
+			
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -659,6 +665,21 @@
 					</executions>
 				</plugin>
 
+				<plugin>
+					<!-- mutation testing -->
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>${version.pitest.maven.plugin}</version>
+					<configuration>
+						<targetClasses>
+							<param>info.novatec.testit.webtester.*</param>
+						</targetClasses>
+						<targetTests>
+							<param>info.novatec.testit.webtester.*</param>
+						</targetTests>
+					</configuration>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 
@@ -758,26 +779,6 @@
 			<roles>
 				<role>project-lead</role>
 				<role>architect</role>
-				<role>developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>pmo</id>
-			<name>Pascal Moll</name>
-			<email>pascal.moll@novatec-gmbh.de</email>
-			<organization>NovaTec Consulting GmbH</organization>
-			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
-			<roles>
-				<role>developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>benhamidene</id>
-			<name>Anis Ben Hamidene</name>
-			<email>anis.benhamidene@novatec-gmbh.de</email>
-			<organization>NovaTec Consulting GmbH</organization>
-			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
-			<roles>
 				<role>developer</role>
 			</roles>
 		</developer>

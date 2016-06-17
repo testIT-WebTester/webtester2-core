@@ -3,39 +3,63 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 
 import utils.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
 
-
+@RunWith(Enclosed.class)
 public class SelectableAssertTest {
 
-    @Test
-    public void isSelectedPositive() {
-        assertThat(selectedSelectable()).isSelected();
+    public static class IsSelected {
+
+        @Test
+        public void beingSelectedPasses() {
+            assertThat(selectedSelectable()).isSelected();
+        }
+
+        @Test(expected = AssertionError.class)
+        public void notBeingSelectedFails() {
+            assertThat(nonSelectedSelectable()).isSelected();
+        }
+
+        @Test
+        public void invocationReturnsSameAssertionInstance() {
+            SelectableAssert original = assertThat(selectedSelectable());
+            SelectableAssert returned = original.isSelected();
+            assertThat(returned).isSameAs(original);
+        }
+
     }
 
-    @Test(expected = AssertionError.class)
-    public void isSelectedNegative() {
-        assertThat(nonSelectedSelectable()).isSelected();
+    public static class IsNotSelected {
+
+        @Test
+        public void notBeingSelectedPasses() {
+            assertThat(nonSelectedSelectable()).isNotSelected();
+        }
+
+        @Test(expected = AssertionError.class)
+        public void beingSelectedFails() {
+            assertThat(selectedSelectable()).isNotSelected();
+        }
+
+        @Test
+        public void invocationReturnsSameAssertionInstance() {
+            SelectableAssert original = assertThat(nonSelectedSelectable());
+            SelectableAssert returned = original.isNotSelected();
+            assertThat(returned).isSameAs(original);
+        }
+
     }
 
-    @Test
-    public void isNotSelectedPositive() {
-        assertThat(nonSelectedSelectable()).isNotSelected();
-    }
-
-    @Test(expected = AssertionError.class)
-    public void isNotSelectedNegative() {
-        assertThat(selectedSelectable()).isNotSelected();
-    }
-
-    private Selectable selectedSelectable() {
+    private static Selectable selectedSelectable() {
         return MockFactory.selectable().isSelected().build();
     }
 
-    private Selectable nonSelectedSelectable() {
+    private static Selectable nonSelectedSelectable() {
         return MockFactory.selectable().isNotSelected().build();
     }
 
