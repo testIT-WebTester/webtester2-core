@@ -49,6 +49,7 @@ public class JavaScriptExecutor extends BaseBrowserOperation {
      * @param script the JavaScript code to be executed on the current page
      * @param fragment the target {@link PageFragment}
      * @param parameters any of Boolean, Long, String, List, WebElement or null.
+     * @param <T> the type of the return value is cast to before returning
      * @return the return value of the JavaScript
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0
@@ -79,6 +80,7 @@ public class JavaScriptExecutor extends BaseBrowserOperation {
      *
      * @param script the JavaScript code to be executed on the current page
      * @param parameters any of Boolean, Long, String, List, WebElement or null.
+     * @param <T> the type of the return value is cast to before returning
      * @return the return value of the JavaScript
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0

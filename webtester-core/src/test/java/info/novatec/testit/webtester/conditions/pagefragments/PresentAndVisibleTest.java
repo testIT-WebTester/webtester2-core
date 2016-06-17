@@ -15,7 +15,7 @@ public class PresentAndVisibleTest {
     @Test
     public void presentAndVisiblePageFragmentEvaluatesToTrue() {
         PageFragment fragment = fragment().present().visible().build();
-        assertThat(isPresentAndVisible(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     /**
@@ -25,17 +25,18 @@ public class PresentAndVisibleTest {
     @Test
     public void notPresentButVisiblePageFragmentEvaluatesToFalse() {
         PageFragment fragment = fragment().notPresent().visible().build();
-        assertThat(isPresentAndVisible(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
     public void presentButInvisiblePageFragmentEvaluatesToFalse() {
         PageFragment fragment = fragment().present().invisible().build();
-        assertThat(isPresentAndVisible(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean isPresentAndVisible(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("present and visible");
     }
 
 }

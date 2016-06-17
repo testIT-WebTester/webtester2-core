@@ -15,17 +15,18 @@ public class EnabledTest {
     @Test
     public void enabledPageFragmentEvaluatesToTrue() {
         PageFragment fragment = fragment().enabled().build();
-        assertThat(isEnabled(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void disabledPageFragmentEvaluatesToFalse() {
         PageFragment fragment = fragment().disabled().build();
-        assertThat(isEnabled(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean isEnabled(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("enabled");
     }
 
 }

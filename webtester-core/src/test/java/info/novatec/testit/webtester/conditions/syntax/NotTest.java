@@ -1,31 +1,35 @@
 package info.novatec.testit.webtester.conditions.syntax;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.conditions.Condition;
 
 
-@RunWith(MockitoJUnitRunner.class)
 public class NotTest {
 
-    @Mock
-    PageFragment fragment;
+    Object object = new Object();
 
     @Test
-    public void trueIsInvertedToFalse() {
-        Not<PageFragment> cut = new Not<>(fragment -> true);
-        assertThat(cut.test(fragment)).isFalse();
+    public void trueConditionEvaluatesToFalse() {
+        Not<Object> cut = new Not<>(object -> true);
+        assertThat(cut.test(object)).isFalse();
     }
 
     @Test
-    public void falseIsInvertedToTrue() {
-        Not<PageFragment> cut = new Not<>(fragment -> false);
-        assertThat(cut.test(fragment)).isTrue();
+    public void falseConditionEvaluatesToTrue() {
+        Not<Object> cut = new Not<>(object -> false);
+        assertThat(cut.test(object)).isTrue();
+    }
+
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        Condition<Object> condition = mock(Condition.class);
+        doReturn("condition").when(condition).toString();
+        assertThat(new Not<>(condition)).hasToString("not(condition)");
     }
 
 }

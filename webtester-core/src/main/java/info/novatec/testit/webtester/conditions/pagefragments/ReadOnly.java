@@ -33,7 +33,7 @@ public class ReadOnly implements Condition<PageFragment> {
 
     @Override
     public String toString() {
-        return "read-only";
+        return "read only";
     }
 
 }

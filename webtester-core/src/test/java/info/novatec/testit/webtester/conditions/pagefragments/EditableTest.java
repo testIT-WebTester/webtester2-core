@@ -20,7 +20,7 @@ public class EditableTest {
             .enabled()
             .writable()
             .build();
-        assertThat(isEditable(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
@@ -31,7 +31,7 @@ public class EditableTest {
             .enabled()
             .writable()
             .build();
-        assertThat(isEditable(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
@@ -42,7 +42,7 @@ public class EditableTest {
             .enabled()
             .writable()
             .build();
-        assertThat(isEditable(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
@@ -53,7 +53,7 @@ public class EditableTest {
             .disabled()
             .writable()
             .build();
-        assertThat(isEditable(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
@@ -64,11 +64,12 @@ public class EditableTest {
             .enabled()
             .readOnly()
             .build();
-        assertThat(isEditable(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean isEditable(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("editable");
     }
 
 }

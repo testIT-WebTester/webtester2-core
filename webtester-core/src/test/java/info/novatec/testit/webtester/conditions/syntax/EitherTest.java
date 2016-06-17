@@ -3,12 +3,12 @@ package info.novatec.testit.webtester.conditions.syntax;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
@@ -18,115 +18,110 @@ import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
-@SuppressWarnings("unchecked")
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Enclosed.class)
 public class EitherTest {
 
-    @Mock
-    PageFragment fragment;
+    @RunWith(MockitoJUnitRunner.class)
+    public static class TestCondition {
 
-    @Test
-    public void testThatConditionEvaluatesOrCorrectly_TrueTrue() {
-        Either<PageFragment> cut = buildClassUnderTest()
-            .addConditionReturning(true)
-            .addConditionReturning(true)
-            .build();
-        assertThat(cut.test(fragment)).isTrue();
-    }
+        @Mock
+        PageFragment fragment;
+        @Mock
+        Condition<PageFragment> true1;
+        @Mock
+        Condition<PageFragment> true2;
+        @Mock
+        Condition<PageFragment> false1;
+        @Mock
+        Condition<PageFragment> false2;
 
-    @Test
-    public void testThatConditionEvaluatesOrCorrectly_TrueFalse() {
-        Either<PageFragment> cut = buildClassUnderTest()
-            .addConditionReturning(true)
-            .addConditionReturning(false)
-            .build();
-        assertThat(cut.test(fragment)).isTrue();
-    }
-
-    @Test
-    public void testThatConditionEvaluatesOrCorrectly_FalseTrue() {
-        Either<PageFragment> cut = buildClassUnderTest()
-            .addConditionReturning(false)
-            .addConditionReturning(true)
-            .build();
-        assertThat(cut.test(fragment)).isTrue();
-    }
-
-    @Test
-    public void testThatConditionEvaluatesOrCorrectly_FalseFalse() {
-        Either<PageFragment> cut = buildClassUnderTest()
-            .addConditionReturning(false)
-            .addConditionReturning(false)
-            .build();
-        assertThat(cut.test(fragment)).isFalse();
-    }
-
-    @Test
-    public void testThatConditionsAreCalledInOrder() {
-
-        Condition<PageFragment> first = createConditionReturning(false);
-        Condition<PageFragment> second = createConditionReturning(false);
-        Condition<PageFragment> third = createConditionReturning(false);
-
-        Either<PageFragment> cut = buildClassUnderTest().addCondition(first)
-            .addCondition(second)
-            .addCondition(third)
-            .build();
-        cut.test(fragment);
-
-        InOrder inOrder = inOrder(first, second, third);
-        inOrder.verify(first).test(fragment);
-        inOrder.verify(second).test(fragment);
-        inOrder.verify(third).test(fragment);
-        inOrder.verifyNoMoreInteractions();
-
-    }
-
-    @Test
-    public void testThatFirstPositiveEvaluationStopsTheEvaluationOfRemainingConditions() {
-
-        Condition<PageFragment> first = createConditionReturning(true);
-        Condition<PageFragment> second = createConditionReturning(true);
-
-        Either<PageFragment> cut = buildClassUnderTest().addCondition(first).addCondition(second).build();
-        cut.test(fragment);
-
-        InOrder inOrder = inOrder(first, second);
-        inOrder.verify(first).test(fragment);
-        inOrder.verifyNoMoreInteractions();
-
-    }
-
-    /* details */
-
-    EitherTestBuilder buildClassUnderTest() {
-        return new EitherTestBuilder();
-    }
-
-    Condition<PageFragment> createConditionReturning(boolean result) {
-        Condition<PageFragment> condition = mock(Condition.class);
-        doReturn(result).when(condition).test(fragment);
-        return condition;
-    }
-
-    class EitherTestBuilder {
-
-        List<Condition<PageFragment>> conditions = new LinkedList<>();
-
-        EitherTestBuilder addConditionReturning(boolean result) {
-            Condition<PageFragment> condition = mock(Condition.class);
-            doReturn(result).when(condition).test(fragment);
-            conditions.add(condition);
-            return this;
+        @Before
+        public void prepareConditions() {
+            doReturn(true).when(true1).test(fragment);
+            doReturn(true).when(true2).test(fragment);
+            doReturn(false).when(false1).test(fragment);
+            doReturn(false).when(false2).test(fragment);
         }
 
-        EitherTestBuilder addCondition(Condition<PageFragment> condition) {
-            conditions.add(condition);
-            return this;
+        @Test
+        public void oneTrueConditionEvaluatesToTrue() {
+            Either<PageFragment> either = new Either<>(true1);
+            assertThat(either.test(fragment)).isTrue();
         }
 
-        Either<PageFragment> build() {
-            return new Either<>(conditions.toArray(new Condition[conditions.size()]));
+        @Test
+        public void oneFalseConditionEvaluatesToFalse() {
+            Either<PageFragment> either = new Either<>(false1);
+            assertThat(either.test(fragment)).isFalse();
+        }
+
+        @Test
+        public void twoTrueConditionsEvaluateToTrue() {
+            Either<PageFragment> either = new Either<>(true1, true2);
+            assertThat(either.test(fragment)).isTrue();
+        }
+
+        @Test
+        public void twoFalseConditionsEvaluateToFalse() {
+            Either<PageFragment> either = new Either<>(false1, false2);
+            assertThat(either.test(fragment)).isFalse();
+        }
+
+        @Test
+        public void trueAndFalseConditionsEvaluateToTrue() {
+            Either<PageFragment> either = new Either<>(true1, false1);
+            assertThat(either.test(fragment)).isTrue();
+        }
+
+        @Test
+        public void falseAndTrueConditionsEvaluateToTrue() {
+            Either<PageFragment> either = new Either<>(false1, true1);
+            assertThat(either.test(fragment)).isTrue();
+        }
+
+        @Test
+        public void firstTrueWillSkipFurtherEvaluation() {
+            new Either<>(true1, true2).test(fragment);
+            verify(true1).test(fragment);
+            verifyZeroInteractions(true2);
+        }
+
+        @Test
+        public void conditionsAreEvaluatedInOrder() {
+            new Either<>(false1, false2, true1).test(fragment);
+            InOrder inOrder = inOrder(false1, false2, true1);
+            inOrder.verify(false1).test(fragment);
+            inOrder.verify(false2).test(fragment);
+            inOrder.verify(true1).test(fragment);
+            inOrder.verifyNoMoreInteractions();
+        }
+
+    }
+
+    @RunWith(MockitoJUnitRunner.class)
+    public static class ToString {
+
+        @Mock
+        Condition<Object> first;
+        @Mock
+        Condition<Object> second;
+
+        @Before
+        public void prepareConditions() {
+            doReturn("first").when(first).toString();
+            doReturn("second").when(second).toString();
+        }
+
+        @Test
+        public void toStringFormatsCorrectlyForOneCondition() {
+            Either<Object> either = new Either<>(first);
+            assertThat(either).hasToString("either(first)");
+        }
+
+        @Test
+        public void toStringFormatsCorrectlyForMultipleConditions() {
+            Either<Object> either = new Either<>(first, second);
+            assertThat(either).hasToString("either(first, second)");
         }
 
     }

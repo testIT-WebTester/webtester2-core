@@ -15,23 +15,24 @@ public class SelectedTextTest {
     @Test
     public void matchingSelectionEvaluatesToTrue() {
         SingleSelect select = singleSelect().withSelectedText("foo").build();
-        assertThat(hasSelectedText(select)).isTrue();
+        assertThat(cut.test(select)).isTrue();
     }
 
     @Test
     public void differentSelectionEvaluatesToFalse() {
         SingleSelect select = singleSelect().withSelectedText("bar").build();
-        assertThat(hasSelectedText(select)).isFalse();
+        assertThat(cut.test(select)).isFalse();
     }
 
     @Test
     public void noSelectionEvaluatesToFalse() {
         SingleSelect select = singleSelect().withoutSelectedText().build();
-        assertThat(hasSelectedText(select)).isFalse();
+        assertThat(cut.test(select)).isFalse();
     }
 
-    boolean hasSelectedText(SingleSelect select) {
-        return cut.test(select);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("selected text: foo");
     }
 
 }
