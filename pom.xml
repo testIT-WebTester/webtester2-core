@@ -97,12 +97,12 @@
 		<version.maven.failsafe.plugin>2.19.1</version.maven.failsafe.plugin>
 		<version.maven.pmd.plugin>3.6</version.maven.pmd.plugin>
 		<version.maven.checkstyle.plugin>2.17</version.maven.checkstyle.plugin>
-
-		<version.findbugs.maven.plugin>3.0.3</version.findbugs.maven.plugin>
-		<version.cobertura.maven.plugin>2.7</version.cobertura.maven.plugin>
-		<version.license.maven.plugin>1.8</version.license.maven.plugin>
 		<version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
 		<version.maven.nexus.staging.plugin> 1.6.7</version.maven.nexus.staging.plugin>
+
+		<version.findbugs.maven.plugin>3.0.3</version.findbugs.maven.plugin>
+		<version.license.maven.plugin>1.8</version.license.maven.plugin>
+		<version.jacoco.maven.plugin>0.7.6.201602180812</version.jacoco.maven.plugin>
 
 	</properties>
 
@@ -287,6 +287,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<!-- record coverage metrics -->
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -519,22 +526,29 @@
 						<xmlOutput>true</xmlOutput>
 					</configuration>
 				</plugin>
+
 				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>cobertura-maven-plugin</artifactId>
-					<version>${version.cobertura.maven.plugin}</version>
-					<configuration>
-						<instrumentation>
-							<excludes>
-								<exclude>**/*Test.class</exclude>
-							</excludes>
-						</instrumentation>
-					</configuration>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${version.jacoco.maven.plugin}</version>
 					<executions>
 						<execution>
 							<goals>
-								<goal>clean</goal>
-								<goal>cobertura</goal>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>record-unit-test-coverage</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>record-int-test-coverage</id>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>report</goal>
 							</goals>
 						</execution>
 					</executions>

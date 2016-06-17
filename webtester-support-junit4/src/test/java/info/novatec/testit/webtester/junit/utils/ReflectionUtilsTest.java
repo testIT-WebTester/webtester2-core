@@ -21,8 +21,7 @@ public class ReflectionUtilsTest {
 
         Set<Field> fields = ReflectionUtils.getAllFieldsOfClassHierarchy(Child.class);
 
-        assertThat(fields).hasSize(3);
-        assertThat(fields).containsOnly(childField, fatherField, grandfatherField);
+        assertThat(fields).contains(childField, fatherField, grandfatherField);
 
     }
 
