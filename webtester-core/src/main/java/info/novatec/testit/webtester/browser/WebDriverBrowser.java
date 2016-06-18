@@ -5,14 +5,15 @@ import org.openqa.selenium.WebDriver;
 
 import lombok.extern.slf4j.Slf4j;
 
+import info.novatec.testit.webtester.adhoc.AdHocFinder;
 import info.novatec.testit.webtester.browser.operations.AlertHandler;
+import info.novatec.testit.webtester.browser.operations.CurrentWindow;
 import info.novatec.testit.webtester.browser.operations.FocusSetter;
 import info.novatec.testit.webtester.browser.operations.JavaScriptExecutor;
 import info.novatec.testit.webtester.browser.operations.Navigator;
-import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
 import info.novatec.testit.webtester.browser.operations.ScreenshotTaker;
-import info.novatec.testit.webtester.browser.operations.CurrentWindow;
+import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -20,7 +21,6 @@ import info.novatec.testit.webtester.events.EventSystemImpl;
 import info.novatec.testit.webtester.events.browser.ClosedBrowserEvent;
 import info.novatec.testit.webtester.internal.PageFactory;
 import info.novatec.testit.webtester.pages.Page;
-import info.novatec.testit.webtester.adhoc.AdHocFinder;
 
 
 /**
@@ -44,7 +44,6 @@ import info.novatec.testit.webtester.adhoc.AdHocFinder;
 public final class WebDriverBrowser implements Browser {
 
     private final Configuration configuration;
-
     private final WebDriver webDriver;
 
     private final UrlOpener open;
@@ -54,11 +53,12 @@ public final class WebDriverBrowser implements Browser {
     private final ScreenshotTaker screenshot;
     private final PageSourceSaver pageSource;
     private final JavaScriptExecutor javaScript;
+    private final FocusSetter focus;
     private final EventSystem eventSystem;
+
     private final AdHocFinder adHocFinder;
     private final PageFactory pageFactory;
 
-    private final FocusSetter focus;
     private boolean closed;
 
     private WebDriverBrowser(Configuration configuration, WebDriver webDriver) {
@@ -75,6 +75,7 @@ public final class WebDriverBrowser implements Browser {
         this.javaScript = new JavaScriptExecutor(this);
         this.focus = new FocusSetter(this);
         this.eventSystem = new EventSystemImpl(this);
+
         this.adHocFinder = new AdHocFinder(this);
         this.pageFactory = new PageFactory(this);
 
@@ -89,15 +90,9 @@ public final class WebDriverBrowser implements Browser {
     public void close() {
         if (!closed) {
             log.debug("closing browser {}", this);
-            try {
-                EventSystem events = events();
-                if(events.isEnabled()) {
-                    events.fireEvent(new ClosedBrowserEvent());
-                }
-            } finally {
-                webDriver().quit();
-                closed = true;
-            }
+            events().fireEvent(new ClosedBrowserEvent());
+            webDriver().quit();
+            closed = true;
         } else {
             log.debug("browser {} already closed - ignoring call to close", this);
         }
