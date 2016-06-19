@@ -1,12 +1,11 @@
 package info.novatec.testit.webtester.browser.operations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -14,20 +13,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.TargetLocator;
 
 import utils.MockFactory;
-import utils.events.EventCaptor;
-import utils.events.ExceptionEventCaptor;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.WebDriverBrowser;
-import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.SwitchedToDefaultContentEvent;
 import info.novatec.testit.webtester.events.browser.SwitchedToFrameEvent;
@@ -41,147 +39,176 @@ public class FocusSetterTest {
     @RunWith(MockitoJUnitRunner.class)
     public static abstract class AbstractFocusSetterTest {
 
-        static final int INDEX = 42;
-        static final String NAME_OR_ID = "fooBar";
-        static final String NAME_OR_HANDLE = NAME_OR_ID;
-
-        @Mock
-        Configuration configuration;
-        @Mock
+        @Mock(answer = Answers.RETURNS_DEEP_STUBS)
         WebDriver webDriver;
         @Mock
-        TargetLocator targetLocator;
-
+        EventSystem events;
+        @Mock
         Browser browser;
-        EventSystem eventSystem;
 
+        @InjectMocks
         FocusSetter cut;
 
         @Before
         public void init() throws IOException {
-            doReturn(targetLocator).when(webDriver).switchTo();
-            doReturn(true).when(configuration).isEventSystemEnabled();
-            browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
-            eventSystem = browser.events();
-            cut = new FocusSetter(browser);
+            doReturn(webDriver).when(browser).webDriver();
+            doReturn(events).when(browser).events();
+            doReturn(true).when(events).isEnabled();
         }
 
     }
 
     public static class FocusOnFrameByIndex extends AbstractFocusSetterTest {
 
+        @Captor
+        ArgumentCaptor<SwitchedToFrameEvent> eventCaptor;
+
         @Test
         public void switchingToFrameByIndexInvokesCorrectLocatorMethod() {
-            cut.onFrame(INDEX);
-            verify(targetLocator).frame(INDEX);
+            cut.onFrame(42);
+            verify(webDriver.switchTo()).frame(42);
         }
 
         @Test
         public void switchingToFrameByIndexFiresEvent() {
-            EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
-                .execute(() -> cut.onFrame(INDEX))
-                .assertEventWasFired()
-                .assertEvent(event -> assertThat(event.getTarget()).isEqualTo(String.valueOf(INDEX)));
+            cut.onFrame(42);
+            verify(events).fireEvent(eventCaptor.capture());
+            SwitchedToFrameEvent event = eventCaptor.getValue();
+            assertThat(event.getTarget()).isEqualTo("42");
         }
 
-        @Test
+        @Test(expected = NoSuchFrameException.class)
         public void switchingToFrameByUnknownIndexThrowsException() {
-            doThrow(mock(NoSuchFrameException.class)).when(targetLocator).frame(anyInt());
-            ExceptionEventCaptor.capture(eventSystem, NoSuchFrameException.class)
-                .execute(() -> cut.onFrame(INDEX))
-                .assertExceptionWasThrown()
-                .assertExceptionEventWasFired();
+            NoSuchFrameException exception = mock(NoSuchFrameException.class);
+            when(webDriver.switchTo().frame(42)).thenThrow(exception);
+            try {
+                cut.onFrame(42);
+            } finally {
+                verify(events).fireExceptionEvent(exception);
+                verifyNoMoreInteractions(events);
+            }
         }
 
     }
 
     public static class FocusOnFrameByNameOrId extends AbstractFocusSetterTest {
 
+        @Captor
+        ArgumentCaptor<SwitchedToFrameEvent> eventCaptor;
+
         @Test
         public void switchingToFrameByNameOrIdInvokesCorrectLocatorMethod() {
-            cut.onFrame(NAME_OR_ID);
-            verify(targetLocator).frame(NAME_OR_ID);
+            cut.onFrame("fooBar");
+            verify(webDriver.switchTo()).frame("fooBar");
         }
 
         @Test
         public void switchingToFrameByNameOrIdFiresEvent() {
-            EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
-                .execute(() -> cut.onFrame(NAME_OR_ID))
-                .assertEventWasFired()
-                .assertEvent(event -> assertThat(event.getTarget()).isEqualTo(NAME_OR_ID));
+            cut.onFrame("fooBar");
+            verify(events).fireEvent(eventCaptor.capture());
+            SwitchedToFrameEvent event = eventCaptor.getValue();
+            assertThat(event.getTarget()).isEqualTo("fooBar");
         }
 
-        @Test
+        @Test(expected = NoSuchFrameException.class)
         public void switchingToFrameByUnknownNameOrIdThrowsException() {
-            doThrow(mock(NoSuchFrameException.class)).when(targetLocator).frame(anyString());
-            ExceptionEventCaptor.capture(eventSystem, NoSuchFrameException.class)
-                .execute(() -> cut.onFrame(NAME_OR_ID))
-                .assertExceptionWasThrown()
-                .assertExceptionEventWasFired();
+            NoSuchFrameException exception = mock(NoSuchFrameException.class);
+            when(webDriver.switchTo().frame("fooBar")).thenThrow(exception);
+            try {
+                cut.onFrame("fooBar");
+            } finally {
+                verify(events).fireExceptionEvent(exception);
+                verifyNoMoreInteractions(events);
+            }
         }
 
     }
 
     public static class FocusOnFrameByPageFragment extends AbstractFocusSetterTest {
 
+        @Captor
+        ArgumentCaptor<SwitchedToFrameEvent> eventCaptor;
+
         @Test
         public void switchingToFrameByPageFragmentInvokesCorrectLocatorMethod() {
             PageFragment fragment = MockFactory.fragment().build();
             cut.onFrame(fragment);
-            verify(targetLocator).frame(fragment.webElement());
+            verify(webDriver.switchTo()).frame(fragment.webElement());
         }
 
         @Test
         public void switchingToFrameByPageFragmentFiresEvent() {
             PageFragment fragment = MockFactory.fragment().withName("The Name").build();
-            EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
-                .execute(() -> cut.onFrame(fragment))
-                .assertEventWasFired()
-                .assertEvent(event -> assertThat(event.getTarget()).isEqualTo("The Name"));
+            cut.onFrame(fragment);
+            verify(events).fireEvent(eventCaptor.capture());
+            SwitchedToFrameEvent event = eventCaptor.getValue();
+            assertThat(event.getTarget()).isEqualTo("The Name");
+        }
+
+        @Test(expected = NoSuchFrameException.class)
+        public void switchingToFrameByNonFrameFragmentThrowsException() {
+            PageFragment fragment = MockFactory.fragment().withName("The Name").build();
+            NoSuchFrameException exception = mock(NoSuchFrameException.class);
+            when(webDriver.switchTo().frame(fragment.webElement())).thenThrow(exception);
+            try {
+                cut.onFrame(fragment);
+            } finally {
+                verify(events).fireExceptionEvent(exception);
+                verifyNoMoreInteractions(events);
+            }
         }
 
     }
 
     public static class FocusOnWindowByNameOrHandle extends AbstractFocusSetterTest {
 
+        @Captor
+        ArgumentCaptor<SwitchedToWindowEvent> eventCaptor;
+
         @Test
         public void switchingToWindowByNameOrHandleInvokesCorrectLocatorMethod() {
-            cut.onWindow(NAME_OR_HANDLE);
-            verify(targetLocator).window(NAME_OR_HANDLE);
+            cut.onWindow("fooBar");
+            verify(webDriver.switchTo()).window("fooBar");
         }
 
         @Test
         public void switchingToWindowByNameOrHandleFiresEvent() {
-            EventCaptor.capture(eventSystem, SwitchedToWindowEvent.class)
-                .execute(() -> cut.onWindow(NAME_OR_HANDLE))
-                .assertEventWasFired()
-                .assertEvent(event -> assertThat(event.getNameOrHandle()).isEqualTo(NAME_OR_HANDLE));
+            cut.onWindow("fooBar");
+            verify(events).fireEvent(eventCaptor.capture());
+            SwitchedToWindowEvent event = eventCaptor.getValue();
+            assertThat(event.getNameOrHandle()).isEqualTo("fooBar");
         }
 
-        @Test
+        @Test(expected = NoSuchWindowException.class)
         public void switchingToWindowByUnknownNameOrHandleThrowsException() {
-            doThrow(mock(NoSuchWindowException.class)).when(targetLocator).window(anyString());
-            ExceptionEventCaptor.capture(eventSystem, NoSuchWindowException.class)
-                .execute(() -> cut.onWindow(NAME_OR_HANDLE))
-                .assertExceptionWasThrown()
-                .assertExceptionEventWasFired();
+            NoSuchWindowException exception = mock(NoSuchWindowException.class);
+            when(webDriver.switchTo().window("fooBar")).thenThrow(exception);
+            try {
+                cut.onWindow("fooBar");
+            } finally {
+                verify(events).fireExceptionEvent(exception);
+                verifyNoMoreInteractions(events);
+            }
         }
 
     }
 
     public static class FocusOnDefaultContent extends AbstractFocusSetterTest {
 
+        @Captor
+        ArgumentCaptor<SwitchedToDefaultContentEvent> eventCaptor;
+
         @Test
         public void switchingToDefaultContentInvokesCorrectLocatorMethod() {
             cut.onDefaultContent();
-            verify(targetLocator).defaultContent();
+            verify(webDriver.switchTo()).defaultContent();
         }
 
         @Test
         public void switchingToDefaultContentFiresEvent() {
-            EventCaptor.capture(eventSystem, SwitchedToDefaultContentEvent.class)
-                .execute(() -> cut.onDefaultContent())
-                .assertEventWasFired();
+            cut.onDefaultContent();
+            verify(events).fireEvent(eventCaptor.capture());
+            assertThat(eventCaptor.getValue()).isNotNull();
         }
 
     }

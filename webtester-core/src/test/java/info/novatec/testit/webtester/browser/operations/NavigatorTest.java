@@ -1,5 +1,6 @@
 package info.novatec.testit.webtester.browser.operations;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -8,99 +9,125 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.WebDriver;
 
-import utils.events.EventCaptor;
-import utils.events.MultiEventCaptor;
-
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.WebDriverBrowser;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.NavigatedBackwardsEvent;
 import info.novatec.testit.webtester.events.browser.NavigatedForwardsEvent;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Enclosed.class)
 public class NavigatorTest {
 
-    @Mock
-    WebDriver webDriver;
-    @Mock
-    WebDriver.Navigation navigation;
+    @RunWith(MockitoJUnitRunner.class)
+    public static abstract class AbstractNavigatorTest {
 
-    Browser browser;
-    EventSystem eventSystem;
-    Navigator cut;
+        @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+        WebDriver webDriver;
+        @Mock
+        EventSystem events;
+        @Mock
+        Browser browser;
 
-    @Before
-    public void init() throws IOException {
-        doReturn(navigation).when(webDriver).navigate();
-        browser = WebDriverBrowser.forWebDriver(webDriver).build();
-        eventSystem = browser.events();
-        cut = new Navigator(browser);
+        @InjectMocks
+        Navigator cut;
+
+        @Before
+        public void init() throws IOException {
+            doReturn(webDriver).when(browser).webDriver();
+            doReturn(events).when(browser).events();
+            doReturn(true).when(events).isEnabled();
+        }
+
     }
 
-    /* forwards */
+    public static class Forwards extends AbstractNavigatorTest {
 
-    @Test
-    public void navigatingForwardsDelegatesToCorrectWebDriverCall() {
-        cut.forwards();
-        verify(navigation).forward();
+        @Captor
+        ArgumentCaptor<NavigatedForwardsEvent> eventCaptor;
+
+        @Test
+        public void navigatingForwardsDelegatesToCorrectWebDriverCall() {
+            cut.forwards();
+            verify(webDriver.navigate()).forward();
+        }
+
+        @Test
+        public void navigatingForwardsFiresEvent() {
+            cut.forwards();
+            verify(events).fireEvent(eventCaptor.capture());
+            assertThat(eventCaptor.getValue()).isNotNull();
+        }
+
     }
 
-    @Test
-    public void navigatingForwardsFiresEvent() {
-        EventCaptor.capture(eventSystem, NavigatedForwardsEvent.class)
-            .execute(() -> cut.forwards())
-            .assertEventWasFired();
+    public static class MultipleForwards extends AbstractNavigatorTest {
+
+        @Captor
+        ArgumentCaptor<NavigatedForwardsEvent> eventCaptor;
+
+        @Test
+        public void navigatingForwardsMultipleTimesDelegatesToCorrectWebDriverCall() {
+            cut.forwards(10);
+            verify(webDriver.navigate(), times(10)).forward();
+        }
+
+        @Test
+        public void navigatingForwardsMultipleTimesFiresMultipleEvents() {
+            cut.forwards(10);
+            verify(events, times(10)).fireEvent(eventCaptor.capture());
+            eventCaptor.getAllValues().forEach(event -> assertThat(event).isNotNull());
+        }
+
     }
 
-    /* multiple forwards */
+    public static class Backwards extends AbstractNavigatorTest {
 
-    @Test
-    public void navigatingForwardsMultipleTimesDelegatesToCorrectWebDriverCall() {
-        cut.forwards(10);
-        verify(navigation, times(10)).forward();
+        @Captor
+        ArgumentCaptor<NavigatedBackwardsEvent> eventCaptor;
+
+        @Test
+        public void navigatingBackwardsDelegatesToCorrectWebDriverCall() {
+            cut.backwards();
+            verify(webDriver.navigate()).back();
+        }
+
+        @Test
+        public void navigatingBackwardsFiresEvent() {
+            cut.backwards();
+            verify(events).fireEvent(eventCaptor.capture());
+            assertThat(eventCaptor.getValue()).isNotNull();
+        }
+
     }
 
-    @Test
-    public void navigatingForwardsMultipleTimesFiresMultipleEvents() {
-        MultiEventCaptor.capture(eventSystem, NavigatedForwardsEvent.class)
-            .execute(() -> cut.forwards(10))
-            .assertEventsWereFired(10);
-    }
+    public static class MultipleBackwards extends AbstractNavigatorTest {
 
-    /* backwards */
+        @Captor
+        ArgumentCaptor<NavigatedBackwardsEvent> eventCaptor;
 
-    @Test
-    public void navigatingBackwardsDelegatesToCorrectWebDriverCall() {
-        cut.backwards();
-        verify(navigation).back();
-    }
+        @Test
+        public void navigatingBackwardsMultipleTimesDelegatesToCorrectWebDriverCall() {
+            cut.backwards(10);
+            verify(webDriver.navigate(), times(10)).back();
+        }
 
-    @Test
-    public void navigatingBackwardsFiresEvent() {
-        EventCaptor.capture(eventSystem, NavigatedBackwardsEvent.class)
-            .execute(() -> cut.backwards())
-            .assertEventWasFired();
-    }
+        @Test
+        public void navigatingBackwardsMultipleTimesFiresMultipleEvents() {
+            cut.backwards(10);
+            verify(events, times(10)).fireEvent(eventCaptor.capture());
+            eventCaptor.getAllValues().forEach(event -> assertThat(event).isNotNull());
+        }
 
-    /* multiple backwards */
-
-    @Test
-    public void navigatingBackwardsMultipleTimesDelegatesToCorrectWebDriverCall() {
-        cut.backwards(10);
-        verify(navigation, times(10)).back();
-    }
-
-    @Test
-    public void navigatingBackwardsMultipleTimesFiresMultipleEvents() {
-        MultiEventCaptor.capture(eventSystem, NavigatedBackwardsEvent.class)
-            .execute(() -> cut.backwards(10))
-            .assertEventsWereFired(10);
     }
 
 }
