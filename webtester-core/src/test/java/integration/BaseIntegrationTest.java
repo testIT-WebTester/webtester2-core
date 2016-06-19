@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -21,13 +24,35 @@ import info.novatec.testit.webtester.pages.Page;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BaseIntegrationTest {
 
+    private static final String TEST_PAGE_SERVER_HOST = System.getProperty("testPageServerHost", "localhost");
+
+    private static final int TEST_PAGE_SERVER_PORT = Integer.parseInt(System.getProperty("testPageServerPort", "8080"));
+
+    private static final String TEST_PAGE_SERVER_BASE_ADDRESS = String.format("http://%s:%d/", TEST_PAGE_SERVER_HOST, TEST_PAGE_SERVER_PORT);
+
+    private static Server server;
+
     private static Browser browser;
 
     @BeforeClass
-    public static void setUpBeforeClass() {
+    public static void setupBrowser() {
         if (browser == null) {
             browser = new TestBrowserFactory().createBrowser();
         }
+    }
+
+    @BeforeClass
+    public static void startTestPageServer() throws Exception {
+        server = new Server(TEST_PAGE_SERVER_PORT);
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setResourceBase(getTestResourceFolder().getCanonicalPath());
+        server.setHandler(resourceHandler);
+        server.start();
+    }
+
+    @AfterClass
+    public static void stopTestPageServer() throws Exception {
+        server.stop();
     }
 
     @Before
@@ -79,18 +104,13 @@ public class BaseIntegrationTest {
     }
 
     protected static String getUrlFor(String fileName) {
+        assertThatFileResourceExists(fileName);
+        return TEST_PAGE_SERVER_BASE_ADDRESS + fileName;
+    }
 
-        File testResourceFolder = getTestResourceFolder();
-        File testResourceFile = new File(testResourceFolder, fileName);
-
+    private static void assertThatFileResourceExists(String fileName) {
+        File testResourceFile = new File(getTestResourceFolder(), fileName);
         assertThat(testResourceFile.isFile()).withFailMessage("file not found: " + testResourceFile).isTrue();
-
-        String systemDependentPath = testResourceFile.getAbsolutePath();
-        String replacedBackslashes = systemDependentPath.replaceAll("\\\\", "/");
-        String replacedWhitespaces = replacedBackslashes.replaceAll(" ", "%20");
-
-        return "file:///" + replacedWhitespaces;
-
     }
 
     private static File getTestResourceFolder() {

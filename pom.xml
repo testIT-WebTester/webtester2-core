@@ -67,6 +67,8 @@
 		<version.mockito>1.10.19</version.mockito>
 		<version.checkstyle>6.9</version.checkstyle>
 
+		<version.jetty-server>9.4.0.M0</version.jetty-server>
+
 		<version.selenium>2.53.0</version.selenium>
 
 		<version.slf4j>1.7.12</version.slf4j>
@@ -236,6 +238,12 @@
 				<groupId>com.puppycrawl.tools</groupId>
 				<artifactId>checkstyle</artifactId>
 				<version>${version.checkstyle}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>${version.jetty-server}</version>
 			</dependency>
 
 		</dependencies>
