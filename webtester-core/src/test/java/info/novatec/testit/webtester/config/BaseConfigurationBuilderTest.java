@@ -104,18 +104,20 @@ public class BaseConfigurationBuilderTest {
 
         ConfigurationAdapter adapter1 = mock(ConfigurationAdapter.class);
         ConfigurationAdapter adapter2 = mock(ConfigurationAdapter.class);
-        ConfigurationExporter exporter = mock(ConfigurationExporter.class);
+        ConfigurationExporter exporter1 = mock(ConfigurationExporter.class);
+        ConfigurationExporter exporter2 = mock(ConfigurationExporter.class);
 
         Configuration configuration = new BaseConfigurationBuilder()
             .withAdapter(adapter)
             .withAdapters(adapter1, adapter2)
-            .withExporter(exporter)
+            .withExporters(exporter1, exporter2)
             .build();
 
-        InOrder inOrder = inOrder(adapter1, adapter2, exporter);
+        InOrder inOrder = inOrder(adapter1, adapter2, exporter1, exporter2);
         inOrder.verify(adapter1).adapt(configuration);
         inOrder.verify(adapter2).adapt(configuration);
-        inOrder.verify(exporter).export("foo", "value");
+        inOrder.verify(exporter1).export("foo", "value");
+        inOrder.verify(exporter2).export("foo", "value");
         inOrder.verifyNoMoreInteractions();
 
     }

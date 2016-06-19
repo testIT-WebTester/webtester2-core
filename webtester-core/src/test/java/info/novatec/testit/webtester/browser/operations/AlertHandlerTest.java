@@ -1,6 +1,7 @@
 package info.novatec.testit.webtester.browser.operations;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.Alert;
@@ -20,10 +22,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.security.Credentials;
 import org.openqa.selenium.security.UserAndPassword;
 
-import utils.events.EventCaptor;
-
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.WebDriverBrowser;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.AcceptedAlertEvent;
 import info.novatec.testit.webtester.events.browser.DeclinedAlertEvent;
@@ -37,16 +36,19 @@ public class AlertHandlerTest {
 
         @Mock(answer = Answers.RETURNS_DEEP_STUBS)
         WebDriver webDriver;
-
+        @Mock
+        EventSystem events;
+        @Mock
         Browser browser;
-        EventSystem eventSystem;
+
+        @InjectMocks
         AlertHandler cut;
 
         @Before
-        public void initializeClassUnderTest() {
-            browser = WebDriverBrowser.forWebDriver(webDriver).build();
-            eventSystem = browser.events();
-            cut = new AlertHandler(browser);
+        public void init() {
+            doReturn(webDriver).when(browser).webDriver();
+            doReturn(events).when(browser).events();
+            doReturn(true).when(events).isEnabled();
         }
 
         Alert alertIsPresent(String message) {
@@ -65,6 +67,9 @@ public class AlertHandlerTest {
 
     public static class Accept extends AbstractAlertHandlerTest {
 
+        @Captor
+        ArgumentCaptor<AcceptedAlertEvent> eventCaptor;
+
         @Test
         public void alertsCanBeAccepted() {
             Alert alert = alertIsPresent("hello alert!");
@@ -81,15 +86,18 @@ public class AlertHandlerTest {
         @Test
         public void acceptingAnAlertFiresEvent() {
             alertIsPresent("hello alert!");
-            EventCaptor.capture(eventSystem, AcceptedAlertEvent.class)
-                .execute(() -> cut.accept())
-                .assertEventWasFired()
-                .assertEvent(event -> assertThat(event.getAlertMessage()).isEqualTo("hello alert!"));
+            cut.accept();
+            verify(events).fireEvent(eventCaptor.capture());
+            AcceptedAlertEvent event = eventCaptor.getValue();
+            assertThat(event.getAlertMessage()).isEqualTo("hello alert!");
         }
 
     }
 
     public static class AcceptIfPresent extends AbstractAlertHandlerTest {
+
+        @Captor
+        ArgumentCaptor<AcceptedAlertEvent> eventCaptor;
 
         @Test
         public void alertsCanBeAcceptedIfTheyArePresent() {
@@ -105,9 +113,21 @@ public class AlertHandlerTest {
             // no exception
         }
 
+        @Test
+        public void acceptingAnAlertFiresEvent() {
+            alertIsPresent("hello alert!");
+            cut.acceptIfPresent();
+            verify(events).fireEvent(eventCaptor.capture());
+            AcceptedAlertEvent event = eventCaptor.getValue();
+            assertThat(event.getAlertMessage()).isEqualTo("hello alert!");
+        }
+
     }
 
     public static class Decline extends AbstractAlertHandlerTest {
+
+        @Captor
+        ArgumentCaptor<DeclinedAlertEvent> eventCaptor;
 
         @Test
         public void alertsCanBeDeclined() {
@@ -125,15 +145,18 @@ public class AlertHandlerTest {
         @Test
         public void decliningAnAlertFiresEvent() {
             alertIsPresent("hello alert!");
-            EventCaptor.capture(eventSystem, DeclinedAlertEvent.class)
-                .execute(() -> cut.decline())
-                .assertEventWasFired()
-                .assertEvent(event -> assertThat(event.getAlertMessage()).isEqualTo("hello alert!"));
+            cut.decline();
+            verify(events).fireEvent(eventCaptor.capture());
+            DeclinedAlertEvent event = eventCaptor.getValue();
+            assertThat(event.getAlertMessage()).isEqualTo("hello alert!");
         }
 
     }
 
     public static class DeclineIfPresent extends AbstractAlertHandlerTest {
+
+        @Captor
+        ArgumentCaptor<DeclinedAlertEvent> eventCaptor;
 
         @Test
         public void alertsCanBeDeclinedIfTheyArePresent() {
@@ -147,6 +170,15 @@ public class AlertHandlerTest {
             alertIsNotPresent();
             cut.declineIfPresent();
             // no exception
+        }
+
+        @Test
+        public void decliningAnAlertFiresEvent() {
+            alertIsPresent("hello alert!");
+            cut.declineIfPresent();
+            verify(events).fireEvent(eventCaptor.capture());
+            DeclinedAlertEvent event = eventCaptor.getValue();
+            assertThat(event.getAlertMessage()).isEqualTo("hello alert!");
         }
 
     }
@@ -193,7 +225,7 @@ public class AlertHandlerTest {
 
             Alert alert = alertIsPresent("please sign in");
             Credentials credentials = new UserAndPassword("foo", "bar");
-            browser.alert().authenticateWith(credentials);
+            cut.authenticateWith(credentials);
 
             verify(alert).authenticateUsing(credentials);
 
@@ -203,7 +235,7 @@ public class AlertHandlerTest {
         public void canAuthenticateWithUsernameAndPassword() {
 
             Alert alert = alertIsPresent("please sign in");
-            browser.alert().authenticateWith("foo", "bar");
+            cut.authenticateWith("foo", "bar");
             verify(alert).authenticateUsing(credentialsCaptor.capture());
 
             Credentials credentials = credentialsCaptor.getValue();
