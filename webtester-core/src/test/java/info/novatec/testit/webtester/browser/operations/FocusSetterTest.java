@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -34,157 +35,155 @@ import info.novatec.testit.webtester.events.browser.SwitchedToWindowEvent;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Enclosed.class)
 public class FocusSetterTest {
 
-    private static final int INDEX = 42;
-    private static final String NAME_OR_ID = "fooBar";
-    private static final String NAME_OR_HANDLE = NAME_OR_ID;
+    @RunWith(MockitoJUnitRunner.class)
+    public static abstract class AbstractFocusSetterTest {
 
-    @Mock
-    Configuration configuration;
-    @Mock
-    WebDriver webDriver;
-    @Mock
-    TargetLocator targetLocator;
+        static final int INDEX = 42;
+        static final String NAME_OR_ID = "fooBar";
+        static final String NAME_OR_HANDLE = NAME_OR_ID;
 
-    Browser browser;
-    EventSystem eventSystem;
-    FocusSetter cut;
+        @Mock
+        Configuration configuration;
+        @Mock
+        WebDriver webDriver;
+        @Mock
+        TargetLocator targetLocator;
 
-    @Before
-    public void init() throws IOException {
-        doReturn(targetLocator).when(webDriver).switchTo();
-        doReturn(true).when(configuration).isEventSystemEnabled();
-        browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
-        eventSystem = browser.events();
-        cut = new FocusSetter(browser);
+        Browser browser;
+        EventSystem eventSystem;
+
+        FocusSetter cut;
+
+        @Before
+        public void init() throws IOException {
+            doReturn(targetLocator).when(webDriver).switchTo();
+            doReturn(true).when(configuration).isEventSystemEnabled();
+            browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
+            eventSystem = browser.events();
+            cut = new FocusSetter(browser);
+        }
+
     }
 
-    /* focusing on frame by index */
+    public static class FocusOnFrameByIndex extends AbstractFocusSetterTest {
 
-    @Test
-    public void switchingToFrameByIndexInvokesCorrectLocatorMethod() {
-        executeOnFrameByIndex();
-        verify(targetLocator).frame(INDEX);
+        @Test
+        public void switchingToFrameByIndexInvokesCorrectLocatorMethod() {
+            cut.onFrame(INDEX);
+            verify(targetLocator).frame(INDEX);
+        }
+
+        @Test
+        public void switchingToFrameByIndexFiresEvent() {
+            EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
+                .execute(() -> cut.onFrame(INDEX))
+                .assertEventWasFired()
+                .assertEvent(event -> assertThat(event.getTarget()).isEqualTo(String.valueOf(INDEX)));
+        }
+
+        @Test
+        public void switchingToFrameByUnknownIndexThrowsException() {
+            doThrow(mock(NoSuchFrameException.class)).when(targetLocator).frame(anyInt());
+            ExceptionEventCaptor.capture(eventSystem, NoSuchFrameException.class)
+                .execute(() -> cut.onFrame(INDEX))
+                .assertExceptionWasThrown()
+                .assertExceptionEventWasFired();
+        }
+
     }
 
-    @Test
-    public void switchingToFrameByIndexFiresEvent() {
-        EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
-            .execute(this::executeOnFrameByIndex)
-            .assertEventWasFired()
-            .assertEvent(event -> assertThat(event.getTarget()).isEqualTo(String.valueOf(INDEX)));
+    public static class FocusOnFrameByNameOrId extends AbstractFocusSetterTest {
+
+        @Test
+        public void switchingToFrameByNameOrIdInvokesCorrectLocatorMethod() {
+            cut.onFrame(NAME_OR_ID);
+            verify(targetLocator).frame(NAME_OR_ID);
+        }
+
+        @Test
+        public void switchingToFrameByNameOrIdFiresEvent() {
+            EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
+                .execute(() -> cut.onFrame(NAME_OR_ID))
+                .assertEventWasFired()
+                .assertEvent(event -> assertThat(event.getTarget()).isEqualTo(NAME_OR_ID));
+        }
+
+        @Test
+        public void switchingToFrameByUnknownNameOrIdThrowsException() {
+            doThrow(mock(NoSuchFrameException.class)).when(targetLocator).frame(anyString());
+            ExceptionEventCaptor.capture(eventSystem, NoSuchFrameException.class)
+                .execute(() -> cut.onFrame(NAME_OR_ID))
+                .assertExceptionWasThrown()
+                .assertExceptionEventWasFired();
+        }
+
     }
 
-    @Test
-    public void switchingToFrameByUnknownIndexThrowsException() {
-        doThrow(mock(NoSuchFrameException.class)).when(targetLocator).frame(anyInt());
-        ExceptionEventCaptor.capture(eventSystem, NoSuchFrameException.class)
-            .execute(this::executeOnFrameByIndex)
-            .assertExceptionWasThrown()
-            .assertExceptionEventWasFired();
+    public static class FocusOnFrameByPageFragment extends AbstractFocusSetterTest {
+
+        @Test
+        public void switchingToFrameByPageFragmentInvokesCorrectLocatorMethod() {
+            PageFragment fragment = MockFactory.fragment().build();
+            cut.onFrame(fragment);
+            verify(targetLocator).frame(fragment.webElement());
+        }
+
+        @Test
+        public void switchingToFrameByPageFragmentFiresEvent() {
+            PageFragment fragment = MockFactory.fragment().withName("The Name").build();
+            EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
+                .execute(() -> cut.onFrame(fragment))
+                .assertEventWasFired()
+                .assertEvent(event -> assertThat(event.getTarget()).isEqualTo("The Name"));
+        }
+
     }
 
-    /* focusing on frame by name or id */
+    public static class FocusOnWindowByNameOrHandle extends AbstractFocusSetterTest {
 
-    @Test
-    public void switchingToFrameByNameOrIdInvokesCorrectLocatorMethod() {
-        executeOnFrameByNameOrId();
-        verify(targetLocator).frame(NAME_OR_ID);
+        @Test
+        public void switchingToWindowByNameOrHandleInvokesCorrectLocatorMethod() {
+            cut.onWindow(NAME_OR_HANDLE);
+            verify(targetLocator).window(NAME_OR_HANDLE);
+        }
+
+        @Test
+        public void switchingToWindowByNameOrHandleFiresEvent() {
+            EventCaptor.capture(eventSystem, SwitchedToWindowEvent.class)
+                .execute(() -> cut.onWindow(NAME_OR_HANDLE))
+                .assertEventWasFired()
+                .assertEvent(event -> assertThat(event.getNameOrHandle()).isEqualTo(NAME_OR_HANDLE));
+        }
+
+        @Test
+        public void switchingToWindowByUnknownNameOrHandleThrowsException() {
+            doThrow(mock(NoSuchWindowException.class)).when(targetLocator).window(anyString());
+            ExceptionEventCaptor.capture(eventSystem, NoSuchWindowException.class)
+                .execute(() -> cut.onWindow(NAME_OR_HANDLE))
+                .assertExceptionWasThrown()
+                .assertExceptionEventWasFired();
+        }
+
     }
 
-    @Test
-    public void switchingToFrameByNameOrIdFiresEvent() {
-        EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
-            .execute(this::executeOnFrameByNameOrId)
-            .assertEventWasFired()
-            .assertEvent(event -> assertThat(event.getTarget()).isEqualTo(NAME_OR_ID));
-    }
+    public static class FocusOnDefaultContent extends AbstractFocusSetterTest {
 
-    @Test
-    public void switchingToFrameByUnknownNameOrIdThrowsException() {
-        doThrow(mock(NoSuchFrameException.class)).when(targetLocator).frame(anyString());
-        ExceptionEventCaptor.capture(eventSystem, NoSuchFrameException.class)
-            .execute(this::executeOnFrameByNameOrId)
-            .assertExceptionWasThrown()
-            .assertExceptionEventWasFired();
-    }
+        @Test
+        public void switchingToDefaultContentInvokesCorrectLocatorMethod() {
+            cut.onDefaultContent();
+            verify(targetLocator).defaultContent();
+        }
 
-    /* focusing on frame by page fragment */
+        @Test
+        public void switchingToDefaultContentFiresEvent() {
+            EventCaptor.capture(eventSystem, SwitchedToDefaultContentEvent.class)
+                .execute(() -> cut.onDefaultContent())
+                .assertEventWasFired();
+        }
 
-    @Test
-    public void switchingToFrameByPageFragmentInvokesCorrectLocatorMethod() {
-        PageFragment fragment = MockFactory.fragment().build();
-        cut.onFrame(fragment);
-        verify(targetLocator).frame(fragment.webElement());
-    }
-
-    @Test
-    public void switchingToFrameByPageFragmentFiresEvent() {
-        PageFragment fragment = MockFactory.fragment().withName("The Name").build();
-        EventCaptor.capture(eventSystem, SwitchedToFrameEvent.class)
-            .execute(() ->  cut.onFrame(fragment))
-            .assertEventWasFired()
-            .assertEvent(event -> assertThat(event.getTarget()).isEqualTo("The Name"));
-    }
-
-    /* focusing on window by name or handle */
-
-    @Test
-    public void switchingToWindowByNameOrHandleInvokesCorrectLocatorMethod() {
-        executeOnWindowByNameOrHandle();
-        verify(targetLocator).window(NAME_OR_HANDLE);
-    }
-
-    @Test
-    public void switchingToWindowByNameOrHandleFiresEvent() {
-        EventCaptor.capture(eventSystem, SwitchedToWindowEvent.class)
-            .execute(this::executeOnWindowByNameOrHandle)
-            .assertEventWasFired()
-            .assertEvent(event -> assertThat(event.getNameOrHandle()).isEqualTo(NAME_OR_HANDLE));
-    }
-
-    @Test
-    public void switchingToWindowByUnknownNameOrHandleThrowsException() {
-        doThrow(mock(NoSuchWindowException.class)).when(targetLocator).window(anyString());
-        ExceptionEventCaptor.capture(eventSystem, NoSuchWindowException.class)
-            .execute(this::executeOnWindowByNameOrHandle)
-            .assertExceptionWasThrown()
-            .assertExceptionEventWasFired();
-    }
-
-    /* focusing on default content */
-
-    @Test
-    public void switchingToDefaultContentInvokesCorrectLocatorMethod() {
-        executeOnDefaultContent();
-        verify(targetLocator).defaultContent();
-    }
-
-    @Test
-    public void switchingToDefaultContentFiresEvent() {
-        EventCaptor.capture(eventSystem, SwitchedToDefaultContentEvent.class)
-            .execute(this::executeOnDefaultContent)
-            .assertEventWasFired();
-    }
-
-    /* method execution */
-
-    void executeOnFrameByIndex() {
-        cut.onFrame(INDEX);
-    }
-
-    void executeOnFrameByNameOrId() {
-        cut.onFrame(NAME_OR_ID);
-    }
-
-    void executeOnWindowByNameOrHandle() {
-        cut.onWindow(NAME_OR_HANDLE);
-    }
-
-    void executeOnDefaultContent() {
-        cut.onDefaultContent();
     }
 
 }
