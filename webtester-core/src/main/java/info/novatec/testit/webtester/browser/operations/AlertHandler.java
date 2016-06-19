@@ -1,5 +1,7 @@
 package info.novatec.testit.webtester.browser.operations;
 
+import java.util.Optional;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Beta;
 import org.openqa.selenium.NoAlertPresentException;
@@ -149,11 +151,22 @@ public class AlertHandler extends BaseBrowserOperation {
      * @since 2.0
      */
     public boolean isPresent() {
+        return get().isPresent();
+    }
+
+    /**
+     * Returns the Selenium {@link Alert} instance as an optional.
+     *
+     * @return optional of the alert - if no alert is present the optional will be empty.
+     * @see Alert
+     * @see WebDriver.TargetLocator#alert()
+     * @since 2.0
+     */
+    public Optional<Alert> get() {
         try {
-            webDriver().switchTo().alert();
-            return true;
+            return Optional.of(webDriver().switchTo().alert());
         } catch (NoAlertPresentException e) {
-            return false;
+            return Optional.empty();
         }
     }
 
