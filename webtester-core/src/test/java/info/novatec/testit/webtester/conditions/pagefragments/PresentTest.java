@@ -15,17 +15,18 @@ public class PresentTest {
     @Test
     public void presentPageFragmentEvaluatesToTrue() {
         PageFragment fragment = fragment().present().build();
-        assertThat(isPresent(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void notPresentPageFragmentEvaluatesToFalse() {
         PageFragment fragment = fragment().notPresent().build();
-        assertThat(isPresent(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean isPresent(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("present");
     }
 
 }

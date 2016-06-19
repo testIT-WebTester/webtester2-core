@@ -26,7 +26,7 @@ public class ExceptionEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return "exception occurred: " + exception.getMessage();
+        return "exception occurred: '" + exception.getMessage() + "'";
     }
 
 }

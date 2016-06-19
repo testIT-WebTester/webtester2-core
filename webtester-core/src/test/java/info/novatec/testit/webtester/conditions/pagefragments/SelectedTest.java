@@ -15,17 +15,18 @@ public class SelectedTest {
     @Test
     public void selectedSelectable() {
         Selectable selectable = selectable().isSelected().build();
-        assertThat(isSelected(selectable)).isTrue();
+        assertThat(cut.test(selectable)).isTrue();
     }
 
     @Test
     public void notSelectedSelectable() {
         Selectable selectable = selectable().isNotSelected().build();
-        assertThat(isSelected(selectable)).isFalse();
+        assertThat(cut.test(selectable)).isFalse();
     }
 
-    boolean isSelected(Selectable selectable) {
-        return cut.test(selectable);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("selected");
     }
 
 }

@@ -15,17 +15,18 @@ public class InvisibleTest {
     @Test
     public void invisiblePageFragmentEvaluatesToTrue() {
         PageFragment fragment = fragment().invisible().build();
-        assertThat(isInvisible(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void visiblePageFragmentEvaluatesToFalse() {
         PageFragment fragment = fragment().visible().build();
-        assertThat(isInvisible(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    private boolean isInvisible(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("invisible");
     }
 
 }

@@ -15,23 +15,24 @@ public class VisibleTextContainsTest {
     @Test
     public void matchingATermEvaluatesToTrue() {
         PageFragment fragment = fragment().withVisibleText("foo bar").build();
-        assertThat(containsText(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void matchingWithinATermEvaluatesToTrue() {
         PageFragment fragment = fragment().withVisibleText("barfoobar").build();
-        assertThat(containsText(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void testThatNotMatchingVisibleTextEvaluatesToFalse() {
         PageFragment fragment = fragment().withVisibleText("bar boo").build();
-        assertThat(containsText(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean containsText(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("visible text contains: foo");
     }
 
 }

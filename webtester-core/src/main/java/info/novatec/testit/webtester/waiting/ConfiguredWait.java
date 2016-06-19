@@ -44,6 +44,7 @@ public class ConfiguredWait {
      * {@link PageFragment}.
      *
      * @param fragment the fragment for the wait until operation
+     * @param <T> the type of the page fragment subclass
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil

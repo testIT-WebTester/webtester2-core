@@ -4,104 +4,114 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.withSettings;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import utils.MockFactory;
+
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Enclosed.class)
 public class JavaScriptExecutorTest {
 
-    static final String JAVA_SCRIPT = "alert('Hello World!')";
+    @RunWith(MockitoJUnitRunner.class)
+    public static class JavaScriptEnabledDriver {
 
-    @Test
-    public void javaScriptIsExecutedIfWebDriverSupportsIt() {
-        WebDriver webDriver = javaScriptExecutingWebDriver();
-        javaScriptFor(webDriver).execute(JAVA_SCRIPT);
-        verify(( JavascriptExecutor ) webDriver).executeScript(JAVA_SCRIPT);
+        @Mock
+        Browser browser;
+        @InjectMocks
+        JavaScriptExecutor cut;
+
+        @Mock(extraInterfaces = WebDriver.class)
+        JavascriptExecutor webDriver;
+
+        @Before
+        public void stubBrowsersWebDriver() {
+            doReturn(webDriver).when(browser).webDriver();
+        }
+
+        @Test
+        public void scriptsCanBeExecuted() {
+            cut.execute("alert('Hello World!')");
+            verify(webDriver).executeScript("alert('Hello World!')");
+        }
+
+        @Test
+        public void scriptsWithParametersCanBeExecuted() {
+            cut.execute("alert('arguments[0]')", "Hello World!");
+            verify(webDriver).executeScript("alert('arguments[0]')", "Hello World!");
+        }
+
+        @Test
+        public void scriptsWithReturnCanBeExecuted() {
+            doReturn(true).when(webDriver).executeScript("return true");
+            Boolean returnValue = cut.executeWithReturn("return true");
+            assertThat(returnValue).isEqualTo(true);
+        }
+
+        @Test
+        public void scriptsWithReturnAndParametersCanBeExecuted() {
+            doReturn(true).when(webDriver).executeScript("return !arguments[0]", false);
+            Boolean returnValue = cut.executeWithReturn("return !arguments[0]", false);
+            assertThat(returnValue).isEqualTo(true);
+        }
+
+        @Test
+        public void scriptsWithPageFragmentsUseCorrectWebElement() {
+            PageFragment fragment = MockFactory.fragment().build();
+            cut.execute("arguments[0].value = 'arguments[1]')", fragment, "new value");
+            verify(webDriver).executeScript("arguments[0].value = 'arguments[1]')", fragment.webElement(), "new value");
+        }
+
+        @Test
+        public void scriptsWithReturnAndPageFragmentsUseCorrectWebElement() {
+
+            PageFragment fragment = MockFactory.fragment().build();
+            WebElement webElement = fragment.webElement();
+            doReturn("old value").when(webDriver).executeScript("return arguments[0].arguments[1])", webElement, "value");
+
+            String returnValue = cut.executeWithReturn("return arguments[0].arguments[1])", fragment, "value");
+            assertThat(returnValue).isEqualTo("old value");
+
+        }
+
     }
 
-    @Test
-    public void justParametersWithoutReturn() {
-        WebDriver webDriver = javaScriptExecutingWebDriver();
-        javaScriptFor(webDriver).execute(JAVA_SCRIPT, "param1", "param2");
-        verify(( JavascriptExecutor ) webDriver).executeScript(JAVA_SCRIPT, "param1", "param2");
-    }
+    @RunWith(MockitoJUnitRunner.class)
+    public static class NonJavaScriptEnabledDriver {
 
-    @Test
-    public void justParametersWithReturn() {
-        WebDriver webDriver = javaScriptExecutingWebDriver();
-        doReturn("returnValue").when(( JavascriptExecutor ) webDriver).executeScript(JAVA_SCRIPT, "param");
-        Object returnValue = javaScriptFor(webDriver).executeWithReturn(JAVA_SCRIPT, "param");
-        assertThat(returnValue).isEqualTo("returnValue");
-    }
+        @Mock
+        Browser browser;
+        @InjectMocks
+        JavaScriptExecutor cut;
 
-    @Test
-    public void pageFragmentAndParametersWithoutReturn() {
+        @Before
+        public void setUpBrowser() {
+            WebDriver nonJavaScriptWebDriver = mock(WebDriver.class);
+            doReturn(nonJavaScriptWebDriver).when(browser).webDriver();
+        }
 
-        WebDriver webDriver = javaScriptExecutingWebDriver();
-        PageFragment fragment = pageFragment();
+        @Test(expected = UnsupportedOperationException.class)
+        public void cantExecuteScript() {
+            cut.execute("alert('Hello World!')");
+        }
 
-        javaScriptFor(webDriver).execute(JAVA_SCRIPT, fragment, "param1", "param2");
+        @Test(expected = UnsupportedOperationException.class)
+        public void cantExecuteScriptWithReturn() {
+            cut.executeWithReturn("return true");
+        }
 
-        WebElement webElement = fragment.webElement();
-        verify(( JavascriptExecutor ) webDriver).executeScript(JAVA_SCRIPT, webElement, "param1", "param2");
-
-    }
-
-    @Test
-    public void pageFragmentAndParametersWithReturn() {
-
-        WebDriver webDriver = javaScriptExecutingWebDriver();
-        PageFragment fragment = pageFragment();
-
-        WebElement webElement = fragment.webElement();
-        doReturn("returnValue").when(( JavascriptExecutor ) webDriver).executeScript(JAVA_SCRIPT, webElement, "param");
-
-        Object returnValue = javaScriptFor(webDriver).executeWithReturn(JAVA_SCRIPT, fragment, "param");
-        assertThat(returnValue).isEqualTo("returnValue");
-
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void executingJavaScriptThrowsExceptionIfBrowserDoesNotSupportIt() {
-        WebDriver webDriver = nonJavaScriptExecutingWebDriver();
-        javaScriptFor(webDriver).execute(JAVA_SCRIPT);
-    }
-
-    /* utilities */
-
-    JavaScriptExecutor javaScriptFor(WebDriver webDriver) {
-        return new JavaScriptExecutor(browserFor(webDriver));
-    }
-
-    Browser browserFor(WebDriver webDriver) {
-        Browser browser = mock(Browser.class);
-        doReturn(webDriver).when(browser).webDriver();
-        return browser;
-    }
-
-    WebDriver javaScriptExecutingWebDriver() {
-        return mock(WebDriver.class, withSettings().extraInterfaces(JavascriptExecutor.class));
-    }
-
-    WebDriver nonJavaScriptExecutingWebDriver() {
-        return mock(WebDriver.class);
-    }
-
-    PageFragment pageFragment() {
-        PageFragment fragment = mock(PageFragment.class);
-        WebElement webElement = mock(WebElement.class);
-        doReturn(webElement).when(fragment).webElement();
-        return fragment;
     }
 
 }

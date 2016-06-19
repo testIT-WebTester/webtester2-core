@@ -8,10 +8,10 @@ import java.nio.file.Path;
 import lombok.Getter;
 
 import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
+import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.events.AbstractEvent;
 
 
 /**
@@ -31,8 +31,8 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see PageSourceSaver#save(File)
  * @since 2.0
  */
-@SuppressWarnings("serial")
 @Getter
+@SuppressWarnings("serial")
 public class SavedSourceCodeEvent extends AbstractEvent {
 
     private final File pageSource;
@@ -43,7 +43,7 @@ public class SavedSourceCodeEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return format("saved page source and saved it as: %s", pageSource);
+        return format("saved page source and stored it as: '%s'", pageSource);
     }
 
 }

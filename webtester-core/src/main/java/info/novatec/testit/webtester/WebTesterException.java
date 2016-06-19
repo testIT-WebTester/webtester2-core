@@ -12,10 +12,6 @@ public class WebTesterException extends RuntimeException {
         super(message);
     }
 
-    protected WebTesterException(Throwable cause) {
-        super(cause);
-    }
-
     protected WebTesterException(String message, Throwable cause) {
         super(message, cause);
     }

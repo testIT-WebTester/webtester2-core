@@ -32,7 +32,7 @@ public class SetWindowPositionEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return "set window position: X=" + x + ", Y=" + y;
+        return "set window position: x=" + x + ", y=" + y;
     }
 
 }

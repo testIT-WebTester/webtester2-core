@@ -31,8 +31,8 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see ScreenshotTaker#takeAndStore(File, String)
  * @since 2.0
  */
-@SuppressWarnings("serial")
 @Getter
+@SuppressWarnings("serial")
 public class TookScreenshotEvent extends AbstractEvent {
 
     private final File screenshot;
@@ -43,7 +43,7 @@ public class TookScreenshotEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return format("took screenshot and saved it as: %s", screenshot);
+        return format("took screenshot and stored it as: '%s'", screenshot);
     }
 
 }

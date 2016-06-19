@@ -24,7 +24,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class StyleChangerImplTest {
+public class DefaultStyleChangerTest {
 
     @Mock
     PageFragment fragment;
@@ -34,7 +34,7 @@ public class StyleChangerImplTest {
     JavaScriptExecutor javaScript;
 
     @InjectMocks
-    StyleChangerImpl cut;
+    DefaultStyleChanger cut;
 
     @Before
     public void init() {

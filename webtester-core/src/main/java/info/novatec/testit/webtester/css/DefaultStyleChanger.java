@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 @Slf4j
-public class StyleChangerImpl implements StyleChanger {
+public class DefaultStyleChanger implements StyleChanger {
 
     @Override
     public boolean changeStyleInformation(PageFragment pageFragment, String property, String value) {

@@ -6,56 +6,33 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import info.novatec.testit.webtester.conditions.Condition;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 @RunWith(MockitoJUnitRunner.class)
 public class IsTest {
 
-    @Mock
-    PageFragment fragment;
+    Object object = new Object();
 
     @Test
-    public void testThatConditionEvaluatesCorrectly_True() {
-        Is<PageFragment> cut = buildClassUnderTest()
-            .withConditionReturning(true)
-            .build();
-        assertThat(cut.test(fragment)).isTrue();
+    public void trueConditionEvaluatesToTrue() {
+        Is<Object> is = new Is<>(object -> true);
+        assertThat(is.test(object)).isTrue();
     }
 
     @Test
-    public void testThatConditionEvaluatesCorrectly_False() {
-        Is<PageFragment> cut = buildClassUnderTest()
-            .withConditionReturning(false)
-            .build();
-        assertThat(cut.test(fragment)).isFalse();
+    public void falseConditionEvaluatesToFalse() {
+        Is<Object> is = new Is<>(object -> false);
+        assertThat(is.test(object)).isFalse();
     }
 
-    /* details */
-
-    IsTestBuilder buildClassUnderTest() {
-        return new IsTestBuilder();
-    }
-
-    @SuppressWarnings("unchecked")
-    class IsTestBuilder {
-
-        Condition<PageFragment> condition;
-
-        IsTestBuilder withConditionReturning(boolean result) {
-            condition = mock(Condition.class);
-            doReturn(result).when(condition).test(fragment);
-            return this;
-        }
-
-        Is<PageFragment> build() {
-            return new Is<>(condition);
-        }
-
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        Condition<Object> condition = mock(Condition.class);
+        doReturn("condition").when(condition).toString();
+        assertThat(new Is<>(condition)).hasToString("is(condition)");
     }
 
 }

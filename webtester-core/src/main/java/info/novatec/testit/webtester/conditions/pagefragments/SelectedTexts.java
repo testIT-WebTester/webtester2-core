@@ -2,9 +2,8 @@ package info.novatec.testit.webtester.conditions.pagefragments;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -23,7 +22,7 @@ import info.novatec.testit.webtester.pagefragments.MultiSelect;
  */
 public class SelectedTexts implements Condition<MultiSelect> {
 
-    private final Set<String> expectedTexts = new HashSet<>();
+    private final List<String> expectedTexts = new LinkedList<>();
 
     public SelectedTexts(String text) {
         this.expectedTexts.add(text);
@@ -39,7 +38,8 @@ public class SelectedTexts implements Condition<MultiSelect> {
 
     @Override
     public boolean test(MultiSelect select) {
-        return expectedTexts.equals(select.streamSelectionTexts().collect(Collectors.toSet()));
+        List<String> selectionTexts = select.getSelectionTexts();
+        return expectedTexts.containsAll(selectionTexts) && selectionTexts.containsAll(expectedTexts);
     }
 
     @Override

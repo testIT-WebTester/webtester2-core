@@ -15,23 +15,24 @@ public class VisibleTextEqualsTest {
     @Test
     public void matchingWholeTextEvaluatesToTrue() {
         PageFragment fragment = fragment().withVisibleText("foo").build();
-        assertThat(equalsText(fragment)).isTrue();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void partialMatchesEvaluateToFalse() {
         PageFragment fragment = fragment().withVisibleText("foobar").build();
-        assertThat(equalsText(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
     public void notMatchingAnyPartOfTheTextEvaluatesToFalse() {
         PageFragment fragment = fragment().withVisibleText("bar").build();
-        assertThat(equalsText(fragment)).isFalse();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean equalsText(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("visible text equals: foo");
     }
 
 }

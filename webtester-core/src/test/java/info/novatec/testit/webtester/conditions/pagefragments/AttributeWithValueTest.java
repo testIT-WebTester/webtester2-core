@@ -10,28 +10,29 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 public class AttributeWithValueTest {
 
-    AttributeWithValue cut = new AttributeWithValue("attribute", "value");
+    AttributeWithValue cut = new AttributeWithValue("type", "text");
 
     @Test
     public void havingTheAttributeValueMatchEvaluatesToTrue() {
-        PageFragment fragment = fragment().withAttribute("attribute", "value").build();
-        assertThat(hasAttributeWithValue(fragment)).isTrue();
+        PageFragment fragment = fragment().withAttribute("type", "text").build();
+        assertThat(cut.test(fragment)).isTrue();
     }
 
     @Test
     public void havingADifferentValueForTheAttributeEvaluatesToFalse() {
-        PageFragment fragment = fragment().withAttribute("attribute", "otherValue").build();
-        assertThat(hasAttributeWithValue(fragment)).isFalse();
+        PageFragment fragment = fragment().withAttribute("type", "password").build();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
     @Test
     public void notHavingTheAttributeEvaluatesToFalse() {
-        PageFragment fragment = fragment().withoutAttribute("attribute").build();
-        assertThat(hasAttributeWithValue(fragment)).isFalse();
+        PageFragment fragment = fragment().withoutAttribute("type").build();
+        assertThat(cut.test(fragment)).isFalse();
     }
 
-    boolean hasAttributeWithValue(PageFragment fragment) {
-        return cut.test(fragment);
+    @Test
+    public void toStringIsGeneratedCorrectly() {
+        assertThat(cut).hasToString("attribute 'type' with value 'text'");
     }
 
 }

@@ -11,10 +11,11 @@ import info.novatec.testit.webtester.browser.Browser;
 @Slf4j
 public class EventSystemImpl implements EventSystem {
 
-    private final List<EventListener> listeners = new LinkedList<>();
+    private final List<EventListener> listeners;
     private final Browser browser;
 
     public EventSystemImpl(Browser browser) {
+        this.listeners = new LinkedList<>();
         this.browser = browser;
     }
 
@@ -38,7 +39,7 @@ public class EventSystemImpl implements EventSystem {
 
     @Override
     public void fireEvent(Event event) {
-        if(isEnabled()) {
+        if (isEnabled() || event instanceof ExceptionEvent) {
             doFireEvent(event);
         } else {
             log.warn("tried to fire event '{}' but event system is disabled", event);

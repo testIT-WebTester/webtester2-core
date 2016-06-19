@@ -34,7 +34,7 @@ public class SwitchedToWindowEvent extends AbstractEvent {
 
     @Override
     public String describe() {
-        return format("switched to frame using name or handle: %s", nameOrHandle);
+        return format("switched to frame using name or handle: '%s'", nameOrHandle);
     }
 
 }
