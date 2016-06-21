@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 
@@ -20,20 +22,21 @@ import info.novatec.testit.webtester.pagefragments.MultiSelect;
  * @see MultiSelect#getSelectionTexts()
  * @since 2.0
  */
+@Getter
 public class SelectedTexts implements Condition<MultiSelect> {
 
     private final List<String> expectedTexts = new LinkedList<>();
 
-    public SelectedTexts(String text) {
-        this.expectedTexts.add(text);
+    public SelectedTexts(String expectedText) {
+        this.expectedTexts.add(expectedText);
     }
 
-    public SelectedTexts(String... texts) {
-        this.expectedTexts.addAll(Arrays.asList(texts));
+    public SelectedTexts(String... expectedTexts) {
+        this.expectedTexts.addAll(Arrays.asList(expectedTexts));
     }
 
-    public SelectedTexts(Collection<String> texts) {
-        this.expectedTexts.addAll(texts);
+    public SelectedTexts(Collection<String> expectedTexts) {
+        this.expectedTexts.addAll(expectedTexts);
     }
 
     @Override

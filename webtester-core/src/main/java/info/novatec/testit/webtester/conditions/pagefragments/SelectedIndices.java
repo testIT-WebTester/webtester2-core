@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 
@@ -21,20 +23,21 @@ import info.novatec.testit.webtester.pagefragments.MultiSelect;
  * @see MultiSelect#getSelectionIndices()
  * @since 2.0
  */
+@Getter
 public class SelectedIndices implements Condition<MultiSelect> {
 
     private final Set<Integer> expectedIndices = new HashSet<>();
 
-    public SelectedIndices(Integer index) {
-        this.expectedIndices.add(index);
+    public SelectedIndices(Integer expectedIndex) {
+        this.expectedIndices.add(expectedIndex);
     }
 
-    public SelectedIndices(Integer... indices) {
-        this.expectedIndices.addAll(Arrays.asList(indices));
+    public SelectedIndices(Integer... expectedIndices) {
+        this.expectedIndices.addAll(Arrays.asList(expectedIndices));
     }
 
-    public SelectedIndices(Collection<Integer> indices) {
-        this.expectedIndices.addAll(indices);
+    public SelectedIndices(Collection<Integer> expectedIndices) {
+        this.expectedIndices.addAll(expectedIndices);
     }
 
     @Override

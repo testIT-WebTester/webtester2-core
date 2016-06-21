@@ -1,5 +1,7 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
 
@@ -12,6 +14,7 @@ import info.novatec.testit.webtester.pagefragments.SingleSelect;
  * @see SingleSelect#getSelectionIndex()
  * @since 2.0
  */
+@Getter
 public class SelectedIndex implements Condition<SingleSelect> {
 
     private final Integer expectedIndex;
