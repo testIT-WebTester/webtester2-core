@@ -21,7 +21,6 @@ The following adapters are provided by the `webtester-core` module:
 - `DefaultFileConfigurationAdapter`
 - `GlobalFileConfigurationAdapter`
 - `LocalFileConfigurationAdapter`
-- `TestItHomeFileConfigurationAdapter`
 
 **DefaultFileConfigurationAdapter**
 This adapter looks up a properties file called `testit-webtester-default.properties` on the classpath's root level
@@ -33,10 +32,6 @@ and loads each contained key / value pair into the provided `Configuration` inst
 
 **LocalFileConfigurationAdapter**
 This adapter looks up a properties file called `testit-webtester.properties` on the classpath's root level
-and loads each contained key / value pair into the provided `Configuration` instance.
-
-**TestItHomeFileConfigurationAdapter**
-This adapter looks up a properties file called `testit-webtester.properties` inside the `$TESTIT_HOME/config` folder
 and loads each contained key / value pair into the provided `Configuration` instance.
 
 ## ConfigurationExporter
