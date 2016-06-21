@@ -1,6 +1,5 @@
 package info.novatec.testit.webtester.conditions;
 
-import java.util.Objects;
 import java.util.function.Predicate;
 
 
@@ -23,13 +22,11 @@ public interface Condition<T> extends Predicate<T> {
 
     @Override
     default Condition<T> and(Predicate<? super T> other) {
-        Objects.requireNonNull(other);
         return (t) -> test(t) && other.test(t);
     }
 
     @Override
     default Condition<T> or(Predicate<? super T> other) {
-        Objects.requireNonNull(other);
         return (t) -> test(t) || other.test(t);
     }
 
