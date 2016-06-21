@@ -1,5 +1,7 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
@@ -12,6 +14,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see PageFragment#getVisibleText()
  * @since 2.0
  */
+@Getter
 public class VisibleTextEquals implements Condition<PageFragment> {
 
     private final String expectedText;
