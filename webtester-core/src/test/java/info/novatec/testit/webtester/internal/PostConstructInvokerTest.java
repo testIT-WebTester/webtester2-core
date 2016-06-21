@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.WebDriverBrowser;
+import info.novatec.testit.webtester.config.BaseConfiguration;
+import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.internal.postconstruct.PostConstructInvoker;
 import info.novatec.testit.webtester.pages.Page;
 
@@ -19,12 +21,13 @@ import info.novatec.testit.webtester.pages.Page;
 public class PostConstructInvokerTest {
 
     @Test
-    public void testInvocationOfPostConstructMethodsOfPageClass(){
+    public void testInvocationOfPostConstructMethodsOfPageClass() {
 
         TestContext.clear();
 
         WebDriver webDriver = mock(WebDriver.class);
-        Browser browser = WebDriverBrowser.buildForWebDriver(webDriver);
+        Configuration configuration = new BaseConfiguration();
+        Browser browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
 
         TestPage page = new PageFactory(browser).page(TestPage.class);
         PostConstructInvoker.invokePostConstructMethods(TestPage.class, page);
@@ -35,7 +38,8 @@ public class PostConstructInvokerTest {
 
     private static class TestContext {
         static List<String> invokedMethods = new LinkedList<>();
-        static void clear(){
+
+        static void clear() {
             invokedMethods.clear();
         }
     }
@@ -43,12 +47,12 @@ public class PostConstructInvokerTest {
     public interface TestPage extends Page {
 
         @PostConstruct
-        default void assertSomething(){
+        default void assertSomething() {
             TestContext.invokedMethods.add("assertSomethingOnPage");
         }
 
         @PostConstruct
-        default void assertSomethingElse(){
+        default void assertSomethingElse() {
             TestContext.invokedMethods.add("assertSomethingElseOnPage");
         }
 
