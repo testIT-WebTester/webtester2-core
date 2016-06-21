@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.config;
+package info.novatec.testit.webtester.config.builders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
@@ -9,6 +9,10 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import org.junit.Test;
 import org.mockito.InOrder;
 
+import info.novatec.testit.webtester.config.BaseConfiguration;
+import info.novatec.testit.webtester.config.Configuration;
+import info.novatec.testit.webtester.config.ConfigurationAdapter;
+import info.novatec.testit.webtester.config.ConfigurationExporter;
 import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
 
 
