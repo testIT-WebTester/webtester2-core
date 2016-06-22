@@ -1,67 +1,38 @@
 package info.novatec.testit.webtester.waiting;
 
-import java.util.concurrent.TimeUnit;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
-import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * This class offers a number of methods which allow for the waiting until a specific condition is met for a {@link
- * PageFragment}.
+ * This class offers a number of methods which allow for the waiting until a specific condition is met for any object type.
  *
  * @see Wait
  * @since 2.0
  */
-public class WaitUntil<T extends PageFragment> {
+@Getter(AccessLevel.PACKAGE)
+public class WaitUntil<T> {
 
-    private final T fragment;
-    private final long timeout;
-    private final TimeUnit timeUnit;
+    private final Waiter waiter;
+    private final WaitConfig config;
+    private final T object;
 
     /**
-     * Creates a new {@link WaitUntil} instance for the given {@link PageFragment}.
-     * The timeout configuration will be taken from the fragment's browser's {@link Configuration}.
+     * Creates a new {@link WaitUntil} instance for the given {@link PageFragment} and {@link WaitConfig}.
      *
-     * @param fragment the fragment to use
+     * @param config the configuration to use
+     * @param object the object to use
      * @see Wait
      * @since 2.0
      */
-    public WaitUntil(T fragment) {
-        this.fragment = fragment;
-        this.timeout = fragment.getBrowser().configuration().getWaitTimeout();
-        this.timeUnit = TimeUnit.SECONDS;
-    }
-
-    /**
-     * Creates a new {@link WaitUntil} instance for the given {@link PageFragment} an timeout with {@link TimeUnit}.
-     *
-     * @param fragment the fragment to use
-     * @param timeout the timeout to use
-     * @param timeUnit the time unit to use
-     * @see Wait
-     * @since 2.0
-     */
-    public WaitUntil(T fragment, long timeout, TimeUnit timeUnit) {
-        this.fragment = fragment;
-        this.timeout = timeout;
-        this.timeUnit = timeUnit;
-    }
-
-    /**
-     * Waits until the given condition is met. A set of default conditions can be initialized from {@link Conditions}.
-     *
-     * @param condition the condition to wait for
-     * @return the same instance for fluent API use
-     * @throws TimeoutException in case the condition is not met within the configured timeout
-     * @see Wait
-     * @see Conditions
-     * @since 2.0
-     */
-    public WaitUntil<T> has(Condition<? super T> condition) throws TimeoutException {
-        return is(condition);
+    WaitUntil(Waiter waiter, WaitConfig config, T object) {
+        this.waiter = waiter;
+        this.config = config;
+        this.object = object;
     }
 
     /**
@@ -75,8 +46,21 @@ public class WaitUntil<T extends PageFragment> {
      * @since 2.0
      */
     public WaitUntil<T> is(Condition<? super T> condition) throws TimeoutException {
-        WaitOperations.waitUntil(timeout, timeUnit, fragment, condition);
-        return this;
+        return doWait(condition);
+    }
+
+    /**
+     * Waits until the given condition is met. A set of default conditions can be initialized from {@link Conditions}.
+     *
+     * @param condition the condition to wait for
+     * @return the same instance for fluent API use
+     * @throws TimeoutException in case the condition is not met within the configured timeout
+     * @see Wait
+     * @see Conditions
+     * @since 2.0
+     */
+    public WaitUntil<T> has(Condition<? super T> condition) throws TimeoutException {
+        return doWait(condition);
     }
 
     /**
@@ -90,7 +74,21 @@ public class WaitUntil<T extends PageFragment> {
      * @since 2.0
      */
     public WaitUntil<T> isNot(Condition<? super T> condition) throws TimeoutException {
-        return not(condition);
+        return doWait(condition.negate());
+    }
+
+    /**
+     * Waits until the given condition is NOT met. A set of default conditions can be initialized from {@link Conditions}.
+     *
+     * @param condition the condition to wait for
+     * @return the same instance for fluent API use
+     * @throws TimeoutException in case the condition is not met within the configured timeout
+     * @see Wait
+     * @see Conditions
+     * @since 2.0
+     */
+    public WaitUntil<T> hasNot(Condition<? super T> condition) throws TimeoutException {
+        return doWait(condition.negate());
     }
 
     /**
@@ -104,7 +102,11 @@ public class WaitUntil<T extends PageFragment> {
      * @since 2.0
      */
     public WaitUntil<T> not(Condition<? super T> condition) throws TimeoutException {
-        WaitOperations.waitUntil(timeout, timeUnit, fragment, Conditions.not(condition));
+        return doWait(condition.negate());
+    }
+
+    private WaitUntil<T> doWait(Condition<? super T> condition) {
+        waiter.waitUntil(config, () -> condition.test(object));
         return this;
     }
 

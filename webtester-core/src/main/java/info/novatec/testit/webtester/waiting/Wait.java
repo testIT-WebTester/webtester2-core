@@ -6,8 +6,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * This class aims to provide a fluent API for wait operations.
- * It is currently considered 'beta' and is subject to (possibly breaking) changes.
+ * This class provides a fluent API for wait operations.
  * <p>
  * <b>Example:</b>
  * <pre>
@@ -18,10 +17,16 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * Wait.until(fragment).is(visible()).but().not(editable());
  * </pre>
  *
- * @see WaitOperations
+ * @see Waiter
  * @since 2.0
  */
 public final class Wait {
+
+    /**
+     * The {@link Waiter} to use when executing wait operations.
+     * This field is package-private in order to allow for it to be tests.
+     */
+    private static Waiter waiter = new Waiter();
 
     private Wait() {
         // utility class constructor
@@ -29,49 +34,70 @@ public final class Wait {
 
     /**
      * Creates a {@link ConfiguredWait configured fluent wait} with a custom timeout.
+     * <p>
+     * <b>Note:</b> see {@link WaitConfig} for defaults besides the timeout!
      *
      * @param timeout the timeout in seconds
      * @return the fluent wait instance
      * @see Wait
      * @see ConfiguredWait
+     * @see WaitConfig
      * @since 2.0
      */
-    public static ConfiguredWait withTimeoutOf(long timeout) {
-        return withTimeoutOf(timeout, TimeUnit.SECONDS);
+    public static ConfiguredWait withTimeoutOf(int timeout) {
+        return new ConfiguredWait(waiter, new WaitConfig().setTimeout(timeout));
     }
 
     /**
      * Creates a {@link ConfiguredWait configured fluent wait} with a custom timeout and time unit.
+     * <p>
+     * <b>Note:</b> see {@link WaitConfig} for defaults besides the timeout!
      *
      * @param timeout the timeout value
      * @param timeUnit the time unit the value is specified as
      * @return the fluent wait instance
      * @see Wait
      * @see ConfiguredWait
+     * @see WaitConfig
      * @since 2.0
      */
-    public static ConfiguredWait withTimeoutOf(long timeout, TimeUnit timeUnit) {
-        return new ConfiguredWait(timeout, timeUnit);
+    public static ConfiguredWait withTimeoutOf(int timeout, TimeUnit timeUnit) {
+        return new ConfiguredWait(waiter, new WaitConfig().setTimeout(timeout).setTimeUnit(timeUnit));
     }
 
     /**
-     * Creates a {@link WaitUntil fluent wait until} with the default timeout of the browser the given
-     * {@link PageFragment fragment} was created in.
+     * Creates a {@link WaitUntil} with the default timeout configuration of {@link WaitConfig} for the given object.
+     *
+     * @param object the object for the wait until operation
+     * @param <T> the type of the object
+     * @return the fluent wait instance
+     * @see Wait
+     * @see WaitUntil
+     * @see WaitConfig
+     * @since 2.0
+     */
+    public static <T> WaitUntil<T> until(T object) {
+        return new WaitUntil<>(waiter, new WaitConfig(), object);
+    }
+
+    /**
+     * Creates a {@link WaitUntil} with the default timeout from the given {@link PageFragment}'s configuration.
      *
      * @param fragment the fragment for the wait until operation
      * @param <T> the type of the page fragment subclass
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil
+     * @see WaitConfig
      * @since 2.0
      */
     public static <T extends PageFragment> WaitUntil<T> until(T fragment) {
-        return new WaitUntil<>(fragment);
+        return new WaitUntil<>(waiter, WaitConfig.from(fragment), fragment);
     }
 
     /**
      * Waits the given amount of time with the given unit.
-     *
+     * <p>
      * <b>Example:</b>
      * <pre>
      * Wait.exactly(10, TimeUnit.SECONDS);
@@ -83,7 +109,7 @@ public final class Wait {
      * @since 2.0
      */
     public static void exactly(long duration, TimeUnit timeUnit) {
-        WaitOperations.wait(duration, timeUnit);
+        waiter.waitExactly(duration, timeUnit);
     }
 
 }
