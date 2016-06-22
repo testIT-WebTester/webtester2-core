@@ -1,0 +1,202 @@
+package info.novatec.testit.webtester.waiting;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+
+import java.time.Clock;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+
+@RunWith(Enclosed.class)
+public class WaiterTest {
+
+    public static class Construction {
+
+        @Test
+        public void defaultWaiterCanBeInitialized() {
+            Waiter waiter = new Waiter();
+            assertThat(waiter.getSleeper()).isInstanceOf(CurrentThreadSleeper.class);
+            assertThat(waiter.getClock()).isNotNull();
+        }
+
+        @Test
+        public void sleeperCanBeCustomized() {
+            Sleeper sleeper = mock(Sleeper.class);
+            Waiter waiter = new Waiter(sleeper);
+            assertThat(waiter.getSleeper()).isSameAs(sleeper);
+            assertThat(waiter.getClock()).isNotNull();
+        }
+
+        @Test
+        public void sleeperAndClockCanBeCustomized() {
+            Sleeper sleeper = mock(Sleeper.class);
+            Clock clock = mock(Clock.class);
+            Waiter waiter = new Waiter(sleeper, clock);
+            assertThat(waiter.getSleeper()).isSameAs(sleeper);
+            assertThat(waiter.getClock()).isSameAs(clock);
+        }
+
+    }
+
+    @RunWith(MockitoJUnitRunner.class)
+    public static class WaitExactly {
+
+        @Mock
+        Sleeper sleeper;
+        @InjectMocks
+        Waiter cut;
+
+        @Test
+        public void waitingOneSecondsSleepsForOneThousandMilliseconds() throws InterruptedException {
+            cut.waitExactly(1, TimeUnit.SECONDS);
+            verify(sleeper).sleep(1000L);
+        }
+
+        @Test
+        public void waitingOneMillisecondSleepsForOneMilliseconds() throws InterruptedException {
+            cut.waitExactly(1, TimeUnit.MILLISECONDS);
+            verify(sleeper).sleep(1L);
+        }
+
+        @Test
+        public void waitingLittleLessThanOneMillisecondDoesNotSleep() throws InterruptedException {
+            cut.waitExactly(999, TimeUnit.MICROSECONDS);
+            verifyZeroInteractions(sleeper);
+        }
+
+        @Test
+        public void waitingLittleMoreThanOneMillisecondDoesSleepForOne() throws InterruptedException {
+            cut.waitExactly(1001, TimeUnit.MICROSECONDS);
+            verify(sleeper).sleep(1L);
+        }
+
+        @Test
+        public void interruptedExceptionAreNotPropagated() throws InterruptedException {
+            doThrow(InterruptedException.class).when(sleeper).sleep(anyLong());
+            cut.waitExactly(1, TimeUnit.MILLISECONDS);
+            verify(sleeper).sleep(1L);
+        }
+
+    }
+
+    @RunWith(MockitoJUnitRunner.class)
+    public static class WaitUntil {
+
+        @Mock
+        Sleeper sleeper;
+        @Mock
+        Clock clock;
+        @InjectMocks
+        Waiter cut;
+
+        @Mock
+        Supplier<Boolean> condition;
+
+        long currentTime = 42L;
+
+        @Before
+        public void stubClockToMoveTimeEveryTimeTheSleeperIsInvoked() throws InterruptedException {
+            doReturn(currentTime).when(clock).millis();
+            doAnswer((invocation) -> {
+                currentTime += ( Long ) invocation.getArguments()[0];
+                doReturn(currentTime).when(clock).millis();
+                return null;
+            }).when(sleeper).sleep(anyLong());
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void timeoutExceptionIsThrowIfConditionIsNeverMet() throws InterruptedException {
+
+            doReturn(false).when(condition).get();
+
+            WaitConfig config = new WaitConfig();
+            config.setTimeout(1);
+            config.setTimeUnit(TimeUnit.SECONDS);
+            config.setInterval(100);
+
+            try {
+                cut.waitUntil(config, condition);
+            } finally {
+                verify(condition, times(10)).get();
+                verify(sleeper, times(10)).sleep(100);
+            }
+
+        }
+
+        @Test
+        public void whenConditionIsMetInstantlyNoSleepIsExecuted() {
+
+            doReturn(true).when(condition).get();
+
+            WaitConfig config = new WaitConfig();
+            config.setTimeout(1);
+            config.setTimeUnit(TimeUnit.SECONDS);
+            config.setInterval(100);
+
+            try {
+                cut.waitUntil(config, condition);
+            } finally {
+                verify(condition, times(1)).get();
+                verifyZeroInteractions(sleeper);
+            }
+
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void whenConditionIsNeverMetTheTimeoutHasNoCause() {
+
+            doReturn(false).when(condition).get();
+
+            WaitConfig config = new WaitConfig();
+            config.setTimeout(1);
+            config.setTimeUnit(TimeUnit.SECONDS);
+            config.setInterval(100);
+
+            try {
+                cut.waitUntil(config, condition);
+            } catch (TimeoutException e) {
+                assertThat(e).hasNoCause();
+                throw e;
+            }
+
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void whenConditionIsNotMetBecauseOfExceptionTheTimeoutHasACause() {
+
+            RuntimeException exception = mock(RuntimeException.class);
+            doThrow(exception).when(condition).get();
+
+            WaitConfig config = new WaitConfig();
+            config.setTimeout(1);
+            config.setTimeUnit(TimeUnit.SECONDS);
+            config.setInterval(100);
+
+            try {
+                cut.waitUntil(config, condition);
+            } catch (TimeoutException e) {
+                assertThat(e.getCause()).isSameAs(exception);
+                throw e;
+            }
+
+        }
+
+    }
+
+}
