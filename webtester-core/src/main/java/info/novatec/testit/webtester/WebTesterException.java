@@ -16,4 +16,8 @@ public class WebTesterException extends RuntimeException {
         super(message, cause);
     }
 
+    protected WebTesterException(Throwable cause) {
+        super(cause);
+    }
+
 }
