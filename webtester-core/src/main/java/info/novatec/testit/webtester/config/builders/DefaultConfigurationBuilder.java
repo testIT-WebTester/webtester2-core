@@ -31,10 +31,6 @@ import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapt
  */
 public class DefaultConfigurationBuilder extends BaseConfigurationBuilder {
 
-    public static Configuration create() {
-        return new DefaultConfigurationBuilder().build();
-    }
-
     public DefaultConfigurationBuilder() {
         withAdapter(new DefaultFileConfigurationAdapter());
         withAdapter(new GlobalFileConfigurationAdapter());

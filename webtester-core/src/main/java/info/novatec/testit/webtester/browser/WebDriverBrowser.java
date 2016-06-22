@@ -218,7 +218,7 @@ public final class WebDriverBrowser implements Browser {
             if (customConfiguration != null) {
                 configuration = customConfiguration;
             } else {
-                configuration = DefaultConfigurationBuilder.create();
+                configuration = new DefaultConfigurationBuilder().build();
             }
             return new WebDriverBrowser(configuration, webDriver);
         }
