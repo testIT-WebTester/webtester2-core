@@ -3,15 +3,18 @@ package info.novatec.testit.webtester.config;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.Colors;
 
 import info.novatec.testit.webtester.config.exceptions.InvalidValueTypeException;
 import info.novatec.testit.webtester.config.exceptions.SetNullValuesException;
@@ -20,11 +23,181 @@ import info.novatec.testit.webtester.config.exceptions.SetNullValuesException;
 @RunWith(Enclosed.class)
 public class BaseConfigurationTest {
 
-    private static class BaseTest {
+    public static class DefaultNamedProperties {
+
         BaseConfiguration cut = new BaseConfiguration();
+
+        @Test
+        public void defaultActionDecelerationIsReturned() {
+            assertThat(cut.getActionDeceleration()).isEqualTo(0L);
+        }
+
+        @Test
+        public void defaultEventSystemEnabledIsReturned() {
+            assertThat(cut.isEventSystemEnabled()).isEqualTo(true);
+        }
+
+        @Test
+        public void defaultDefaultEntryPointIsReturned() {
+            assertThat(cut.getDefaultEntryPoint()).isEqualTo(Optional.empty());
+        }
+
+        @Test
+        public void defaultScreenshotFolderIsReturned() {
+            assertThat(cut.getScreenshotFolder()).isEqualTo(new File("screenshots"));
+        }
+
+        @Test
+        public void defaultPageSourceFolderIsReturned() {
+            assertThat(cut.getPageSourceFolder()).isEqualTo(new File("sourcecode"));
+        }
+
+        @Test
+        public void defaultLogFolderIsReturned() {
+            assertThat(cut.getLogFolder()).isEqualTo(new File("logs"));
+        }
+
+        @Test
+        public void defaultMarkingsEnabledIsReturned() {
+            assertThat(cut.isMarkingsEnabled()).isEqualTo(false);
+        }
+
+        @Test
+        public void defaultMarkingsColorUsedBackgroundIsReturned() {
+            assertThat(cut.getMarkingsColorUsedBackground()).isEqualTo(Color.fromString("#ffd2a5"));
+        }
+
+        @Test
+        public void defaultMarkingsColorUsedOutlineIsReturned() {
+            assertThat(cut.getMarkingsColorUsedOutline()).isEqualTo(Color.fromString("#916f22"));
+        }
+
+        @Test
+        public void defaultMarkingsColorReadBackgroundIsReturned() {
+            assertThat(cut.getMarkingsColorReadBackground()).isEqualTo(Color.fromString("#90ee90"));
+        }
+
+        @Test
+        public void defaultMarkingsColorReadOutlineIsReturned() {
+            assertThat(cut.getMarkingsColorReadOutline()).isEqualTo(Color.fromString("#008000"));
+        }
+
+        @Test
+        public void defaultWaitTimeoutIsReturned() {
+            assertThat(cut.getWaitTimeout()).isEqualTo(2);
+        }
+
+        @Test
+        public void defaultWaitIntervalIsReturned() {
+            assertThat(cut.getWaitInterval()).isEqualTo(100L);
+        }
+
     }
 
-    public static class SettingOfProperties extends BaseTest {
+    public static class NamedProperties {
+
+        BaseConfiguration cut = new BaseConfiguration();
+
+        @Test
+        public void actionDecelerationCanBeChanged() {
+            Configuration configuration = cut.setActionDeceleration(100L);
+            assertThat(cut.getActionDeceleration()).isEqualTo(100L);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void eventSystemEnabledCanBeChanged() {
+            Configuration configuration = cut.setEventSystemEnabled(false);
+            assertThat(cut.isEventSystemEnabled()).isEqualTo(false);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void defaultEntryPointCanBeChanged() {
+            Configuration configuration = cut.setDefaultEntryPoint("http://www.foo.bar");
+            assertThat(cut.getDefaultEntryPoint()).isEqualTo(Optional.of("http://www.foo.bar"));
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void screenshotFolderCanBeChanged() {
+            Configuration configuration = cut.setScreenshotFolder(new File("screens"));
+            assertThat(cut.getScreenshotFolder().getAbsolutePath()).isEqualTo(new File("screens").getAbsolutePath());
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void pageSourceFolderCanBeChanged() {
+            Configuration configuration = cut.setPageSourceFolder(new File("code"));
+            assertThat(cut.getPageSourceFolder().getAbsolutePath()).isEqualTo(new File("code").getAbsolutePath());
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void logFolderCanBeChanged() {
+            Configuration configuration = cut.setLogFolder(new File("files"));
+            assertThat(cut.getLogFolder().getAbsolutePath()).isEqualTo(new File("files").getAbsolutePath());
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void markingsEnabledCanBeChanged() {
+            Configuration configuration = cut.setMarkingsEnabled(true);
+            assertThat(cut.isMarkingsEnabled()).isEqualTo(true);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void markingsColorUsedBackgroundCanBeChanged() {
+            Color color = Colors.BLUEVIOLET.getColorValue();
+            Configuration configuration = cut.setMarkingsColorUsedBackground(color);
+            assertThat(cut.getMarkingsColorUsedBackground()).isEqualTo(color);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void markingsColorUsedOutlineCanBeChanged() {
+            Color color = Colors.ALICEBLUE.getColorValue();
+            Configuration configuration = cut.setMarkingsColorUsedOutline(color);
+            assertThat(cut.getMarkingsColorUsedOutline()).isEqualTo(color);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void markingsColorReadBackgroundCanBeChanged() {
+            Color color = Colors.ANTIQUEWHITE.getColorValue();
+            Configuration configuration = cut.setMarkingsColorReadBackground(color);
+            assertThat(cut.getMarkingsColorReadBackground()).isEqualTo(color);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void markingsColorReadOutlineCanBeChanged() {
+            Color color = Colors.AZURE.getColorValue();
+            Configuration configuration = cut.setMarkingsColorReadOutline(color);
+            assertThat(cut.getMarkingsColorReadOutline()).isEqualTo(color);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void waitTimeoutCanBeChanged() {
+            Configuration configuration = cut.setWaitTimeout(10);
+            assertThat(cut.getWaitTimeout()).isEqualTo(10);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void waitIntervalCanBeChanged() {
+            Configuration configuration = cut.setWaitInterval(200L);
+            assertThat(cut.getWaitInterval()).isEqualTo(200L);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+    }
+
+    public static class SettingOfProperties {
+
+        BaseConfiguration cut = new BaseConfiguration();
 
         /* setProperty(...) good-cases are part of the "GettingOfProperties" set
          * of tests */
@@ -39,9 +212,17 @@ public class BaseConfigurationTest {
             cut.setProperty("invalid-type", this);
         }
 
+        @Test
+        public void settingPropertyReturnsSameConfigurationInstance() {
+            Configuration configuration = cut.setProperty("property", "value");
+            assertThat(configuration).isSameAs(cut);
+        }
+
     }
 
-    public static class GettingOfProperties extends BaseTest {
+    public static class GettingOfProperties {
+
+        BaseConfiguration cut = new BaseConfiguration();
 
         @Test
         public void testSetAndGetString() {
@@ -94,7 +275,9 @@ public class BaseConfigurationTest {
 
     }
 
-    public static class GettingOfDefaultProperties extends BaseTest {
+    public static class GettingOfDefaultProperties {
+
+        BaseConfiguration cut = new BaseConfiguration();
 
         @Test
         public void testGetStringWithDefault() {
@@ -140,7 +323,9 @@ public class BaseConfigurationTest {
 
     }
 
-    public static class RemovalOfProperties extends BaseTest {
+    public static class RemovalOfProperties {
+
+        BaseConfiguration cut = new BaseConfiguration();
 
         @Test
         public void testRemoveProperty() {
@@ -149,9 +334,17 @@ public class BaseConfigurationTest {
             assertThat(cut.getProperty("property")).isEmpty();
         }
 
+        @Test
+        public void removingPropertyReturnsSameConfigurationInstance() {
+            Configuration configuration = cut.removeProperty("property");
+            assertThat(configuration).isSameAs(cut);
+        }
+
     }
 
-    public static class GettingOfPropertyKeys extends BaseTest {
+    public static class GettingOfPropertyKeys {
+
+        BaseConfiguration cut = new BaseConfiguration();
 
         @Test
         public void testGetPropertyKeys() {
@@ -177,29 +370,73 @@ public class BaseConfigurationTest {
     }
 
     @RunWith(MockitoJUnitRunner.class)
-    public static class BehaviorTests extends BaseTest {
+    public static class AddingOfExporters {
+
+        @Mock
+        ConfigurationExporter exporter;
+
+        BaseConfiguration cut = new BaseConfiguration();
+
+        @Test
+        public void addingExporterReturnsSameConfigurationInstance() {
+            BaseConfiguration configuration = cut.addExporter(exporter);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void addingMultipleExportersReturnsSameConfigurationInstance() {
+            BaseConfiguration configuration = cut.addExporters(exporter, exporter);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void addingListOfExportersReturnsSameConfigurationInstance() {
+            BaseConfiguration configuration = cut.addExporters(Arrays.asList(exporter, exporter));
+            assertThat(configuration).isSameAs(cut);
+        }
+
+    }
+
+    @RunWith(MockitoJUnitRunner.class)
+    public static class BehaviorTests {
 
         @Mock
         ConfigurationExporter firstExporter;
         @Mock
         ConfigurationExporter secondExporter;
+        @Mock
+        ConfigurationExporter thirdExporter;
+        @Mock
+        ConfigurationExporter fourthExporter;
+        @Mock
+        ConfigurationExporter fifthExporter;
 
-        @Before
-        public void addExporters() {
-            cut.addExporters(firstExporter, secondExporter);
-        }
+        BaseConfiguration cut = new BaseConfiguration();
 
         @Test
         public void testThatSettingPropertiesCallsExportersInOrder() {
 
+            cut.addExporter(firstExporter);
+            cut.addExporters(secondExporter, thirdExporter);
+            cut.addExporters(Arrays.asList(fourthExporter, fifthExporter));
+
             cut.setProperty("property", "foo");
             cut.setProperty("another-property", "bar");
 
-            InOrder inOrder = inOrder(firstExporter, secondExporter);
+            InOrder inOrder = inOrder(firstExporter, secondExporter, thirdExporter, fourthExporter, fifthExporter);
+
             inOrder.verify(firstExporter).export("property", "foo");
             inOrder.verify(secondExporter).export("property", "foo");
+            inOrder.verify(thirdExporter).export("property", "foo");
+            inOrder.verify(fourthExporter).export("property", "foo");
+            inOrder.verify(fifthExporter).export("property", "foo");
+
             inOrder.verify(firstExporter).export("another-property", "bar");
             inOrder.verify(secondExporter).export("another-property", "bar");
+            inOrder.verify(thirdExporter).export("another-property", "bar");
+            inOrder.verify(fourthExporter).export("another-property", "bar");
+            inOrder.verify(fifthExporter).export("another-property", "bar");
+
             inOrder.verifyNoMoreInteractions();
 
         }

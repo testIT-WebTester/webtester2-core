@@ -21,12 +21,12 @@ public class DebugMarkingsFeatureTest extends BaseIntegrationTest {
     public void openPage() {
         open("html/features/debug-markings.html");
         markingsWere = browser().configuration().isMarkingsEnabled();
-        browser().configuration().setMarkings(true);
+        browser().configuration().setMarkingsEnabled(true);
     }
 
     @After
     public void deactivateMarkings() {
-        browser().configuration().setMarkings(markingsWere);
+        browser().configuration().setMarkingsEnabled(markingsWere);
     }
 
     @Test

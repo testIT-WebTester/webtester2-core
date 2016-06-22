@@ -84,7 +84,7 @@ public interface Configuration {
      * @see EventSystem
      * @since 2.0
      */
-    Configuration setEventSystem(boolean active);
+    Configuration setEventSystemEnabled(boolean active);
 
     /**
      * Returns the default entry point of the application under test if set.
@@ -177,7 +177,7 @@ public interface Configuration {
      * @return the same configuration for fluent API
      * @since 2.0
      */
-    Configuration setMarkings(boolean activated);
+    Configuration setMarkingsEnabled(boolean activated);
 
     /**
      * Returns the color to use for the background of elements marked as 'used' on a page.
