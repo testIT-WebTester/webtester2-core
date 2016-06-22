@@ -68,7 +68,7 @@ public class BaseConfiguration implements Configuration {
     }
 
     @Override
-    public Configuration setEventSystem(boolean enabled) {
+    public Configuration setEventSystemEnabled(boolean enabled) {
         return setProperty(key(NamedProperties.EVENTS), enabled);
     }
 
@@ -118,7 +118,7 @@ public class BaseConfiguration implements Configuration {
     }
 
     @Override
-    public BaseConfiguration setMarkings(boolean activated) {
+    public BaseConfiguration setMarkingsEnabled(boolean activated) {
         return setProperty(key(NamedProperties.MARKINGS), activated);
     }
 
@@ -129,7 +129,7 @@ public class BaseConfiguration implements Configuration {
 
     @Override
     public BaseConfiguration setMarkingsColorUsedBackground(Color color) {
-        return setProperty(key(NamedProperties.MARKINGS_USED_BACKGROUND), color.toString());
+        return setProperty(key(NamedProperties.MARKINGS_USED_BACKGROUND), color.asHex());
     }
 
     @Override
@@ -139,7 +139,7 @@ public class BaseConfiguration implements Configuration {
 
     @Override
     public BaseConfiguration setMarkingsColorUsedOutline(Color color) {
-        return setProperty(key(NamedProperties.MARKINGS_USED_OUTLINE), color.toString());
+        return setProperty(key(NamedProperties.MARKINGS_USED_OUTLINE), color.asHex());
     }
 
     @Override
@@ -149,7 +149,7 @@ public class BaseConfiguration implements Configuration {
 
     @Override
     public Configuration setMarkingsColorReadBackground(Color color) {
-        return setProperty(key(NamedProperties.MARKINGS_READ_BACKGROUND), color.toString());
+        return setProperty(key(NamedProperties.MARKINGS_READ_BACKGROUND), color.asHex());
     }
 
     @Override
@@ -159,7 +159,7 @@ public class BaseConfiguration implements Configuration {
 
     @Override
     public Configuration setMarkingsColorReadOutline(Color color) {
-        return setProperty(key(NamedProperties.MARKINGS_READ_OUTLINE), color.toString());
+        return setProperty(key(NamedProperties.MARKINGS_READ_OUTLINE), color.asHex());
     }
 
     @Override

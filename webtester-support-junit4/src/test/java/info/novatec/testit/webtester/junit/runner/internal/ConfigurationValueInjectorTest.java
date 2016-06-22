@@ -12,7 +12,7 @@ import info.novatec.testit.webtester.junit.annotations.ConfigurationValue;
 
 public class ConfigurationValueInjectorTest {
 
-    Configuration configuration = DefaultConfigurationBuilder.create();
+    Configuration configuration = new DefaultConfigurationBuilder().build();
 
     @Test
     public void testInstanceFieldInjection() {

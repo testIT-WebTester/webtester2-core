@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.ConfigurationAdapter;
@@ -21,9 +20,8 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
  * @see AbstractPropertiesConfigurationAdapter
  * @since 2.0
  */
+@Slf4j
 public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropertiesConfigurationAdapter {
-
-    private static final Logger logger = LoggerFactory.getLogger(ClasspathPropertiesFileConfigurationAdapter.class);
 
     private String propertyFilePath;
 
@@ -34,11 +32,11 @@ public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropert
     @Override
     public boolean adapt(Configuration configuration) {
 
-        logger.debug("loading properties from classpath resource: {}", propertyFilePath);
+        log.debug("loading properties from classpath resource: {}", propertyFilePath);
 
         URL resource = getClass().getClassLoader().getResource(propertyFilePath);
         if (resource == null) {
-            logger.warn("Could not load configuration file! {} file is not on the classpath.", propertyFilePath);
+            log.warn("Could not load configuration file! {} file is not on the classpath.", propertyFilePath);
             return false;
         }
 
@@ -47,13 +45,13 @@ public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropert
         try {
             loadPropertiesFromResource(resource, properties);
         } catch (IOException e) {
-            logger.error("exception while loading property file " + propertyFilePath, e);
+            log.error("exception while loading property file " + propertyFilePath, e);
             return false;
         }
 
-        logger.debug("...merging with current configuration...");
+        log.debug("...merging with current configuration...");
         copyInto(properties, configuration);
-        logger.debug("finished loading properties from classpath resource: {}", propertyFilePath);
+        log.debug("finished loading properties from classpath resource: {}", propertyFilePath);
 
         return true;
 
