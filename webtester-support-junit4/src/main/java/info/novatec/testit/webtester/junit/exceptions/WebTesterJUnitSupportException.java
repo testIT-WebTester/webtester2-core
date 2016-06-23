@@ -6,10 +6,6 @@ import info.novatec.testit.webtester.WebTesterException;
 @SuppressWarnings("serial")
 public class WebTesterJUnitSupportException extends WebTesterException {
 
-    protected WebTesterJUnitSupportException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     protected WebTesterJUnitSupportException(String message) {
         super(message);
     }

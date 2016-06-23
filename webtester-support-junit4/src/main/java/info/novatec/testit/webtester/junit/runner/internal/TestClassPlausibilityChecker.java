@@ -23,7 +23,7 @@ public class TestClassPlausibilityChecker {
     private Set<Field> allFields;
 
     public TestClassPlausibilityChecker(Class<?> testClass) {
-        this.allFields = ReflectionUtils.getAllFieldsOfClassHierarchy(testClass);
+        this.allFields = new ReflectionUtils().getAllFieldsOfClassHierarchy(testClass);
     }
 
     public void assertPlausibilityOfTestClass() {
