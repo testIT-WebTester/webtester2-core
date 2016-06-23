@@ -2,17 +2,15 @@ package info.novatec.testit.webtester.junit.utils;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 
-public final class ReflectionUtils {
+public class ReflectionUtils {
 
-    private static final Map<Class<?>, Set<Field>> FIELDS_CACHE = new HashMap<>();
-
-    /* getting fields */
+    private final Map<Class<?>, Set<Field>> fieldsCache = new ConcurrentHashMap<>();
 
     /**
      * Returns all fields of the given class hierarchy (start class and all its
@@ -23,9 +21,9 @@ public final class ReflectionUtils {
      * be returned
      * @return all fields of the given class hierarchy
      */
-    public static Set<Field> getAllFieldsOfClassHierarchy(Class<?> startClass) {
+    public Set<Field> getAllFieldsOfClassHierarchy(Class<?> startClass) {
 
-        Set<Field> fields = FIELDS_CACHE.get(startClass);
+        Set<Field> fields = fieldsCache.get(startClass);
         if (fields != null) {
             return fields;
         }
@@ -40,12 +38,9 @@ public final class ReflectionUtils {
             fields.addAll(getAllFieldsOfClassHierarchy(superclass));
         }
 
-        FIELDS_CACHE.put(startClass, fields);
+        fieldsCache.put(startClass, fields);
         return fields;
 
-    }
-
-    private ReflectionUtils() {
     }
 
 }

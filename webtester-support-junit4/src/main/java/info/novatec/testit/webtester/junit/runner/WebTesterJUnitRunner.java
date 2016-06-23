@@ -132,6 +132,7 @@ import info.novatec.testit.webtester.junit.runner.internal.TestClassPlausibility
  */
 public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
 
+    private ReflectionUtils reflectionUtils = new ReflectionUtils();
     private List<ClassTestBrowser> classBrowsers = new ArrayList<>();
     private List<MethodTestBrowser> methodBrowsers = new ArrayList<>();
 
@@ -155,7 +156,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
             private void initializeClassLevel() {
                 classBrowsers.clear();
                 Class<?> testClass = getTestClass().getJavaClass();
-                for (Field field : ReflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
+                for (Field field : reflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
                     boolean fieldIsStatic = Modifier.isStatic(field.getModifiers());
                     boolean fieldIsABrowser = Browser.class.isAssignableFrom(field.getType());
                     boolean fieldIsAnnotatedAsResource = field.getAnnotation(Resource.class) != null;
@@ -188,7 +189,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
     private boolean configurationValuesAnnotationIsUsedOnClassLevel() {
         boolean isUsed = false;
         Class<?> testClass = getTestClass().getJavaClass();
-        for (Field field : ReflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
+        for (Field field : reflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
             boolean isStatic = Modifier.isStatic(field.getModifiers());
             boolean isAnnotated = field.isAnnotationPresent(ConfigurationValue.class);
             if (isStatic && isAnnotated) {
@@ -237,7 +238,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
             private void initializeMethodLevel() {
                 methodBrowsers.clear();
                 Class<?> testClass = getTestClass().getJavaClass();
-                for (Field field : ReflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
+                for (Field field : reflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
                     boolean fieldIsNonStatic = !Modifier.isStatic(field.getModifiers());
                     boolean fieldIsABrowser = Browser.class.isAssignableFrom(field.getType());
                     boolean fieldIsAnnotatedAsResource = field.getAnnotation(Resource.class) != null;
@@ -269,7 +270,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
     private boolean configurationValuesAnnotationIsUsedOnMethodLevel() {
         boolean isUsed = false;
         Class<?> testClass = getTestClass().getJavaClass();
-        for (Field field : ReflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
+        for (Field field : reflectionUtils.getAllFieldsOfClassHierarchy(testClass)) {
             boolean isStatic = Modifier.isStatic(field.getModifiers());
             boolean isAnnotated = field.isAnnotationPresent(ConfigurationValue.class);
             if (!isStatic && isAnnotated) {
