@@ -3,47 +3,39 @@ package info.novatec.testit.webtester.junit.runner.internal;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.IllegalClassException;
 
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.junit.annotations.ConfigurationValue;
+import info.novatec.testit.webtester.junit.exceptions.NotOfInjectableFieldTypeException;
 
 
-public final class ConfigurationValueInjector {
+public class ConfigurationValueInjector {
 
     private static final String UNINJECTABLE_FIELD_TYPE = "cannot inject configuration values into fields of type ";
     private static final Object STATIC_TARGET = null;
 
-    private static final Map<Class<?>, Injector> INJECTOR_MAP = new HashMap<>();
+    private final Map<Class<?>, Injector> injectorMap = new HashMap<>();
 
-    static {
-
-        INJECTOR_MAP.put(String.class,
+    public ConfigurationValueInjector() {
+        injectorMap.put(String.class,
             (config, key, field, target) -> field.set(target, config.getStringProperty(key).get()));
-
-        INJECTOR_MAP.put(Integer.class,
+        injectorMap.put(Integer.class,
             (config, key, field, target) -> field.set(target, config.getIntegerProperty(key).get()));
-
-        INJECTOR_MAP.put(Long.class,
+        injectorMap.put(Long.class, //
             (config, key, field, target) -> field.set(target, config.getLongProperty(key).get()));
-
-        INJECTOR_MAP.put(Float.class,
+        injectorMap.put(Float.class, //
             (config, key, field, target) -> field.set(target, config.getFloatProperty(key).get()));
-
-        INJECTOR_MAP.put(Double.class,
+        injectorMap.put(Double.class,
             (config, key, field, target) -> field.set(target, config.getDoubleProperty(key).get()));
-
-        INJECTOR_MAP.put(Boolean.class,
+        injectorMap.put(Boolean.class,
             (config, key, field, target) -> field.set(target, config.getBooleanProperty(key).get()));
-
     }
 
-    public static void injectStatics(Configuration config, Class<?> targetClass) {
+    public void injectStatics(Configuration config, Class<?> targetClass) {
         for (Field field : targetClass.getDeclaredFields()) {
             if (Modifier.isStatic(field.getModifiers())) {
                 injectStaticField(config, field);
@@ -51,7 +43,7 @@ public final class ConfigurationValueInjector {
         }
     }
 
-    public static void inject(Configuration config, Object target) {
+    public void inject(Configuration config, Object target) {
         for (Field field : target.getClass().getDeclaredFields()) {
             if (!Modifier.isStatic(field.getModifiers())) {
                 injectField(config, field, target);
@@ -59,11 +51,11 @@ public final class ConfigurationValueInjector {
         }
     }
 
-    private static void injectStaticField(Configuration config, Field field) {
+    private void injectStaticField(Configuration config, Field field) {
         injectField(config, field, STATIC_TARGET);
     }
 
-    private static void injectField(Configuration config, Field field, Object target) {
+    private void injectField(Configuration config, Field field, Object target) {
 
         ConfigurationValue configurationValue = field.getAnnotation(ConfigurationValue.class);
         if (configurationValue == null) {
@@ -73,7 +65,7 @@ public final class ConfigurationValueInjector {
 
         field.setAccessible(true);
 
-        Injector injector = INJECTOR_MAP.get(field.getType());
+        Injector injector = injectorMap.get(field.getType());
         if (injector == null) {
             throw new IllegalClassException(UNINJECTABLE_FIELD_TYPE + field.getType());
         }
@@ -88,16 +80,14 @@ public final class ConfigurationValueInjector {
 
     }
 
-    public static boolean canInjectValue(Field field) {
-        return INJECTOR_MAP.containsKey(field.getType());
+    public void assertCanInjectValue(Field field) {
+        if (!canInjectValue(field)) {
+            throw new NotOfInjectableFieldTypeException(field);
+        }
     }
 
-    public static Set<Class<?>> getInjectableFieldClasses() {
-        return Collections.unmodifiableSet(INJECTOR_MAP.keySet());
-    }
-
-    private ConfigurationValueInjector() {
-        // utility constructor
+    public boolean canInjectValue(Field field) {
+        return injectorMap.containsKey(field.getType());
     }
 
     private interface Injector {
