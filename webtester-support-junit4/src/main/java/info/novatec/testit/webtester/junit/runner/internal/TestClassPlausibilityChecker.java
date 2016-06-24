@@ -14,19 +14,24 @@ import info.novatec.testit.webtester.junit.exceptions.NoManagedBrowserException;
 import info.novatec.testit.webtester.junit.exceptions.NoPrimaryBrowserException;
 import info.novatec.testit.webtester.junit.exceptions.NoStaticPrimaryBrowserException;
 import info.novatec.testit.webtester.junit.exceptions.NoUniquePrimaryBrowserException;
-import info.novatec.testit.webtester.junit.exceptions.NotOfInjectableFieldTypeException;
 import info.novatec.testit.webtester.junit.utils.ReflectionUtils;
 
 
 public class TestClassPlausibilityChecker {
 
+    private final Class<?> testClass;
+    private final ConfigurationValueInjector injector;
+
     private Set<Field> allFields;
 
     public TestClassPlausibilityChecker(Class<?> testClass) {
-        this.allFields = new ReflectionUtils().getAllFieldsOfClassHierarchy(testClass);
+        this.testClass = testClass;
+        this.injector = new ConfigurationValueInjector();
     }
 
     public void assertPlausibilityOfTestClass() {
+
+        this.allFields = new ReflectionUtils().getAllFieldsOfClassHierarchy(testClass);
 
         assertThatNoMoreThenOnePrimaryBrowserIsDeclared();
 
@@ -51,7 +56,7 @@ public class TestClassPlausibilityChecker {
     private void assertPlausibilityOfConfigurationValueFields(List<Field> configurationValueFields,
         Field primaryBrowserField) {
         for (Field field : configurationValueFields) {
-            assertInjectableTypeForConfigurationValueField(field);
+            injector.assertCanInjectValue(field);
             assertStaticPrimaryBrowserForStaticConfigurationValueField(field, primaryBrowserField);
         }
     }
@@ -72,11 +77,8 @@ public class TestClassPlausibilityChecker {
             List<Field> primaryBrowserFields = getPrimaryBrowserFields(managedBrowserFields);
             if (primaryBrowserFields.isEmpty()) {
                 throw new NoPrimaryBrowserException();
-            }
-            if (primaryBrowserFields.size() == 1) {
-                primaryBrowserField = primaryBrowserFields.get(0);
             } else {
-                throw new NoUniquePrimaryBrowserException();
+                primaryBrowserField = primaryBrowserFields.get(0);
             }
         }
 
@@ -106,12 +108,6 @@ public class TestClassPlausibilityChecker {
         return allFields.stream()
             .filter(field -> field.isAnnotationPresent(ConfigurationValue.class))
             .collect(Collectors.toList());
-    }
-
-    private void assertInjectableTypeForConfigurationValueField(Field field) {
-        if (!ConfigurationValueInjector.canInjectValue(field)) {
-            throw new NotOfInjectableFieldTypeException(field);
-        }
     }
 
     private void assertStaticPrimaryBrowserForStaticConfigurationValueField(Field field, Field primaryBrowserField) {
