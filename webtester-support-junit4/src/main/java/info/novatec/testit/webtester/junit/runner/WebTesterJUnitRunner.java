@@ -18,19 +18,16 @@ import org.junit.runners.model.Statement;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.junit.utils.ReflectionUtils;
 import info.novatec.testit.webtester.junit.annotations.ConfigurationValue;
 import info.novatec.testit.webtester.junit.annotations.CreateUsing;
 import info.novatec.testit.webtester.junit.annotations.EntryPoint;
 import info.novatec.testit.webtester.junit.annotations.Primary;
-import info.novatec.testit.webtester.junit.exceptions.NoManagedBrowserException;
-import info.novatec.testit.webtester.junit.exceptions.NoPrimaryBrowserException;
-import info.novatec.testit.webtester.junit.exceptions.NoUniquePrimaryBrowserException;
 import info.novatec.testit.webtester.junit.runner.internal.AbstractTestBrowser;
 import info.novatec.testit.webtester.junit.runner.internal.ClassTestBrowser;
 import info.novatec.testit.webtester.junit.runner.internal.ConfigurationValueInjector;
 import info.novatec.testit.webtester.junit.runner.internal.MethodTestBrowser;
 import info.novatec.testit.webtester.junit.runner.internal.TestClassPlausibilityChecker;
+import info.novatec.testit.webtester.junit.utils.ReflectionUtils;
 
 
 /**
@@ -135,10 +132,12 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
     private ReflectionUtils reflectionUtils = new ReflectionUtils();
     private List<ClassTestBrowser> classBrowsers = new ArrayList<>();
     private List<MethodTestBrowser> methodBrowsers = new ArrayList<>();
+    private ConfigurationValueInjector injector;
 
     public WebTesterJUnitRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
         new TestClassPlausibilityChecker(testClass).assertPlausibilityOfTestClass();
+        injector = new ConfigurationValueInjector();
     }
 
     @Override
@@ -169,7 +168,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
             private void injectConfigurationValuesIntoStaticFields() {
                 if (configurationValuesAnnotationIsUsedOnClassLevel()) {
                     Configuration configuration = getPrimaryBrowser().getBrowser().configuration();
-                    ConfigurationValueInjector.injectStatics(configuration, getTestClass().getJavaClass());
+                    injector.injectStatics(configuration, getTestClass().getJavaClass());
                 }
             }
 
@@ -256,7 +255,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
             private void injectConfigurationValuesIntoInstanceFields() {
                 if (configurationValuesAnnotationIsUsedOnMethodLevel()) {
                     Configuration configuration = getPrimaryBrowser().getBrowser().configuration();
-                    ConfigurationValueInjector.inject(configuration, target);
+                    injector.inject(configuration, target);
                 }
             }
 
@@ -309,17 +308,10 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
     /* START primary browser calculation */
 
     private AbstractTestBrowser getPrimaryBrowser() {
-        assertThatAtLeastOneBrowserIsManaged();
         if (numberOfManagedBrowsers() == 1) {
             return getAllBrowsersRegardlessOfScope().get(0);
         }
         return getUniquePrimaryBrowserCandidate();
-    }
-
-    private void assertThatAtLeastOneBrowserIsManaged() {
-        if (numberOfManagedBrowsers() == 0) {
-            throw new NoManagedBrowserException();
-        }
     }
 
     private int numberOfManagedBrowsers() {
@@ -330,15 +322,8 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
         AbstractTestBrowser primaryBrowserCandidate = null;
         for (AbstractTestBrowser browser : getAllBrowsersRegardlessOfScope()) {
             if (browser.isPrimaryCandidate()) {
-                if (primaryBrowserCandidate == null) {
-                    primaryBrowserCandidate = browser;
-                } else {
-                    throw new NoUniquePrimaryBrowserException();
-                }
+                primaryBrowserCandidate = browser;
             }
-        }
-        if (primaryBrowserCandidate == null) {
-            throw new NoPrimaryBrowserException();
         }
         return primaryBrowserCandidate;
     }

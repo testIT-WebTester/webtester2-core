@@ -20,13 +20,19 @@ import info.novatec.testit.webtester.junit.utils.ReflectionUtils;
 
 public class TestClassPlausibilityChecker {
 
+    private final Class<?> testClass;
+    private final ConfigurationValueInjector injector;
+
     private Set<Field> allFields;
 
     public TestClassPlausibilityChecker(Class<?> testClass) {
-        this.allFields = new ReflectionUtils().getAllFieldsOfClassHierarchy(testClass);
+        this.testClass = testClass;
+        this.injector = new ConfigurationValueInjector();
     }
 
     public void assertPlausibilityOfTestClass() {
+
+        this.allFields = new ReflectionUtils().getAllFieldsOfClassHierarchy(testClass);
 
         assertThatNoMoreThenOnePrimaryBrowserIsDeclared();
 
@@ -72,11 +78,8 @@ public class TestClassPlausibilityChecker {
             List<Field> primaryBrowserFields = getPrimaryBrowserFields(managedBrowserFields);
             if (primaryBrowserFields.isEmpty()) {
                 throw new NoPrimaryBrowserException();
-            }
-            if (primaryBrowserFields.size() == 1) {
-                primaryBrowserField = primaryBrowserFields.get(0);
             } else {
-                throw new NoUniquePrimaryBrowserException();
+                primaryBrowserField = primaryBrowserFields.get(0);
             }
         }
 
@@ -109,7 +112,7 @@ public class TestClassPlausibilityChecker {
     }
 
     private void assertInjectableTypeForConfigurationValueField(Field field) {
-        if (!ConfigurationValueInjector.canInjectValue(field)) {
+        if (!injector.canInjectValue(field)) {
             throw new NotOfInjectableFieldTypeException(field);
         }
     }
