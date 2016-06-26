@@ -1,6 +1,9 @@
 package info.novatec.testit.webtester.waiting;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+import lombok.Setter;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
@@ -22,11 +25,18 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  */
 public final class Wait {
 
+    /** The default {@link Waiter} supplier. Generates a new {@link Waiter} for each call. */
+    public static final Supplier<Waiter> DEFAULT_WAITER = Waiter::new;
+
     /**
-     * The {@link Waiter} to use when executing wait operations.
-     * This field is package-private in order to allow for it to be tests.
+     * A supplier used to get a {@link Waiter} instance to use when executing any wait operations.
+     * The supplier can be changed externally to customize the waiting behavior.
+     * Since this is a static field you should keep in mind that this will have an JVM global effect!
+     * <p>
+     * The default supplier is {@link #DEFAULT_WAITER}.
      */
-    private static Waiter waiter = new Waiter();
+    @Setter
+    private static Supplier<Waiter> waiter = DEFAULT_WAITER;
 
     private Wait() {
         // utility class constructor
@@ -45,7 +55,7 @@ public final class Wait {
      * @since 2.0
      */
     public static ConfiguredWait withTimeoutOf(int timeout) {
-        return new ConfiguredWait(waiter, new WaitConfig().setTimeout(timeout));
+        return new ConfiguredWait(waiter.get(), new WaitConfig().setTimeout(timeout));
     }
 
     /**
@@ -62,7 +72,7 @@ public final class Wait {
      * @since 2.0
      */
     public static ConfiguredWait withTimeoutOf(int timeout, TimeUnit timeUnit) {
-        return new ConfiguredWait(waiter, new WaitConfig().setTimeout(timeout).setTimeUnit(timeUnit));
+        return new ConfiguredWait(waiter.get(), new WaitConfig().setTimeout(timeout).setTimeUnit(timeUnit));
     }
 
     /**
@@ -77,7 +87,7 @@ public final class Wait {
      * @since 2.0
      */
     public static <T> WaitUntil<T> until(T object) {
-        return new WaitUntil<>(waiter, new WaitConfig(), object);
+        return new WaitUntil<>(waiter.get(), new WaitConfig(), object);
     }
 
     /**
@@ -92,7 +102,7 @@ public final class Wait {
      * @since 2.0
      */
     public static <T extends PageFragment> WaitUntil<T> until(T fragment) {
-        return new WaitUntil<>(waiter, WaitConfig.from(fragment), fragment);
+        return new WaitUntil<>(waiter.get(), WaitConfig.from(fragment), fragment);
     }
 
     /**
@@ -109,7 +119,7 @@ public final class Wait {
      * @since 2.0
      */
     public static void exactly(long duration, TimeUnit timeUnit) {
-        waiter.waitExactly(duration, timeUnit);
+        waiter.get().waitExactly(duration, timeUnit);
     }
 
 }

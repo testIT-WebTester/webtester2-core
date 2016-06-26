@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Getter(AccessLevel.PROTECTED)
-class Waiter {
+public class Waiter {
 
     /**
      * The {@link Sleeper} to use when actually needing to pass time.

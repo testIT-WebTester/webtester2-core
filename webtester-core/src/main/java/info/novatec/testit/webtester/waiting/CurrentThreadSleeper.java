@@ -6,7 +6,7 @@ package info.novatec.testit.webtester.waiting;
  * @see Sleeper
  * @since 2.0
  */
-class CurrentThreadSleeper implements Sleeper {
+public class CurrentThreadSleeper implements Sleeper {
 
     @Override
     public void sleep(long milliseconds) throws InterruptionException {

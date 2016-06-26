@@ -5,7 +5,7 @@ package info.novatec.testit.webtester.waiting;
  *
  * @since 2.0
  */
-interface Sleeper {
+public interface Sleeper {
     /**
      * Sleep for the given amount of milliseconds.
      *

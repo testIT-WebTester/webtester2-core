@@ -14,8 +14,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import utils.TestUtils;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -29,17 +27,15 @@ public class WaitTest {
 
         @Mock
         Waiter waiter;
-        Waiter originalWaiter;
 
         @Before
         public void rememberAndReplaceOriginalWaiter() {
-            originalWaiter = TestUtils.getStaticFieldValue(Wait.class, "waiter");
-            TestUtils.setStaticFieldValue(Wait.class, "waiter", waiter);
+            Wait.setWaiter(() -> waiter);
         }
 
         @After
         public void restoreOriginalWaiter() {
-            TestUtils.setStaticFieldValue(Wait.class, "waiter", originalWaiter);
+            Wait.setWaiter(Wait.DEFAULT_WAITER);
         }
 
     }
