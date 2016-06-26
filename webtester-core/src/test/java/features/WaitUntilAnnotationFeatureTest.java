@@ -27,17 +27,8 @@ public class WaitUntilAnnotationFeatureTest extends BaseIntegrationTest {
 
     @Test
     public void demonstrateWaitUntilVisible() {
-
         FeaturePage page = browser().create(FeaturePage.class);
-
-        // waits until button is visible
-        long initialWait = measure(page::becomesVisible);
-        assertThat(initialWait).isGreaterThan(500);
-
-        // button is already visible
-        long afterDisplayed = measure(page::becomesVisible);
-        assertThat(afterDisplayed).isLessThan(500);
-
+        assertThat(page.becomesVisibleLater().isVisible());
     }
 
     @Test(expected = TimeoutException.class)
@@ -45,19 +36,13 @@ public class WaitUntilAnnotationFeatureTest extends BaseIntegrationTest {
         create(FeaturePage.class).neverPresent();
     }
 
-    private long measure(Runnable runnable) {
-        long start = System.currentTimeMillis();
-        runnable.run();
-        return System.currentTimeMillis() - start;
-    }
-
     /* test pages */
 
     public interface FeaturePage extends Page {
 
         @WaitUntil(Visible.class)
-        @IdentifyUsing("#becomesVisible")
-        Button becomesVisible();
+        @IdentifyUsing("#becomesVisibleLater")
+        Button becomesVisibleLater();
 
         @WaitUntil(value = Present.class, timeout = 50, unit = TimeUnit.MILLISECONDS)
         @IdentifyUsing("#unknown")
