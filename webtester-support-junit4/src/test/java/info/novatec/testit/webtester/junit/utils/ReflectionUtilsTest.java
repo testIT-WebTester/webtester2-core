@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class ReflectionUtilsTest {
 
-    /* testGetAllFieldsOfClassHierarchy */
+    ReflectionUtils cut = new ReflectionUtils();
 
     @Test
     public final void testGetAllFieldsOfClassHierarchy() throws Exception {
@@ -19,7 +19,7 @@ public class ReflectionUtilsTest {
         Field fatherField = Father.class.getDeclaredField("fatherField");
         Field grandfatherField = Grandfather.class.getDeclaredField("grandfatherField");
 
-        Set<Field> fields = ReflectionUtils.getAllFieldsOfClassHierarchy(Child.class);
+        Set<Field> fields = cut.getAllFieldsOfClassHierarchy(Child.class);
 
         assertThat(fields).contains(childField, fatherField, grandfatherField);
 

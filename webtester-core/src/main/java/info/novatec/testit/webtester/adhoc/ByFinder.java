@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.GenericElement;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -26,16 +29,17 @@ import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
  * @see ByFinder#asManyGenerics()
  * @since 2.0
  */
+@Getter(AccessLevel.PACKAGE)
 public class ByFinder {
 
+    private final PageFragmentFactory factory;
     private final SearchContext searchContext;
     private final By by;
-    private final PageFragmentFactory factory;
 
-    public ByFinder(SearchContext searchContext, By by, PageFragmentFactory factory) {
+    public ByFinder(PageFragmentFactory factory, SearchContext searchContext, By by) {
+        this.factory = factory;
         this.searchContext = searchContext;
         this.by = by;
-        this.factory = factory;
     }
 
     /**
@@ -92,9 +96,7 @@ public class ByFinder {
      * @since 2.0
      */
     public <T extends PageFragment> Stream<T> asMany(Class<T> fragmentClass) {
-        return searchContext.findElements(by)
-            .stream()
-            .map(webElement -> factory.pageFragment(fragmentClass, webElement));
+        return searchContext.findElements(by).stream().map(webElement -> factory.pageFragment(fragmentClass, webElement));
     }
 
 }

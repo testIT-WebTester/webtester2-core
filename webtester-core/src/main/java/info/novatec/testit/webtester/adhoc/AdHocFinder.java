@@ -3,6 +3,9 @@ package info.novatec.testit.webtester.adhoc;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.GenericElement;
@@ -25,10 +28,11 @@ import info.novatec.testit.webtester.pages.Page;
  * @see Browser#finder()
  * @since 2.0
  */
+@Getter(AccessLevel.PACKAGE)
 public final class AdHocFinder {
 
-    private final SearchContext searchContext;
     private final PageFragmentFactory factory;
+    private final SearchContext searchContext;
 
     /**
      * Creates a new {@link AdHocFinder finder} instance using the given {@link Browser browser} as a base. The
@@ -42,7 +46,8 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public AdHocFinder(Browser browser) {
-        this(browser, browser.webDriver());
+        this.factory = new PageFragmentFactory(browser);
+        this.searchContext = browser.webDriver();
     }
 
     /**
@@ -56,12 +61,14 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public AdHocFinder(PageFragment parent) {
-        this(parent.getBrowser(), parent.webElement());
+        this.factory = new PageFragmentFactory(parent.getBrowser());
+        this.searchContext = parent.webElement();
     }
 
-    private AdHocFinder(Browser browser, SearchContext searchContext) {
+    // Constructor used for unit tests.
+    AdHocFinder(PageFragmentFactory factory, SearchContext searchContext) {
+        this.factory = factory;
         this.searchContext = searchContext;
-        this.factory = new PageFragmentFactory(browser);
     }
 
     /**
@@ -95,7 +102,7 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public ByFinder findBy(By by) {
-        return new ByFinder(searchContext, by, factory);
+        return new ByFinder(factory, searchContext, by);
     }
 
     /**
@@ -110,7 +117,7 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public TypeFinder<GenericElement> findGeneric() {
-        return new TypeFinder<>(searchContext, GenericElement.class, factory);
+        return new TypeFinder<>(factory, searchContext, GenericElement.class);
     }
 
     /**
@@ -125,7 +132,7 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public <T extends PageFragment> TypeFinder<T> find(Class<T> fragmentClass) {
-        return new TypeFinder<>(searchContext, fragmentClass, factory);
+        return new TypeFinder<>(factory, searchContext, fragmentClass);
     }
 
 }

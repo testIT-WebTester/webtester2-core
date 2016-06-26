@@ -51,8 +51,8 @@ public class FocusSetter extends BaseBrowserOperation {
         log.debug("focused on frame with index: {}", index);
     }
 
-    private WebDriver doOnFrame(Browser browser, int index) {
-        return browser.webDriver().switchTo().frame(index);
+    private void doOnFrame(Browser browser, int index) {
+        browser.webDriver().switchTo().frame(index);
     }
 
     /**
@@ -70,8 +70,8 @@ public class FocusSetter extends BaseBrowserOperation {
         log.debug("focused on frame with name or ID: {}", nameOrId);
     }
 
-    private WebDriver doOnFrame(Browser browser, String nameOrId) {
-        return browser.webDriver().switchTo().frame(nameOrId);
+    private void doOnFrame(Browser browser, String nameOrId) {
+        browser.webDriver().switchTo().frame(nameOrId);
     }
 
     /**
@@ -89,8 +89,8 @@ public class FocusSetter extends BaseBrowserOperation {
         log.debug("focused on frame page fragment: {}", frame);
     }
 
-    private WebDriver doOnFrame(Browser browser, PageFragment frame) {
-        return browser.webDriver().switchTo().frame(frame.webElement());
+    private void doOnFrame(Browser browser, PageFragment frame) {
+        browser.webDriver().switchTo().frame(frame.webElement());
     }
 
     /**

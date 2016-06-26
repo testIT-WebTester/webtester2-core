@@ -183,7 +183,7 @@ public class PageSourceSaver extends BaseBrowserOperation {
         } catch (IOException | RuntimeException e) {
             log.warn("Exception while saving page source, returning null.", e);
         }
-        return Optional.ofNullable(file).filter(File::isFile);
+        return Optional.ofNullable(file);
     }
 
     private File doSavePageSource(File targetFolder, String fileNameWithoutSuffix) throws IOException {

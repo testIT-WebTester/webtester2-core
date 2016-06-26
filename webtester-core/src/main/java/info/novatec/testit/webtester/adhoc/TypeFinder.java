@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
@@ -26,16 +29,17 @@ import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
  * @see TypeFinder#manyBy(By)
  * @since 2.0
  */
+@Getter(AccessLevel.PACKAGE)
 public class TypeFinder<T extends PageFragment> {
 
+    private final PageFragmentFactory factory;
     private final SearchContext searchContext;
     private final Class<T> fragmentClass;
-    private final PageFragmentFactory factory;
 
-    public TypeFinder(SearchContext searchContext, Class<T> fragmentClass, PageFragmentFactory factory) {
+    public TypeFinder(PageFragmentFactory factory, SearchContext searchContext, Class<T> fragmentClass) {
+        this.factory = factory;
         this.searchContext = searchContext;
         this.fragmentClass = fragmentClass;
-        this.factory = factory;
     }
 
     /**

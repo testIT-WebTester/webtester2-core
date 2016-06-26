@@ -42,55 +42,6 @@ import info.novatec.testit.webtester.pagefragments.mapping.MappingValidatorImpl;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PageFragmentProxyHandler implements InvocationHandler {
 
-    public static PageFragmentProxyHandler fromModel(PageFragmentModel model) {
-
-        Browser browser = model.getBrowser();
-        Class<? extends PageFragment> pageFragmentClass = model.getType();
-        MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
-        Supplier<WebElement> webElementSupplier = () -> {
-            SearchContext searchContext = model.getSearchContextSupplier().get();
-            By by = model.getBy();
-            return searchContext.findElement(by);
-        };
-        EventProducingImplementationDecorator eventDecorator =
-            new EventProducingImplementationDecorator(browser, webElementSupplier);
-
-        return PageFragmentProxyHandler.builder()
-            .browser(browser)
-            .pageFragmentClass(pageFragmentClass)
-            .validator(validator)
-            .webElementSupplier(webElementSupplier)
-            .searchContextSupplier(webElementSupplier::get)
-            .name(Optional.ofNullable(model.getName()))
-            .eventDecorator(eventDecorator)
-            .build()
-            .addBeforeOperations()
-            .addImplementations();
-
-    }
-
-    public static PageFragmentProxyHandler forWebElement(Browser browser, WebElement webElement,
-        Class<? extends PageFragment> pageFragmentClass) {
-
-        MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
-        Supplier<WebElement> webElementSupplier = () -> webElement;
-        EventProducingImplementationDecorator eventDecorator =
-            new EventProducingImplementationDecorator(browser, webElementSupplier);
-
-        return PageFragmentProxyHandler.builder()
-            .browser(browser)
-            .pageFragmentClass(pageFragmentClass)
-            .validator(validator)
-            .webElementSupplier(webElementSupplier)
-            .searchContextSupplier(webElementSupplier::get)
-            .name(Optional.empty())
-            .eventDecorator(eventDecorator)
-            .build()
-            .addBeforeOperations()
-            .addImplementations();
-
-    }
-
     private final Browser browser;
     private final Class<? extends PageFragment> pageFragmentClass;
     private final MappingValidator validator;
@@ -146,6 +97,55 @@ public class PageFragmentProxyHandler implements InvocationHandler {
             .filter(operation -> operation.isImplementationFor(method))
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("No implementation found for: " + method));
+    }
+
+    public static PageFragmentProxyHandler fromModel(PageFragmentModel model) {
+
+        Browser browser = model.getBrowser();
+        Class<? extends PageFragment> pageFragmentClass = model.getType();
+        MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
+        Supplier<WebElement> webElementSupplier = () -> {
+            SearchContext searchContext = model.getSearchContextSupplier().get();
+            By by = model.getBy();
+            return searchContext.findElement(by);
+        };
+        EventProducingImplementationDecorator eventDecorator =
+            new EventProducingImplementationDecorator(browser, webElementSupplier);
+
+        return PageFragmentProxyHandler.builder()
+            .browser(browser)
+            .pageFragmentClass(pageFragmentClass)
+            .validator(validator)
+            .webElementSupplier(webElementSupplier)
+            .searchContextSupplier(webElementSupplier::get)
+            .name(Optional.ofNullable(model.getName()))
+            .eventDecorator(eventDecorator)
+            .build()
+            .addBeforeOperations()
+            .addImplementations();
+
+    }
+
+    public static PageFragmentProxyHandler forWebElement(Browser browser, WebElement webElement,
+        Class<? extends PageFragment> pageFragmentClass) {
+
+        MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
+        Supplier<WebElement> webElementSupplier = () -> webElement;
+        EventProducingImplementationDecorator eventDecorator =
+            new EventProducingImplementationDecorator(browser, webElementSupplier);
+
+        return PageFragmentProxyHandler.builder()
+            .browser(browser)
+            .pageFragmentClass(pageFragmentClass)
+            .validator(validator)
+            .webElementSupplier(webElementSupplier)
+            .searchContextSupplier(webElementSupplier::get)
+            .name(Optional.empty())
+            .eventDecorator(eventDecorator)
+            .build()
+            .addBeforeOperations()
+            .addImplementations();
+
     }
 
 }

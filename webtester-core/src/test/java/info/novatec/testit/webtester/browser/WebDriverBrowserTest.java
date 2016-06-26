@@ -199,6 +199,13 @@ public class WebDriverBrowserTest {
             verify(open).url("http://www.foo.com");
         }
 
+        @Test
+        public void openingAnUrlReturnsSameBrowser() {
+            TestUtils.setFieldValue(browser, "open", open);
+            Browser returnedBrowser = this.browser.open("http://www.foo.com");
+            assertThat(returnedBrowser).isSameAs(browser);
+        }
+
     }
 
     public static class FactoryAndBuilder {

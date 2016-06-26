@@ -1,5 +1,7 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
@@ -12,22 +14,23 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see PageFragment#getVisibleText()
  * @since 2.0
  */
+@Getter
 public class VisibleTextContains implements Condition<PageFragment> {
 
-    private final String partialText;
+    private final String expectedPartialText;
 
-    public VisibleTextContains(String partialText) {
-        this.partialText = partialText;
+    public VisibleTextContains(String expectedPartialText) {
+        this.expectedPartialText = expectedPartialText;
     }
 
     @Override
     public boolean test(PageFragment pageFragment) {
-        return pageFragment.getVisibleText().contains(partialText);
+        return pageFragment.getVisibleText().contains(expectedPartialText);
     }
 
     @Override
     public String toString() {
-        return String.format("visible text contains: %s", partialText);
+        return String.format("visible text contains: %s", expectedPartialText);
     }
 
 }

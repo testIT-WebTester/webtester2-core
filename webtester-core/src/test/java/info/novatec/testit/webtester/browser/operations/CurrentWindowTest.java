@@ -11,6 +11,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -20,11 +25,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import utils.MockFactory;
-import utils.TestUtils;
-import utils.events.EventCaptor;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.WebDriverBrowser;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.ClosedWindowEvent;
 import info.novatec.testit.webtester.events.browser.MaximizedWindowEvent;
@@ -40,28 +42,21 @@ public class CurrentWindowTest {
     @RunWith(MockitoJUnitRunner.class)
     public static abstract class AbstractCurrentWindowTest {
 
+        @Mock(answer = Answers.RETURNS_DEEP_STUBS)
         WebDriver webDriver;
+        @Mock
+        EventSystem events;
+        @Mock
         Browser browser;
 
+        @InjectMocks
         CurrentWindow cut;
 
         @Before
         public void init() throws IOException {
-            webDriver = MockFactory.webDriver();
-            browser = WebDriverBrowser.forWebDriver(webDriver).build();
-            cut = new CurrentWindow(browser);
-        }
-
-        EventSystem eventSystem() {
-            return cut.browser().events();
-        }
-
-        WebDriver.Window window() {
-            return webDriver.manage().window();
-        }
-
-        WebDriver.Navigation navigation() {
-            return webDriver.navigate();
+            doReturn(webDriver).when(browser).webDriver();
+            doReturn(events).when(browser).events();
+            doReturn(true).when(events).isEnabled();
         }
 
     }
@@ -79,32 +74,40 @@ public class CurrentWindowTest {
 
     public static class Refresh extends AbstractCurrentWindowTest {
 
+        @Captor
+        ArgumentCaptor<RefreshedPageEvent> eventCaptor;
+
         @Test
         public void refreshingWindowDelegatesToCorrectWebDriverMethod() {
             cut.refresh();
-            verify(navigation()).refresh();
+            verify(webDriver.navigate()).refresh();
         }
 
         @Test
         public void refreshingWindowFiresEvent() {
-            EventCaptor.capture(eventSystem(), RefreshedPageEvent.class).execute(() -> cut.refresh()).assertEventWasFired();
+            cut.refresh();
+            verify(events).fireEvent(eventCaptor.capture());
+            assertThat(eventCaptor.getValue()).isNotNull();
         }
 
     }
 
     public static class Maximize extends AbstractCurrentWindowTest {
 
+        @Captor
+        ArgumentCaptor<MaximizedWindowEvent> eventCaptor;
+
         @Test
         public void maximizingWindowDelegatesToCorrectWebDriverMethod() {
             cut.maximize();
-            verify(window()).maximize();
+            verify(webDriver.manage().window()).maximize();
         }
 
         @Test
         public void maximizingWindowFiresEvent() {
-            EventCaptor.capture(eventSystem(), MaximizedWindowEvent.class)
-                .execute(() -> cut.maximize())
-                .assertEventWasFired();
+            cut.maximize();
+            verify(events).fireEvent(eventCaptor.capture());
+            assertThat(eventCaptor.getValue()).isNotNull();
         }
 
     }
@@ -127,64 +130,67 @@ public class CurrentWindowTest {
 
     public static class SetPosition extends AbstractCurrentWindowTest {
 
+        @Captor
+        ArgumentCaptor<SetWindowPositionEvent> eventCaptor;
+
         @Test
         public void settingWindowPositionDelegatesToCorrectWebDriverMethod() {
             cut.setPosition(42, 84);
-            verify(window()).setPosition(new Point(42, 84));
+            verify(webDriver.manage().window()).setPosition(new Point(42, 84));
         }
 
         @Test
         public void settingWindowPositionFiresEvent() {
-            EventCaptor.capture(eventSystem(), SetWindowPositionEvent.class)
-                .execute(() -> cut.setPosition(42, 84))
-                .assertEventWasFired()
-                .assertEvent(event -> {
-                    assertThat(event.getX()).isEqualTo(42);
-                    assertThat(event.getY()).isEqualTo(84);
-                });
+            cut.setPosition(42, 84);
+            verify(events).fireEvent(eventCaptor.capture());
+            SetWindowPositionEvent event = eventCaptor.getValue();
+            assertThat(event.getX()).isEqualTo(42);
+            assertThat(event.getY()).isEqualTo(84);
         }
 
     }
 
     public static class SetSize extends AbstractCurrentWindowTest {
 
+        @Captor
+        ArgumentCaptor<SetWindowSizeEvent> eventCaptor;
+
         @Test
         public void settingWindowSizeDelegatesToCorrectWebDriverMethod() {
             cut.setSize(1024, 768);
-            verify(window()).setSize(new Dimension(1024, 768));
+            verify(webDriver.manage().window()).setSize(new Dimension(1024, 768));
         }
 
         @Test
         public void settingWindowSizeFiresEvent() {
-            EventCaptor.capture(eventSystem(), SetWindowSizeEvent.class)
-                .execute(() -> cut.setSize(1024, 768))
-                .assertEventWasFired()
-                .assertEvent(event -> {
-                    assertThat(event.getWidth()).isEqualTo(1024);
-                    assertThat(event.getHeight()).isEqualTo(768);
-                });
+            cut.setSize(1024, 768);
+            verify(events).fireEvent(eventCaptor.capture());
+            SetWindowSizeEvent event = eventCaptor.getValue();
+            assertThat(event.getWidth()).isEqualTo(1024);
+            assertThat(event.getHeight()).isEqualTo(768);
         }
 
     }
 
     public static class ScrollTo extends AbstractCurrentWindowTest {
 
+        @Mock
+        JavaScriptExecutor javaScript;
+
         @Test
         public void correctJavaScriptIsExecuted() {
-
-            JavaScriptExecutor javaScript = mock(JavaScriptExecutor.class);
-            TestUtils.setFieldValue(browser, "javaScript", javaScript);
-
+            doReturn(javaScript).when(browser).javaScript();
             PageFragment fragment = MockFactory.fragment().build();
             cut.scrollTo(fragment);
-
             verify(javaScript).execute("arguments[0].scrollIntoView(true)", fragment);
-
         }
 
     }
 
     public static class Close extends AbstractCurrentWindowTest {
+
+        @Captor
+        ArgumentCaptor<ClosedWindowEvent> eventCaptor;
 
         @Test
         public void closingWindowDelegatesToCorrectWebDriverMethods() {
@@ -194,7 +200,9 @@ public class CurrentWindowTest {
 
         @Test
         public void closingWindowFiresEvent() {
-            EventCaptor.capture(eventSystem(), ClosedWindowEvent.class).execute(() -> cut.close()).assertEventWasFired();
+            cut.close();
+            verify(events).fireEvent(eventCaptor.capture());
+            assertThat(eventCaptor.getValue()).isNotNull();
         }
 
     }

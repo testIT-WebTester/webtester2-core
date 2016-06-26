@@ -1,57 +1,75 @@
 package info.novatec.testit.webtester.waiting;
 
-import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
-import info.novatec.testit.webtester.pagefragments.PageFragment;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 
 /**
- * This class is used to configure {@link Wait} operations with custom settings like the {@code timeout}.
+ * This class is used to configure {@link Wait} operations with custom settings like a {@code timeout}.
  *
  * @see Wait
  * @see WaitUntil
+ * @see Waiter
+ * @see WaitConfig
  * @since 2.0
  */
+@Getter(AccessLevel.PACKAGE)
 public class ConfiguredWait {
 
-    private final long timeout;
-    private final TimeUnit timeUnit;
+    /**
+     * The {@link Waiter} to use when executing wait operations.
+     */
+    private final Waiter waiter;
+    /**
+     * The {@link WaitConfig} to use when deciding how long to wait.
+     */
+    private final WaitConfig config;
 
     /**
-     * Creates a new {@link ConfiguredWait} instance with the given timeout in seconds.
+     * Creates a new {@link ConfiguredWait} instance with the given {@link Waiter} and {@link WaitConfig}.
      *
-     * @param timeout the timeout to use
+     * @param waiter the waiter to use
+     * @param config the configuration to use
+     * @see Waiter
+     * @see WaitConfig
      * @since 2.0
      */
-    public ConfiguredWait(long timeout) {
-        this(timeout, TimeUnit.SECONDS);
+    ConfiguredWait(Waiter waiter, WaitConfig config) {
+        this.waiter = waiter;
+        this.config = config;
     }
 
     /**
-     * Creates a new {@link ConfiguredWait} instance with the given timeout in the given {@link TimeUnit}.
+     * Creates a {@link WaitUntil} with this {@link ConfiguredWait}'s {@link ConfiguredWait} for the given object.
      *
-     * @param timeout the timeout to use
-     * @param timeUnit the unit of time to use
-     * @since 2.0
-     */
-    public ConfiguredWait(long timeout, TimeUnit timeUnit) {
-        this.timeout = timeout;
-        this.timeUnit = timeUnit;
-    }
-
-    /**
-     * Creates a {@link WaitUntil fluent wait until} with the timeout settings of this {@link ConfiguredWait} for the given
-     * {@link PageFragment}.
-     *
-     * @param fragment the fragment for the wait until operation
-     * @param <T> the type of the page fragment subclass
+     * @param object the object for the wait until operation
+     * @param <T> the type of object
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil
+     * @see Waiter
+     * @see WaitConfig
      * @since 2.0
      */
-    public <T extends PageFragment> WaitUntil<T> until(T fragment) {
-        return new WaitUntil<>(fragment, timeout, timeUnit);
+    public <T> WaitUntil<T> until(T object) {
+        return new WaitUntil<>(waiter, config, object);
+    }
+
+    /**
+     * Executes a wait operation based on this {@link ConfiguredWait}'s {@link ConfiguredWait} and the given boolean
+     * supplier. The wait is executed until either the supplier returns <code>true</code> or the timeout is reached.
+     *
+     * @param condition the supplier for the wait until operation
+     * @see Wait
+     * @see WaitUntil
+     * @see Waiter
+     * @see WaitConfig
+     * @since 2.0
+     */
+    public void until(Supplier<Boolean> condition) {
+        waiter.waitUntil(config, condition);
     }
 
 }

@@ -1,6 +1,5 @@
 package info.novatec.testit.webtester.config.adapters;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -20,10 +19,6 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
  * @since 2.0
  */
 public abstract class AbstractPropertiesConfigurationAdapter implements ConfigurationAdapter {
-
-    protected void loadPropertiesFromResource(File resource, Properties properties) throws IOException {
-        loadPropertiesFromResource(resource.toURI().toURL(), properties);
-    }
 
     protected void loadPropertiesFromResource(URL resource, Properties properties) throws IOException {
         try(InputStreamReader isr = new InputStreamReader(resource.openStream(), Charsets.UTF_8)) {
