@@ -4,33 +4,52 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks whether or not a {@link MultiSelect} has a specific number of selected options.
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(select, has(selectedOptions(5)));
+ * <p>
+ *
+ * @param <T> the type of the checked select
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class NumberOfSelectedOptionsMatcher<T extends MultiSelect> extends TypeSafeMatcher<T> {
 
-    // TODO: Document
+    private final int expected;
 
-    private final int numberOfOptions;
-    private int actualNumberOfOptions;
+    /** The actual number of selected options for a possible mismatch description. */
+    private int actual;
 
-    public NumberOfSelectedOptionsMatcher(int numberOfOptions) {
-        this.numberOfOptions = numberOfOptions;
+    /**
+     * Creates a new instance for the given number of selected options.
+     *
+     * @param expected the number of selected options
+     * @see NumberOfSelectedOptionsMatcher
+     * @since 2.0
+     */
+    public NumberOfSelectedOptionsMatcher(int expected) {
+        this.expected = expected;
     }
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("<" + numberOfOptions + "> selected options");
+        description.appendText("<" + expected + "> selected options");
     }
 
     @Override
     protected boolean matchesSafely(T item) {
-        actualNumberOfOptions = item.getSelectionCount();
-        return actualNumberOfOptions == numberOfOptions;
+        actual = item.getSelectionCount();
+        return actual == expected;
     }
 
     @Override
     protected void describeMismatchSafely(T item, Description mismatchDescription) {
-        mismatchDescription.appendText("has <" + actualNumberOfOptions + "> selected options");
+        mismatchDescription.appendText("has <" + actual + "> selected options");
     }
 
 }
