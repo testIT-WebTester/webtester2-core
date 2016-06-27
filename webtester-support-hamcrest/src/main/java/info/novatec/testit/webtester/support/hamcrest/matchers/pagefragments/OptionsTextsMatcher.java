@@ -7,15 +7,36 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.pagefragments.GenericSelect;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks weather or not a {@link GenericSelect} has options with a given list of texts.
+ * The texts are validated in order, and all expected option texts need to be specified!
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(select, has(optionsWithTexts("foo", "bar")));
+ * <p>
+ *
+ * @param <T> the type of the checked select
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class OptionsTextsMatcher<T extends GenericSelect<T>> extends TypeSafeMatcher<T> {
 
-    // TODO: Document
-
+    /** The expected list of texts. */
     private final List<String> texts;
+
+    /** The actual list of texts for a possible mismatch description. */
     private List<String> actualTexts;
 
+    /**
+     * Creates a new instance for the give list of texts.
+     *
+     * @param texts the expected texts
+     * @see OptionsTextsMatcher
+     * @since 2.0
+     */
     public OptionsTextsMatcher(List<String> texts) {
         this.texts = new LinkedList<>(texts);
     }

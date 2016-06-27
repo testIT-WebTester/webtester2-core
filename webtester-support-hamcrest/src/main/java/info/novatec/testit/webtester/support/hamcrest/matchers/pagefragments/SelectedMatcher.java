@@ -5,11 +5,21 @@ import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks weather or not a {@link Selectable} is selected.
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(checkbox, is(selected()));
+ * <p>
+ *
+ * @param <T> the type of the checked selectable
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class SelectedMatcher<T extends Selectable<?>> extends TypeSafeMatcher<T> {
-
-    // TODO: Document
 
     @Override
     public void describeTo(Description description) {

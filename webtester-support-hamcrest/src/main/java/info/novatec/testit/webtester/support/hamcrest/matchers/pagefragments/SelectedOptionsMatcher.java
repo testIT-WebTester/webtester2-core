@@ -4,11 +4,21 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks weather or not a {@link MultiSelect} has any selected options.
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(select, has(selectedOptions()));
+ * <p>
+ *
+ * @param <T> the type of the checked select
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class SelectedOptionsMatcher<T extends MultiSelect> extends TypeSafeMatcher<T> {
-
-    // TODO: Document
 
     @Override
     public void describeTo(Description description) {
