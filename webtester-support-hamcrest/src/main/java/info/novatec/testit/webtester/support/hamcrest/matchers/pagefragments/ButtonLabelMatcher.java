@@ -4,15 +4,35 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.pagefragments.Button;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks weather or not a {@link Button} has a certain label.
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(button, has(label("type")));
+ * <p>
+ *
+ * @param <T> the type of the checked button
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class ButtonLabelMatcher<T extends Button> extends TypeSafeMatcher<T> {
 
-    // TODO: Document
-
+    /** The expected label. */
     private final String label;
+
+    /** The actual label for a possible mismatch description. */
     private String actualLabel;
 
+    /**
+     * Creates a new instance for the given label.
+     *
+     * @param label the label to check
+     * @see ButtonLabelMatcher
+     * @since 2.0
+     */
     public ButtonLabelMatcher(String label) {
         this.label = label;
     }

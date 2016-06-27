@@ -4,11 +4,21 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.pagefragments.GenericSelect;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks weather or not a {@link GenericSelect} has any options.
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(select, has(options()));
+ * <p>
+ *
+ * @param <T> the type of the checked select
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class OptionsMatcher<T extends GenericSelect<T>> extends TypeSafeMatcher<T> {
-
-    // TODO: Document
 
     @Override
     public void describeTo(Description description) {
