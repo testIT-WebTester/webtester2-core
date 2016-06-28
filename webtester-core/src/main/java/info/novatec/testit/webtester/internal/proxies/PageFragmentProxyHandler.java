@@ -35,7 +35,7 @@ import info.novatec.testit.webtester.internal.proxies.impls.ToStringImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.WebElementReturningImpl;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.mapping.MappingValidator;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingValidatorImpl;
+import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidator;
 
 
 @Builder
@@ -103,7 +103,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
 
         Browser browser = model.getBrowser();
         Class<? extends PageFragment> pageFragmentClass = model.getType();
-        MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
+        MappingValidator validator = new DefaultMappingValidator(pageFragmentClass);
         Supplier<WebElement> webElementSupplier = () -> {
             SearchContext searchContext = model.getSearchContextSupplier().get();
             By by = model.getBy();
@@ -129,7 +129,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
     public static PageFragmentProxyHandler forWebElement(Browser browser, WebElement webElement,
         Class<? extends PageFragment> pageFragmentClass) {
 
-        MappingValidator validator = new MappingValidatorImpl(pageFragmentClass);
+        MappingValidator validator = new DefaultMappingValidator(pageFragmentClass);
         Supplier<WebElement> webElementSupplier = () -> webElement;
         EventProducingImplementationDecorator eventDecorator =
             new EventProducingImplementationDecorator(browser, webElementSupplier);

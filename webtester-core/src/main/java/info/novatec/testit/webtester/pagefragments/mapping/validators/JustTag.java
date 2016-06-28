@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mappings;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingValidatorImpl;
+import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidator;
 import info.novatec.testit.webtester.pagefragments.mapping.Validator;
 
 
@@ -20,7 +20,7 @@ import info.novatec.testit.webtester.pagefragments.mapping.Validator;
  * @see Validator
  * @see Mapping
  * @see Mappings
- * @see MappingValidatorImpl
+ * @see DefaultMappingValidator
  * @since 2.0
  */
 public class JustTag implements Validator {
