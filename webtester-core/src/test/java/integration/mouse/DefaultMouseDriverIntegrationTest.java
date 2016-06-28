@@ -11,15 +11,16 @@ import utils.events.EventCaptor;
 import info.novatec.testit.webtester.events.pagefragments.ClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.ContextClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.DoubleClickedEvent;
-import info.novatec.testit.webtester.mouse.Mouse;
+import info.novatec.testit.webtester.mouse.DefaultMouseDriver;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class MouseIntegrationTest extends BaseIntegrationTest {
+public class DefaultMouseDriverIntegrationTest extends BaseIntegrationTest {
 
     TestPage page;
+    DefaultMouseDriver cut;
 
     @Override
     protected String getHTMLFilePath() {
@@ -29,6 +30,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     @Before
     public void init() {
         page = create(TestPage.class);
+        cut = new DefaultMouseDriver();
     }
 
     /* clicks */
@@ -37,7 +39,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     public void mouseClicksCanBeExecuted() {
 
         /* Click the single click button. */
-        Mouse.click(page.clickSingleClickButton());
+        cut.click(page.clickSingleClickButton());
 
         /* The target button should now be displayed after. */
         assertThat(page.clickTargetButton().isVisible()).isTrue();
@@ -47,7 +49,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     @Test
     public void clicksFireEvents() {
         EventCaptor.capture(eventSystem(), ClickedEvent.class)
-            .execute(() -> Mouse.click(page.clickSingleClickButton()))
+            .execute(() -> cut.click(page.clickSingleClickButton()))
             .assertEventWasFired();
     }
 
@@ -55,7 +57,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     public void mouseDoubleClicksCanBeExecuted() {
 
         /* Double click the double click button. */
-        Mouse.doubleClick(page.clickDoubleClickButton());
+        cut.doubleClick(page.clickDoubleClickButton());
 
         /* The target button should now be displayed after. */
         assertThat(page.clickTargetButton().isVisible()).isTrue();
@@ -65,7 +67,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     @Test
     public void doubleClicksFireEvents() {
         EventCaptor.capture(eventSystem(), DoubleClickedEvent.class)
-            .execute(() -> Mouse.doubleClick(page.clickDoubleClickButton()))
+            .execute(() -> cut.doubleClick(page.clickDoubleClickButton()))
             .assertEventWasFired();
     }
 
@@ -73,7 +75,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     public void mouseContextClicksCanBeExecuted() {
 
         /* Context click the context click button. */
-        Mouse.contextClick(page.clickContextClickButton());
+        cut.contextClick(page.clickContextClickButton());
 
         /* The target button should now be displayed after. */
         assertThat(page.clickTargetButton().isVisible()).isTrue();
@@ -83,7 +85,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     @Test
     public void contextClicksFireEvents() {
         EventCaptor.capture(eventSystem(), ContextClickedEvent.class)
-            .execute(() -> Mouse.contextClick(page.clickContextClickButton()))
+            .execute(() -> cut.contextClick(page.clickContextClickButton()))
             .assertEventWasFired();
     }
 
@@ -93,7 +95,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     public void mouseCanBeMovedToSingleFragment() {
 
         /* Move to button. This will trigger the display of the next button. */
-        Mouse.moveTo(page.moveToStartButton());
+        cut.moveTo(page.moveToStartButton());
 
         /* Every button should be displayed after all moves are done. */
         assertThat(page.moveToStartButton().isVisible()).isTrue();
@@ -105,7 +107,7 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
     public void mouseCanBeMovedToDifferentFragmentsInSequence() {
 
         /* Move to each button. Every move will trigger the display of the next button. */
-        Mouse.moveToEach(page.moveToStartButton(), page.moveToInstantButton(), page.moveToDelayedButton());
+        cut.moveToEach(page.moveToStartButton(), page.moveToInstantButton(), page.moveToDelayedButton());
 
         /* Every button should be displayed after all moves are done. */
         assertThat(page.moveToStartButton().isVisible()).isTrue();
