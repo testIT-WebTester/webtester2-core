@@ -33,14 +33,12 @@ public class CheckboxIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void stateOfSelectedCheckboxCanBeRead() {
-        boolean selected = page.selected().isSelected();
-        assertThat(selected).isTrue();
+        assertThat(page.selected().isSelected()).isTrue();
     }
 
     @Test
     public void stateOfUnselectedCheckboxCanBeRead() {
-        boolean selected = page.notSelected().isSelected();
-        assertThat(selected).isFalse();
+        assertThat(page.notSelected().isNotSelected()).isTrue();
     }
 
     /* select */

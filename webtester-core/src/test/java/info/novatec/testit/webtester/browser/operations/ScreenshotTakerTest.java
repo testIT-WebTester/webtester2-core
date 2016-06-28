@@ -30,8 +30,6 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.primitives.Bytes;
 
-import integration.browser.operations.ScreenshotTakerIntegrationTest;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.events.Event;
@@ -39,10 +37,6 @@ import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.TookScreenshotEvent;
 
 
-/**
- * Since taking screenshots is a very complex (in the sense of involved classes and systems) operation this class is mainly
- * integration tests by {@link ScreenshotTakerIntegrationTest}.
- */
 @RunWith(Enclosed.class)
 public class ScreenshotTakerTest {
 

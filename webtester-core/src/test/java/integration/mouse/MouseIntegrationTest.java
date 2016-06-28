@@ -11,12 +11,10 @@ import utils.events.EventCaptor;
 import info.novatec.testit.webtester.events.pagefragments.ClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.ContextClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.DoubleClickedEvent;
+import info.novatec.testit.webtester.mouse.Mouse;
 import info.novatec.testit.webtester.pagefragments.Button;
-import info.novatec.testit.webtester.pagefragments.Div;
-import info.novatec.testit.webtester.pagefragments.Image;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pages.Page;
-import info.novatec.testit.webtester.mouse.Mouse;
 
 
 public class MouseIntegrationTest extends BaseIntegrationTest {
@@ -138,12 +136,6 @@ public class MouseIntegrationTest extends BaseIntegrationTest {
 
         @IdentifyUsing("#click_targetButton")
         Button clickTargetButton();
-
-        @IdentifyUsing("#dragSource")
-        Image dragSource();
-
-        @IdentifyUsing("#dropTarget")
-        Div dropTarget();
 
     }
 
