@@ -98,7 +98,7 @@ public class DifferentBrowserFactoriesTest {
 
 ## @EntryPoint
 In order for a `Browser` to be automatically navigated to an applications entry point before each test,
-the `@EntryPoint` annotation can used. The navigation at the beginning of each test is done weather or not a `Browser` is static!
+the `@EntryPoint` annotation can used. The navigation at the beginning of each test is done whether or not a `Browser` is static!
 
 ### Example
 ```java
