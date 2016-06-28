@@ -23,13 +23,13 @@ import info.novatec.testit.webtester.pagefragments.mapping.validators.TagWithout
  * @see MappingValidator
  * @since 2.0
  */
-public class MappingValidatorImpl implements MappingValidator {
+public class DefaultMappingValidator implements MappingValidator {
 
     private final Class<? extends PageFragment> pageFragmentType;
     private final List<Validator> validators;
     private final List<String> validConstellationDescriptions;
 
-    public MappingValidatorImpl(Class<? extends PageFragment> pageFragmentType) {
+    public DefaultMappingValidator(Class<? extends PageFragment> pageFragmentType) {
         this.pageFragmentType = pageFragmentType;
         this.validators = extractValidationInformation(pageFragmentType);
         this.validConstellationDescriptions = getValidConstellationDescriptions(this.validators);
@@ -38,7 +38,7 @@ public class MappingValidatorImpl implements MappingValidator {
     private static List<Validator> extractValidationInformation(Class<?> type) {
         Mapping[] annotations = type.getAnnotationsByType(Mapping.class);
         return Arrays.stream(annotations)
-            .map(MappingValidatorImpl::convertToValidConstellation)
+            .map(DefaultMappingValidator::convertToValidConstellation)
             .collect(Collectors.toList());
     }
 
