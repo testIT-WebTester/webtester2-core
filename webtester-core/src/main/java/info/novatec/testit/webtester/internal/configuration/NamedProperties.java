@@ -6,7 +6,7 @@ import java.util.Set;
 
 public enum NamedProperties {
 
-    @Documentation("Weather or not the events should be fired.")
+    @Documentation("Whether or not the events should be fired.")
     @TypeDefinition(Constants.BOOLEAN)
     @DefaultValue("true")
     EVENTS("events.enabled"),
