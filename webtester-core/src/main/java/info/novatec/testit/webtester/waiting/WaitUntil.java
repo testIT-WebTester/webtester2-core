@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
@@ -22,7 +21,7 @@ public class WaitUntil<T> {
     private final T object;
 
     /**
-     * Creates a new {@link WaitUntil} instance for the given {@link PageFragment} and {@link WaitConfig}.
+     * Creates a new {@link WaitUntil} instance for the given object and {@link WaitConfig}.
      *
      * @param config the configuration to use
      * @param object the object to use
