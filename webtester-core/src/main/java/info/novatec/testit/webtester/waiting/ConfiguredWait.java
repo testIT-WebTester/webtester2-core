@@ -18,13 +18,9 @@ import lombok.Getter;
 @Getter(AccessLevel.PACKAGE)
 public class ConfiguredWait {
 
-    /**
-     * The {@link Waiter} to use when executing wait operations.
-     */
+    /** The {@link Waiter} to use when executing wait operations. */
     private final Waiter waiter;
-    /**
-     * The {@link WaitConfig} to use when deciding how long to wait.
-     */
+    /** The {@link WaitConfig} to use when deciding how long to wait. */
     private final WaitConfig config;
 
     /**
