@@ -1,14 +1,11 @@
 package info.novatec.testit.webtester.mouse;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import lombok.Setter;
 
 import info.novatec.testit.webtester.events.pagefragments.ClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.ContextClickedEvent;
@@ -17,26 +14,11 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * This class is used to perform a variety of mouse related actions.
+ * Implementations of this interface can be used to perform a variety of mouse related actions.
  *
- * @see OnPageFragment
- * @see Sequence
  * @since 2.0
  */
-public final class Mouse {
-
-    /** The default {@link MouseDriver} supplier. Generates a new {@link DefaultMouseDriver} for each call. */
-    public static final Supplier<MouseDriver> DEFAULT_MOUSE_DRIVER = DefaultMouseDriver::new;
-
-    /**
-     * A supplier used to get a {@link MouseDriver} instance to use when executing any operations.
-     * The supplier can be changed externally to customize the behavior.
-     * Since this is a static field you should keep in mind that this will have an JVM global effect!
-     * <p>
-     * The default supplier is {@link #DEFAULT_MOUSE_DRIVER}.
-     */
-    @Setter
-    private static Supplier<MouseDriver> mouseDriver = DEFAULT_MOUSE_DRIVER;
+public interface MouseDriver {
 
     /**
      * Executes a single-click on the given {@link PageFragment page fragment}.
@@ -50,9 +32,7 @@ public final class Mouse {
      * @see Actions#click(WebElement)
      * @since 2.0
      */
-    public static void click(PageFragment fragment) {
-        mouseDriver.get().click(fragment);
-    }
+    void click(PageFragment fragment);
 
     /**
      * Executes a double-click on the given {@link PageFragment page fragment}.
@@ -66,9 +46,7 @@ public final class Mouse {
      * @see Actions#doubleClick(WebElement)
      * @since 2.0
      */
-    public static void doubleClick(PageFragment fragment) {
-        mouseDriver.get().doubleClick(fragment);
-    }
+    void doubleClick(PageFragment fragment);
 
     /**
      * Executes a single context-click on the given {@link PageFragment page fragment}.
@@ -82,9 +60,7 @@ public final class Mouse {
      * @see Actions#contextClick(WebElement)
      * @since 2.0
      */
-    public static void contextClick(PageFragment fragment) {
-        mouseDriver.get().contextClick(fragment);
-    }
+    void contextClick(PageFragment fragment);
 
     /**
      * Moves the mouse to each of the given {@link PageFragment page fragments} in the order they are given.
@@ -102,9 +78,7 @@ public final class Mouse {
      * @see Actions#moveToElement(WebElement)
      * @since 2.0
      */
-    public static void moveToEach(PageFragment fragment, PageFragment... fragments) throws TimeoutException {
-        mouseDriver.get().moveToEach(fragment, fragments);
-    }
+    void moveToEach(PageFragment fragment, PageFragment... fragments) throws TimeoutException;
 
     /**
      * Moves the mouse to each of the given {@link PageFragment page fragments} in the order.
@@ -121,9 +95,7 @@ public final class Mouse {
      * @see Actions#moveToElement(WebElement)
      * @since 2.0
      */
-    public static void moveToEach(Collection<PageFragment> fragments) throws TimeoutException {
-        mouseDriver.get().moveToEach(fragments);
-    }
+    void moveToEach(Collection<PageFragment> fragments) throws TimeoutException;
 
     /**
      * Moves the mouse to the given {@link PageFragment page fragment}.
@@ -138,36 +110,9 @@ public final class Mouse {
      * @param fragment the page fragment the mouse should be moved to
      * @throws TimeoutException if page object does not become visible in the configured amount of time
      * @see PageFragment
-     * @see Actions#moveToElement(org.openqa.selenium.WebElement)
+     * @see Actions#moveToElement(WebElement)
      * @since 2.0
      */
-    public static void moveTo(PageFragment fragment) throws TimeoutException {
-        mouseDriver.get().moveTo(fragment);
-    }
-
-    /**
-     * Creates a new {@link OnPageFragment} for the given {@link PageFragment}.
-     *
-     * @param fragment the page fragment to use
-     * @return the new instance
-     * @since 2.0
-     */
-    public static OnPageFragment on(PageFragment fragment) {
-        return new OnPageFragment(mouseDriver.get(), fragment);
-    }
-
-    /**
-     * Creates a new {@link Sequence}.
-     *
-     * @return the new instance
-     * @since 2.0
-     */
-    public static Sequence sequence() {
-        return new Sequence(mouseDriver.get());
-    }
-
-    private Mouse() {
-        // utility class constructor
-    }
+    void moveTo(PageFragment fragment) throws TimeoutException;
 
 }
