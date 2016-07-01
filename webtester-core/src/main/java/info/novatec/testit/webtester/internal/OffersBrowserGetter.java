@@ -14,6 +14,6 @@ public interface OffersBrowserGetter {
      * @since 2.0
      */
     @ReturnsBrowser
-    Browser getBrowser();
+    Browser browser();
 
 }
