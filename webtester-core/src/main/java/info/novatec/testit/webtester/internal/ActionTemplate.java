@@ -104,7 +104,7 @@ public final class ActionTemplate {
         private Marker marker;
 
         public PageFragmentAction(T subject) {
-            super(subject, subject.getBrowser());
+            super(subject, subject.browser());
             marker = new Marker(new DefaultStyleChanger());
         }
 
@@ -133,7 +133,7 @@ public final class ActionTemplate {
         private Marker marker;
 
         public PageFragmentsAction(T subject1, T subject2) {
-            super(subject1, subject2, subject1.getBrowser());
+            super(subject1, subject2, subject1.browser());
             marker = new Marker(new DefaultStyleChanger());
         }
 

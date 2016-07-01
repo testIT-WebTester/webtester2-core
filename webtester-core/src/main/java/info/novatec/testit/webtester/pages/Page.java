@@ -71,7 +71,7 @@ public interface Page extends OffersBrowserGetter, OffersPageCreation, OffersAdH
 
     @Override
     default AdHocFinder finder() {
-        return new AdHocFinder(getBrowser());
+        return new AdHocFinder(browser());
     }
 
 }

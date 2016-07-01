@@ -114,7 +114,7 @@ public class WaitConfigTest {
         @Test
         public void canBeCreatedFromPageFragment() {
 
-            doReturn(browser).when(pageFragment).getBrowser();
+            doReturn(browser).when(pageFragment).browser();
             doReturn(configuration).when(browser).configuration();
             doReturn(3).when(configuration).getWaitTimeout();
             doReturn(30L).when(configuration).getWaitInterval();

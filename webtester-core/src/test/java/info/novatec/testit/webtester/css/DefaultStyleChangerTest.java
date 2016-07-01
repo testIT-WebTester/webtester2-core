@@ -38,7 +38,7 @@ public class DefaultStyleChangerTest {
 
     @Before
     public void init() {
-        doReturn(browser).when(fragment).getBrowser();
+        doReturn(browser).when(fragment).browser();
         doReturn(javaScript).when(browser).javaScript();
     }
 

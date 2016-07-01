@@ -92,7 +92,7 @@ public interface GenericElement extends PageFragment, Clickable<GenericElement>,
      * @since 2.0
      */
     default <T extends PageFragment> T as(Class<T> fragmentClass) {
-        return new PageFragmentFactory(getBrowser()).pageFragment(fragmentClass, webElement());
+        return new PageFragmentFactory(browser()).pageFragment(fragmentClass, webElement());
     }
 
 }

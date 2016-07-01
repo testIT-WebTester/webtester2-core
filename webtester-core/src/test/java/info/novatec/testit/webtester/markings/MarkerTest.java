@@ -47,7 +47,7 @@ public class MarkerTest {
 
         @Before
         public void configuration() {
-            when(fragment.getBrowser().configuration()).thenReturn(configuration);
+            when(fragment.browser().configuration()).thenReturn(configuration);
         }
 
     }
