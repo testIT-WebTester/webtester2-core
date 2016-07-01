@@ -61,7 +61,7 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public AdHocFinder(PageFragment parent) {
-        this.factory = new PageFragmentFactory(parent.getBrowser());
+        this.factory = new PageFragmentFactory(parent.browser());
         this.searchContext = parent.webElement();
     }
 

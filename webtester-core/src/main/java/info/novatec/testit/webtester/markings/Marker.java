@@ -39,7 +39,7 @@ public class Marker {
      * @since 2.0
      */
     public void markAsRead(PageFragment fragment) {
-        Configuration configuration = fragment.getBrowser().configuration();
+        Configuration configuration = fragment.browser().configuration();
         if (configuration.isMarkingsEnabled()) {
             Color backgroundColor = configuration.getMarkingsColorReadBackground();
             Color outlineColor = configuration.getMarkingsColorReadOutline();
@@ -58,7 +58,7 @@ public class Marker {
      * @since 2.0
      */
     public void markAsUsed(PageFragment pageFragment) {
-        Configuration configuration = pageFragment.getBrowser().configuration();
+        Configuration configuration = pageFragment.browser().configuration();
         if (configuration.isMarkingsEnabled()) {
             Color backgroundColor = configuration.getMarkingsColorUsedBackground();
             Color outlineColor = configuration.getMarkingsColorUsedOutline();

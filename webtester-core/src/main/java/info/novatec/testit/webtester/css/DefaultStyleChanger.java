@@ -24,7 +24,7 @@ public class DefaultStyleChanger implements StyleChanger {
 
     private boolean changeStyleWithScript(PageFragment fragment, String script) {
         try {
-            fragment.getBrowser().javaScript().execute(script, fragment);
+            fragment.browser().javaScript().execute(script, fragment);
             return true;
         } catch (WebDriverException e) {
             log.warn("Exception while changing the style information of an page object: {}", e.getMessage());

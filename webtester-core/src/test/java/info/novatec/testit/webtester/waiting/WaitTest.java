@@ -118,7 +118,7 @@ public class WaitTest {
         @Before
         public void setUpFragment() {
             doReturn(configuration).when(browser).configuration();
-            doReturn(browser).when(fragment).getBrowser();
+            doReturn(browser).when(fragment).browser();
             doReturn(1).when(configuration).getWaitTimeout();
             doReturn(50L).when(configuration).getWaitInterval();
         }

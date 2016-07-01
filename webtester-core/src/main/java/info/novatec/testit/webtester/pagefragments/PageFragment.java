@@ -153,7 +153,7 @@ public interface PageFragment extends OffersBrowserGetter, OffersAdHocFinding, O
     default void setAttribute(String attributeName, String value) {
         String escapedValue = StringUtils.replace(value, "\"", "\\\"");
         String script = "arguments[0]." + attributeName + " = \"" + escapedValue + "\"";
-        getBrowser().javaScript().execute(script, this, value);
+        browser().javaScript().execute(script, this, value);
     }
 
     /**

@@ -73,7 +73,7 @@ public class DefaultMouseDriver implements MouseDriver {
     }
 
     private Actions sequenceFor(PageFragment fragment) {
-        return new Actions(fragment.getBrowser().webDriver());
+        return new Actions(fragment.browser().webDriver());
     }
 
 }
