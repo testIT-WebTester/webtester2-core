@@ -33,14 +33,12 @@ public class RadioButtonIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void stateOfSelectedRadioButtonCanBeRead() {
-        boolean selected = page.selected().isSelected();
-        assertThat(selected).isTrue();
+        assertThat(page.selected().isSelected()).isTrue();
     }
 
     @Test
     public void stateOfUnselectedRadioButtonCanBeRead() {
-        boolean selected = page.notSelected().isSelected();
-        assertThat(selected).isFalse();
+        assertThat(page.notSelected().isNotSelected()).isTrue();
     }
 
     /* select */

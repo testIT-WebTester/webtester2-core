@@ -25,8 +25,8 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  */
 public final class Wait {
 
-    /** The default {@link Waiter} supplier. Generates a new {@link Waiter} for each call. */
-    public static final Supplier<Waiter> DEFAULT_WAITER = Waiter::new;
+    /** The default {@link Waiter} supplier. Generates a new {@link DefaultWaiter} for each call. */
+    public static final Supplier<Waiter> DEFAULT_WAITER = DefaultWaiter::new;
 
     /**
      * A supplier used to get a {@link Waiter} instance to use when executing any wait operations.

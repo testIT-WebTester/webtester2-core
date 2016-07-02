@@ -1,6 +1,5 @@
 package info.novatec.testit.webtester.pagefragments.identification;
 
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -88,8 +87,8 @@ public final class ByProducers {
         try {
             return producerClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            String message = "unable to create " + ByProducer.class.getSimpleName() + " for: " + producerClass;
-            throw new UndeclaredThrowableException(e, message);
+            String message = "unable to create instance of " + producerClass;
+            throw new InvalidByProducerException(message, e);
         }
     }
 

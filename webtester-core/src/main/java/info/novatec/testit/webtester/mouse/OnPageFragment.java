@@ -1,5 +1,8 @@
 package info.novatec.testit.webtester.mouse;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -18,54 +21,60 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see PageFragment
  * @since 2.0
  */
-public class MouseOnAction {
+@Getter(AccessLevel.PACKAGE)
+public class OnPageFragment {
 
+    /** The {@link MouseDriver} to use when executing operations. */
+    private final MouseDriver mouseDriver;
+    /** The {@link PageFragment} to use when executing operations. */
     private final PageFragment fragment;
 
     /**
-     * Creates a new {@link MouseOnAction}.
+     * Creates a new {@link OnPageFragment} for the given {@link MouseDriver} and {@link PageFragment}.
      *
+     * @param mouseDriver the driver to use
      * @param fragment the fragment to use as a base
-     * @see MouseOnAction
+     * @see OnPageFragment
      * @since 2.0
      */
-    public MouseOnAction(PageFragment fragment) {
+    OnPageFragment(MouseDriver mouseDriver, PageFragment fragment) {
+        this.mouseDriver = mouseDriver;
         this.fragment = fragment;
     }
 
     /**
      * Executes a {@link Mouse#click(PageFragment)} with the action's {@link PageFragment}.
      *
-     * @return the same action for fluent API use
+     * @return the same instance for fluent API use
      * @see Mouse
      * @since 2.0
      */
-    public MouseOnAction click() {
-        Mouse.click(fragment);
+    public OnPageFragment click() {
+        mouseDriver.click(fragment);
         return this;
     }
 
     /**
      * Executes a {@link Mouse#doubleClick(PageFragment)} with the action's {@link PageFragment}.
      *
-     * @return the same action for fluent API use
+     * @return the same instance for fluent API use
      * @see Mouse
      * @since 2.0
      */
-    public MouseOnAction doubleClick() {
-        Mouse.doubleClick(fragment);
+    public OnPageFragment doubleClick() {
+        mouseDriver.doubleClick(fragment);
         return this;
     }
 
     /**
      * Executes a {@link Mouse#contextClick(PageFragment)} with the action's {@link PageFragment}.
      *
-     * @return the same action for fluent API use
+     * @return the same instance for fluent API use
      * @see Mouse
      * @since 2.0
      */
-    public MouseOnAction contextClick() {
-        Mouse.contextClick(fragment);
+    public OnPageFragment contextClick() {
+        mouseDriver.contextClick(fragment);
         return this;
     }
 

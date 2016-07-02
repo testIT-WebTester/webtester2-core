@@ -24,13 +24,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 
 @RunWith(Enclosed.class)
-public class WaiterTest {
+public class DefaultWaiterTest {
 
     public static class Construction {
 
         @Test
         public void defaultWaiterCanBeInitialized() {
-            Waiter waiter = new Waiter();
+            DefaultWaiter waiter = new DefaultWaiter();
             assertThat(waiter.getSleeper()).isInstanceOf(CurrentThreadSleeper.class);
             assertThat(waiter.getClock()).isNotNull();
         }
@@ -38,7 +38,7 @@ public class WaiterTest {
         @Test
         public void sleeperCanBeCustomized() {
             Sleeper sleeper = mock(Sleeper.class);
-            Waiter waiter = new Waiter(sleeper);
+            DefaultWaiter waiter = new DefaultWaiter(sleeper);
             assertThat(waiter.getSleeper()).isSameAs(sleeper);
             assertThat(waiter.getClock()).isNotNull();
         }
@@ -47,7 +47,7 @@ public class WaiterTest {
         public void sleeperAndClockCanBeCustomized() {
             Sleeper sleeper = mock(Sleeper.class);
             Clock clock = mock(Clock.class);
-            Waiter waiter = new Waiter(sleeper, clock);
+            DefaultWaiter waiter = new DefaultWaiter(sleeper, clock);
             assertThat(waiter.getSleeper()).isSameAs(sleeper);
             assertThat(waiter.getClock()).isSameAs(clock);
         }
@@ -60,7 +60,7 @@ public class WaiterTest {
         @Mock
         Sleeper sleeper;
         @InjectMocks
-        Waiter cut;
+        DefaultWaiter cut;
 
         @Test
         public void waitingOneSecondsSleepsForOneThousandMilliseconds() {
@@ -105,7 +105,7 @@ public class WaiterTest {
         @Mock
         Clock clock;
         @InjectMocks
-        Waiter cut;
+        DefaultWaiter cut;
 
         @Mock
         Supplier<Boolean> condition;

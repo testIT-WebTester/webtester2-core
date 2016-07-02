@@ -61,7 +61,7 @@ public class WaitConfig {
      * @since 2.0
      */
     static WaitConfig from(PageFragment fragment) {
-        return from(fragment.getBrowser());
+        return from(fragment.browser());
     }
 
     /**

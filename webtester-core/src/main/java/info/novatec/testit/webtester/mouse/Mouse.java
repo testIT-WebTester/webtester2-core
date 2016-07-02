@@ -1,38 +1,42 @@
 package info.novatec.testit.webtester.mouse;
 
-import static info.novatec.testit.webtester.conditions.Conditions.visible;
-
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import com.google.common.annotations.Beta;
+import lombok.Setter;
 
 import info.novatec.testit.webtester.events.pagefragments.ClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.ContextClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.DoubleClickedEvent;
-import info.novatec.testit.webtester.events.pagefragments.DraggedAndDroppedEvent;
-import info.novatec.testit.webtester.internal.ActionTemplate;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.waiting.Wait;
 
 
 /**
  * This class is used to perform a variety of mouse related actions.
  *
- * @see MouseOnAction
- * @see MouseDragAction
- * @see MouseActionSequence
+ * @see OnPageFragment
+ * @see Sequence
  * @since 2.0
  */
 public final class Mouse {
 
-    /* click with mouse */
+    /** The default {@link MouseDriver} supplier. Generates a new {@link DefaultMouseDriver} for each call. */
+    public static final Supplier<MouseDriver> DEFAULT_MOUSE_DRIVER = DefaultMouseDriver::new;
+
+    /**
+     * A supplier used to get a {@link MouseDriver} instance to use when executing any operations.
+     * The supplier can be changed externally to customize the behavior.
+     * Since this is a static field you should keep in mind that this will have an JVM global effect!
+     * <p>
+     * The default supplier is {@link #DEFAULT_MOUSE_DRIVER}.
+     */
+    @Setter
+    private static Supplier<MouseDriver> mouseDriver = DEFAULT_MOUSE_DRIVER;
 
     /**
      * Executes a single-click on the given {@link PageFragment page fragment}.
@@ -47,11 +51,7 @@ public final class Mouse {
      * @since 2.0
      */
     public static void click(PageFragment fragment) {
-        ActionTemplate.pageFragment(fragment).execute(Mouse::doClick).fireEvent(ClickedEvent::new).markAsUsed();
-    }
-
-    private static void doClick(PageFragment fragment) {
-        perform(fragment, Actions::click);
+        mouseDriver.get().click(fragment);
     }
 
     /**
@@ -67,11 +67,7 @@ public final class Mouse {
      * @since 2.0
      */
     public static void doubleClick(PageFragment fragment) {
-        ActionTemplate.pageFragment(fragment).execute(Mouse::doDoubleClick).fireEvent(DoubleClickedEvent::new).markAsUsed();
-    }
-
-    private static void doDoubleClick(PageFragment fragment) {
-        perform(fragment, Actions::doubleClick);
+        mouseDriver.get().doubleClick(fragment);
     }
 
     /**
@@ -87,17 +83,8 @@ public final class Mouse {
      * @since 2.0
      */
     public static void contextClick(PageFragment fragment) {
-        ActionTemplate.pageFragment(fragment)
-            .execute(Mouse::doContextClick)
-            .fireEvent(ContextClickedEvent::new)
-            .markAsUsed();
+        mouseDriver.get().contextClick(fragment);
     }
-
-    private static void doContextClick(PageFragment fragment) {
-        perform(fragment, Actions::contextClick);
-    }
-
-    /* move mouse */
 
     /**
      * Moves the mouse to each of the given {@link PageFragment page fragments} in the order they are given.
@@ -116,8 +103,7 @@ public final class Mouse {
      * @since 2.0
      */
     public static void moveToEach(PageFragment fragment, PageFragment... fragments) throws TimeoutException {
-        moveTo(fragment);
-        moveToEach(Arrays.asList(fragments));
+        mouseDriver.get().moveToEach(fragment, fragments);
     }
 
     /**
@@ -136,7 +122,7 @@ public final class Mouse {
      * @since 2.0
      */
     public static void moveToEach(Collection<PageFragment> fragments) throws TimeoutException {
-        fragments.forEach(Mouse::moveTo);
+        mouseDriver.get().moveToEach(fragments);
     }
 
     /**
@@ -156,83 +142,28 @@ public final class Mouse {
      * @since 2.0
      */
     public static void moveTo(PageFragment fragment) throws TimeoutException {
-        ActionTemplate.pageFragment(fragment).execute(Mouse::doMoveTo);
+        mouseDriver.get().moveTo(fragment);
     }
-
-    private static void doMoveTo(PageFragment fragment) {
-        Wait.until(fragment).is(visible());
-        perform(fragment, Actions::moveToElement);
-    }
-
-    /* drag and drop */
 
     /**
-     * Drags the given source {@link PageFragment page fragment} onto the given target {@link PageFragment page fragment}.
-     * Fires a {@link DraggedAndDroppedEvent}.
-     * <p>
-     * The actual behavior might vary between different {@link WebDriver} implementations. Some implementations might move
-     * the actual mouse cursor, some might simulate the behavior.
-     * <p>
-     * This might not work with all drivers!
-     *
-     * @param sourceFragment the fragment being dragged
-     * @param targetFragment the fragment the source is dragged onto
-     * @see PageFragment
-     * @see Actions#dragAndDrop(WebElement, WebElement)
-     * @since 2.0
-     */
-    @Beta
-    public static void dragAndDrop(PageFragment sourceFragment, PageFragment targetFragment) {
-        ActionTemplate.pageFragments(sourceFragment, targetFragment)
-            .execute(Mouse::doDragAndDrop)
-            .fireEvent(DraggedAndDroppedEvent::new)
-            .markAsUsed();
-    }
-
-    private static void doDragAndDrop(PageFragment sourceFragment, PageFragment targetFragment) {
-        sequenceFor(sourceFragment).dragAndDrop(sourceFragment.webElement(), targetFragment.webElement()).perform();
-    }
-
-    private static void perform(PageFragment fragment, BiFunction<Actions, WebElement, Actions> biConsumer) {
-        biConsumer.apply(sequenceFor(fragment), fragment.webElement()).perform();
-    }
-
-    private static Actions sequenceFor(PageFragment fragment) {
-        return new Actions(fragment.getBrowser().webDriver());
-    }
-
-    /* fluent API factories */
-
-    /**
-     * Creates a new {@link MouseOnAction} for the given {@link PageFragment}.
+     * Creates a new {@link OnPageFragment} for the given {@link PageFragment}.
      *
      * @param fragment the page fragment to use
-     * @return the created action
+     * @return the new instance
      * @since 2.0
      */
-    public static MouseOnAction on(PageFragment fragment) {
-        return new MouseOnAction(fragment);
+    public static OnPageFragment on(PageFragment fragment) {
+        return new OnPageFragment(mouseDriver.get(), fragment);
     }
 
     /**
-     * Creates a new {@link MouseDragAction} for the given {@link PageFragment}.
+     * Creates a new {@link Sequence}.
      *
-     * @param fragment the page fragment to use
-     * @return the created action
+     * @return the new instance
      * @since 2.0
      */
-    public static MouseDragAction drag(PageFragment fragment) {
-        return new MouseDragAction(fragment);
-    }
-
-    /**
-     * Creates a new {@link MouseActionSequence}.
-     *
-     * @return the created action
-     * @since 2.0
-     */
-    public static MouseActionSequence sequence() {
-        return new MouseActionSequence();
+    public static Sequence sequence() {
+        return new Sequence(mouseDriver.get());
     }
 
     private Mouse() {

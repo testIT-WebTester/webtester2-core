@@ -5,11 +5,21 @@ import org.hamcrest.TypeSafeMatcher;
 
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers;
 
 
+/**
+ * This {@link TypeSafeMatcher} checks whether or not a {@link PageFragment} is present.
+ * Instances of this matcher should be initialized using the {@link WebTesterMatchers} factory class.
+ * <p>
+ * <b>Example:</b> assertThat(fragment, is(present()));
+ * <p>
+ *
+ * @param <T> the type of the checked page fragment
+ * @see WebTesterMatchers
+ * @since 2.0
+ */
 public class PresentMatcher<T extends PageFragment> extends TypeSafeMatcher<T> {
-
-    // TODO: Document
 
     @Override
     public void describeTo(Description description) {
