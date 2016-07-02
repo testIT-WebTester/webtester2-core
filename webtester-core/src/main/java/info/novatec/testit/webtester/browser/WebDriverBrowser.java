@@ -195,12 +195,12 @@ public final class WebDriverBrowser implements Browser {
     }
 
     @Slf4j
-    private static class WebDriverBrowserBuilder implements BrowserBuilder {
+    private static final class WebDriverBrowserBuilder implements BrowserBuilder {
 
         private WebDriver webDriver;
         private Configuration customConfiguration;
 
-        public WebDriverBrowserBuilder(WebDriver webDriver) {
+        private WebDriverBrowserBuilder(WebDriver webDriver) {
             this.webDriver = webDriver;
             log.debug("building browser for web driver: {}", webDriver);
         }
