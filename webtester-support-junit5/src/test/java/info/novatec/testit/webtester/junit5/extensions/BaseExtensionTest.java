@@ -40,8 +40,12 @@ public class BaseExtensionTest {
         expectedNames.add("publicChildField");
         expectedNames.add("defaultChildField");
 
-        assertThat(fieldNames).isEqualTo(expectedNames);
+        assertThat(fieldNames).containsSubsequence(toVararg(expectedNames));
 
+    }
+
+    private String[] toVararg(List<String> expectedNames) {
+        return expectedNames.toArray(new String[expectedNames.size()]);
     }
 
     private static class ChildClass extends ParentClass {
