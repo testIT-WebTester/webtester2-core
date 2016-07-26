@@ -91,6 +91,7 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
     }};
 
     @Override
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public void beforeEach(TestExtensionContext context) throws Exception {
         try {
             injectValuesIntoAnnotatedFields(context);

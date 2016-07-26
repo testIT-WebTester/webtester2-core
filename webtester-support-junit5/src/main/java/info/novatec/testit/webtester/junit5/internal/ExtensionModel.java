@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 
@@ -18,13 +19,13 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
  * @since 2.1
  */
 @Getter
+@Setter
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class ExtensionModel {
 
     private List<Field> browserFields;
     private Map<String, Field> namedBrowserFields;
-
     private List<Field> pageFields;
-
     private List<Field> configurationValueFields;
 
     public void setBrowserFields(List<Field> browserFields) {
@@ -44,14 +45,6 @@ public class ExtensionModel {
             nameToFieldMap.put(browserName, field);
         });
         return nameToFieldMap;
-    }
-
-    public void setPageFields(List<Field> pageFields) {
-        this.pageFields = pageFields;
-    }
-
-    public void setConfigurationValueFields(List<Field> configurationValueFields) {
-        this.configurationValueFields = configurationValueFields;
     }
 
 }

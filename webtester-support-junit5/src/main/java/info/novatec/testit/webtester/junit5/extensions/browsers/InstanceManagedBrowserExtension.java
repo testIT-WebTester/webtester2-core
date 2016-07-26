@@ -22,6 +22,7 @@ public class InstanceManagedBrowserExtension extends AbstractManagedBrowserExten
     }
 
     @Override
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public void beforeEach(TestExtensionContext context) throws Exception {
         try {
             initializeAndInjectInstanceBrowsers(context);

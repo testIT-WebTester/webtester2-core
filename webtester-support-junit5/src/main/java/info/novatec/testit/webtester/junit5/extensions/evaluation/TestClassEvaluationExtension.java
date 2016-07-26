@@ -21,7 +21,7 @@ import info.novatec.testit.webtester.pages.Page;
 public class TestClassEvaluationExtension extends BaseExtension implements BeforeAllCallback {
 
     @Override
-    public void beforeAll(ContainerExtensionContext context) throws Exception {
+    public void beforeAll(ContainerExtensionContext context) {
 
         Class<?> testClass =
             context.getTestClass().orElseThrow(() -> new IllegalStateException("No test class available!?"));

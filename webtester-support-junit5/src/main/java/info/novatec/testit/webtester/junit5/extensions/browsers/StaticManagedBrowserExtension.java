@@ -22,6 +22,7 @@ public class StaticManagedBrowserExtension extends AbstractManagedBrowserExtensi
     }
 
     @Override
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public void beforeAll(ContainerExtensionContext context) throws Exception {
         try {
             initializeAndInjectStaticBrowsers(context);

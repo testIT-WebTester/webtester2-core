@@ -58,6 +58,7 @@ public abstract class AbstractManagedBrowserExtension extends BaseExtension {
         getManagedBrowsers(context).forEach(this::closeAndLogErrors);
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     protected void closeAndLogErrors(Browser browser) {
         try {
             log.debug("closing managed browser: {}", browser);

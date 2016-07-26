@@ -53,6 +53,7 @@ import info.novatec.testit.webtester.pages.Page;
 public class PageInitializerExtension extends BaseExtension implements BeforeEachCallback {
 
     @Override
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public void beforeEach(TestExtensionContext context) throws Exception {
         try {
             createPagesForAnnotatedFields(context);
