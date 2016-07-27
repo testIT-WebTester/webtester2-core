@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.junit5.extensions;
+package info.novatec.testit.webtester.junit5.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,10 +11,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
-public class BaseExtensionTest {
+public class ReflectionUtilsTest {
 
-    BaseExtension cut = new BaseExtension() {
-    };
+    ReflectionUtils cut = new ReflectionUtils();
 
     @Test
     @DisplayName("allFieldsOfClassHierarchy(Class) returns all fields of class hierarchy in order of inheritance")

@@ -34,24 +34,6 @@ public class BaseExtension {
         return context.getStore(NAMESPACE).get("extension-model", ExtensionModel.class);
     }
 
-    protected Stream<Field> allFieldsOfClassHierarchy(Class<?> testClass) {
-        return getClassHierarchy(testClass).stream()
-            .sequential()
-            .flatMap(aClass -> Arrays.stream(aClass.getDeclaredFields()))
-            .peek(field -> field.setAccessible(true));
-
-    }
-
-    private Deque<Class<?>> getClassHierarchy(Class<?> testClass) {
-        Deque<Class<?>> classes = new LinkedList<>();
-        Class<?> currentClass = testClass;
-        while (currentClass != null) {
-            classes.push(currentClass);
-            currentClass = currentClass.getSuperclass();
-        }
-        return classes;
-    }
-
     @SuppressWarnings("unchecked")
     protected <T> T getValue(Field field, Object instance) {
         try {
