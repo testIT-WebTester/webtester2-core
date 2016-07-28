@@ -25,7 +25,12 @@ public class TestClassAnalyzer {
     private final Class<?> testClass;
     private final ReflectionUtils reflectionUtils;
 
-    public TestClassModel analyze() {
+    TestClassAnalyzer(Class<?> testClass, ReflectionUtils reflectionUtils) {
+        this.testClass = testClass;
+        this.reflectionUtils = reflectionUtils;
+    }
+
+    TestClassModel analyze() {
         List<Field> browserFields = getBrowserFields();
         Map<String, Field> namedBrowserFieldsMap = getNamedBrowserFieldsMap(browserFields);
         List<Field> pageFields = getPageFields();
@@ -36,11 +41,6 @@ public class TestClassAnalyzer {
             .pageFields(pageFields)
             .configurationValueFields(configurationValueFields)
             .build();
-    }
-
-    public TestClassAnalyzer(Class<?> testClass, ReflectionUtils reflectionUtils) {
-        this.testClass = testClass;
-        this.reflectionUtils = reflectionUtils;
     }
 
     private List<Field> getBrowserFields() {
