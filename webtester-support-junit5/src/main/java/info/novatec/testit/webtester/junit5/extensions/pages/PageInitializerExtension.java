@@ -2,6 +2,7 @@ package info.novatec.testit.webtester.junit5.extensions.pages;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.junit5.exceptions.NonManagedBrowserException;
+import info.novatec.testit.webtester.junit5.exceptions.NonManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.pages.Page;
@@ -71,13 +74,22 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
         Object testInstance = context.getTestInstance();
         Map<String, Field> map = getModel(context).getNamedBrowserFields();
 
-        getModel(context).getPageFields().forEach(pageField -> {
+        List<Field> pageFields = getModel(context).getPageFields();
+        if (pageFields.isEmpty()) {
+            return;
+        }
+
+        if (map.isEmpty()) {
+            throw new NonManagedBrowserException();
+        }
+
+        pageFields.forEach(pageField -> {
 
             String browserName = getBrowserName(pageField);
 
             Field browserField = map.get(browserName);
             if (browserField == null) {
-                throw new IllegalStateException("no managed browser for given name: " + browserName);
+                throw new NonManagedBrowserForNameException(browserName);
             }
             Browser browser = getValue(browserField, testInstance);
 
@@ -89,8 +101,7 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
     }
 
     private String getBrowserName(Field pageField) {
-        Initialized annotation = pageField.getAnnotation(Initialized.class);
-        return annotation.source();
+        return pageField.getAnnotation(Initialized.class).source();
     }
 
     @SuppressWarnings("unchecked")
