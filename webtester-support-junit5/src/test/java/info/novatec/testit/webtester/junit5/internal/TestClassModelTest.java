@@ -7,22 +7,22 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.junit5.exceptions.NonUniqueBrowserNameException;
+import info.novatec.testit.webtester.junit5.exceptions.StaticConfigurationValueFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.exceptions.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
-import info.novatec.testit.webtester.junit5.internal.ExtensionModel.NonUniqueBrowserNameException;
-import info.novatec.testit.webtester.junit5.internal.ExtensionModel.StaticConfigurationValueFieldsNotSupportedException;
-import info.novatec.testit.webtester.junit5.internal.ExtensionModel.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class ExtensionModelTest {
+public class TestClassModelTest {
 
     @Test
     @DisplayName("fromTestClass(Class) builds model for 'correct' test class")
     void modelCanBeBuildForCorrectTestClass() {
 
-        ExtensionModel model = ExtensionModel.fromTestClass(HappyTestClass.class);
+        TestClassModel model = TestClassModel.fromTestClass(HappyTestClass.class);
 
         assertThat(model.getBrowserFields()).hasSize(2);
         assertThat(model.getNamedBrowserFields()).hasSize(2);
@@ -36,7 +36,7 @@ public class ExtensionModelTest {
     @DisplayName("multiple managed browsers must have names")
     void multipleManagedBrowsersMustHaveNames() {
         assertThrows(NonUniqueBrowserNameException.class, () -> {
-            ExtensionModel.fromTestClass(MultiBrowserWithoutNameTestClass.class);
+            TestClassModel.fromTestClass(MultiBrowserWithoutNameTestClass.class);
         });
     }
 
@@ -44,7 +44,7 @@ public class ExtensionModelTest {
     @DisplayName("multiple managed browsers must have UNIQUE names")
     void multipleManagedBrowsersMustHaveUniqueNames() {
         assertThrows(NonUniqueBrowserNameException.class, () -> {
-            ExtensionModel.fromTestClass(MultiBrowserWithSameNameTestClass.class);
+            TestClassModel.fromTestClass(MultiBrowserWithSameNameTestClass.class);
         });
     }
 
@@ -52,7 +52,7 @@ public class ExtensionModelTest {
     @DisplayName("static page fields are not supported")
     void staticPageFieldsAreNotSupported() {
         assertThrows(StaticPageFieldsNotSupportedException.class, () -> {
-            ExtensionModel.fromTestClass(StaticPageTestClass.class);
+            TestClassModel.fromTestClass(StaticPageTestClass.class);
         });
     }
 
@@ -60,7 +60,7 @@ public class ExtensionModelTest {
     @DisplayName("static configuration value fields are not supported")
     void staticConfigurationValueFieldsAreNotSupported() {
         assertThrows(StaticConfigurationValueFieldsNotSupportedException.class, () -> {
-            ExtensionModel.fromTestClass(StaticConfigurationValueTestClass.class);
+            TestClassModel.fromTestClass(StaticConfigurationValueTestClass.class);
         });
     }
 

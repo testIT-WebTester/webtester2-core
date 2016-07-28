@@ -1,6 +1,7 @@
 package info.novatec.testit.webtester.junit5.internal;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -25,6 +26,27 @@ public class ReflectionUtils {
             currentClass = currentClass.getSuperclass();
         }
         return classes;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(Field field, Object instance) {
+        try {
+            field.setAccessible(true);
+            return ( T ) field.get(instance);
+        } catch (IllegalAccessException e) {
+            // should not happen because field is made accessible
+            throw new UndeclaredThrowableException(e);
+        }
+    }
+
+    public void setValue(Field field, Object instance, Object value) {
+        try {
+            field.setAccessible(true);
+            field.set(instance, value);
+        } catch (IllegalAccessException e) {
+            // should not happen because field is made accessible
+            throw new UndeclaredThrowableException(e);
+        }
     }
 
 }

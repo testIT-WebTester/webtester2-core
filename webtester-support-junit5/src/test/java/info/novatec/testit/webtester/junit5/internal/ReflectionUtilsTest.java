@@ -47,6 +47,25 @@ public class ReflectionUtilsTest {
         return expectedNames.toArray(new String[expectedNames.size()]);
     }
 
+    @Test
+    @DisplayName("setValue(..) can change value of private fields")
+    void instanceValuesCanBeSetForPrivateFields() throws NoSuchFieldException {
+        ChildClass instance = new ChildClass();
+        Field field = instance.getClass().getDeclaredField("privateChildField");
+        cut.setValue(field, instance, "String");
+        assertThat(instance.privateChildField).isEqualTo("String");
+    }
+
+    @Test
+    @DisplayName("getValue(..) can get value of private fields")
+    void instanceValuesCanBeGotFromPrivateFields() throws NoSuchFieldException {
+        ChildClass instance = new ChildClass();
+        instance.privateChildField = "String";
+        Field field = instance.getClass().getDeclaredField("privateChildField");
+        String value = cut.getValue(field, instance);
+        assertThat(value).isEqualTo(instance.privateChildField);
+    }
+
     private static class ChildClass extends ParentClass {
 
         private Object privateChildField;

@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import info.novatec.testit.webtester.junit5.extensions.evaluation.TestClassEvaluationExtension;
+import info.novatec.testit.webtester.junit5.extensions.analysis.TestClassAnalysisExtension;
 import info.novatec.testit.webtester.junit5.extensions.browsers.InstanceManagedBrowserExtension;
 import info.novatec.testit.webtester.junit5.extensions.browsers.StaticManagedBrowserExtension;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValueExtension;
@@ -27,7 +27,7 @@ import info.novatec.testit.webtester.junit5.extensions.pages.PageInitializerExte
 @Inherited
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(TestClassEvaluationExtension.class)
+@ExtendWith(TestClassAnalysisExtension.class)
 @ExtendWith(StaticManagedBrowserExtension.class)
 @ExtendWith(InstanceManagedBrowserExtension.class)
 @ExtendWith(ConfigurationValueExtension.class)
