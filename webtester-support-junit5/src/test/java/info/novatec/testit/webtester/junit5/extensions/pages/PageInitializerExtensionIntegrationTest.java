@@ -27,7 +27,7 @@ public class PageInitializerExtensionIntegrationTest {
     @Test
     @DisplayName("@Initialized can be used to inject pages from different browsers")
     void idealMultiBrowserPageInjectionCase() throws Exception {
-        TestClassExecutor.execute(HappyClass.class);
+        TestClassExecutor.execute(MultiBrowserHappyClass.class);
     }
 
     @Test

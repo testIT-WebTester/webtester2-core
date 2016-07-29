@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 
 import info.novatec.testit.webtester.browser.Browser;
@@ -42,6 +41,6 @@ public @interface Initialized {
      * @see Managed
      * @since 2.1
      */
-    String source() default StringUtils.EMPTY;
+    String source() default "default";
 
 }

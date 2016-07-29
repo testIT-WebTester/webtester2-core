@@ -5,8 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apache.commons.lang.StringUtils;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
@@ -60,7 +58,7 @@ public @interface ConfigurationValue {
      * @see Managed
      * @since 2.1
      */
-    String source() default StringUtils.EMPTY;
+    String source() default "default";
 
     /**
      * A class reference for specifying a custom {@link TypedConfigurationValueGetter} in order to resolve {@link

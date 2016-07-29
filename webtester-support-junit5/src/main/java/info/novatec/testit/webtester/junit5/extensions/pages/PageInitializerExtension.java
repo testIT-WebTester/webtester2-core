@@ -10,6 +10,8 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 
+import lombok.extern.slf4j.Slf4j;
+
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.junit5.exceptions.NonManagedBrowserException;
 import info.novatec.testit.webtester.junit5.exceptions.NonManagedBrowserForNameException;
@@ -53,6 +55,7 @@ import info.novatec.testit.webtester.pages.Page;
  * @see Initialized
  * @since 2.1
  */
+@Slf4j
 public class PageInitializerExtension extends BaseExtension implements BeforeEachCallback {
 
     @Override
@@ -71,18 +74,18 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
 
     public void createPagesForAnnotatedFields(TestExtensionContext context) {
 
-        Object testInstance = context.getTestInstance();
-        Map<String, Field> map = getModel(context).getNamedBrowserFields();
-
         List<Field> pageFields = getModel(context).getPageFields();
         if (pageFields.isEmpty()) {
+            log.debug("no pages to initialize");
             return;
         }
 
+        Map<String, Field> map = getModel(context).getNamedBrowserFields();
         if (map.isEmpty()) {
             throw new NonManagedBrowserException();
         }
 
+        Object testInstance = context.getTestInstance();
         pageFields.forEach(pageField -> {
 
             String browserName = getBrowserName(pageField);
@@ -95,6 +98,7 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
 
             Page page = createPage(pageField, browser);
             setValue(pageField, testInstance, page);
+            log.debug("initialized page field '{}' with new page instance from browser '{}'", pageField, browserName);
 
         });
 

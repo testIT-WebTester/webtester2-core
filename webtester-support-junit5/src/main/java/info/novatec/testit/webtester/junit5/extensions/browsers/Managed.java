@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,6 +44,6 @@ public @interface Managed {
      * @return the browser's unique name.
      * @since 2.1
      */
-    String value() default StringUtils.EMPTY;
+    String value() default "default";
 
 }
