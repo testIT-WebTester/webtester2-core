@@ -30,9 +30,11 @@
   - Browser
     - [Chrome](chapters/support-chrome.md)
     - [Firefox](chapters/support-firefox.md)
+    - [Firefox (Marionette)](chapters/support-marionette.md)
     - [Internet Explorer](chapters/support-ie.md)
   - Testing
-    - [JUnit](chapters/support-junit4.md)
+    - [JUnit 4.x](chapters/support-junit4.md)
+    - [JUnit 5.x](chapters/support-junit5.md)
   - Integration
     - [Spring 4](chapters/support-spring4.md)
 - Advanced Topics
