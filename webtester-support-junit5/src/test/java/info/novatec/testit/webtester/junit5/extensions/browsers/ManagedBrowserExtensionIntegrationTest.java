@@ -12,7 +12,6 @@ import utils.TestClassExecutor;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.junit5.exceptions.NoBrowserFactoryException;
-import info.novatec.testit.webtester.junit5.extensions.analysis.TestClassAnalysisExtension;
 
 
 public class ManagedBrowserExtensionIntegrationTest {
@@ -75,7 +74,6 @@ public class ManagedBrowserExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class StaticBrowser {
 
@@ -90,7 +88,6 @@ public class ManagedBrowserExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class MultipleStaticBrowsers {
 
@@ -109,7 +106,6 @@ public class ManagedBrowserExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class InstanceBrowser {
 
@@ -124,7 +120,6 @@ public class ManagedBrowserExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class MultipleInstanceBrowsers {
 
@@ -143,7 +138,6 @@ public class ManagedBrowserExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class MixedBrowsers {
 
@@ -161,7 +155,6 @@ public class ManagedBrowserExtensionIntegrationTest {
 
     }
 
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class BrowserFactoryOnField {
 
@@ -177,7 +170,6 @@ public class ManagedBrowserExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class BrowserFactoryOnFieldOverride {
 
@@ -202,7 +194,6 @@ public class ManagedBrowserExtensionIntegrationTest {
         }
     }
 
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class NoBrowserFactory {
 
@@ -216,7 +207,6 @@ public class ManagedBrowserExtensionIntegrationTest {
 
     }
 
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     private static class NoBrowsers {
 

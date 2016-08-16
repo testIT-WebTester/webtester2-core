@@ -5,12 +5,16 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import info.novatec.testit.webtester.junit5.exceptions.NoTestClassException;
+import info.novatec.testit.webtester.junit5.internal.DefaultTestClassModelFactory;
 import info.novatec.testit.webtester.junit5.internal.ReflectionUtils;
 import info.novatec.testit.webtester.junit5.internal.TestClassModel;
+import info.novatec.testit.webtester.junit5.internal.TestClassModelFactory;
 
 
 /**
@@ -19,20 +23,22 @@ import info.novatec.testit.webtester.junit5.internal.TestClassModel;
  *
  * @since 2.1
  */
+@Getter(AccessLevel.PROTECTED)
 public class BaseExtension {
 
     protected static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create("testit-webtester");
     protected static final String EXTENSION_MODEL_KEY = "extension-model";
 
-    @Getter(AccessLevel.PROTECTED)
     private final ReflectionUtils reflectionUtils;
+    private final TestClassModelFactory testClassModelFactory;
 
     protected BaseExtension() {
-        this(new ReflectionUtils());
+        this(new ReflectionUtils(), new DefaultTestClassModelFactory());
     }
 
-    protected BaseExtension(ReflectionUtils reflectionUtils) {
+    protected BaseExtension(ReflectionUtils reflectionUtils, TestClassModelFactory testClassModelFactory) {
         this.reflectionUtils = reflectionUtils;
+        this.testClassModelFactory = testClassModelFactory;
     }
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
@@ -51,12 +57,19 @@ public class BaseExtension {
         }
     }
 
-    protected final void setModel(ExtensionContext context, TestClassModel model) {
-        context.getStore(NAMESPACE).put(EXTENSION_MODEL_KEY, model);
+    protected final TestClassModel getModel(ExtensionContext context) {
+        Store store = context.getStore(NAMESPACE);
+        TestClassModel model = store.get(EXTENSION_MODEL_KEY, TestClassModel.class);
+        if (model == null) {
+            Class<?> testClass = getTestClassFrom(context);
+            model = testClassModelFactory.create(testClass);
+            store.put(EXTENSION_MODEL_KEY, model);
+        }
+        return model;
     }
 
-    protected final TestClassModel getModel(ExtensionContext context) {
-        return context.getStore(NAMESPACE).get(EXTENSION_MODEL_KEY, TestClassModel.class);
+    private Class<?> getTestClassFrom(ExtensionContext context) {
+        return context.getTestClass().orElseThrow(NoTestClassException::new);
     }
 
     protected final <T> T getValue(Field field, Object instance) {
