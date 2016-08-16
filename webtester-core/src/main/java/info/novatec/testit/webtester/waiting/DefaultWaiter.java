@@ -47,6 +47,7 @@ public class DefaultWaiter implements Waiter {
      * Clock#systemDefaultZone()}
      * clock.
      *
+     * @param sleeper the sleeper to use
      * @see Sleeper
      * @see Clock
      * @since 2.0
@@ -58,6 +59,8 @@ public class DefaultWaiter implements Waiter {
     /**
      * Creates a new custom {@link DefaultWaiter}. It will use the given {@link Sleeper} and a {@link Clock}.
      *
+     * @param sleeper the sleeper to use
+     * @param clock the clock to use
      * @see Sleeper
      * @see Clock
      * @since 2.0
