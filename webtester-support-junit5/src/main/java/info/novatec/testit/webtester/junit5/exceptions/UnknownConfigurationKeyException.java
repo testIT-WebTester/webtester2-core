@@ -11,9 +11,9 @@ import info.novatec.testit.webtester.config.Configuration;
  * @since 2.1
  */
 @Getter
-@SuppressWarnings("PMD.UnusedPrivateField")
-public class UnknownConfigurationKeyException extends RuntimeException {
+public class UnknownConfigurationKeyException extends WebTesterJUnitSupportException {
 
+    /** The unknown configuration key. */
     private final String key;
 
     public UnknownConfigurationKeyException(String key) {

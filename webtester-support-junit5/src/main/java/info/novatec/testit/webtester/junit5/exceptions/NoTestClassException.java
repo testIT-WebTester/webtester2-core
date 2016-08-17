@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  *
  * @since 2.1
  */
-public class NoTestClassException extends RuntimeException {
+public class NoTestClassException extends WebTesterJUnitSupportException {
 
     public NoTestClassException() {
         super("no test class in context");

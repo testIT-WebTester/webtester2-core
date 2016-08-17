@@ -14,7 +14,7 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserEx
  *
  * @since 2.1
  */
-public class NoBrowserFactoryException extends RuntimeException {
+public class NoBrowserFactoryException extends TestClassFormatException {
 
     public NoBrowserFactoryException() {
         super("No browser factory configured! Either annotate class with " + CreateBrowsersUsing.class

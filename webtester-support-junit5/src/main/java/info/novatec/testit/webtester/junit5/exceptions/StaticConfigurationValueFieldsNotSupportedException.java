@@ -2,6 +2,8 @@ package info.novatec.testit.webtester.junit5.exceptions;
 
 import java.lang.reflect.Field;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
 
 
@@ -10,8 +12,15 @@ import info.novatec.testit.webtester.junit5.extensions.configuration.Configurati
  *
  * @since 2.1
  */
-public class StaticConfigurationValueFieldsNotSupportedException extends RuntimeException {
+@Getter
+public class StaticConfigurationValueFieldsNotSupportedException extends TestClassFormatException {
+
+    /** The static field in question. */
+    private final Field field;
+
     public StaticConfigurationValueFieldsNotSupportedException(Field field) {
         super("@" + ConfigurationValue.class.getSimpleName() + " fields must not be static: " + field);
+        this.field = field;
     }
+
 }
