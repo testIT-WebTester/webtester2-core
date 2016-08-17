@@ -9,8 +9,10 @@ import info.novatec.testit.webtester.browser.Browser;
  *
  * @since 2.1
  */
-public class NoManagedBrowserException extends RuntimeException {
+public class NoManagedBrowserException extends TestClassFormatException {
+
     public NoManagedBrowserException() {
         super("there are no managed browser to use!");
     }
+
 }

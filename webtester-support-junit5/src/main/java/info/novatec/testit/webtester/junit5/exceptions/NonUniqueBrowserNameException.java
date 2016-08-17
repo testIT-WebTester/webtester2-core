@@ -9,8 +9,10 @@ import info.novatec.testit.webtester.browser.Browser;
  *
  * @since 2.1
  */
-public class NonUniqueBrowserNameException extends RuntimeException {
+public class NonUniqueBrowserNameException extends TestClassFormatException {
+
     public NonUniqueBrowserNameException() {
         super("every browser needs a unique name!");
     }
+
 }

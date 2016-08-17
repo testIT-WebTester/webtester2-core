@@ -26,6 +26,7 @@ import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
 import info.novatec.testit.webtester.junit5.exceptions.NoBrowserFactoryException;
+import info.novatec.testit.webtester.junit5.exceptions.NoTestClassException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 
 
@@ -112,7 +113,7 @@ public class ManagedBrowserExtension extends BaseExtension
     }
 
     private void initializeAndInjectStaticBrowsers(ContainerExtensionContext context) {
-        Class<?> testClass = context.getTestClass().orElseThrow(() -> new IllegalStateException("no test class"));
+        Class<?> testClass = context.getTestClass().orElseThrow(NoTestClassException::new);
         List<Browser> managedBrowsers = getManagedStaticBrowsers(context);
         getModel(context).getBrowserFields().stream().filter(isStaticField).forEach(field -> {
             Browser browser = createBrowserFor(field, testClass);

@@ -2,6 +2,8 @@ package info.novatec.testit.webtester.junit5.exceptions;
 
 import java.lang.reflect.Field;
 
+import lombok.Getter;
+
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
 
 
@@ -10,8 +12,15 @@ import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
  *
  * @since 2.1
  */
-public class StaticPageFieldsNotSupportedException extends RuntimeException {
+@Getter
+public class StaticPageFieldsNotSupportedException extends TestClassFormatException {
+
+    /** The static field in question. */
+    private final Field field;
+
     public StaticPageFieldsNotSupportedException(Field field) {
         super("@" + Initialized.class.getSimpleName() + " page fields must not be static: " + field);
+        this.field = field;
     }
+
 }
