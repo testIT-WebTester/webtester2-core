@@ -1,4 +1,7 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions;
+
+import info.novatec.testit.webtester.junit5.WebTesterJUnitSupportException;
+
 
 /**
  * This is the base class for all exceptions regarding the format of a test class.

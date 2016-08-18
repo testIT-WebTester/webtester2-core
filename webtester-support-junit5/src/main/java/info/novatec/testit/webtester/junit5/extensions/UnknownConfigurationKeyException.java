@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions;
 
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import info.novatec.testit.webtester.config.Configuration;
  * @since 2.1
  */
 @Getter
-public class UnknownConfigurationKeyException extends WebTesterJUnitSupportException {
+public class UnknownConfigurationKeyException extends TestClassFormatException {
 
     /** The unknown configuration key. */
     private final String key;

@@ -1,10 +1,8 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions.browsers;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
-import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
-import info.novatec.testit.webtester.junit5.extensions.browsers.CreateUsing;
-import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserExtension;
+import info.novatec.testit.webtester.junit5.extensions.TestClassFormatException;
 
 
 /**
@@ -17,8 +15,8 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserEx
 public class NoBrowserFactoryException extends TestClassFormatException {
 
     public NoBrowserFactoryException() {
-        super("No browser factory configured! Either annotate class with " + CreateBrowsersUsing.class
-            + " or browser field with " + CreateUsing.class);
+        super("No browser factory configured! Either annotate class with @" + CreateBrowsersUsing.class.getSimpleName()
+            + " or browser field with @" + CreateUsing.class.getSimpleName() + ".");
     }
 
 }

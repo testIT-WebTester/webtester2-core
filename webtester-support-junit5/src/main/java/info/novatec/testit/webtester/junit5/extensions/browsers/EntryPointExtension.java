@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.junit5.exceptions.UnknownConfigurationKeyException;
+import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 
 

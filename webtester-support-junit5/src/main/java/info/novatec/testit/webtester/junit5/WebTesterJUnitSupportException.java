@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5;
 
 import info.novatec.testit.webtester.WebTesterException;
 

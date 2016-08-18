@@ -15,12 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.junit5.exceptions.NoConfigurationUnmarshallerFoundException;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserException;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserForNameException;
-import info.novatec.testit.webtester.junit5.exceptions.UnknownConfigurationKeyException;
-import info.novatec.testit.webtester.junit5.exceptions.UnmarshallerCantHandleTypeException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
+import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.BooleanUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DoubleUnmarshaller;

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import utils.TestBrowserFactory;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.exceptions.NoBrowserFactoryException;
 
 
 public class ManagedBrowserExtensionIntegrationTest {

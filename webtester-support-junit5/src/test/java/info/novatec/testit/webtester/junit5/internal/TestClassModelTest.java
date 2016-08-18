@@ -2,14 +2,15 @@ package info.novatec.testit.webtester.junit5.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.exceptions.NonUniqueBrowserNameException;
-import info.novatec.testit.webtester.junit5.exceptions.StaticConfigurationValueFieldsNotSupportedException;
-import info.novatec.testit.webtester.junit5.exceptions.StaticPageFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
+import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
@@ -35,17 +36,19 @@ public class TestClassModelTest {
     @Test
     @DisplayName("multiple managed browsers must have names")
     void multipleManagedBrowsersMustHaveNames() {
-        assertThrows(NonUniqueBrowserNameException.class, () -> {
+        NonUniqueBrowserNameException exception = expectThrows(NonUniqueBrowserNameException.class, () -> {
             TestClassModel.fromTestClass(MultiBrowserWithoutNameTestClass.class);
         });
+        assertThat(exception.getName()).isEqualTo("default");
     }
 
     @Test
     @DisplayName("multiple managed browsers must have UNIQUE names")
     void multipleManagedBrowsersMustHaveUniqueNames() {
-        assertThrows(NonUniqueBrowserNameException.class, () -> {
+        NonUniqueBrowserNameException exception = expectThrows(NonUniqueBrowserNameException.class, () -> {
             TestClassModel.fromTestClass(MultiBrowserWithSameNameTestClass.class);
         });
+        assertThat(exception.getName()).isEqualTo("name");
     }
 
     @Test

@@ -12,9 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import utils.TestBrowserFactory;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserException;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserForNameException;
-import info.novatec.testit.webtester.junit5.exceptions.StaticPageFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserExtension;

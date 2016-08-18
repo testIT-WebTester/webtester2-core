@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions;
 
 import info.novatec.testit.webtester.browser.Browser;
 
@@ -12,7 +12,7 @@ import info.novatec.testit.webtester.browser.Browser;
 public class NoManagedBrowserException extends TestClassFormatException {
 
     public NoManagedBrowserException() {
-        super("there are no managed browser to use!");
+        super("There is no managed browser to use!");
     }
 
 }

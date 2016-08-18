@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.exceptions.NonUniqueBrowserNameException;
-import info.novatec.testit.webtester.junit5.exceptions.StaticConfigurationValueFieldsNotSupportedException;
-import info.novatec.testit.webtester.junit5.exceptions.StaticPageFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
+import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
@@ -56,7 +56,7 @@ class TestClassAnalyzer {
         browserFields.forEach(field -> {
             String browserName = field.getAnnotation(Managed.class).value();
             if (uniqueNames.contains(browserName)) {
-                throw new NonUniqueBrowserNameException();
+                throw new NonUniqueBrowserNameException(browserName);
             }
             uniqueNames.add(browserName);
             nameToFieldMap.put(browserName, field);
