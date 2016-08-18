@@ -26,7 +26,6 @@ import org.mockito.Mock;
 
 import utils.MockitoExtension;
 
-import info.novatec.testit.webtester.junit5.exceptions.NoTestClassException;
 import info.novatec.testit.webtester.junit5.internal.ReflectionUtils;
 import info.novatec.testit.webtester.junit5.internal.TestClassModel;
 import info.novatec.testit.webtester.junit5.internal.TestClassModelFactory;

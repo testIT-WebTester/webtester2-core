@@ -18,12 +18,9 @@ import utils.TestBrowserFactory;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.junit5.exceptions.NoConfigurationUnmarshallerFoundException;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserException;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserForNameException;
-import info.novatec.testit.webtester.junit5.exceptions.StaticConfigurationValueFieldsNotSupportedException;
-import info.novatec.testit.webtester.junit5.exceptions.UnknownConfigurationKeyException;
-import info.novatec.testit.webtester.junit5.exceptions.UnmarshallerCantHandleTypeException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
+import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserExtension;

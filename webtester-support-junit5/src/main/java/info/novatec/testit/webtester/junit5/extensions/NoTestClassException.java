@@ -1,7 +1,9 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions;
 
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
+
+import info.novatec.testit.webtester.junit5.WebTesterJUnitSupportException;
 
 
 /**
@@ -13,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 public class NoTestClassException extends WebTesterJUnitSupportException {
 
     public NoTestClassException() {
-        super("no test class in context");
+        super("There is no test class in the extension context!");
     }
 
 }

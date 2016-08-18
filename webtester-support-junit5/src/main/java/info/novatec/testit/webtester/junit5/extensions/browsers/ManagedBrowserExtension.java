@@ -25,8 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
-import info.novatec.testit.webtester.junit5.exceptions.NoBrowserFactoryException;
-import info.novatec.testit.webtester.junit5.exceptions.NoTestClassException;
+import info.novatec.testit.webtester.junit5.extensions.NoTestClassException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 
 

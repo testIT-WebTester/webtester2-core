@@ -1,7 +1,8 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions.configuration;
 
 import lombok.Getter;
 
+import info.novatec.testit.webtester.junit5.extensions.TestClassFormatException;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.ConfigurationUnmarshaller;
 
 

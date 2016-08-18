@@ -1,10 +1,10 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions.configuration;
 
 import java.lang.reflect.Field;
 
 import lombok.Getter;
 
-import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
+import info.novatec.testit.webtester.junit5.extensions.TestClassFormatException;
 
 
 /**

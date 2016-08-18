@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.junit5.exceptions;
+package info.novatec.testit.webtester.junit5.extensions;
 
 import lombok.Getter;
 
@@ -17,7 +17,7 @@ public class NoManagedBrowserForNameException extends TestClassFormatException {
     private final String name;
 
     public NoManagedBrowserForNameException(String name) {
-        super("there is no managed browser with the name: " + name);
+        super("There is no managed browser with the name: " + name);
         this.name = name;
     }
 
