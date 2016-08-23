@@ -14,6 +14,7 @@ import info.novatec.testit.webtester.pagefragments.annotations.Action;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 import info.novatec.testit.webtester.pagefragments.annotations.As;
+import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 
 @Mapping(tag = "select", attribute = "!multiple")
@@ -36,7 +37,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     @Mark(As.USED)
     @Produces(SelectedByTextEvent.class)
     default SingleSelect selectByText(String text) throws NoSuchElementException {
-        new Select(webElement()).selectByVisibleText(text);
+        new EnhancedSelect(webElement()).selectByVisibleText(text);
         return this;
     }
 
@@ -57,7 +58,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     @Mark(As.USED)
     @Produces(SelectedByValueEvent.class)
     default SingleSelect selectByValue(String value) throws NoSuchElementException {
-        new Select(webElement()).selectByValue(value);
+        new EnhancedSelect(webElement()).selectByValue(value);
         return this;
     }
 
@@ -78,7 +79,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     @Mark(As.USED)
     @Produces(SelectedByIndexEvent.class)
     default SingleSelect selectByIndex(Integer index) throws NoSuchElementException {
-        new Select(webElement()).selectByIndex(index);
+        new EnhancedSelect(webElement()).selectByIndex(index);
         return this;
     }
 
@@ -96,7 +97,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     @Mark(As.READ)
     default Optional<String> getSelectionText() {
         try {
-            String text = new Select(webElement()).getFirstSelectedOption().getText();
+            String text = new EnhancedSelect(webElement()).getFirstSelectedOption().getText();
             return Optional.ofNullable(text);
         } catch (NoSuchElementException e) {
             return Optional.empty();
@@ -117,7 +118,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     @Mark(As.READ)
     default Optional<String> getSelectionValue() {
         try {
-            String value = new Select(webElement()).getFirstSelectedOption().getAttribute("value");
+            String value = new EnhancedSelect(webElement()).getFirstSelectedOption().getAttribute("value");
             return Optional.ofNullable(value);
         } catch (NoSuchElementException e) {
             return Optional.empty();
@@ -138,7 +139,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     @Mark(As.READ)
     default Optional<Integer> getSelectionIndex() {
         try {
-            String index = new Select(webElement()).getFirstSelectedOption().getAttribute("index");
+            String index = new EnhancedSelect(webElement()).getFirstSelectedOption().getAttribute("index");
             return Optional.ofNullable(index).map(Integer::parseInt);
         } catch (NoSuchElementException e) {
             return Optional.empty();
