@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
+import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 
 @Mapping(tag = "select")
@@ -41,7 +42,7 @@ public interface GenericSelect<T extends GenericSelect<T>> extends PageFragment 
      * @since 2.0
      */
     default Stream<String> streamOptionTexts() {
-        return new Select(webElement()).getOptions().stream().map(WebElement::getText);
+        return new EnhancedSelect(webElement()).getOptions().stream().map(WebElement::getText);
     }
 
     /**
@@ -71,7 +72,7 @@ public interface GenericSelect<T extends GenericSelect<T>> extends PageFragment 
      * @since 2.0
      */
     default Stream<String> streamOptionValues() {
-        return new Select(webElement()).getOptions().stream().map(option -> option.getAttribute("value"));
+        return new EnhancedSelect(webElement()).getOptions().stream().map(option -> option.getAttribute("value"));
     }
 
     /**
@@ -83,7 +84,7 @@ public interface GenericSelect<T extends GenericSelect<T>> extends PageFragment 
      * @since 2.0
      */
     default Integer getOptionCount() {
-        return new Select(webElement()).getOptions().size();
+        return new EnhancedSelect(webElement()).getOptions().size();
     }
 
 }

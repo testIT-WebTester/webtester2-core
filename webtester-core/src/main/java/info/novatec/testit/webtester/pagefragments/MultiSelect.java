@@ -23,6 +23,8 @@ import info.novatec.testit.webtester.pagefragments.annotations.Action;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 import info.novatec.testit.webtester.pagefragments.annotations.As;
+import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
+
 
 @Mapping(tag = "select", attribute = "multiple")
 public interface MultiSelect extends GenericSelect<MultiSelect> {
@@ -39,7 +41,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(DeselectedAllEvent.class)
     default MultiSelect deselectAll() {
-        new Select(webElement()).deselectAll();
+        new EnhancedSelect(webElement()).deselectAll();
         return this;
     }
 
@@ -72,7 +74,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(DeselectedByTextsEvent.class)
     default MultiSelect deselectByTexts(Collection<String> texts) throws NoSuchElementException {
-        Select select = new Select(webElement());
+        Select select = new EnhancedSelect(webElement());
         texts.forEach(select::deselectByVisibleText);
         return this;
     }
@@ -106,7 +108,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(DeselectedByValuesEvent.class)
     default MultiSelect deselectByValues(Collection<String> values) throws NoSuchElementException {
-        Select select = new Select(webElement());
+        Select select = new EnhancedSelect(webElement());
         values.forEach(select::deselectByValue);
         return this;
     }
@@ -140,7 +142,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(DeselectedByIndicesEvent.class)
     default MultiSelect deselectByIndices(Collection<Integer> indices) throws NoSuchElementException {
-        Select select = new Select(webElement());
+        Select select = new EnhancedSelect(webElement());
         indices.forEach(select::deselectByIndex);
         return this;
     }
@@ -174,7 +176,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(SelectedByTextsEvent.class)
     default MultiSelect selectByTexts(Collection<String> texts) throws NoSuchElementException {
-        Select select = new Select(webElement());
+        Select select = new EnhancedSelect(webElement());
         texts.forEach(select::selectByVisibleText);
         return this;
     }
@@ -208,7 +210,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(SelectedByValuesEvent.class)
     default MultiSelect selectByValues(Collection<String> values) throws NoSuchElementException {
-        Select select = new Select(webElement());
+        Select select = new EnhancedSelect(webElement());
         values.forEach(select::selectByValue);
         return this;
     }
@@ -242,7 +244,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
     @Mark(As.USED)
     @Produces(SelectedByIndicesEvent.class)
     default MultiSelect selectByIndices(Collection<Integer> indices) throws NoSuchElementException {
-        Select select = new Select(webElement());
+        Select select = new EnhancedSelect(webElement());
         indices.forEach(select::selectByIndex);
         return this;
     }
@@ -273,7 +275,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
      */
     @Mark(As.READ)
     default Stream<String> streamSelectionTexts() {
-        return new Select(webElement()).getAllSelectedOptions().stream().map(WebElement::getText);
+        return new EnhancedSelect(webElement()).getAllSelectedOptions().stream().map(WebElement::getText);
     }
 
     /**
@@ -302,7 +304,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
      */
     @Mark(As.READ)
     default Stream<String> streamSelectionValues() {
-        return new Select(webElement()).getAllSelectedOptions().stream().map(option -> option.getAttribute("value"));
+        return new EnhancedSelect(webElement()).getAllSelectedOptions().stream().map(option -> option.getAttribute("value"));
     }
 
     /**
@@ -331,7 +333,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
      */
     @Mark(As.READ)
     default Stream<Integer> streamSelectionIndices() {
-        return new Select(webElement()).getAllSelectedOptions()
+        return new EnhancedSelect(webElement()).getAllSelectedOptions()
             .stream()
             .map(option -> option.getAttribute("index"))
             .map(Integer::parseInt);
@@ -347,7 +349,7 @@ public interface MultiSelect extends GenericSelect<MultiSelect> {
      * @since 2.0
      */
     default Integer getSelectionCount() {
-        return new Select(webElement()).getAllSelectedOptions().size();
+        return new EnhancedSelect(webElement()).getAllSelectedOptions().size();
     }
 
 }
