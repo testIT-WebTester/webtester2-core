@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import lombok.Getter;
 
@@ -18,6 +17,7 @@ import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.PageFragmentEventBuilder;
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 
 /**
@@ -58,7 +58,7 @@ public class SelectedByTextsEvent extends AbstractPageFragmentEvent {
 
         @Override
         public PageFragmentEventBuilder<SelectedByTextsEvent> setBeforeData(WebElement webElement) {
-            before = new Select(webElement).getAllSelectedOptions()
+            before = new EnhancedSelect(webElement).getAllSelectedOptions()
                 .stream()
                 .map(element -> StringUtils.defaultString(element.getText()))
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class SelectedByTextsEvent extends AbstractPageFragmentEvent {
 
         @Override
         public PageFragmentEventBuilder<SelectedByTextsEvent> setAfterData(WebElement webElement) {
-            after = new Select(webElement).getAllSelectedOptions()
+            after = new EnhancedSelect(webElement).getAllSelectedOptions()
                 .stream()
                 .map(element -> StringUtils.defaultString(element.getText()))
                 .collect(Collectors.toList());
