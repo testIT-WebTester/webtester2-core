@@ -1,7 +1,6 @@
 package info.novatec.testit.webtester.events.pagefragments;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import lombok.Getter;
 
@@ -11,6 +10,7 @@ import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.PageFragmentEventBuilder;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
+import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 
 /**
@@ -50,7 +50,7 @@ public class SelectedByTextEvent extends AbstractPageFragmentEvent {
 
         @Override
         public PageFragmentEventBuilder<SelectedByTextEvent> setAfterData(WebElement webElement) {
-            this.text = new Select(webElement).getFirstSelectedOption().getText();
+            this.text = new EnhancedSelect(webElement).getFirstSelectedOption().getText();
             return this;
         }
 
