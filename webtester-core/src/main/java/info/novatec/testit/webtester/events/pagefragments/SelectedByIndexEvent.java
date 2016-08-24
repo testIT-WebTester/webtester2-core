@@ -1,7 +1,6 @@
 package info.novatec.testit.webtester.events.pagefragments;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import lombok.Getter;
 
@@ -11,6 +10,7 @@ import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.PageFragmentEventBuilder;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
+import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 
 /**
@@ -50,8 +50,9 @@ public class SelectedByIndexEvent extends AbstractPageFragmentEvent {
 
         @Override
         public PageFragmentEventBuilder<SelectedByIndexEvent> setAfterData(WebElement webElement) {
-            Select select = new Select(webElement);
-            this.index = select.getOptions().indexOf(select.getFirstSelectedOption());
+            EnhancedSelect select = new EnhancedSelect(webElement);
+            String indexAsString = select.getFirstSelectedOption().getAttribute("index");
+            this.index = Integer.valueOf(indexAsString);
             return this;
         }
 
