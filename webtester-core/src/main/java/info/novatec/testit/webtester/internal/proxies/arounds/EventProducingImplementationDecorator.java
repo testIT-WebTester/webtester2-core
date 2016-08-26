@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,18 +53,36 @@ public class EventProducingImplementationDecorator {
         PageFragmentEventBuilder eventBuilder = getEventBuilderFor(producesEvent);
         eventBuilder.setPageFragment(( PageFragment ) proxy);
         if (eventBuilder.needsBeforeData()) {
-            eventBuilder.setBeforeData(webElementSupplier.get());
+            tryToSetBeforeData(eventBuilder);
         }
 
         Object returnObject = implementation.invoke(proxy, method, args);
 
         if (eventBuilder.needsAfterData()) {
-            eventBuilder.setAfterData(webElementSupplier.get());
+            tryToSetAfterData(eventBuilder);
         }
 
         eventSystem.fireEvent(eventBuilder.build());
         return returnObject;
 
+    }
+
+    private void tryToSetBeforeData(PageFragmentEventBuilder eventBuilder) {
+        try {
+            eventBuilder.setBeforeData(webElementSupplier.get());
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            log.warn("Exception while setting event before data: " + e.getMessage());
+            log.debug("Stacktrace for previous warning: ", e);
+        }
+    }
+
+    private void tryToSetAfterData(PageFragmentEventBuilder eventBuilder) {
+        try {
+            eventBuilder.setAfterData(webElementSupplier.get());
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            log.warn("Exception while setting event after data: " + e.getMessage());
+            log.debug("Stacktrace for previous warning: ", e);
+        }
     }
 
     @SuppressWarnings("unchecked")
