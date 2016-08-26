@@ -17,6 +17,7 @@
   - [@Named](chapters/annotation-named.md)
   - [@PostConstruct](chapters/annotation-post-construct.md)
   - [@PostConstructMustBe](chapters/annotation-post-construct-must-be.md)
+  - [@Produces](chapters/annotation-produces.md)
   - [@WaitUntil](chapters/annotation-wait-until.md)
 - Utility Classes
   - [Conditions](chapters/conditions.md)

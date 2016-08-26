@@ -45,7 +45,21 @@ In contrast to the generic interactions offered by Selenium's `WebElement` inter
 only those methods which are useful for the given context / their type. A `SingleSelect` does not provide methods to 
 change its text, but it will have methods to change selection based on index, value or text.
 
-## Validation of Page Fragments
+### Example
+
+```java
+public interface SearchWidget extends PageFragment {
+
+    @IdentifyUsing("#query")
+    SearchField query();
+     
+    @IdentifyUsing("#submit")
+    Button submit();
+
+}
+```
+
+## Validation
 By default a `PageFragment` will match any HTML tag in form of a WebElement. Functional page fragments on the other hand are 
 limited to a certain amount of valid HTML tags and attribute combinations. This is done by annotating them with
 ```@Mapping``` for a single mapping. This annotation can be used multiple times in case there is more then one valid 
@@ -71,17 +85,38 @@ element has the tag 'input' and the 'type' attribute has either the 'text' oder 
 * ```@Mapping(validator=FooValidator.class)``` Will create a new instance of the given validator class and use it to 
 evaluate the web element.
 
-## Example
+### Examples
 
 ```java
-public interface SearchWidget extends PageFragment {
 
-    @IdentifyUsing("#query")
-    SearchField query();
-     
-    @IdentifyUsing("#submit")
-    Button submit();
+@Mapping(tag = "span")
+public interface Span extends PageFragment {
+    ...
+}
 
+@Mapping(tag = "select", attribute = "multiple")
+public interface MultiSelect extends PageFragment {
+    ...
+}
+```
+
+## Inheritance
+Since all `PageFragments` are interfaces and Java currently does not support
+inheritance of annotations on interfaces because of a conceptual problem with
+multiple inheritance, it is neccessary to re-annotate `PageFragment` sub-classes
+when extending or methods when overriding them.
+
+### Examples
+
+```java
+
+@Mapping(tag = "span")
+public interface Span extends PageFragment {
+    ...
+}
+
+public interface MySpan extends Span {
+    // will no longer check @Mapping validity
 }
 ```
 
@@ -95,6 +130,7 @@ These annotations can be used within a `PageFragment`.
 - [@Named](annotation-named.md)
 - [@PostConstruct](annotation-post-construct.md)
 - [@PostConstructMustBe](annotation-post-construct-must-be.md)
+- [@Produces](annotation-produces.md)
 - [@WaitUntil](annotation-wait-until.md)
 
 # Linked Documentation
