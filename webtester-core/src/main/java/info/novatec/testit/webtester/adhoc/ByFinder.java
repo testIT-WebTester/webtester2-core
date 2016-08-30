@@ -3,6 +3,7 @@ package info.novatec.testit.webtester.adhoc;
 import java.util.stream.Stream;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
@@ -44,8 +45,12 @@ public class ByFinder {
 
     /**
      * Creates a {@link GenericElement generic page element} using the finder's {@link By}.
+     * <p>
+     * Since this operation requires a {@link WebElement} to be found, it might throw a {@link NoSuchElementException} in
+     * case there is no matching element.
      *
      * @return the created page object
+     * @throws NoSuchElementException in case the element could not be found
      * @see By
      * @see ByFinder
      * @see GenericElement
@@ -57,10 +62,14 @@ public class ByFinder {
 
     /**
      * Creates a {@link PageFragment page fragment} of the given class using the finder's {@link By}.
+     * <p>
+     * Since this operation requires a {@link WebElement} to be found, it might throw a {@link NoSuchElementException} in
+     * case there is no matching element.
      *
      * @param <T> the type of the page fragment to create
      * @param fragmentClass the class of the page fragment to create
      * @return the created page object
+     * @throws NoSuchElementException in case the element could not be found
      * @see By
      * @see ByFinder
      * @see PageFragment
@@ -73,6 +82,8 @@ public class ByFinder {
 
     /**
      * Creates a {@link Stream} of {@link GenericElement generic page elements} using the finder's {@link By}.
+     * <p>
+     * The stream might be empty if no matching {@link WebElement WebElements} could be found.
      *
      * @return the created stream
      * @see By
@@ -86,6 +97,8 @@ public class ByFinder {
 
     /**
      * Creates a {@link Stream} of {@link PageFragment page fragments} of the given class using the finder's {@link By}.
+     * <p>
+     * The stream might be empty if no matching {@link WebElement WebElements} could be found.
      *
      * @param <T> the type of the page fragment stream to create
      * @param fragmentClass the class of the page fragments to create

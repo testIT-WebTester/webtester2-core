@@ -3,6 +3,8 @@ package info.novatec.testit.webtester.internal;
 import java.util.stream.Stream;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 
 import info.novatec.testit.webtester.adhoc.ByFinder;
 import info.novatec.testit.webtester.adhoc.TypeFinder;
@@ -33,9 +35,13 @@ public interface OffersAdHocFinding {
      * <li><code>browser.find("#button").click();</code></li>
      * <li><code>browser.find("#headline").getVisibleText();</code></li>
      * </ul>
+     * <p>
+     * Since this operation requires a {@link WebElement} to be found, it might throw a {@link NoSuchElementException} in
+     * case there is no matching element.
      *
      * @param cssSelector the CSS-Selector expression to use
      * @return the generic element for the given selector
+     * @throws NoSuchElementException in case the element could not be found
      * @see AdHocFinder
      * @see AdHocFinder#findGeneric()
      * @since 2.0
@@ -52,6 +58,8 @@ public interface OffersAdHocFinding {
      * <ul>
      * <li><code>browser.findMany(".button").filter(is(visible()));</code></li>
      * </ul>
+     * <p>
+     * The stream might be empty if no matching {@link WebElement WebElements} could be found.
      *
      * @param cssSelector the CSS-Selector expression to use
      * @return the list of generic elements for the given selector

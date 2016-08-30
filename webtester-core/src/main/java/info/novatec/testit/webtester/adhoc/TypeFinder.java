@@ -3,6 +3,7 @@ package info.novatec.testit.webtester.adhoc;
 import java.util.stream.Stream;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
@@ -45,9 +46,13 @@ public class TypeFinder<T extends PageFragment> {
     /**
      * Creates a {@link PageFragment page fragment} using the finder's specified class and the given CSS-Selector
      * expression.
+     * <p>
+     * Since this operation requires a {@link WebElement} to be found, it might throw a {@link NoSuchElementException} in
+     * case there is no matching element.
      *
      * @param cssSelector the CSS-Selector expression to use as an identifier
      * @return the created page object
+     * @throws NoSuchElementException in case the element could not be found
      * @see By
      * @see ByProducers
      * @see PageFragment
@@ -60,9 +65,13 @@ public class TypeFinder<T extends PageFragment> {
     /**
      * Creates a {@link PageFragment page fragment} using the finder's specified class and the given {@link By}.
      * Instances of these can be created using the {@link ByProducers} utility class.
+     * <p>
+     * Since this operation requires a {@link WebElement} to be found, it might throw a {@link NoSuchElementException} in
+     * case there is no matching element.
      *
      * @param by the By to use
      * @return the created page object
+     * @throws NoSuchElementException in case the element could not be found
      * @see By
      * @see ByProducers
      * @see PageFragment
@@ -76,6 +85,8 @@ public class TypeFinder<T extends PageFragment> {
     /**
      * Creates a {@link Stream} of {@link PageFragment page fragments} using the finder's specified class and the given
      * CSS-Selector expression.
+     * <p>
+     * The stream might be empty if no matching {@link WebElement WebElements} could be found.
      *
      * @param cssSelector the CSS-Selector expression to use as an identifier
      * @return the created stream
@@ -92,6 +103,8 @@ public class TypeFinder<T extends PageFragment> {
     /**
      * Creates a {@link Stream} of {@link PageFragment page fragments} using the finder's specified class and the given
      * {@link By}. Instances of these can be created using the {@link ByProducers} utility class.
+     * <p>
+     * The stream might be empty if no matching {@link WebElement WebElements} could be found.
      *
      * @param by the By to use
      * @return the created stream
