@@ -14,7 +14,6 @@ import utils.TestClassExecutor;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.junit5.exceptions.UnknownConfigurationKeyException;
-import info.novatec.testit.webtester.junit5.extensions.analysis.TestClassAnalysisExtension;
 
 
 public class EntryPointExtensionIntegrationTest {
@@ -138,7 +137,6 @@ public class EntryPointExtensionIntegrationTest {
         TestClassExecutor.execute(NoOpClass.class);
     }
 
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(EntryPointExtension.class)
     private static class NoOpClass {
 
@@ -149,7 +147,6 @@ public class EntryPointExtensionIntegrationTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     @ExtendWith(EntryPointExtension.class)
     private static abstract class AbstractTestClass {

@@ -19,7 +19,6 @@ import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserException;
 import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserForNameException;
-import info.novatec.testit.webtester.junit5.extensions.analysis.TestClassAnalysisExtension;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserExtension;
@@ -154,7 +153,6 @@ public class ConfigurationValueExtensionTest {
 
     }
 
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ConfigurationValueExtension.class)
     private static class NoBrowserClass {
 
@@ -182,7 +180,6 @@ public class ConfigurationValueExtensionTest {
 
     }
 
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ConfigurationValueExtension.class)
     private static class NoOpClass {
 
@@ -194,7 +191,6 @@ public class ConfigurationValueExtensionTest {
     }
 
     @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(TestClassAnalysisExtension.class)
     @ExtendWith(ManagedBrowserExtension.class)
     @ExtendWith(ConfigurationValueExtension.class)
     private static class BaseTestClass {
