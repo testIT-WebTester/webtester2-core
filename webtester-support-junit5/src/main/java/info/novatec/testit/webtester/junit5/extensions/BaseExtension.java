@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import info.novatec.testit.webtester.junit5.exceptions.NoTestClassException;
 import info.novatec.testit.webtester.junit5.internal.DefaultTestClassModelFactory;
 import info.novatec.testit.webtester.junit5.internal.ReflectionUtils;
 import info.novatec.testit.webtester.junit5.internal.TestClassModel;

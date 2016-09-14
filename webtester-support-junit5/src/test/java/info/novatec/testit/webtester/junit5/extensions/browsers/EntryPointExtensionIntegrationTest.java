@@ -13,7 +13,7 @@ import utils.TestBrowserFactory;
 import utils.TestClassExecutor;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.exceptions.UnknownConfigurationKeyException;
+import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 
 
 public class EntryPointExtensionIntegrationTest {

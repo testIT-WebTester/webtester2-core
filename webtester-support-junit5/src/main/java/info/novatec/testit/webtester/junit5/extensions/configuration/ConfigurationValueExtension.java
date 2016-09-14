@@ -15,9 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserException;
-import info.novatec.testit.webtester.junit5.exceptions.NoManagedBrowserForNameException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
+import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.BooleanUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DoubleUnmarshaller;
@@ -137,22 +138,27 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
             if (DefaultUnmarshaller.class.equals(annotation.using())) {
                 value = getValueUsingDefaultGetters(config, key, type);
             } else {
-                ConfigurationUnmarshaller<?> unmarshaller;
-                try {
-                    unmarshaller = annotation.using().newInstance();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw new UndeclaredThrowableException(e);
-                }
+                ConfigurationUnmarshaller<?> unmarshaller = createConfigurationUnmarshaller(annotation);
                 if (unmarshaller.canHandle(type)) {
-                    value = unmarshaller.unmarshal(config, key).orElseThrow(() -> new IllegalStateException("dsa"));
+                    value = unmarshaller.unmarshal(config, key).orElseThrow(() -> new UnknownConfigurationKeyException(key));
                 } else {
-                    throw new IllegalStateException("given unmarshaller can't handle type: " + type);
+                    throw new UnmarshallerCantHandleTypeException(unmarshaller.getClass(), type);
                 }
             }
             setValue(field, testInstance, value);
 
         });
 
+    }
+
+    private ConfigurationUnmarshaller<?> createConfigurationUnmarshaller(ConfigurationValue annotation) {
+        ConfigurationUnmarshaller<?> unmarshaller;
+        try {
+            unmarshaller = annotation.using().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new UndeclaredThrowableException(e);
+        }
+        return unmarshaller;
     }
 
     private String getKey(Field field) {
@@ -163,9 +169,9 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
         return DEFAULT_UNMARSHALLERS.stream()
             .filter(resolver -> resolver.canHandle(type))
             .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No matching ValueResolver found for type '" + type + "'"))
+            .orElseThrow(() -> new NoConfigurationUnmarshallerFoundException(type))
             .unmarshal(config, key)
-            .orElseThrow(() -> new IllegalStateException("no value for configuration key found: " + key));
+            .orElseThrow(() -> new UnknownConfigurationKeyException(key));
     }
 
 }
