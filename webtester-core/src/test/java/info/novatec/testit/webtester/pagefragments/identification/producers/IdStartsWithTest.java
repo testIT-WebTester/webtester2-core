@@ -14,7 +14,7 @@ public class IdStartsWithTest {
     public void producesCorrectBy() {
         By by = cut.createBy("partial-id:");
         assertThat(by).isInstanceOf(By.ByCssSelector.class);
-        assertThat(by).hasToString("By.cssSelector: [id^='partial-id:']");
+        assertThat(by).hasToString("By.cssSelector: [id^='partial\\-id\\:']");
     }
 
     @Test
