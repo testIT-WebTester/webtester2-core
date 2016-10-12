@@ -45,7 +45,7 @@ public class ByProducersTest {
         public void producesCorrectBy() {
             By by = ByProducers.idEndsWith(":partial-id");
             assertThat(by).isInstanceOf(By.ByCssSelector.class);
-            assertThat(by).hasToString("By.cssSelector: [id$=':partial-id']");
+            assertThat(by).hasToString("By.cssSelector: [id$='\\:partial\\-id']");
         }
 
     }
@@ -56,7 +56,7 @@ public class ByProducersTest {
         public void producesCorrectBy() {
             By by = ByProducers.idStartsWith("partial-id:");
             assertThat(by).isInstanceOf(By.ByCssSelector.class);
-            assertThat(by).hasToString("By.cssSelector: [id^='partial-id:']");
+            assertThat(by).hasToString("By.cssSelector: [id^='partial\\-id\\:']");
         }
 
     }

@@ -90,9 +90,9 @@ public class IdentificationIntegrationTest extends BaseIntegrationTest {
 
         @IdentifyUsing(value = "id", how = Id.class)
         TextField byId();
-        @IdentifyUsing(value = "prefix-", how = IdStartsWith.class)
+        @IdentifyUsing(value = "prefix:", how = IdStartsWith.class)
         TextField byIdStartsWith();
-        @IdentifyUsing(value = "-suffix", how = IdEndsWith.class)
+        @IdentifyUsing(value = ":suffix", how = IdEndsWith.class)
         TextField byIdEndsWith();
         @IdentifyUsing(value = "//div[@id='xpath']/input", how = XPath.class)
         TextField byXpath();
