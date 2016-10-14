@@ -11,10 +11,8 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
 
 
 /**
- * Base implementation of a {@link ConfigurationAdapter configuration adapter}
- * using a {@link Properties properties} file from the classpath as its source.
- * If the file doesn't exist the adaptation will be canceled and a warning will
- * be logged.
+ * Base implementation of a {@link ConfigurationAdapter configuration adapter} using a {@link Properties properties} file
+ * from the classpath as its source. If the file doesn't exist the adaptation will be canceled and a warning will be logged.
  *
  * @see ConfigurationAdapter
  * @see AbstractPropertiesConfigurationAdapter
@@ -23,10 +21,64 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
 @Slf4j
 public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropertiesConfigurationAdapter {
 
-    private String propertyFilePath;
+    /**
+     * Classification how important the existence of a configuration file is.
+     *
+     * @see ClasspathPropertiesFileConfigurationAdapter
+     * @since 2.1
+     */
+    public enum Importance {
+        /** Property file is optional - if not found an INFO will be logged. */
+        OPTIONAL,
+        /** Property file is recommended - if not found a WARNING will be logged. */
+        RECOMMENDED,
+        /** Property file is required - if not found an exception will be thrown. */
+        REQUIRED;
+    }
 
+    private static final String FILE_NOT_ON_CLASSPATH =
+        "{} properties file {} wasn't found on the classpath - " + "it's properties will not be merged into configuration.";
+
+    private final String propertyFilePath;
+    private final Importance importance;
+
+    /**
+     * Creates a new instance for the given property file path and a default {@link Importance} of
+     * {@link Importance#OPTIONAL}.
+     * <p>
+     * The property file path must be provided in a format relative to the classpath root.
+     * <p>
+     * <b>Examples:</b>
+     * <ul>
+     * <li>my.properties</li>
+     * <li>some/folders/within/classpath/my.properties</li>
+     * </ul>
+     *
+     * @param propertyFilePath the path to the property file on the classpath
+     * @since 2.0
+     */
     public ClasspathPropertiesFileConfigurationAdapter(String propertyFilePath) {
+        this(propertyFilePath, Importance.OPTIONAL);
+    }
+
+    /**
+     * Creates a new instance for the given property file path and a {@link Importance}.
+     * <p>
+     * The property file path must be provided in a format relative to the classpath root.
+     * <p>
+     * <b>Examples:</b>
+     * <ul>
+     * <li>my.properties</li>
+     * <li>some/folders/within/classpath/my.properties</li>
+     * </ul>
+     *
+     * @param propertyFilePath the path to the property file on the classpath
+     * @param importance the importance of the property file
+     * @since 2.0
+     */
+    public ClasspathPropertiesFileConfigurationAdapter(String propertyFilePath, Importance importance) {
         this.propertyFilePath = propertyFilePath;
+        this.importance = importance;
     }
 
     @Override
@@ -36,7 +88,7 @@ public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropert
 
         URL resource = getClass().getClassLoader().getResource(propertyFilePath);
         if (resource == null) {
-            log.warn("Could not load configuration file! {} file is not on the classpath.", propertyFilePath);
+            handleFileNotOnClasspath();
             return false;
         }
 
@@ -55,6 +107,20 @@ public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropert
 
         return true;
 
+    }
+
+    public void handleFileNotOnClasspath() {
+        switch (importance) {
+            case OPTIONAL:
+                log.info(FILE_NOT_ON_CLASSPATH, "Optional", propertyFilePath);
+                break;
+            case RECOMMENDED:
+                log.warn(FILE_NOT_ON_CLASSPATH, "Recommended", propertyFilePath);
+                break;
+            case REQUIRED:
+                String message = "Required properties file " + propertyFilePath + " wasn't found on the classpath!";
+                throw new IllegalStateException(message);
+        }
     }
 
 }

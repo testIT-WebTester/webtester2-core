@@ -1,5 +1,6 @@
 package info.novatec.testit.webtester.config.adapters;
 
+import static info.novatec.testit.webtester.config.adapters.ClasspathPropertiesFileConfigurationAdapter.Importance.REQUIRED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -51,6 +52,12 @@ public class ClasspathPropertiesFileConfigurationAdapterTest {
         verify(configuration).setProperty("property.key2", "bar");
         verifyNoMoreInteractions(configuration);
 
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void unknownRequiredFileThrowsException() {
+        cut = new ClasspathPropertiesFileConfigurationAdapter(UNKNOWN_PATH, REQUIRED);
+        cut.adapt(mock(Configuration.class));
     }
 
 }
