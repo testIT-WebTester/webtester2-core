@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.openqa.selenium.support.Color;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.css.CssProperties;
 import info.novatec.testit.webtester.css.StyleChanger;
@@ -20,13 +23,11 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see CssProperties
  * @since 2.0
  */
+@Slf4j
+@AllArgsConstructor
 public class Marker {
 
-    private StyleChanger styleChanger;
-
-    public Marker(StyleChanger styleChanger) {
-        this.styleChanger = styleChanger;
-    }
+    private final StyleChanger styleChanger;
 
     /**
      * Marks the given {@link PageFragment page fragment} as 'read' using the configured colors from the page object's
@@ -44,6 +45,7 @@ public class Marker {
             Color backgroundColor = configuration.getMarkingsColorReadBackground();
             Color outlineColor = configuration.getMarkingsColorReadOutline();
             markElement(fragment, backgroundColor, outlineColor);
+            log.debug("marked {} as read", fragment);
         }
     }
 
@@ -51,18 +53,19 @@ public class Marker {
      * Marks the given {@link PageFragment page fragment} as 'used' using the configured colors from the page object's
      * browser's {@link Configuration configuration}.
      *
-     * @param pageFragment the page fragment to mark.
+     * @param fragment the page fragment to mark.
      * @see StyleChanger
      * @see PageFragment
      * @see CssProperties
      * @since 2.0
      */
-    public void markAsUsed(PageFragment pageFragment) {
-        Configuration configuration = pageFragment.browser().configuration();
+    public void markAsUsed(PageFragment fragment) {
+        Configuration configuration = fragment.browser().configuration();
         if (configuration.isMarkingsEnabled()) {
             Color backgroundColor = configuration.getMarkingsColorUsedBackground();
             Color outlineColor = configuration.getMarkingsColorUsedOutline();
-            markElement(pageFragment, backgroundColor, outlineColor);
+            markElement(fragment, backgroundColor, outlineColor);
+            log.debug("marked {} as used", fragment);
         }
     }
 

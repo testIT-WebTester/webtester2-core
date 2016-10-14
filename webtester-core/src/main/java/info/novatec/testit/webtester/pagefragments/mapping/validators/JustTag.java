@@ -2,6 +2,9 @@ package info.novatec.testit.webtester.pagefragments.mapping.validators;
 
 import org.openqa.selenium.WebElement;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mappings;
 import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidator;
@@ -23,15 +26,13 @@ import info.novatec.testit.webtester.pagefragments.mapping.Validator;
  * @see DefaultMappingValidator
  * @since 2.0
  */
+@AllArgsConstructor
 public class JustTag implements Validator {
 
     public static final String DESCRIPTION_FORMAT = "Element having '%s' as it's tag";
 
+    @NonNull
     private final String tagName;
-
-    public JustTag(String tagName) {
-        this.tagName = tagName;
-    }
 
     @Override
     public boolean isValid(WebElement webElement) {

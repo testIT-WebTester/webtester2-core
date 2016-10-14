@@ -8,7 +8,9 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -30,18 +32,16 @@ import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
  * @see TypeFinder#manyBy(By)
  * @since 2.0
  */
+@AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 public class TypeFinder<T extends PageFragment> {
 
+    @NonNull
     private final PageFragmentFactory factory;
+    @NonNull
     private final SearchContext searchContext;
+    @NonNull
     private final Class<T> fragmentClass;
-
-    public TypeFinder(PageFragmentFactory factory, SearchContext searchContext, Class<T> fragmentClass) {
-        this.factory = factory;
-        this.searchContext = searchContext;
-        this.fragmentClass = fragmentClass;
-    }
 
     /**
      * Creates a {@link PageFragment page fragment} using the finder's specified class and the given CSS-Selector

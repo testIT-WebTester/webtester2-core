@@ -58,6 +58,8 @@ public class DefaultWaiterTest {
     public static class WaitExactly {
 
         @Mock
+        Clock clock;
+        @Mock
         Sleeper sleeper;
         @InjectMocks
         DefaultWaiter cut;

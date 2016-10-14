@@ -1,6 +1,8 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
@@ -15,13 +17,11 @@ import info.novatec.testit.webtester.pagefragments.SingleSelect;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 public class SelectedIndex implements Condition<SingleSelect> {
 
+    @NonNull
     private final Integer expectedIndex;
-
-    public SelectedIndex(Integer expectedIndex) {
-        this.expectedIndex = expectedIndex;
-    }
 
     @Override
     public boolean test(SingleSelect select) {

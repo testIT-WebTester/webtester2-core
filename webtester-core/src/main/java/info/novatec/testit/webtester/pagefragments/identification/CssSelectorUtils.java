@@ -4,13 +4,16 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lombok.experimental.UtilityClass;
+
 
 /**
  * This class includes utility methods for working with CSS Selectors.
  *
  * @since 2.0.4
  */
-public final class CssSelectorUtils {
+@UtilityClass
+public class CssSelectorUtils {
 
     /** These are all special characters in CSS who need escaping. */
     private static final Character[] SPECIAL_CHARS =
@@ -24,6 +27,8 @@ public final class CssSelectorUtils {
      * <p>
      * This is necessary for all values used by CSS Selectors. For example when matching on the value of an attribute.
      *
+     * @param value the value to escape
+     * @return the escaped value
      * @since 2.0.4
      */
     public static String escape(String value) {
@@ -35,10 +40,6 @@ public final class CssSelectorUtils {
             escapedValue.append(c);
         }
         return escapedValue.toString();
-    }
-
-    private CssSelectorUtils() {
-        // utility class
     }
 
 }

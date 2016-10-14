@@ -5,6 +5,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import lombok.experimental.UtilityClass;
+
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.css.DefaultStyleChanger;
 import info.novatec.testit.webtester.events.Event;
@@ -12,12 +14,8 @@ import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.markings.Marker;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
-
-public final class ActionTemplate {
-
-    private ActionTemplate() {
-        // utility class constructor
-    }
+@UtilityClass
+public class ActionTemplate {
 
     public static <T extends PageFragment> PageFragmentAction<T> pageFragment(T subject) {
         return new PageFragmentAction<>(subject);

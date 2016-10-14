@@ -2,6 +2,8 @@ package info.novatec.testit.webtester.conditions;
 
 import java.util.Collection;
 
+import lombok.experimental.UtilityClass;
+
 import info.novatec.testit.webtester.conditions.pagefragments.Attribute;
 import info.novatec.testit.webtester.conditions.pagefragments.AttributeWithValue;
 import info.novatec.testit.webtester.conditions.pagefragments.Disabled;
@@ -27,13 +29,15 @@ import info.novatec.testit.webtester.conditions.syntax.Is;
 import info.novatec.testit.webtester.conditions.syntax.Not;
 
 
-public final class Conditions {
-
-    private Conditions() {
-        // utility class constructor
-    }
-
-    /* syntax */
+/**
+ * This class provides factory methods for all kinds of {@link Condition} implementations.
+ * <p>
+ * It is recommended to static-import the use of any of the provided methods.
+ *
+ * @since 2.0
+ */
+@UtilityClass
+public class Conditions {
 
     public static <T> Is<T> is(Condition<T> condition) {
         return new Is<>(condition);

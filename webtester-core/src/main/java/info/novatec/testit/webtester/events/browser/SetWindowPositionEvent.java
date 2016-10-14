@@ -1,5 +1,6 @@
 package info.novatec.testit.webtester.events.browser;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import info.novatec.testit.webtester.browser.operations.CurrentWindow;
@@ -19,16 +20,12 @@ import info.novatec.testit.webtester.events.EventSystem;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 @SuppressWarnings("serial")
 public class SetWindowPositionEvent extends AbstractEvent {
 
     private final int x;
     private final int y;
-
-    public SetWindowPositionEvent(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
 
     @Override
     public String describe() {

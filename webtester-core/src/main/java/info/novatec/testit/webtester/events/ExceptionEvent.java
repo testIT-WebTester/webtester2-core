@@ -1,6 +1,8 @@
 package info.novatec.testit.webtester.events;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 
 /**
@@ -16,13 +18,11 @@ import lombok.Getter;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 public class ExceptionEvent extends AbstractEvent {
 
+    @NonNull
     private final Throwable exception;
-
-    public ExceptionEvent(Throwable exception) {
-        this.exception = exception;
-    }
 
     @Override
     public String describe() {

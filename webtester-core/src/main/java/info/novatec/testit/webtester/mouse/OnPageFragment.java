@@ -1,14 +1,15 @@
 package info.novatec.testit.webtester.mouse;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * Provides mouse actions that can be executed 'on' a page fragment.
- * This is mainly used for readable fluent API calls.
+ * Provides mouse actions that can be executed 'on' a page fragment. This is mainly used for readable fluent API calls.
  * <p>
  * <b>Examples:</b>
  * <pre>
@@ -22,25 +23,15 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @since 2.0
  */
 @Getter(AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class OnPageFragment {
 
     /** The {@link MouseDriver} to use when executing operations. */
+    @NonNull
     private final MouseDriver mouseDriver;
     /** The {@link PageFragment} to use when executing operations. */
+    @NonNull
     private final PageFragment fragment;
-
-    /**
-     * Creates a new {@link OnPageFragment} for the given {@link MouseDriver} and {@link PageFragment}.
-     *
-     * @param mouseDriver the driver to use
-     * @param fragment the fragment to use as a base
-     * @see OnPageFragment
-     * @since 2.0
-     */
-    OnPageFragment(MouseDriver mouseDriver, PageFragment fragment) {
-        this.mouseDriver = mouseDriver;
-        this.fragment = fragment;
-    }
 
     /**
      * Executes a {@link Mouse#click(PageFragment)} with the action's {@link PageFragment}.

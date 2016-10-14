@@ -3,7 +3,9 @@ package info.novatec.testit.webtester.waiting;
 import java.util.function.Supplier;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 
 /**
@@ -16,26 +18,15 @@ import lombok.Getter;
  * @since 2.0
  */
 @Getter(AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ConfiguredWait {
 
     /** The {@link Waiter} to use when executing wait operations. */
+    @NonNull
     private final Waiter waiter;
     /** The {@link WaitConfig} to use when deciding how long to wait. */
+    @NonNull
     private final WaitConfig config;
-
-    /**
-     * Creates a new {@link ConfiguredWait} instance with the given {@link Waiter} and {@link WaitConfig}.
-     *
-     * @param waiter the waiter to use
-     * @param config the configuration to use
-     * @see Waiter
-     * @see WaitConfig
-     * @since 2.0
-     */
-    ConfiguredWait(Waiter waiter, WaitConfig config) {
-        this.waiter = waiter;
-        this.config = config;
-    }
 
     /**
      * Creates a {@link WaitUntil} with this {@link ConfiguredWait}'s {@link ConfiguredWait} for the given object.

@@ -5,7 +5,9 @@ import static java.lang.String.format;
 import java.io.File;
 import java.nio.file.Path;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
 import info.novatec.testit.webtester.events.AbstractEvent;
@@ -32,14 +34,12 @@ import info.novatec.testit.webtester.events.EventSystem;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 @SuppressWarnings("serial")
 public class SavedSourceCodeEvent extends AbstractEvent {
 
+    @NonNull
     private final File pageSource;
-
-    public SavedSourceCodeEvent(File pageSource) {
-        this.pageSource = pageSource;
-    }
 
     @Override
     public String describe() {

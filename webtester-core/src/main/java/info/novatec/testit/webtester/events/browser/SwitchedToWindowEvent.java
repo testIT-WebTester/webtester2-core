@@ -2,7 +2,9 @@ package info.novatec.testit.webtester.events.browser;
 
 import static java.lang.String.format;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.operations.FocusSetter;
 import info.novatec.testit.webtester.events.Event;
@@ -22,15 +24,13 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @see FocusSetter#onWindow(String)
  * @since 2.0
  */
-@SuppressWarnings("serial")
 @Getter
+@AllArgsConstructor
+@SuppressWarnings("serial")
 public class SwitchedToWindowEvent extends AbstractEvent {
 
+    @NonNull
     private final String nameOrHandle;
-
-    public SwitchedToWindowEvent(String nameOrHandle) {
-        this.nameOrHandle = nameOrHandle;
-    }
 
     @Override
     public String describe() {

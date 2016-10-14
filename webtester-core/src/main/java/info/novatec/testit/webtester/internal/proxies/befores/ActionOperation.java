@@ -3,6 +3,8 @@ package info.novatec.testit.webtester.internal.proxies.befores;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.config.Configuration;
@@ -11,13 +13,11 @@ import info.novatec.testit.webtester.waiting.Wait;
 
 
 @Slf4j
+@AllArgsConstructor
 public class ActionOperation implements BeforeOperation {
 
+    @NonNull
     private final Configuration configuration;
-
-    public ActionOperation(Configuration configuration) {
-        this.configuration = configuration;
-    }
 
     @Override
     public boolean shouldBeInvokedFor(Method method) {

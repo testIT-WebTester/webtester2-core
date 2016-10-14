@@ -51,8 +51,8 @@
 		<module name="SimplifyBooleanReturn" />
 		<module name="StringLiteralEquality" />
 		<module name="OneStatementPerLine" />
-		<module name="FinalClass" />
-		<module name="HideUtilityClassConstructor" />
+		<!--<module name="FinalClass" />-->
+		<!--<module name="HideUtilityClassConstructor" />-->
 		<module name="ArrayTypeStyle" />
 		<module name="UpperEll" />
 		<module name="OuterTypeFilename" />

@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.openqa.selenium.By;
 
+import lombok.experimental.UtilityClass;
+
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.identification.producers.ClassName;
 import info.novatec.testit.webtester.pagefragments.identification.producers.CssSelector;
@@ -26,7 +28,8 @@ import info.novatec.testit.webtester.pagefragments.identification.producers.XPat
  * @see IdentifyUsing
  * @since 2.0
  */
-public final class ByProducers {
+@UtilityClass
+public class ByProducers {
 
     private static final Map<Class<? extends ByProducer>, ByProducer> BY_PRODUCER_CACHE = new ConcurrentHashMap<>();
 
@@ -90,10 +93,6 @@ public final class ByProducers {
             String message = "unable to create instance of " + producerClass;
             throw new InvalidByProducerException(message, e);
         }
-    }
-
-    private ByProducers() {
-        // utility class
     }
 
 }

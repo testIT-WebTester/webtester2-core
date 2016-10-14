@@ -1,5 +1,8 @@
 package info.novatec.testit.webtester.conditions.syntax;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+
 import info.novatec.testit.webtester.conditions.Condition;
 
 
@@ -14,13 +17,11 @@ import info.novatec.testit.webtester.conditions.Condition;
  * @see Condition
  * @since 2.0
  */
+@AllArgsConstructor
 public class Has<T> implements Condition<T> {
 
+    @NonNull
     private final Condition<T> condition;
-
-    public Has(Condition<T> condition) {
-        this.condition = condition;
-    }
 
     @Override
     public boolean test(T value) {

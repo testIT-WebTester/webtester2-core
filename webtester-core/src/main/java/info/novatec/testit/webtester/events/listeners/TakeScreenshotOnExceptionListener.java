@@ -1,5 +1,7 @@
 package info.novatec.testit.webtester.events.listeners;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
@@ -19,13 +21,11 @@ import info.novatec.testit.webtester.events.ExceptionEvent;
  * @since 2.0
  */
 @Slf4j
+@AllArgsConstructor
 public class TakeScreenshotOnExceptionListener implements EventListener {
 
+    @NonNull
     private final Browser browser;
-
-    public TakeScreenshotOnExceptionListener(Browser browser) {
-        this.browser = browser;
-    }
 
     @Override
     public void eventOccurred(Event event) {
