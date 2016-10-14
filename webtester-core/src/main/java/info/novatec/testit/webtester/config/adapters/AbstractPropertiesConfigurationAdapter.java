@@ -12,8 +12,7 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
 
 
 /**
- * Abstract base implementation of a {@link ConfigurationAdapter} using a
- * {@link Properties properties} object as its source.
+ * Abstract base implementation of a {@link ConfigurationAdapter} using a {@link Properties properties} object as its source.
  *
  * @see ConfigurationAdapter
  * @since 2.0
@@ -21,7 +20,7 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
 public abstract class AbstractPropertiesConfigurationAdapter implements ConfigurationAdapter {
 
     protected void loadPropertiesFromResource(URL resource, Properties properties) throws IOException {
-        try(InputStreamReader isr = new InputStreamReader(resource.openStream(), Charsets.UTF_8)) {
+        try (InputStreamReader isr = new InputStreamReader(resource.openStream(), Charsets.UTF_8)) {
             properties.load(isr);
         }
     }

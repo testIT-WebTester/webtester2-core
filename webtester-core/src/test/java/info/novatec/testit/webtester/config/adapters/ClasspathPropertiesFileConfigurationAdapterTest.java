@@ -22,7 +22,7 @@ public class ClasspathPropertiesFileConfigurationAdapterTest {
 
         Configuration configuration = mock(Configuration.class);
 
-        cut = new ClasspathPropertiesFileConfigurationAdapter(PATH);
+        cut = new ClasspathPropertiesFileConfigurationAdapter(PATH, false);
         boolean adapt = cut.adapt(configuration);
         assertThat(adapt).isTrue();
 
@@ -33,7 +33,7 @@ public class ClasspathPropertiesFileConfigurationAdapterTest {
 
         Configuration configuration = mock(Configuration.class);
 
-        cut = new ClasspathPropertiesFileConfigurationAdapter(UNKNOWN_PATH);
+        cut = new ClasspathPropertiesFileConfigurationAdapter(UNKNOWN_PATH, false);
         boolean adapt = cut.adapt(configuration);
         assertThat(adapt).isFalse();
 
@@ -44,7 +44,7 @@ public class ClasspathPropertiesFileConfigurationAdapterTest {
 
         Configuration configuration = mock(Configuration.class);
 
-        cut = new ClasspathPropertiesFileConfigurationAdapter(PATH);
+        cut = new ClasspathPropertiesFileConfigurationAdapter(PATH, false);
         cut.adapt(configuration);
 
         verify(configuration).setProperty("property.key1", "foo");
