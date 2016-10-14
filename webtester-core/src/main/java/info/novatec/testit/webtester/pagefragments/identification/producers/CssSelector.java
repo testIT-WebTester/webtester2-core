@@ -7,6 +7,8 @@ import info.novatec.testit.webtester.pagefragments.identification.ByProducer;
 
 /**
  * This {@link ByProducer} produces a {@link By} using {@link By#cssSelector(String)}.
+ * <p>
+ * <b>Important:</b> Don't forget to escape special characters when using this selector!
  *
  * @see ByProducer
  * @since 2.0
