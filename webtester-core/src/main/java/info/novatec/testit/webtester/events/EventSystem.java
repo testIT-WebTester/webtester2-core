@@ -1,8 +1,8 @@
 package info.novatec.testit.webtester.events;
 
 /**
- * Provides methods to {@link #register(EventListener) register} and {@link #deregister(EventListener)
- * deregister} an {@link EventListener event listener}.
+ * Provides methods to {@link #register(EventListener) register} and {@link #deregister(EventListener) deregister} an {@link
+ * EventListener event listener}.
  * <p>
  * These listeners are informed of {@link Event events} which are {@link #fireEvent(Event) fired} in via this class as well.
  * <p>

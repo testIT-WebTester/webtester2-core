@@ -11,10 +11,9 @@ import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapt
 
 
 /**
- * This is a {@link ConfigurationBuilder builder} used to construct
- * {@link BaseConfiguration base configuration} instances using the frameworks
- * default set of {@link ConfigurationAdapter adapters}. No default
- * {@link ConfigurationExporter exporters} are set.
+ * This is a {@link ConfigurationBuilder builder} used to construct {@link BaseConfiguration base configuration} instances
+ * using the frameworks default set of {@link ConfigurationAdapter adapters}. No default {@link ConfigurationExporter
+ * exporters} are set.
  * <p>
  * <b>The default adapters are as follows:</b>
  * <ol>
