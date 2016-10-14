@@ -5,10 +5,9 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
 
 
 /**
- * Loads a file called <code>testit-webtester-default.properties</code> from the
- * classpath's root level in order to {@link ConfigurationAdapter adapt}
- * {@link Configuration configurations}. If the file doesn't exist the
- * adaptation will be canceled and a warning will be logged.
+ * Loads a file called <code>testit-webtester-default.properties</code> from the classpath's root level in order to {@link
+ * ConfigurationAdapter adapt} {@link Configuration configurations}. If the file doesn't exist the adaptation will be
+ * canceled and a warning will be logged.
  * <p>
  * This file is provided as part of the WebTester framework!
  *
@@ -21,7 +20,7 @@ public class DefaultFileConfigurationAdapter extends ClasspathPropertiesFileConf
     private static final String PROPERTIES_FILE = "testit-webtester-default.properties";
 
     public DefaultFileConfigurationAdapter() {
-        super(PROPERTIES_FILE);
+        super(PROPERTIES_FILE, Importance.REQUIRED);
     }
 
 }
