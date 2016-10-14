@@ -15,10 +15,8 @@ import info.novatec.testit.webtester.config.ConfigurationExporter;
 
 
 /**
- * This is a {@link ConfigurationBuilder builder} used to construct
- * {@link BaseConfiguration base configuration} instances. No default
- * {@link ConfigurationAdapter adapters} or {@link ConfigurationExporter
- * exporters} are set at any time.
+ * This is a {@link ConfigurationBuilder builder} used to construct {@link BaseConfiguration base configuration} instances.
+ * No default {@link ConfigurationAdapter adapters} or {@link ConfigurationExporter exporters} are set at any time.
  *
  * @see Configuration
  * @see BaseConfiguration
@@ -100,7 +98,9 @@ public class BaseConfigurationBuilder implements ConfigurationBuilder {
         configuration.addExporters(exporters);
 
         /* export finished configuration once through all exporters */
-        configuration.getKeys().stream().sorted()
+        configuration.getKeys()
+            .stream()
+            .sorted()
             .forEach(key -> exporters.forEach(exporter -> exporter.export(key, configuration.getProperty(key, null))));
 
     }

@@ -30,17 +30,11 @@ public class WaitConfig {
     public static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
     public static final long DEFAULT_INTERVAL = 100L;
 
-    /**
-     * The timeout to use. It's actual value is relative to it's {@link #timeUnit}.
-     */
+    /** The timeout to use. It's actual value is relative to it's {@link #timeUnit}. */
     private int timeout = DEFAULT_TIMEOUT;
-    /**
-     * The time unit to use when evaluating the {@link #timeout}.
-     */
+    /** The time unit to use when evaluating the {@link #timeout}. */
     private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
-    /**
-     * The interval in which to check conditions of 'wait until X' style wait operations.
-     */
+    /** The interval in which to check conditions of 'wait until X' style wait operations. */
     private long interval = DEFAULT_INTERVAL;
 
     /**
