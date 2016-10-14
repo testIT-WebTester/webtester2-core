@@ -35,7 +35,7 @@ import info.novatec.testit.webtester.pages.Page;
 @RunWith(Enclosed.class)
 public class UrlOpenerTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static abstract class AbstractUrlOpenerTest {
 
         static final String URL = "http://www.examples.com";

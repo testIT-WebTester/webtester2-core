@@ -40,7 +40,7 @@ import info.novatec.testit.webtester.events.browser.TookScreenshotEvent;
 @RunWith(Enclosed.class)
 public class ScreenshotTakerTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static abstract class AbstractScreenshotTakerTest {
 
         static final String FILE_NAME_PATTERN = "\\d{4}-\\d{2}-\\d{2}T\\d{2}_\\d{2}_\\d{2}(\\.\\d{3})?.png";

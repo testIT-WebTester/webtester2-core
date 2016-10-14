@@ -39,7 +39,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 @RunWith(Enclosed.class)
 public class CurrentWindowTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static abstract class AbstractCurrentWindowTest {
 
         @Mock(answer = Answers.RETURNS_DEEP_STUBS)

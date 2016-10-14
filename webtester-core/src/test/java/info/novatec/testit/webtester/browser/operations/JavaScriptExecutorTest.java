@@ -25,7 +25,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 @RunWith(Enclosed.class)
 public class JavaScriptExecutorTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static class JavaScriptEnabledDriver {
 
         @Mock

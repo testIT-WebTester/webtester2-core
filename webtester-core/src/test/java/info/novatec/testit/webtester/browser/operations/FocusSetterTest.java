@@ -36,7 +36,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 @RunWith(Enclosed.class)
 public class FocusSetterTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static abstract class AbstractFocusSetterTest {
 
         @Mock(answer = Answers.RETURNS_DEEP_STUBS)

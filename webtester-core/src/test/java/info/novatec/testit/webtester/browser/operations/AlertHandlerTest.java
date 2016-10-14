@@ -31,7 +31,7 @@ import info.novatec.testit.webtester.events.browser.DeclinedAlertEvent;
 @RunWith(Enclosed.class)
 public class AlertHandlerTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     static abstract class AbstractAlertHandlerTest {
 
         @Mock(answer = Answers.RETURNS_DEEP_STUBS)

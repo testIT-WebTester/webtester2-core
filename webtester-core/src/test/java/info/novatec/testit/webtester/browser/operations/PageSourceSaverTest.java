@@ -35,7 +35,7 @@ import info.novatec.testit.webtester.events.browser.SavedSourceCodeEvent;
 @RunWith(Enclosed.class)
 public class PageSourceSaverTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static abstract class AbstractPageSourceSaverTest {
 
         static final String FILE_NAME_PATTERN = "\\d{4}-\\d{2}-\\d{2}T\\d{2}_\\d{2}_\\d{2}(\\.\\d{3})?.html";

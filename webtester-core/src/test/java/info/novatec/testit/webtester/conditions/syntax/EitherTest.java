@@ -3,6 +3,7 @@ package info.novatec.testit.webtester.conditions.syntax;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -12,6 +13,7 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import info.novatec.testit.webtester.conditions.Condition;
@@ -21,84 +23,89 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 @RunWith(Enclosed.class)
 public class EitherTest {
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static class TestCondition {
 
         @Mock
         PageFragment fragment;
-        @Mock
-        Condition<PageFragment> true1;
-        @Mock
-        Condition<PageFragment> true2;
-        @Mock
-        Condition<PageFragment> false1;
-        @Mock
-        Condition<PageFragment> false2;
 
-        @Before
-        public void prepareConditions() {
-            doReturn(true).when(true1).test(fragment);
-            doReturn(true).when(true2).test(fragment);
-            doReturn(false).when(false1).test(fragment);
-            doReturn(false).when(false2).test(fragment);
-        }
+        Condition<PageFragment> trueCondition = pageFragment -> true;
+        Condition<PageFragment> falseCondition = pageFragment -> false;
 
         @Test
         public void oneTrueConditionEvaluatesToTrue() {
-            Either<PageFragment> either = new Either<>(true1);
+            Either<PageFragment> either = new Either<>(trueCondition);
             assertThat(either.test(fragment)).isTrue();
         }
 
         @Test
         public void oneFalseConditionEvaluatesToFalse() {
-            Either<PageFragment> either = new Either<>(false1);
+            Either<PageFragment> either = new Either<>(falseCondition);
             assertThat(either.test(fragment)).isFalse();
         }
 
         @Test
         public void twoTrueConditionsEvaluateToTrue() {
-            Either<PageFragment> either = new Either<>(true1, true2);
+            Either<PageFragment> either = new Either<>(trueCondition, trueCondition);
             assertThat(either.test(fragment)).isTrue();
         }
 
         @Test
         public void twoFalseConditionsEvaluateToFalse() {
-            Either<PageFragment> either = new Either<>(false1, false2);
+            Either<PageFragment> either = new Either<>(falseCondition, falseCondition);
             assertThat(either.test(fragment)).isFalse();
         }
 
         @Test
         public void trueAndFalseConditionsEvaluateToTrue() {
-            Either<PageFragment> either = new Either<>(true1, false1);
+            Either<PageFragment> either = new Either<>(trueCondition, falseCondition);
             assertThat(either.test(fragment)).isTrue();
         }
 
         @Test
         public void falseAndTrueConditionsEvaluateToTrue() {
-            Either<PageFragment> either = new Either<>(false1, true1);
+            Either<PageFragment> either = new Either<>(falseCondition, trueCondition);
             assertThat(either.test(fragment)).isTrue();
         }
 
         @Test
         public void firstTrueWillSkipFurtherEvaluation() {
-            new Either<>(true1, true2).test(fragment);
-            verify(true1).test(fragment);
-            verifyZeroInteractions(true2);
+
+            Condition<PageFragment> mockedTrueCondition1 = mockCondition(true);
+            Condition<PageFragment> mockedTrueCondition2 = mockCondition(true);
+
+            new Either<>(mockedTrueCondition1, mockedTrueCondition2).test(fragment);
+            verify(mockedTrueCondition1).test(fragment);
+            verifyZeroInteractions(mockedTrueCondition2);
+
         }
 
         @Test
         public void conditionsAreEvaluatedInOrder() {
-            new Either<>(false1, false2, true1).test(fragment);
-            InOrder inOrder = inOrder(false1, false2, true1);
-            inOrder.verify(false1).test(fragment);
-            inOrder.verify(false2).test(fragment);
-            inOrder.verify(true1).test(fragment);
+
+            Condition<PageFragment> mockedFalseCondition1 = mockCondition(false);
+            Condition<PageFragment> mockedFalseCondition2 = mockCondition(false);
+            Condition<PageFragment> mockedTrueCondition = mockCondition(true);
+
+            new Either<>(mockedFalseCondition1, mockedFalseCondition2, mockedTrueCondition).test(fragment);
+
+            InOrder inOrder = inOrder(mockedFalseCondition1, mockedFalseCondition2, mockedTrueCondition);
+            inOrder.verify(mockedFalseCondition1).test(fragment);
+            inOrder.verify(mockedFalseCondition2).test(fragment);
+            inOrder.verify(mockedTrueCondition).test(fragment);
             inOrder.verifyNoMoreInteractions();
+
+        }
+
+        Condition<PageFragment> mockCondition(boolean result){
+            Condition<PageFragment> condition = mock(Condition.class);
+            doReturn(result).when(condition).test(Mockito.any(PageFragment.class));
+            return condition;
         }
 
     }
 
-    @RunWith(MockitoJUnitRunner.class)
+    @RunWith(MockitoJUnitRunner.Silent.class)
     public static class ToString {
 
         @Mock
