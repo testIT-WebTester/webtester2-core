@@ -15,21 +15,18 @@ import info.novatec.testit.webtester.waiting.Wait;
 
 
 /**
- * Classes implementing this interface allow access to a variety of
- * configuration properties for the framework. These properties can be retrieved
- * and changed at runtime.
+ * Classes implementing this interface allow access to a variety of configuration properties for the framework. These
+ * properties can be retrieved and changed at runtime.
  * <p>
- * Instances should be constructed using a {@link ConfigurationBuilder builder}.
- * Since they provide for a comfortable way to use specific
- * {@link ConfigurationAdapter adapters} and {@link ConfigurationExporter
- * exporters} to adapt (change configuration based on different sources) and
- * export the configuration's properties and values.
+ * Instances should be constructed using a {@link ConfigurationBuilder builder}. Since they provide for a comfortable way to
+ * use specific {@link ConfigurationAdapter adapters} and {@link ConfigurationExporter exporters} to adapt (change
+ * configuration based on different sources) and export the configuration's properties and values.
  * <p>
- * Besides a number of 'named' properties with their own setter- and
- * getter-methods custom properties can be set and read as well.
+ * Besides a number of 'named' properties with their own setter- and getter-methods custom properties can be set and read as
+ * well.
  * <p>
- * In order to allow the export of set properties (and changes to them) any
- * number of {@link ConfigurationExporter exporters} can be defined.
+ * In order to allow the export of set properties (and changes to them) any number of {@link ConfigurationExporter exporters}
+ * can be defined.
  *
  * @see ConfigurationBuilder
  * @see ConfigurationAdapter
@@ -39,8 +36,8 @@ import info.novatec.testit.webtester.waiting.Wait;
 public interface Configuration {
 
     /**
-     * Returns the number of milliseconds actions should be decelerated.
-     * Actions are methods annotated with {@link Action @Action}.
+     * Returns the number of milliseconds actions should be decelerated. Actions are methods annotated with
+     * {@link Action @Action}.
      * <p>
      * A value of <code>0</code> will be interpreted as "no deceleration".
      *
@@ -48,11 +45,12 @@ public interface Configuration {
      * @see Action
      * @since 2.0
      */
+
     long getActionDeceleration();
 
     /**
-     * Set the number of milliseconds actions should be decelerated.
-     * Actions are methods annotated with {@link Action @Action}.
+     * Set the number of milliseconds actions should be decelerated. Actions are methods annotated with
+     * {@link Action @Action}.
      * <p>
      * A value of <code>0</code> will be interpreted as "no deceleration".
      *
@@ -64,8 +62,8 @@ public interface Configuration {
     Configuration setActionDeceleration(long value);
 
     /**
-     * Returns whether or not the firing of events is enabled.
-     * Disabling this may improve performance significantly but at the cost of traceability.
+     * Returns whether or not the firing of events is enabled. Disabling this may improve performance significantly but at
+     * the cost of traceability.
      *
      * @return true id the firing of events is enabled
      * @see Event
@@ -75,8 +73,8 @@ public interface Configuration {
     boolean isEventSystemEnabled();
 
     /**
-     * Returns whether or not the firing of events is enabled.
-     * Disabling this may improve performance significantly but at the cost of traceability.
+     * Returns whether or not the firing of events is enabled. Disabling this may improve performance significantly but at
+     * the cost of traceability.
      *
      * @param active true if the firing of events should be enabled
      * @return the same instance for fluent API use
@@ -295,13 +293,10 @@ public interface Configuration {
     Configuration removeProperty(String key);
 
     /**
-     * Sets the given property key to the given value. Also calls all
-     * {@link ConfigurationExporter configuration exporters} of this
-     * {@link Configuration configuration} to inform them about the change to
-     * the property.
+     * Sets the given property key to the given value. Also calls all {@link ConfigurationExporter configuration exporters}
+     * of this {@link Configuration configuration} to inform them about the change to the property.
      * <p>
-     * <b>Note:</b> NULL values are not allowed - use
-     * {@link #removeProperty(String)} for removing properties.
+     * <b>Note:</b> NULL values are not allowed - use {@link #removeProperty(String)} for removing properties.
      * <p>
      * <b>Valid value types:</b>
      * <ul>
@@ -331,8 +326,7 @@ public interface Configuration {
     Optional<String> getStringProperty(String key);
 
     /**
-     * Returns a property value as a string. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as a string. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -352,8 +346,7 @@ public interface Configuration {
     Optional<Integer> getIntegerProperty(String key);
 
     /**
-     * Returns a property value as an integer. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as an integer. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -373,8 +366,7 @@ public interface Configuration {
     Optional<Long> getLongProperty(String key);
 
     /**
-     * Returns a property value as a long. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as a long. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -394,8 +386,7 @@ public interface Configuration {
     Optional<Float> getFloatProperty(String key);
 
     /**
-     * Returns a property value as a float. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as a float. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -415,8 +406,7 @@ public interface Configuration {
     Optional<Double> getDoubleProperty(String key);
 
     /**
-     * Returns a property value as a double. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as a double. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -436,8 +426,7 @@ public interface Configuration {
     Optional<Boolean> getBooleanProperty(String key);
 
     /**
-     * Returns a property value as a boolean. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as a boolean. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -457,8 +446,7 @@ public interface Configuration {
     Optional<Object> getProperty(String key);
 
     /**
-     * Returns a property value as an object. If the property value is
-     * <code>null</code> the given default is returned.
+     * Returns a property value as an object. If the property value is <code>null</code> the given default is returned.
      *
      * @param key the property key to use
      * @param defaultValue the default value to return if no property for the
@@ -477,8 +465,8 @@ public interface Configuration {
     Set<String> getKeys();
 
     /**
-     * Add the given {@link ConfigurationExporter exporter} to the pool of
-     * exporters to be informed about changes to properties.
+     * Add the given {@link ConfigurationExporter exporter} to the pool of exporters to be informed about changes to
+     * properties.
      *
      * @param exporterToAdd the exporter to add
      * @return the same configuration instance for fluent API
@@ -487,8 +475,8 @@ public interface Configuration {
     Configuration addExporter(ConfigurationExporter exporterToAdd);
 
     /**
-     * Add the given {@link ConfigurationExporter exporters} to the pool of
-     * exporters to be informed about changes to properties.
+     * Add the given {@link ConfigurationExporter exporters} to the pool of exporters to be informed about changes to
+     * properties.
      *
      * @param exporter the first exporter to add
      * @param additionalExporters additional exporters to add
@@ -498,8 +486,8 @@ public interface Configuration {
     Configuration addExporters(ConfigurationExporter exporter, ConfigurationExporter... additionalExporters);
 
     /**
-     * Add the given {@link ConfigurationExporter exporters} to the pool of
-     * exporters to be informed about changes to properties.
+     * Add the given {@link ConfigurationExporter exporters} to the pool of exporters to be informed about changes to
+     * properties.
      *
      * @param exportersToAdd the exporters to add
      * @return the same configuration instance for fluent API
