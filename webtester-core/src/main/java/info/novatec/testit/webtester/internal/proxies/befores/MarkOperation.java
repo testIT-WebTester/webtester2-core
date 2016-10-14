@@ -14,7 +14,7 @@ import info.novatec.testit.webtester.markings.Marker;
 @Slf4j
 public class MarkOperation implements BeforeOperation {
 
-    private Marker marker;
+    private final Marker marker;
 
     public MarkOperation() {
         this.marker = new Marker(new DefaultStyleChanger());

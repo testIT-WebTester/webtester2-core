@@ -34,8 +34,7 @@ public interface StyleChanger {
 
     /**
      * Change the CSS style information of the given {@link PageFragment page fragment} using the given CSS property to
-     * value
-     * map.
+     * value map.
      * <p>
      * Since this is regarded as an optional operation, exceptions which occur while changing the style will be logged but
      * not delegated upstream. You can check the return value if this method's success is important.

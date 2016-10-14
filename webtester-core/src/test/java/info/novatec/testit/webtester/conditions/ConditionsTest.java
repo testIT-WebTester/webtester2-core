@@ -28,6 +28,7 @@ import info.novatec.testit.webtester.conditions.pagefragments.SelectedValues;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.conditions.pagefragments.VisibleTextContains;
 import info.novatec.testit.webtester.conditions.pagefragments.VisibleTextEquals;
+import info.novatec.testit.webtester.conditions.syntax.Either;
 import info.novatec.testit.webtester.conditions.syntax.Has;
 import info.novatec.testit.webtester.conditions.syntax.Is;
 import info.novatec.testit.webtester.conditions.syntax.Not;
@@ -53,6 +54,12 @@ public class ConditionsTest {
         @Test
         public void not() {
             Not<Object> condition = Conditions.not(o -> true);
+            assertThat(condition).isNotNull();
+        }
+
+        @Test
+        public void either() {
+            Either<Object> condition = Conditions.either(o -> false, o -> true);
             assertThat(condition).isNotNull();
         }
 
