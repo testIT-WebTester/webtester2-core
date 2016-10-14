@@ -3,21 +3,18 @@ package info.novatec.testit.webtester.events;
 import java.util.LinkedList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
 
 
 @Slf4j
-public class EventSystemImpl implements EventSystem {
+@AllArgsConstructor
+public class DispatchingEventSystem implements EventSystem {
 
-    private final List<EventListener> listeners;
+    private final List<EventListener> listeners = new LinkedList<>();
     private final Browser browser;
-
-    public EventSystemImpl(Browser browser) {
-        this.listeners = new LinkedList<>();
-        this.browser = browser;
-    }
 
     @Override
     public void register(EventListener listener) {

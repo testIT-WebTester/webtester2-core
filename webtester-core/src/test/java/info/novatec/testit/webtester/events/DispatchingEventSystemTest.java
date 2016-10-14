@@ -25,7 +25,7 @@ import info.novatec.testit.webtester.browser.Browser;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class EventSystemImplTest {
+public class DispatchingEventSystemTest {
 
     @Mock
     EventListener listener1;
@@ -41,7 +41,7 @@ public class EventSystemImplTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     Browser browser;
     @InjectMocks
-    EventSystemImpl cut;
+    DispatchingEventSystem cut;
 
     @Before
     public void eventSystemIsEnabledByDefault() {

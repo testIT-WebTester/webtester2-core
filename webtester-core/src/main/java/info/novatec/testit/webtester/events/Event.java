@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * I.e. this could be the text before and after for a text set event.
  *
  * @see EventListener
- * @see EventSystemImpl
+ * @see DispatchingEventSystem
  * @since 2.0
  */
 public interface Event {

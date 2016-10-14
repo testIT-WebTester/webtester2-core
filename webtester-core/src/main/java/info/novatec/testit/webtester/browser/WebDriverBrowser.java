@@ -17,7 +17,7 @@ import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.events.EventSystemImpl;
+import info.novatec.testit.webtester.events.DispatchingEventSystem;
 import info.novatec.testit.webtester.events.browser.ClosedBrowserEvent;
 import info.novatec.testit.webtester.internal.PageFactory;
 import info.novatec.testit.webtester.pages.Page;
@@ -74,7 +74,7 @@ public final class WebDriverBrowser implements Browser {
         this.pageSource = new PageSourceSaver(this);
         this.javaScript = new JavaScriptExecutor(this);
         this.focus = new FocusSetter(this);
-        this.eventSystem = new EventSystemImpl(this);
+        this.eventSystem = new DispatchingEventSystem(this);
 
         this.adHocFinder = new AdHocFinder(this);
         this.pageFactory = new PageFactory(this);
