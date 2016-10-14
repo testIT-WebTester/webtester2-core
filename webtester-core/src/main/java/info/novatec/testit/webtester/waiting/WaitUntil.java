@@ -1,7 +1,9 @@
 package info.novatec.testit.webtester.waiting;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
@@ -14,25 +16,15 @@ import info.novatec.testit.webtester.conditions.Conditions;
  * @since 2.0
  */
 @Getter(AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class WaitUntil<T> {
 
+    @NonNull
     private final Waiter waiter;
+    @NonNull
     private final WaitConfig config;
+    @NonNull
     private final T object;
-
-    /**
-     * Creates a new {@link WaitUntil} instance for the given object and {@link WaitConfig}.
-     *
-     * @param config the configuration to use
-     * @param object the object to use
-     * @see Wait
-     * @since 2.0
-     */
-    WaitUntil(Waiter waiter, WaitConfig config, T object) {
-        this.waiter = waiter;
-        this.config = config;
-        this.object = object;
-    }
 
     /**
      * Waits until the given condition is met. A set of default conditions can be initialized from {@link Conditions}.

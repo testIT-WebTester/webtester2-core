@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import lombok.Setter;
+import lombok.experimental.UtilityClass;
 
 import info.novatec.testit.webtester.events.pagefragments.ClickedEvent;
 import info.novatec.testit.webtester.events.pagefragments.ContextClickedEvent;
@@ -23,7 +24,8 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see Sequence
  * @since 2.0
  */
-public final class Mouse {
+@UtilityClass
+public class Mouse {
 
     /** The default {@link MouseDriver} supplier. Generates a new {@link DefaultMouseDriver} for each call. */
     public static final Supplier<MouseDriver> DEFAULT_MOUSE_DRIVER = DefaultMouseDriver::new;
@@ -164,10 +166,6 @@ public final class Mouse {
      */
     public static Sequence sequence() {
         return new Sequence(mouseDriver.get());
-    }
-
-    private Mouse() {
-        // utility class constructor
     }
 
 }

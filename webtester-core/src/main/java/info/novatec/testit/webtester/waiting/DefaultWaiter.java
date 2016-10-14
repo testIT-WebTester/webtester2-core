@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -18,21 +20,20 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2.0
  */
 @Slf4j
+@AllArgsConstructor
 @Getter(AccessLevel.PROTECTED)
 public class DefaultWaiter implements Waiter {
 
-    /**
-     * The {@link Sleeper} to use when actually needing to pass time.
-     */
+    /** The {@link Sleeper} to use when actually needing to pass time. */
+    @NonNull
     private final Sleeper sleeper;
-    /**
-     * The {@link Clock} to use for tracking the passing of time.
-     */
+    /** The {@link Clock} to use for tracking the passing of time. */
+    @NonNull
     private final Clock clock;
 
     /**
-     * Creates a new default {@link DefaultWaiter}. It has a {@link CurrentThreadSleeper} as a sleeper and a {@link
-     * Clock#systemDefaultZone()} clock.
+     * Creates a new default {@link DefaultWaiter}. It has a {@link CurrentThreadSleeper} as a sleeper and a
+     * {@link Clock#systemDefaultZone()} clock.
      *
      * @see Sleeper
      * @see Clock
@@ -43,9 +44,8 @@ public class DefaultWaiter implements Waiter {
     }
 
     /**
-     * Creates a new custom {@link DefaultWaiter}. It will use the given {@link Sleeper} and a {@link
-     * Clock#systemDefaultZone()}
-     * clock.
+     * Creates a new custom {@link DefaultWaiter}. It will use the given {@link Sleeper} and a
+     * {@link Clock#systemDefaultZone()} clock.
      *
      * @param sleeper the sleeper to use
      * @see Sleeper
@@ -54,20 +54,6 @@ public class DefaultWaiter implements Waiter {
      */
     public DefaultWaiter(Sleeper sleeper) {
         this(sleeper, Clock.systemDefaultZone());
-    }
-
-    /**
-     * Creates a new custom {@link DefaultWaiter}. It will use the given {@link Sleeper} and a {@link Clock}.
-     *
-     * @param sleeper the sleeper to use
-     * @param clock the clock to use
-     * @see Sleeper
-     * @see Clock
-     * @since 2.0
-     */
-    public DefaultWaiter(Sleeper sleeper, Clock clock) {
-        this.sleeper = sleeper;
-        this.clock = clock;
     }
 
     @Override

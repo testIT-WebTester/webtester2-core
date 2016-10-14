@@ -9,14 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import lombok.experimental.UtilityClass;
+
 import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.annotations.PostConstructMustBe;
 import info.novatec.testit.webtester.pages.Page;
 
-
-public final class MustChecker {
+@UtilityClass
+public class MustChecker {
 
     private static final String ILLEGAL_SIGNATURE_MSG =
         "invalid @PostConstructMustBe method declarations (returns PageFragment and has no parameters): ";
@@ -84,10 +86,6 @@ public final class MustChecker {
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
             throw new MustConditionException(e);
         }
-    }
-
-    private MustChecker() {
-        // utility class constructor
     }
 
 }

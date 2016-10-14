@@ -1,6 +1,8 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -15,13 +17,11 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 public class VisibleTextContains implements Condition<PageFragment> {
 
+    @NonNull
     private final String expectedPartialText;
-
-    public VisibleTextContains(String expectedPartialText) {
-        this.expectedPartialText = expectedPartialText;
-    }
 
     @Override
     public boolean test(PageFragment pageFragment) {

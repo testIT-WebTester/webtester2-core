@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.function.Predicate;
 import javax.annotation.PostConstruct;
 
+import lombok.experimental.UtilityClass;
+
 import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pages.Page;
 
-
-public final class PostConstructInvoker {
+@UtilityClass
+public class PostConstructInvoker {
 
     private static final String ILLEGAL_SIGNATURE_MSG =
         "invalid @PostConstruct method declarations (returns VOID and has no parameters): ";
@@ -75,10 +77,6 @@ public final class PostConstructInvoker {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new PostConstructInvocationException(e);
         }
-    }
-
-    private PostConstructInvoker() {
-        // utility class constructor
     }
 
 }

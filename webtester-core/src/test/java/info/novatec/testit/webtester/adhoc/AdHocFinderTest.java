@@ -122,7 +122,9 @@ public class AdHocFinderTest {
         @Test
         public void creatingForPageFragmentUsesWebElementAsSearchContext() {
 
+            Browser browser = mock(Browser.class);
             PageFragment pageFragment = mock(PageFragment.class);
+            doReturn(browser).when(pageFragment).browser();
             WebElement webElement = mock(WebElement.class);
             doReturn(webElement).when(pageFragment).webElement();
 

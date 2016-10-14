@@ -5,7 +5,9 @@ import static java.lang.String.format;
 import java.io.File;
 import java.nio.file.Path;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.operations.ScreenshotTaker;
 import info.novatec.testit.webtester.events.Event;
@@ -32,14 +34,12 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 @SuppressWarnings("serial")
 public class TookScreenshotEvent extends AbstractEvent {
 
+    @NonNull
     private final File screenshot;
-
-    public TookScreenshotEvent(File screenshot) {
-        this.screenshot = screenshot;
-    }
 
     @Override
     public String describe() {

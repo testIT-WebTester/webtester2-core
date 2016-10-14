@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import lombok.Setter;
+import lombok.experimental.UtilityClass;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
@@ -23,7 +24,8 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see Waiter
  * @since 2.0
  */
-public final class Wait {
+@UtilityClass
+public class Wait {
 
     /** The default {@link Waiter} supplier. Generates a new {@link DefaultWaiter} for each call. */
     public static final Supplier<Waiter> DEFAULT_WAITER = DefaultWaiter::new;
@@ -37,10 +39,6 @@ public final class Wait {
      */
     @Setter
     private static Supplier<Waiter> waiter = DEFAULT_WAITER;
-
-    private Wait() {
-        // utility class constructor
-    }
 
     /**
      * Creates a {@link ConfiguredWait configured fluent wait} with a custom timeout.

@@ -2,7 +2,9 @@ package info.novatec.testit.webtester.events.browser;
 
 import static java.lang.String.format;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.operations.AlertHandler;
 import info.novatec.testit.webtester.events.Event;
@@ -24,14 +26,12 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 @SuppressWarnings("serial")
 public class AcceptedAlertEvent extends AbstractEvent {
 
+    @NonNull
     private final String alertMessage;
-
-    public AcceptedAlertEvent(String alertMessage) {
-        this.alertMessage = alertMessage;
-    }
 
     @Override
     public String describe() {

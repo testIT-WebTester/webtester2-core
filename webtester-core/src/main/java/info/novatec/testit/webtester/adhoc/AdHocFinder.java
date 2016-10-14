@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
@@ -29,9 +31,12 @@ import info.novatec.testit.webtester.pages.Page;
  * @since 2.0
  */
 @Getter(AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public final class AdHocFinder {
 
+    @NonNull
     private final PageFragmentFactory factory;
+    @NonNull
     private final SearchContext searchContext;
 
     /**
@@ -63,12 +68,6 @@ public final class AdHocFinder {
     public AdHocFinder(PageFragment parent) {
         this.factory = new PageFragmentFactory(parent.browser());
         this.searchContext = parent.webElement();
-    }
-
-    // Constructor used for unit tests.
-    AdHocFinder(PageFragmentFactory factory, SearchContext searchContext) {
-        this.factory = factory;
-        this.searchContext = searchContext;
     }
 
     /**

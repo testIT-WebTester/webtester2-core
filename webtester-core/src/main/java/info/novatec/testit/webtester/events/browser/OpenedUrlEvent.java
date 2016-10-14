@@ -4,7 +4,9 @@ import static java.lang.String.format;
 
 import java.net.URL;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.events.Event;
@@ -30,14 +32,12 @@ import info.novatec.testit.webtester.events.AbstractEvent;
  * @since 2.0
  */
 @Getter
+@AllArgsConstructor
 @SuppressWarnings("serial")
 public class OpenedUrlEvent extends AbstractEvent {
-
+    
+    @NonNull
     private final String url;
-
-    public OpenedUrlEvent(String url) {
-        this.url = url;
-    }
 
     @Override
     public String describe() {

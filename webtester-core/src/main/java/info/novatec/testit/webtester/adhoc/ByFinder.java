@@ -8,7 +8,9 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.GenericElement;
@@ -30,18 +32,16 @@ import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
  * @see ByFinder#asManyGenerics()
  * @since 2.0
  */
+@AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 public class ByFinder {
 
+    @NonNull
     private final PageFragmentFactory factory;
+    @NonNull
     private final SearchContext searchContext;
+    @NonNull
     private final By by;
-
-    public ByFinder(PageFragmentFactory factory, SearchContext searchContext, By by) {
-        this.factory = factory;
-        this.searchContext = searchContext;
-        this.by = by;
-    }
 
     /**
      * Creates a {@link GenericElement generic page element} using the finder's {@link By}.

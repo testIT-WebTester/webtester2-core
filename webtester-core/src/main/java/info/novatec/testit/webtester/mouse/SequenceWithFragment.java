@@ -1,14 +1,15 @@
 package info.novatec.testit.webtester.mouse;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
- * Provides the means of creating a sequence of mouse actions.
- * This is mainly used for readable fluent API calls.
+ * Provides the means of creating a sequence of mouse actions. This is mainly used for readable fluent API calls.
  * <p>
  * <b>Examples:</b>
  * <pre>
@@ -22,23 +23,15 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @since 2.0
  */
 @Getter(AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class SequenceWithFragment {
 
     /** The {@link MouseDriver} to use when executing mouse operations. */
+    @NonNull
     private final MouseDriver mouseDriver;
     /** The latest {@link PageFragment} to be interacted with. Is used for operations without parameters. */
+    @NonNull
     private final PageFragment fragment;
-
-    /**
-     * Creates a new instance for the given {@link MouseDriver}.
-     *
-     * @param mouseDriver the driver to use
-     * @since 2.0
-     */
-    SequenceWithFragment(MouseDriver mouseDriver, PageFragment fragment) {
-        this.mouseDriver = mouseDriver;
-        this.fragment = fragment;
-    }
 
     /**
      * Executes a {@link Mouse#click(PageFragment)} on the {@link PageFragment} of this sequence.

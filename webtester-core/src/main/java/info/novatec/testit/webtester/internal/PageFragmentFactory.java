@@ -5,6 +5,9 @@ import java.lang.reflect.Proxy;
 
 import org.openqa.selenium.WebElement;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.internal.must.MustChecker;
 import info.novatec.testit.webtester.internal.postconstruct.PostConstructInvoker;
@@ -12,14 +15,11 @@ import info.novatec.testit.webtester.internal.proxies.PageFragmentModel;
 import info.novatec.testit.webtester.internal.proxies.PageFragmentProxyHandler;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
-
+@AllArgsConstructor
 public class PageFragmentFactory {
 
+    @NonNull
     private final Browser browser;
-
-    public PageFragmentFactory(Browser browser) {
-        this.browser = browser;
-    }
 
     @SuppressWarnings("unchecked")
     public <T extends PageFragment> T pageFragment(PageFragmentModel model) {

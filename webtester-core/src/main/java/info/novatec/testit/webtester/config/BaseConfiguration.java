@@ -5,16 +5,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.support.Color;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
 import info.novatec.testit.webtester.config.exceptions.InvalidValueTypeException;
@@ -25,10 +25,8 @@ import info.novatec.testit.webtester.internal.configuration.NamedProperties;
 /**
  * This is the base implementation of a {@link Configuration configuration}.
  * <p>
- * It can be initialized using a {@link BaseConfigurationBuilder base
- * configuration builder}. And provides defaults for all major named properties
- * in case no {@link ConfigurationAdapter adapters} are used to construct the
- * configuration.
+ * It can be initialized using a {@link BaseConfigurationBuilder base configuration builder}. And provides defaults for all
+ * major named properties in case no {@link ConfigurationAdapter adapters} are used to construct the configuration.
  * <p>
  * <b>Examples:</b><br>
  * <code>new BaseConfigurationBuilder().build();</code><br>
@@ -40,15 +38,14 @@ import info.novatec.testit.webtester.internal.configuration.NamedProperties;
  * @see BaseConfigurationBuilder
  * @since 2.0
  */
+@Slf4j
 public class BaseConfiguration implements Configuration {
-
-    private static final Logger logger = LoggerFactory.getLogger(BaseConfiguration.class);
 
     private static final Set<Class<?>> ALLOWED_TYPES =
         asSet(String.class, Integer.class, Long.class, Float.class, Double.class, Boolean.class);
 
-    private Map<String, String> properties = new HashMap<>();
-    private List<ConfigurationExporter> configurationExporters = new LinkedList<>();
+    private final Map<String, String> properties = new HashMap<>();
+    private final List<ConfigurationExporter> configurationExporters = new LinkedList<>();
 
     /* named properties */
 
@@ -191,7 +188,7 @@ public class BaseConfiguration implements Configuration {
     @Override
     public BaseConfiguration removeProperty(String key) {
         properties.remove(key);
-        logger.debug("removed property '{}'", key);
+        log.debug("removed property '{}'", key);
         return this;
     }
 
@@ -222,14 +219,14 @@ public class BaseConfiguration implements Configuration {
 
     private void changeValue(String key, Object value) {
         properties.put(key, String.valueOf(value));
-        logger.debug("changed value of property '{}' to: {}", key, value);
+        log.debug("changed value of property '{}' to: {}", key, value);
     }
 
     private void exportProperty(String key, Object value) {
         if (!configurationExporters.isEmpty()) {
-            logger.debug("exporting change of property '{}' to exporters", key);
+            log.debug("exporting change of property '{}' to exporters", key);
             for (ConfigurationExporter exporter : configurationExporters) {
-                logger.trace("exporting change of property '{}'='{}' to {}", key, value, exporter);
+                log.trace("exporting change of property '{}'='{}' to {}", key, value, exporter);
                 exporter.export(key, value);
             }
         }
@@ -318,23 +315,21 @@ public class BaseConfiguration implements Configuration {
     @Override
     public BaseConfiguration addExporter(ConfigurationExporter exporter) {
         configurationExporters.add(exporter);
-        logger.debug("added configuration exporter: {}", exporter);
+        log.debug("added configuration exporter: {}", exporter);
         return this;
     }
 
     @Override
     public BaseConfiguration addExporters(Collection<ConfigurationExporter> exportersToAdd) {
         configurationExporters.addAll(exportersToAdd);
-        logger.debug("added configuration exporters: {}", exportersToAdd);
+        log.debug("added configuration exporters: {}", exportersToAdd);
         return this;
     }
 
     /* utilities */
 
     private static Set<Class<?>> asSet(Class<?>... types) {
-        Set<Class<?>> typeSet = new HashSet<>();
-        Collections.addAll(typeSet, types);
-        return typeSet;
+        return Arrays.stream(types).collect(Collectors.toSet());
     }
 
 }
