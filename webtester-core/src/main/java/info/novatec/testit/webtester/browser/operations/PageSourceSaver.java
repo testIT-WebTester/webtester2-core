@@ -2,6 +2,7 @@ package info.novatec.testit.webtester.browser.operations;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -191,7 +192,7 @@ public class PageSourceSaver extends BaseBrowserOperation {
         String fileName = fileNameWithoutSuffix + ".html";
         File pageSource = new File(targetFolder, fileName);
 
-        FileUtils.write(pageSource, get());
+        FileUtils.write(pageSource, get(), StandardCharsets.UTF_8);
 
         log.debug("saved page source to file: {}", pageSource);
         fireEventIfEnabled(pageSource);

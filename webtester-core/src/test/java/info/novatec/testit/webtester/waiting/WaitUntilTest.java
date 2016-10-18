@@ -1,7 +1,7 @@
 package info.novatec.testit.webtester.waiting;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.same;
+import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 

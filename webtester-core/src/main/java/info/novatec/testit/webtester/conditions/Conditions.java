@@ -44,6 +44,8 @@ public class Conditions {
      * Creates a new {@link Is} condition.
      *
      * @param condition the nested condition
+     * @param <T> the type of the condition
+     * @return the created condition
      * @see Is
      * @since 2.0
      */
@@ -55,6 +57,8 @@ public class Conditions {
      * Creates a new {@link Has} condition.
      *
      * @param condition the nested condition
+     * @param <T> the type of the condition
+     * @return the created condition
      * @see Has
      * @since 2.0
      */
@@ -66,6 +70,8 @@ public class Conditions {
      * Creates a new {@link Not} condition.
      *
      * @param condition the nested condition
+     * @param <T> the type of the condition
+     * @return the created condition
      * @see Not
      * @since 2.0
      */
@@ -77,6 +83,8 @@ public class Conditions {
      * Creates a new {@link Either} condition.
      *
      * @param conditions the nested conditions
+     * @param <T> the type of the condition
+     * @return the created condition
      * @see Either
      * @since 2.1
      */
@@ -88,6 +96,7 @@ public class Conditions {
      * Creates a new {@link Attribute} condition.
      *
      * @param attributeName the name of the attribute to check
+     * @return the created condition
      * @see Attribute
      * @since 2.0
      */
@@ -100,6 +109,7 @@ public class Conditions {
      *
      * @param attributeName the name of the attribute to check
      * @param value the value to check
+     * @return the created condition
      * @see AttributeWithValue
      * @since 2.0
      */
@@ -110,6 +120,7 @@ public class Conditions {
     /**
      * Creates a new {@link Disabled} condition.
      *
+     * @return the created condition
      * @see Disabled
      * @since 2.0
      */
@@ -120,6 +131,7 @@ public class Conditions {
     /**
      * Creates a new {@link Editable} condition.
      *
+     * @return the created condition
      * @see Editable
      * @since 2.0
      */
@@ -130,6 +142,7 @@ public class Conditions {
     /**
      * Creates a new {@link Enabled} condition.
      *
+     * @return the created condition
      * @see Enabled
      * @since 2.0
      */
@@ -140,6 +153,7 @@ public class Conditions {
     /**
      * Creates a new {@link Interactable} condition.
      *
+     * @return the created condition
      * @see Interactable
      * @since 2.0
      */
@@ -150,6 +164,7 @@ public class Conditions {
     /**
      * Creates a new {@link Invisible} condition.
      *
+     * @return the created condition
      * @see Invisible
      * @since 2.0
      */
@@ -160,6 +175,7 @@ public class Conditions {
     /**
      * Creates a new {@link Present} condition.
      *
+     * @return the created condition
      * @see Present
      * @since 2.0
      */
@@ -170,6 +186,7 @@ public class Conditions {
     /**
      * Creates a new {@link PresentAndVisible} condition.
      *
+     * @return the created condition
      * @see PresentAndVisible
      * @since 2.0
      */
@@ -180,6 +197,7 @@ public class Conditions {
     /**
      * Creates a new {@link ReadOnly} condition.
      *
+     * @return the created condition
      * @see ReadOnly
      * @since 2.0
      */
@@ -190,6 +208,7 @@ public class Conditions {
     /**
      * Creates a new {@link Selected} condition.
      *
+     * @return the created condition
      * @see Selected
      * @since 2.0
      */
@@ -201,6 +220,7 @@ public class Conditions {
      * Creates a new {@link SelectedIndex} condition.
      *
      * @param index the expected selected index
+     * @return the created condition
      * @see SelectedIndex
      * @since 2.0
      */
@@ -212,6 +232,7 @@ public class Conditions {
      * Creates a new {@link SelectedIndices} condition.
      *
      * @param indices the expected selected indices
+     * @return the created condition
      * @see SelectedIndices
      * @since 2.0
      */
@@ -223,6 +244,7 @@ public class Conditions {
      * Creates a new {@link SelectedIndices} condition.
      *
      * @param indices the expected selected indices
+     * @return the created condition
      * @see SelectedIndices
      * @since 2.0
      */
@@ -234,6 +256,7 @@ public class Conditions {
      * Creates a new {@link SelectedText} condition.
      *
      * @param text the expected selected text
+     * @return the created condition
      * @see SelectedText
      * @since 2.0
      */
@@ -245,6 +268,7 @@ public class Conditions {
      * Creates a new {@link SelectedTexts} condition.
      *
      * @param texts the expected selected texts
+     * @return the created condition
      * @see SelectedTexts
      * @since 2.0
      */
@@ -256,6 +280,7 @@ public class Conditions {
      * Creates a new {@link SelectedTexts} condition.
      *
      * @param texts the expected selected texts
+     * @return the created condition
      * @see SelectedTexts
      * @since 2.0
      */
@@ -267,6 +292,7 @@ public class Conditions {
      * Creates a new {@link SelectedValue} condition.
      *
      * @param value the expected selected value
+     * @return the created condition
      * @see SelectedValue
      * @since 2.0
      */
@@ -278,6 +304,7 @@ public class Conditions {
      * Creates a new {@link SelectedValues} condition.
      *
      * @param values the expected selected values
+     * @return the created condition
      * @see SelectedValues
      * @since 2.0
      */
@@ -289,6 +316,7 @@ public class Conditions {
      * Creates a new {@link SelectedValues} condition.
      *
      * @param values the expected selected values
+     * @return the created condition
      * @see SelectedValues
      * @since 2.0
      */
@@ -299,6 +327,7 @@ public class Conditions {
     /**
      * Creates a new {@link Visible} condition.
      *
+     * @return the created condition
      * @see Visible
      * @since 2.0
      */
@@ -310,6 +339,7 @@ public class Conditions {
      * Creates a new {@link VisibleTextEquals} condition.
      *
      * @param text the expected visible text
+     * @return the created condition
      * @see VisibleTextEquals
      * @since 2.0
      */
@@ -321,6 +351,7 @@ public class Conditions {
      * Creates a new {@link VisibleTextContains} condition.
      *
      * @param partialText the expected visible partial text
+     * @return the created condition
      * @see VisibleTextContains
      * @since 2.0
      */
