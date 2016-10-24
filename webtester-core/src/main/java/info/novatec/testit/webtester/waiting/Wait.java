@@ -89,6 +89,22 @@ public class Wait {
     }
 
     /**
+     * Creates a {@link WaitUntil} with the default timeout configuration of {@link WaitConfig} for the given object {@link
+     * Supplier}.
+     *
+     * @param objectSupplier the object supplier for the wait until operation
+     * @param <T> the type of the object
+     * @return the fluent wait instance
+     * @see Wait
+     * @see WaitUntil
+     * @see WaitConfig
+     * @since 2.0
+     */
+    public static <T> WaitUntil<T> untilSupplied(Supplier<T> objectSupplier) {
+        return new WaitUntil<>(waiter.get(), new WaitConfig(), objectSupplier);
+    }
+
+    /**
      * Creates a {@link WaitUntil} with the default timeout from the given {@link PageFragment}'s configuration.
      *
      * @param fragment the fragment for the wait until operation

@@ -101,7 +101,35 @@ public class WaitTest {
         @Test
         public void waitUntilIsCreatedForObject() {
             WaitUntil<Object> until = Wait.until(object);
-            assertThat(until.getObject()).isSameAs(object);
+            assertThat(until.getObjectSupplier().get()).isSameAs(object);
+        }
+
+    }
+
+    public static class Until_ObjectSupplier extends AbstractWaitTest {
+
+        @Mock
+        Object object;
+
+        @Test
+        public void waitUntilIsCreatedWithSameWaiter() {
+            WaitUntil<Object> until = Wait.untilSupplied(() -> object);
+            assertThat(until.getWaiter()).isSameAs(waiter);
+        }
+
+        @Test
+        public void waitUntilIsCreatedWithDefaultConfiguration() {
+            WaitUntil<Object> until = Wait.untilSupplied(() -> object);
+            WaitConfig config = until.getConfig();
+            assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
+            assertThat(config.getTimeUnit()).isEqualTo(WaitConfig.DEFAULT_TIME_UNIT);
+            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
+        }
+
+        @Test
+        public void waitUntilIsCreatedForObject() {
+            WaitUntil<Object> until = Wait.untilSupplied(() -> object);
+            assertThat(until.getObjectSupplier().get()).isSameAs(object);
         }
 
     }
@@ -141,7 +169,7 @@ public class WaitTest {
         @Test
         public void waitUntilIsCreatedForPageFragment() {
             WaitUntil<PageFragment> until = Wait.until(fragment);
-            assertThat(until.getObject()).isSameAs(fragment);
+            assertThat(until.getObjectSupplier().get()).isSameAs(fragment);
         }
 
     }

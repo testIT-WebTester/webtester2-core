@@ -1,7 +1,8 @@
 package info.novatec.testit.webtester.waiting;
 
+import java.util.function.Supplier;
+
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -16,7 +17,6 @@ import info.novatec.testit.webtester.conditions.Conditions;
  * @since 2.0
  */
 @Getter(AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class WaitUntil<T> {
 
     @NonNull
@@ -24,7 +24,17 @@ public class WaitUntil<T> {
     @NonNull
     private final WaitConfig config;
     @NonNull
-    private final T object;
+    private final Supplier<T> objectSupplier;
+
+    public WaitUntil(Waiter waiter, WaitConfig config, T object) {
+        this(waiter, config, () -> object);
+    }
+
+    public WaitUntil(Waiter waiter, WaitConfig config, Supplier<T> objectSupplier) {
+        this.waiter = waiter;
+        this.config = config;
+        this.objectSupplier = objectSupplier;
+    }
 
     /**
      * Waits until the given condition is met. A set of default conditions can be initialized from {@link Conditions}.
@@ -97,7 +107,7 @@ public class WaitUntil<T> {
     }
 
     private WaitUntil<T> doWait(Condition<? super T> condition) {
-        waiter.waitUntil(config, () -> condition.test(object));
+        waiter.waitUntil(config, () -> condition.test(objectSupplier.get()));
         return this;
     }
 
