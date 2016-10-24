@@ -48,7 +48,7 @@ public class ConfiguredWaitTest {
         @Test
         public void waitUntilIsCreatedForObject() {
             WaitUntil<Object> waitUntil = cut.until(object);
-            assertThat(waitUntil.getObject()).isSameAs(object);
+            assertThat(waitUntil.getObjectSupplier().get()).isSameAs(object);
         }
 
     }
