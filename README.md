@@ -12,33 +12,35 @@ testIT WebTester is a web-application UI test automation framework based on Sele
 It is the product of years of consulting experience in various projects and aims at providing a very intuitive, declarative and extendable API for writing programmatic UI tests in Java.
 
 ### Features
-- Java 8 optimized API
-- Page Object Pattern as it's main focus
-- Functional page elements instead of generic WebElement API
-- Script style testing support using Ad-Hoc element identification API
-- Composition of pages and page fragments over inheritance
-- Declarative interface-based programming model
-- Event System for traceability and custom action
-- Option to highlight used elements as a visual debugging support
-- Support modules for the integration with frameworks like: assertj, hamcrest, junit, spring
-- If you must, Selenium is always just a method call away.
 
-### Get in touch
-You can contact us by writing an [e-mail](mailto:webtester@novatec-gmbh.de) or create an [issue](https://github.com/testIT-WebTester/webtester2-core/issues).
+- Optimized for Java 8 and above
+- Intuitive Page Object Pattern with simple annotation-driven element identification
+- Useful predefined element classes (e.g. Button, TextField, ...)
+- Simple API for runtime element identification
+- Boost reuse with easy composition of pages and page fragments
+- Highlighting of used elements for visual debugging
+- Custom event handling: from a simple screenshot on exception to custom report generation
+- Seamless integration with common frameworks like: AssertJ, Hamcrest, JUnit, Spring, etc.
+- Selenium is always just a method call away!
 
 ### Documentation
 The [user documentation](documentation/README.md) is part of the repository and provides in-depth documentation on all the features.
 If you have further questions please get in touch with us.
 
 ### Contribute
-If you want to contribute to WebTester, fork the repository, make your additions and changes and create a pull request.
-Things you need to know are documented [here](https://github.com/testIT-WebTester/webtester2-core/wiki/Contribution).
+Firstly, you should create an [issue](https://github.com/testIT-WebTester/webtester2-core/issues) for your enhancement request.
 
-### Issues
-If you experience any issues please use GitHub's [issue](https://github.com/testIT-WebTester/webtester2-core/issues) system to tell us about it!
+WebTester uses a “Fork & Pull” model for collaborative development. If you have changes that you would like us to consider for introduction to WebTester, you will need to fork the repository, commit and push your changes to your forked project, and send us a pull request referencing the previously created issue.
+
+Please note that, in order to keep WebTester clean and minimal, we consider all enhancement requests carefully. Should your enhancement not be appropriate for WebTester, we may reject the pull request.
+
+Before you start, have a look at our [contribution](https://github.com/testIT-WebTester/webtester2-core/wiki/Contribution) wiki page for important information regarding the development of WebTester.
+
+### Get in touch
+You can contact us by writing an [e-mail](mailto:webtester@novatec-gmbh.de) or create an [issue](https://github.com/testIT-WebTester/webtester2-core/issues).
 
 ### Licensing
-testIT WebTester is licensed under [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt).
+WebTester is licensed under [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 ### Sponsoring
-testIT WebTester is mainly developed by [NovaTec Consulting GmbH](http://www.novatec-gmbh.de/), a German consultancy firm that drives quality in software development projects.
+WebTester is mainly developed by [NovaTec Consulting GmbH](http://www.novatec-gmbh.de/), a German consultancy firm that drives quality in software development projects.
