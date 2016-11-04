@@ -4,6 +4,7 @@
 
 - [Getting Started](chapters/gettingstarted.md)
 - [Browser](chapters/browser.md)
+- [Browser Factories](chapters/browser-factories.md)
 - [Configuration](chapters/configuration.md)
 - [Event System](chapters/event-system.md)
 - [Pages](chapters/page.md)
@@ -28,12 +29,7 @@
   - Assertions
     - [AssertJ](chapters/support-assertj3.md)
     - [Hamcrest](chapters/support-hamcrest.md)
-  - Browser
-    - [Chrome](chapters/support-chrome.md)
-    - [Firefox](chapters/support-firefox.md)
-    - [Firefox (Marionette)](chapters/support-marionette.md)
-    - [Internet Explorer](chapters/support-ie.md)
-  - Testing
+  - Test Runner
     - [JUnit 4.x](chapters/support-junit4.md)
     - [JUnit 5.x](chapters/support-junit5.md)
   - Integration
