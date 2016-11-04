@@ -43,23 +43,40 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!--
+			Selenium dependencies are scoped as either provided or optional.
+				- Provided dependencies must be declared by the project using WebTester
+				- Optional dependencies can be declared in case they are needed
+		-->
 		<dependency>
-			<!-- Provided Selenium dependency used to have access to the Selenium API. -->
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-support</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-ie-driver</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
 		<!-- test -->
 
-		<dependency>
-			<!-- Firefox driver used in tests. Is scoped as a test dependency in order 
-				to not be a transitive dependency for the actual project using the WebTester 
-				framework. -->
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
