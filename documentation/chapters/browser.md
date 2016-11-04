@@ -14,30 +14,6 @@ It is the main entry point to the framework.
 A `BrowserBuilder` provides a builder API for initializing `Browser` instances and setting custom service implementations 
 like the [`Configuration`](configuration.md).
 
-**BrowserFactory:**
-A `BrowserFactory` creates an abstraction over the `Browser` initialisation based on project-global settings.
-They are intended to allow easy browser initialization and encapsulation of the underlying configuration / initialization
-processes.
-
-**Provided default BrowserFactory implementations:**
-
-- [`ChromeFactory`](support-chrome.md)
-- [`FirefoxFactory`](support-firefox.md)
-- [`MarionetteFactory`](support-marionette.md)
-- [`InternetExplorerFactory`](support-ie.md)
-
-Each of them comes in their own support module. The Firefox's and Internet Explorer's factory implementations are optimized 
-for performance.
-
-**ProxyConfiguration:**
-In order to configure a proxy you can either configure it manually when initializing the `WebDriver` or
-you can implement a `ProxyConfiguration` and provide it to the `BrowserFactory` before creating a `Browser` instance.
-
-```java
-ProxyConfiguration pc = createProxyConfiguration();
-Browser browser = new FirefoxFactory().withProxyConfiguration(pc).createBrowser();
-```
-
 ## The Web Driver Browser
 The `WebDriverBrowser` class implements `Browser` and is used to wrap a Selenium `WebDriver`.
 Instances can be created by using the `WebDriverBrowser's` factory methods:
@@ -74,6 +50,4 @@ Browser browser = new WebDriverBrowserBuilder(webDriver)
 # Linked Documentation
 
 - [Configuration](configuration.md)
-- [Chrome Support](support-chrome.md)
-- [Firefox Support](support-firefox.md)
-- [Internet Explorer Support](support-ie.md)
+- [Browser Factories](browser-factories.md)
