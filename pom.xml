@@ -63,7 +63,7 @@
 
 		<version.jetty-server>9.4.0.M0</version.jetty-server>
 
-		<version.selenium>2.53.1</version.selenium>
+		<version.selenium>3.0.1</version.selenium>
 
 		<version.slf4j>1.7.21</version.slf4j>
 		<version.logback>1.1.7</version.logback>
@@ -182,7 +182,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-htmlunit-driver</artifactId>
+				<artifactId>selenium-chrome-driver</artifactId>
 				<version>${version.selenium}</version>
 			</dependency>
 			<dependency>
@@ -193,11 +193,6 @@
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-ie-driver</artifactId>
-				<version>${version.selenium}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-chrome-driver</artifactId>
 				<version>${version.selenium}</version>
 			</dependency>
 
