@@ -1,53 +1,75 @@
 package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import utils.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
 
-@RunWith(Enclosed.class)
+
 public class SelectableAssertTest {
 
-    public static class IsSelected {
+    @Nested
+    @DisplayName("isSelected() can be asserted")
+    class IsSelected {
 
         @Test
-        public void beingSelectedPasses() {
+        @DisplayName("being selected passes")
+        void beingSelectedPasses() {
             assertThat(selectedSelectable()).isSelected();
         }
 
-        @Test(expected = AssertionError.class)
-        public void notBeingSelectedFails() {
-            assertThat(nonSelectedSelectable()).isSelected();
+        @Test
+        @DisplayName("not being selected fails")
+        void notBeingSelectedFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(nonSelectedSelectable()).isSelected();
+            })).hasMessage("Expected selectable fragment to be selected, but it wasn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isNotSelected() can be asserted")
+    class IsNotSelected {
+
+        @Test
+        @DisplayName("not being selected passes")
+        void notBeingSelectedPasses() {
+            assertThat(nonSelectedSelectable()).isNotSelected();
         }
 
         @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("being selected fails")
+        void beingSelectedFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(selectedSelectable()).isNotSelected();
+            })).hasMessage("Expected selectable fragment not to be selected, but it was.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("assertions provide fluent API")
+    class AssertionProvidesFluentApi {
+
+        @Test
+        @DisplayName("isSelected()")
+        void isSelected() {
             SelectableAssert original = assertThat(selectedSelectable());
             SelectableAssert returned = original.isSelected();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class IsNotSelected {
-
         @Test
-        public void notBeingSelectedPasses() {
-            assertThat(nonSelectedSelectable()).isNotSelected();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void beingSelectedFails() {
-            assertThat(selectedSelectable()).isNotSelected();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isNotSelected()")
+        void isNotSelected() {
             SelectableAssert original = assertThat(nonSelectedSelectable());
             SelectableAssert returned = original.isNotSelected();
             assertThat(returned).isSameAs(original);
@@ -55,11 +77,11 @@ public class SelectableAssertTest {
 
     }
 
-    private static Selectable selectedSelectable() {
+    Selectable selectedSelectable() {
         return MockFactory.selectable().isSelected().build();
     }
 
-    private static Selectable nonSelectedSelectable() {
+    Selectable nonSelectedSelectable() {
         return MockFactory.selectable().isNotSelected().build();
     }
 

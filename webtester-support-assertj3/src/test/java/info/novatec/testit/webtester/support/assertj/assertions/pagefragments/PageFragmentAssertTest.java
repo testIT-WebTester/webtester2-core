@@ -1,313 +1,419 @@
 package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import utils.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
-@RunWith(Enclosed.class)
 public class PageFragmentAssertTest {
 
-    public static class HasTag {
+    @Nested
+    @DisplayName("hasTag(..) can be asserted")
+    class HasTag {
 
         @Test
-        public void havingTagPasses() {
+        @DisplayName("having matching tag passes")
+        void havingTagPasses() {
             assertThat(pageFragmentWithTag("div")).hasTag("div");
         }
 
-        @Test(expected = AssertionError.class)
-        public void notHavingTagFails() {
-            assertThat(pageFragmentWithTag("span")).hasTag("div");
+        @Test
+        @DisplayName("having a different tag fails")
+        void notHavingTagFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithTag("span")).hasTag("div");
+            })).hasMessage("Expected page fragment to have tag <div>, but was <span>.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasNotTag(..) can be asserted")
+    class HasNotTag {
+
+        @Test
+        @DisplayName("having a different tag passes")
+        void notHavingTagPasses() {
+            assertThat(pageFragmentWithTag("span")).hasNotTag("div");
         }
 
         @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("having matching tag fails")
+        void havingTagFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithTag("div")).hasNotTag("div");
+            })).hasMessage("Expected page fragment to not to have tag <div>, but it did.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasVisibleText(..) can be asserted")
+    class HasVisibleText {
+
+        @Test
+        @DisplayName("having matching visible text passes")
+        void havingVisibleTextPasses() {
+            assertThat(pageFragmentWithVisibleText("foo")).hasVisibleText("foo");
+        }
+
+        @Test
+        @DisplayName("having different visible text fails")
+        void notHavingVisibleTextFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithVisibleText("bar")).hasVisibleText("foo");
+            })).hasMessage("Expected page fragment's visible text to be <foo>, but was <bar>.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasNotVisibleText(..) can be asserted")
+    class HasNotVisibleText {
+
+        @Test
+        @DisplayName("having different visible text passes")
+        void notHavingVisibleTextPasses() {
+            assertThat(pageFragmentWithVisibleText("bar")).hasNotVisibleText("foo");
+        }
+
+        @Test
+        @DisplayName("having matching visible text fails")
+        void havingVisibleTextFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithVisibleText("foo")).hasNotVisibleText("foo");
+            })).hasMessage("Expected page fragment's visible text not to be <foo>, but it was.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasVisibleTextContaining(..) can be asserted")
+    class HasVisibleTextContaining {
+
+        @Test
+        @DisplayName("having visible text containing the part passes")
+        void havingVisibleTextContainingPasses() {
+            assertThat(pageFragmentWithVisibleText("foo bar foo")).hasVisibleTextContaining("foo");
+        }
+
+        @Test
+        @DisplayName("having visible text that does not contain the part fails")
+        void notHavingVisibleTextContainingFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithVisibleText("bar bar")).hasVisibleTextContaining("foo");
+            })).hasMessage("Expected page fragment's visible text to contain <foo>, but it didn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasAttribute(..) can be asserted")
+    class HasAttribute {
+
+        @Test
+        @DisplayName("having the attribute passes")
+        void havingAttributePasses() {
+            assertThat(pageFragmentWithAttribute("foo")).hasAttribute("foo");
+        }
+
+        @Test
+        @DisplayName("note having the attribute fails")
+        void notHavingAttributeFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithoutAttributes()).hasAttribute("foo");
+            })).hasMessage("Expected page fragment to have attribute <foo>, but it didn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasNotAttribute(..) can be asserted")
+    class HasNotAttribute {
+
+        @Test
+        @DisplayName("note having the attribute passes")
+        void notHavingAttributePasses() {
+            assertThat(pageFragmentWithoutAttributes()).hasNotAttribute("bar");
+        }
+
+        @Test
+        @DisplayName("having the attribute fails")
+        void havingAttributeFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithAttribute("bar")).hasNotAttribute("bar");
+            })).hasMessage("Expected page fragment not to have attribute <bar>, but it did.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasAttributeValue(..) can be asserted")
+    class HasAttributeValue {
+
+        @Test
+        @DisplayName("having the attribute with matching value passes")
+        void havingAttributeWithValuePasses() {
+            assertThat(pageFragmentWithAttributeAndValue("foo", "val")).hasAttributeValue("foo", "val");
+        }
+
+        @Test
+        @DisplayName("having the attribute with different value fails")
+        void havingAttributeWithDifferentValueFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithAttributeAndValue("foo", "other")).hasAttributeValue("foo", "val");
+            })).hasMessage("Expected page fragment's <foo> attribute value to be <val>, but it was <other>.");
+        }
+
+        @Test
+        @DisplayName("not having the attribute fails")
+        void notHavingAttributeFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(pageFragmentWithoutAttributes()).hasAttributeValue("foo", "val");
+            })).hasMessage("Expected page fragment to have attribute <foo>, but it didn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isVisible() can be asserted")
+    class IsVisible {
+
+        @Test
+        @DisplayName("being visible passes")
+        void beingVisiblePasses() {
+            assertThat(visiblePageFragment()).isVisible();
+        }
+
+        @Test
+        @DisplayName("being invisible fails")
+        void notBeingVisibleFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(invisiblePageFragment()).isVisible();
+            })).hasMessage("Expected page fragment to be visible, but it wasn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isInvisible() can be asserted")
+    class IsInvisible {
+
+        @Test
+        @DisplayName("being invisible passes")
+        void beingInvisiblePasses() {
+            assertThat(invisiblePageFragment()).isInvisible();
+        }
+
+        @Test
+        @DisplayName("being visible fails")
+        void notBeingInvisibleFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(visiblePageFragment()).isInvisible();
+            })).hasMessage("Expected page fragment to be invisible, but it wasn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isPresent() can be asserted")
+    class IsPresent {
+
+        @Test
+        @DisplayName("being present passes")
+        void beingPresentPasses() {
+            assertThat(presentPageFragment()).isPresent();
+        }
+
+        @Test
+        @DisplayName("not being present fails")
+        void notBeingPresentFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(nonPresentFragment()).isPresent();
+            })).hasMessage("Expected page fragment to be present, but it wasn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isNotPresent() can be asserted")
+    class IsNotPresent {
+
+        @Test
+        @DisplayName("not being present passes")
+        void notBeingPresentPasses() {
+            assertThat(nonPresentFragment()).isNotPresent();
+        }
+
+        @Test
+        @DisplayName("being present fails")
+        void beingPresentFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(presentPageFragment()).isNotPresent();
+            })).hasMessage("Expected page fragment not to be present, but it was.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isEnabled() can be asserted")
+    class IsEnabled {
+
+        @Test
+        @DisplayName("being enabled passes")
+        void beingEnabledPasses() {
+            assertThat(enabledPageFragment()).isEnabled();
+        }
+
+        @Test
+        @DisplayName("being disabled fails")
+        void notBeingEnabledFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(disabledPageFragment()).isEnabled();
+            })).hasMessage("Expected page fragment to be enabled, but it wasn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("isDisabled() can be asserted")
+    class IsDisabled {
+
+        @Test
+        @DisplayName("being disabled passes")
+        void beingDisabledPasses() {
+            assertThat(disabledPageFragment()).isDisabled();
+        }
+
+        @Test
+        @DisplayName("being enabled fails")
+        void notBeingDisabledFails() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(enabledPageFragment()).isDisabled();
+            })).hasMessage("Expected page fragment to be disabled, but it wasn't.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("assertions provide fluent API")
+    class AssertionProvidesFluentApi {
+
+        @Test
+        @DisplayName("hasTag(..)")
+        void hasTag() {
             PageFragmentAssert original = assertThat(pageFragmentWithTag("div"));
             PageFragmentAssert returned = original.hasTag("div");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasNotTag {
-
         @Test
-        public void notHavingTagPasses() {
-            assertThat(pageFragmentWithTag("span")).hasNotTag("div");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingTagFails() {
-            assertThat(pageFragmentWithTag("div")).hasNotTag("div");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasNotTag(..)")
+        void hasNotTag() {
             PageFragmentAssert original = assertThat(pageFragmentWithTag("span"));
             PageFragmentAssert returned = original.hasNotTag("div");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasVisibleText {
-
         @Test
-        public void havingVisibleTextPasses() {
-            assertThat(pageFragmentWithVisibleText("foo")).hasVisibleText("foo");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingVisibleTextFails() {
-            assertThat(pageFragmentWithVisibleText("bar")).hasVisibleText("foo");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasVisibleText(..)")
+        void hasVisibleText() {
             PageFragmentAssert original = assertThat(pageFragmentWithVisibleText("foo"));
             PageFragmentAssert returned = original.hasVisibleText("foo");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasNotVisibleText {
-
         @Test
-        public void notHavingVisibleTextPasses() {
-            assertThat(pageFragmentWithVisibleText("bar")).hasNotVisibleText("foo");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingVisibleTextFails() {
-            assertThat(pageFragmentWithVisibleText("foo")).hasNotVisibleText("foo");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasNotVisibleText(..)")
+        void hasNotVisibleText() {
             PageFragmentAssert original = assertThat(pageFragmentWithVisibleText("bar"));
             PageFragmentAssert returned = original.hasNotVisibleText("foo");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasVisibleTextContaining {
-
         @Test
-        public void havingVisibleTextContainingPasses() {
-            assertThat(pageFragmentWithVisibleText("foo bar foo")).hasVisibleTextContaining("foo");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingVisibleTextContainingFails() {
-            assertThat(pageFragmentWithVisibleText("bar bar")).hasVisibleTextContaining("foo");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasVisibleTextContaining(..)")
+        void hasVisibleTextContaining() {
             PageFragmentAssert original = assertThat(pageFragmentWithVisibleText("foo bar foo"));
             PageFragmentAssert returned = original.hasVisibleTextContaining("foo");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasAttribute {
-
         @Test
-        public void havingAttributePasses() {
-            assertThat(pageFragmentWithAttribute("foo")).hasAttribute("foo");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingAttributeFails() {
-            assertThat(pageFragmentWithoutAttributes()).hasAttribute("foo");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasAttribute(..)")
+        void hasAttribute() {
             PageFragmentAssert original = assertThat(pageFragmentWithAttribute("foo"));
             PageFragmentAssert returned = original.hasAttribute("foo");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasNotAttribute {
-
         @Test
-        public void notHavingAttributePasses() {
-            assertThat(pageFragmentWithoutAttributes()).hasNotAttribute("bar");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingAttributeFails() {
-            assertThat(pageFragmentWithAttribute("bar")).hasNotAttribute("bar");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasNotAttribute(..)")
+        void hasNotAttribute() {
             PageFragmentAssert original = assertThat(pageFragmentWithoutAttributes());
             PageFragmentAssert returned = original.hasNotAttribute("bar");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasAttributeValue {
-
         @Test
-        public void havingAttributeWithValuePasses() {
-            assertThat(pageFragmentWithAttributeAndValue("foo", "val")).hasAttributeValue("foo", "val");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingAttributeWithDifferentValueFails() {
-            assertThat(pageFragmentWithAttributeAndValue("foo", "other")).hasAttributeValue("foo", "val");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingAttributeFails() {
-            assertThat(pageFragmentWithoutAttributes()).hasAttributeValue("foo", "val");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasAttributeValue(..)")
+        void hasAttributeValue() {
             PageFragmentAssert original = assertThat(pageFragmentWithAttributeAndValue("foo", "val"));
             PageFragmentAssert returned = original.hasAttributeValue("foo", "val");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class IsVisible {
-
         @Test
-        public void beingVisiblePasses() {
-            assertThat(visiblePageFragment()).isVisible();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notBeingVisibleFails() {
-            assertThat(invisiblePageFragment()).isVisible();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isVisible()")
+        void isVisible() {
             PageFragmentAssert original = assertThat(visiblePageFragment());
             PageFragmentAssert returned = original.isVisible();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class IsInvisible {
-
         @Test
-        public void beingInvisiblePasses() {
-            assertThat(invisiblePageFragment()).isInvisible();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notBeingInvisibleFails() {
-            assertThat(visiblePageFragment()).isInvisible();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isInvisible()")
+        void isInvisible() {
             PageFragmentAssert original = assertThat(invisiblePageFragment());
             PageFragmentAssert returned = original.isInvisible();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    /* presence */
-
-    public static class IsPresent {
-
         @Test
-        public void beingPresentPasses() {
-            assertThat(presentPageFragment()).isPresent();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notBeingPresentFails() {
-            assertThat(nonPresentFragment()).isPresent();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isPresent()")
+        void isPresent() {
             PageFragmentAssert original = assertThat(presentPageFragment());
             PageFragmentAssert returned = original.isPresent();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class IsNotPresent {
-
         @Test
-        public void notBeingPresentPasses() {
-            assertThat(nonPresentFragment()).isNotPresent();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void beingPresentFails() {
-            assertThat(presentPageFragment()).isNotPresent();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isNotPresent()")
+        void isNotPresent() {
             PageFragmentAssert original = assertThat(nonPresentFragment());
             PageFragmentAssert returned = original.isNotPresent();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class IsEnabled {
-
         @Test
-        public void beingEnabledPasses() {
-            assertThat(enabledPageFragment()).isEnabled();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notBeingEnabledFails() {
-            assertThat(disabledPageFragment()).isEnabled();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isEnabled()")
+        void isEnabled() {
             PageFragmentAssert original = assertThat(enabledPageFragment());
             PageFragmentAssert returned = original.isEnabled();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class IsDisabled {
-
         @Test
-        public void beingDisabledPasses() {
-            assertThat(disabledPageFragment()).isDisabled();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notBeingDisabledFails() {
-            assertThat(enabledPageFragment()).isDisabled();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("isDisabled()")
+        void isDisabled() {
             PageFragmentAssert original = assertThat(disabledPageFragment());
             PageFragmentAssert returned = original.isDisabled();
             assertThat(returned).isSameAs(original);
@@ -315,49 +421,47 @@ public class PageFragmentAssertTest {
 
     }
 
-    /* utilities */
-
-    private static PageFragment pageFragmentWithTag(String tagName) {
+    PageFragment pageFragmentWithTag(String tagName) {
         return MockFactory.fragment().withTagName(tagName).build();
     }
 
-    private static PageFragment pageFragmentWithVisibleText(String text) {
+    PageFragment pageFragmentWithVisibleText(String text) {
         return MockFactory.fragment().withVisibleText(text).build();
     }
 
-    private static PageFragment pageFragmentWithAttribute(String attributeName) {
+    PageFragment pageFragmentWithAttribute(String attributeName) {
         return MockFactory.fragment().withAttribute(attributeName).build();
     }
 
-    private static PageFragment pageFragmentWithAttributeAndValue(String attributeName, String value) {
+    PageFragment pageFragmentWithAttributeAndValue(String attributeName, String value) {
         return MockFactory.fragment().withAttribute(attributeName, value).build();
     }
 
-    private static PageFragment pageFragmentWithoutAttributes() {
+    PageFragment pageFragmentWithoutAttributes() {
         return MockFactory.fragment().build();
     }
 
-    private static PageFragment visiblePageFragment() {
+    PageFragment visiblePageFragment() {
         return MockFactory.fragment().visible().build();
     }
 
-    private static PageFragment invisiblePageFragment() {
+    PageFragment invisiblePageFragment() {
         return MockFactory.fragment().invisible().build();
     }
 
-    private static PageFragment nonPresentFragment() {
+    PageFragment nonPresentFragment() {
         return MockFactory.fragment().notPresent().build();
     }
 
-    private static PageFragment presentPageFragment() {
+    PageFragment presentPageFragment() {
         return MockFactory.fragment().present().build();
     }
 
-    private static PageFragment enabledPageFragment() {
+    PageFragment enabledPageFragment() {
         return MockFactory.fragment().enabled().build();
     }
 
-    private static PageFragment disabledPageFragment() {
+    PageFragment disabledPageFragment() {
         return MockFactory.fragment().disabled().build();
     }
 

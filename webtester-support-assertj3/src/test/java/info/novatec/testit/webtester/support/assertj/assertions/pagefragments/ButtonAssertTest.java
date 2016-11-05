@@ -1,54 +1,75 @@
 package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.pagefragments.Button;
 
 
-@RunWith(Enclosed.class)
 public class ButtonAssertTest {
 
-    public static class HasLabel {
+    @Nested
+    @DisplayName("hasLabel(..) can be asserted")
+    class HasLabelCanBeAsserted {
 
         @Test
-        public void havingLabelPasses() {
+        @DisplayName("having matching label passes")
+        void sameLabel() {
             assertThat(buttonWithLabel("foo")).hasLabel("foo");
         }
 
-        @Test(expected = AssertionError.class)
-        public void notHavingLabelFails() {
-            assertThat(buttonWithLabel("bar")).hasLabel("foo");
+        @Test
+        @DisplayName("having a different label fails")
+        void differentLabel() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(buttonWithLabel("bar")).hasLabel("foo");
+            })).hasMessage("Expected buttons's label to be <foo>, but was <bar>.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("hasNotLabel(..) can be asserted")
+    class HasNotLabelCanBeAsserted {
+
+        @Test
+        @DisplayName("having a different label passes")
+        void differentLabel() {
+            assertThat(buttonWithLabel("bar")).hasNotLabel("foo");
         }
 
         @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("having matching label fails")
+        void sameLabel() {
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(buttonWithLabel("foo")).hasNotLabel("foo");
+            })).hasMessage("Expected buttons's label not to be <foo>, but it was.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("assertions provide fluent API")
+    class AssertionProvidesFluentApi {
+
+        @Test
+        @DisplayName("hasLabel(..)")
+        void hasLabel() {
             ButtonAssert original = assertThat(buttonWithLabel("foo"));
             ButtonAssert returned = original.hasLabel("foo");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class NotHasLabel {
-
         @Test
-        public void notHavingLabelPasses() {
-            assertThat(buttonWithLabel("bar")).hasNotLabel("foo");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingLabelFails() {
-            assertThat(buttonWithLabel("foo")).hasNotLabel("foo");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
+        @DisplayName("hasNotLabel(..)")
+        void hasNotLabel() {
             ButtonAssert original = assertThat(buttonWithLabel("bar"));
             ButtonAssert returned = original.hasNotLabel("foo");
             assertThat(returned).isSameAs(original);
@@ -56,7 +77,7 @@ public class ButtonAssertTest {
 
     }
 
-    private static Button buttonWithLabel(String label) {
+    Button buttonWithLabel(String label) {
         Button button = mock(Button.class);
         doReturn(label).when(button).getLabel();
         return button;

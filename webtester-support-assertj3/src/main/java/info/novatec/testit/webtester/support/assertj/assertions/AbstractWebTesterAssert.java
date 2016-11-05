@@ -30,10 +30,4 @@ public abstract class AbstractWebTesterAssert<A, B> extends AbstractAssert<Abstr
         return ( A ) this;
     }
 
-    protected final void failOnActualBeingNull() {
-        if (actual == null) {
-            failWithMessage("actual is null");
-        }
-    }
-
 }
