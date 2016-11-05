@@ -1,174 +1,208 @@
 package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.expectThrows;
+import static utils.MockFactory.multiSelect;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
-
-import utils.MockFactory;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 
 
-@RunWith(Enclosed.class)
 public class MultiSelectAssertTest {
 
-    public static class HasSelectionWithTexts {
+    @Nested
+    class HasSelectionWithTextsAssertion {
 
         @Test
-        public void havingSelectedTextsPasses() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
-            assertThat(select).hasSelectionWithTexts("foo", "bar");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingSelectedTextsButInWrongOrderFails() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
-            assertThat(select).hasSelectionWithTexts("bar", "foo");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingAllSelectedTextsFails() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo").build();
-            assertThat(select).hasSelectionWithTexts("bar");
+        void passesForMatchingSelection() {
+            MultiSelect fooBarSelect = multiSelect().withSelectedTexts("foo", "bar").build();
+            assertThat(fooBarSelect).hasSelectionWithTexts("foo", "bar");
         }
 
         @Test
-        public void invocationReturnsSameAssertionInstance() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
+        void failsForMatchingSelectionInWrongOrder() {
+            MultiSelect fooBarSelect = multiSelect().withSelectedTexts("foo", "bar").build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(fooBarSelect).hasSelectionWithTexts("bar", "foo");
+            })).hasMessage("Expected select's selected texts to be <[bar, foo]>, but they were <[foo, bar]>.");
+        }
+
+        @Test
+        void failsForDifferentSelection() {
+            MultiSelect fooSelect = multiSelect().withSelectedTexts("foo").build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(fooSelect).hasSelectionWithTexts("bar");
+            })).hasMessage("Expected select's selected texts to be <[bar]>, but they were <[foo]>.");
+        }
+
+    }
+
+    @Nested
+    class HasSelectionWithValuesAssertion {
+
+        @Test
+        void passesForMatchingSelection() {
+            MultiSelect fooBarSelect = multiSelect().withSelectedValues("foo", "bar").build();
+            assertThat(fooBarSelect).hasSelectionWithValues("foo", "bar");
+        }
+
+        @Test
+        void failsForMatchingSelectionInWrongOrder() {
+            MultiSelect fooBarSelect = multiSelect().withSelectedValues("foo", "bar").build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(fooBarSelect).hasSelectionWithValues("bar", "foo");
+            })).hasMessage("Expected select's selected values to be <[bar, foo]>, but they were <[foo, bar]>.");
+        }
+
+        @Test
+        void failsForDifferentSelection() {
+            MultiSelect fooSelect = multiSelect().withSelectedValues("foo").build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(fooSelect).hasSelectionWithValues("bar");
+            })).hasMessage("Expected select's selected values to be <[bar]>, but they were <[foo]>.");
+        }
+
+    }
+
+    @Nested
+    class HasSelectionWithIndicesAssertion {
+
+        @Test
+        void passesForMatchingSelection() {
+            MultiSelect oneTwoSelect = multiSelect().withSelectedIndices(1, 2).build();
+            assertThat(oneTwoSelect).hasSelectionWithIndices(1, 2);
+        }
+
+        @Test
+        void failsForMatchingSelectionInWrongOrder() {
+            MultiSelect oneTwoSelect = multiSelect().withSelectedIndices(1, 2).build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(oneTwoSelect).hasSelectionWithIndices(2, 1);
+            })).hasMessage("Expected select's selected indices to be <[2, 1]>, but they were <[1, 2]>.");
+        }
+
+        @Test
+        void failsForDifferentSelection() {
+            MultiSelect oneSelect = multiSelect().withSelectedIndices(1).build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(oneSelect).hasSelectionWithIndices(2);
+            })).hasMessage("Expected select's selected indices to be <[2]>, but they were <[1]>.");
+        }
+
+    }
+
+    @Nested
+    class HasSelectedOptionsAssertion {
+
+        @Test
+        void passesForOneSelection() {
+            MultiSelect oneSelectedOption = multiSelect().withNumberOfSelectedOptions(1).build();
+            assertThat(oneSelectedOption).hasSelectedOptions();
+        }
+
+        @Test
+        void passesForTwiSelections() {
+            MultiSelect twoSelectedOptions = multiSelect().withNumberOfSelectedOptions(2).build();
+            assertThat(twoSelectedOptions).hasSelectedOptions();
+        }
+
+        @Test
+        void failsForZeroSelections() {
+            MultiSelect noSelectedOptions = multiSelect().withNumberOfSelectedOptions(0).build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(noSelectedOptions).hasSelectedOptions();
+            })).hasMessage("Expected select to have selected options, but it didn't.");
+        }
+
+    }
+
+    @Nested
+    class HasNumberOfSelectedOptionsAssertion {
+
+        @Test
+        void passesForMatchingNumberOfSelections() {
+            MultiSelect fiveSelectedOptions = multiSelect().withNumberOfSelectedOptions(5).build();
+            assertThat(fiveSelectedOptions).hasSelectedOptions(5);
+        }
+
+        @Test
+        void failsForDifferentNumberOfSelections() {
+            MultiSelect fiveSelectedOptions = multiSelect().withNumberOfSelectedOptions(5).build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(fiveSelectedOptions).hasSelectedOptions(1);
+            })).hasMessage("Expected select to have <1> selected options, but it had <5>.");
+        }
+
+    }
+
+    @Nested
+    class HasNoSelectedOptionsAssertion {
+
+        @Test
+        void passesForZeroSelections() {
+            MultiSelect noSelectedOptions = multiSelect().withNumberOfSelectedOptions(0).build();
+            assertThat(noSelectedOptions).hasNoSelectedOptions();
+        }
+
+        @Test
+        void failsForOneSelection() {
+            MultiSelect oneSelectedOption = multiSelect().withNumberOfSelectedOptions(1).build();
+            assertThat(expectThrows(AssertionError.class, () -> {
+                assertThat(oneSelectedOption).hasNoSelectedOptions();
+            })).hasMessage("Expected select to have no selected options, but it had <1>.");
+        }
+
+    }
+
+    @Nested
+    class AssertionsProvideFluentApi {
+
+        @Test
+        void hasSelectionWithTexts() {
+            MultiSelect select = multiSelect().withSelectedTexts("foo", "bar").build();
             MultiSelectAssert original = assertThat(select);
             MultiSelectAssert returned = original.hasSelectionWithTexts("foo", "bar");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasSelectionWithValues {
-
         @Test
-        public void havingSelectedValuesPasses() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedValues("v1", "v2").build();
-            assertThat(select).hasSelectionWithValues("v1", "v2");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingSelectedValuesButInWrongOrderFails() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedValues("v1", "v2").build();
-            assertThat(select).hasSelectionWithValues("v2", "v1");
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingAllSelectedValuesFails() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedValues("v1").build();
-            assertThat(select).hasSelectionWithValues("v2");
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedValues("v1", "v2").build();
+        void hasSelectionWithValues() {
+            MultiSelect select = multiSelect().withSelectedValues("v1", "v2").build();
             MultiSelectAssert original = assertThat(select);
             MultiSelectAssert returned = original.hasSelectionWithValues("v1", "v2");
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasSelectionWithIndices {
-
         @Test
-        public void havingSelectedIndicesPasses() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedIndices(1, 2).build();
-            assertThat(select).hasSelectionWithIndices(1, 2);
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingSelectedIndicesButInWrongOrderFails() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedIndices(1, 2).build();
-            assertThat(select).hasSelectionWithIndices(2, 1);
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingAllSelectedIndicesFails() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedIndices(1).build();
-            assertThat(select).hasSelectionWithIndices(2);
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
-            MultiSelect select = MockFactory.multiSelect().withSelectedIndices(1, 2).build();
+        void hasSelectionWithIndices() {
+            MultiSelect select = multiSelect().withSelectedIndices(1, 2).build();
             MultiSelectAssert original = assertThat(select);
             MultiSelectAssert returned = original.hasSelectionWithIndices(1, 2);
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasSelectedOptions {
-
         @Test
-        public void havingSelectedOptionsPasses() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(5).build();
-            assertThat(select).hasSelectedOptions();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingAnySelectedOptionsFails() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(0).build();
-            assertThat(select).hasSelectedOptions();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(5).build();
+        void hasSelectedOptions() {
+            MultiSelect select = multiSelect().withNumberOfSelectedOptions(5).build();
             MultiSelectAssert original = assertThat(select);
             MultiSelectAssert returned = original.hasSelectedOptions();
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasExactNumberOfSelectedOptions {
-
         @Test
-        public void havingExactNumberOfSelectedOptionsPasses() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(5).build();
-            assertThat(select).hasSelectedOptions(5);
-        }
-
-        @Test(expected = AssertionError.class)
-        public void notHavingExactNumberOfSelectedOptionsFails() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(5).build();
-            assertThat(select).hasSelectedOptions(1);
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(5).build();
+        void hasNumberOfSelectedOptions() {
+            MultiSelect select = multiSelect().withNumberOfSelectedOptions(5).build();
             MultiSelectAssert original = assertThat(select);
             MultiSelectAssert returned = original.hasSelectedOptions(5);
             assertThat(returned).isSameAs(original);
         }
 
-    }
-
-    public static class HasNoSelectedOptions {
-
         @Test
-        public void havingNoSelectedOptionsPasses() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(0).build();
-            assertThat(select).hasNoSelectedOptions();
-        }
-
-        @Test(expected = AssertionError.class)
-        public void havingSelectedOptionsFails() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(5).build();
-            assertThat(select).hasNoSelectedOptions();
-        }
-
-        @Test
-        public void invocationReturnsSameAssertionInstance() {
-            MultiSelect select = MockFactory.multiSelect().withNumberOfSelectedOptions(0).build();
+        void hasNoSelectedOptions() {
+            MultiSelect select = multiSelect().withNumberOfSelectedOptions(0).build();
             MultiSelectAssert original = assertThat(select);
             MultiSelectAssert returned = original.hasNoSelectedOptions();
             assertThat(returned).isSameAs(original);

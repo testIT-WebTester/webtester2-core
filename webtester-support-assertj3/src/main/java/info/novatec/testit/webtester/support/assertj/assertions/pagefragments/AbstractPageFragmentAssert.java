@@ -25,7 +25,6 @@ public abstract class AbstractPageFragmentAssert<A extends AbstractPageFragmentA
 
     protected AbstractPageFragmentAssert(B actual, Class<A> selfType) {
         super(actual, selfType);
-        failOnActualBeingNull();
     }
 
     /* tag name */
