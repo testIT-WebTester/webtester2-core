@@ -31,7 +31,7 @@ public class MultiSelectAssert extends GenericSelectAssert<MultiSelectAssert, Mu
      * @since 2.0
      */
     public MultiSelectAssert hasSelectionWithTexts(String... texts) {
-        String errorMessage = "Expected select's selection texts to be <%s>, but were <%s>.";
+        String errorMessage = "Expected select's selected texts to be <%s>, but they were <%s>.";
         List<String> actualTexts = actual.getSelectionTexts();
         assertThat(actualTexts).overridingErrorMessage(errorMessage, Arrays.toString(texts), actualTexts)
             .containsExactly(texts);
@@ -47,7 +47,7 @@ public class MultiSelectAssert extends GenericSelectAssert<MultiSelectAssert, Mu
      * @since 2.0
      */
     public MultiSelectAssert hasSelectionWithValues(String... values) {
-        String errorMessage = "Expected select's selection values to be <%s>, but were <%s>.";
+        String errorMessage = "Expected select's selected values to be <%s>, but they were <%s>.";
         List<String> actualValues = actual.getSelectionValues();
         assertThat(actualValues).overridingErrorMessage(errorMessage, Arrays.toString(values), actualValues)
             .containsExactly(values);
@@ -63,7 +63,7 @@ public class MultiSelectAssert extends GenericSelectAssert<MultiSelectAssert, Mu
      * @since 2.0
      */
     public MultiSelectAssert hasSelectionWithIndices(Integer... indices) {
-        String errorMessage = "Expected select's selection indices to be <%s>, but were <%s>.";
+        String errorMessage = "Expected select's selected indices to be <%s>, but they were <%s>.";
         List<Integer> actualIndices = actual.getSelectionIndices();
         assertThat(actualIndices).overridingErrorMessage(errorMessage, Arrays.toString(indices), actualIndices)
             .containsExactly(indices);

@@ -29,7 +29,7 @@ import info.novatec.testit.webtester.support.assertj.assertions.pagefragments.Si
  * @see GenericTextFieldAssert
  * @since 2.0
  */
-public final class WebTesterAssertions extends Assertions {
+public final class WebTesterAssertions {
 
     /**
      * Creates a new {@link PageFragmentAssert} for the given {@link PageFragment}.
@@ -79,6 +79,7 @@ public final class WebTesterAssertions extends Assertions {
      * @see GenericSelectAssert
      * @since 2.0
      */
+    @SuppressWarnings("unchecked")
     public static GenericSelectAssert assertThat(GenericSelect actual) {
         return new GenericSelectAssert(actual, GenericSelectAssert.class);
     }
