@@ -65,17 +65,6 @@ public interface BrowserFactory {
     Browser createBrowser();
 
     /**
-     * Creates a {@link Browser browser} using the given pre-initialized
-     * {@link WebDriver web driver} and the {@link BrowserFactory factory's}
-     * defaults.
-     *
-     * @param webDriver the web driver to use
-     * @return the created browser
-     * @since 2.0
-     */
-    Browser createBrowser(WebDriver webDriver);
-
-    /**
      * Creates a {@link Browser browser} with the given
      * {@link DesiredCapabilities desired capabilities} and the
      * {@link BrowserFactory factory's} defaults. As the name suggests these
@@ -87,6 +76,17 @@ public interface BrowserFactory {
      * @since 2.0
      */
     Browser createBrowser(DesiredCapabilities capabilities);
+
+    /**
+     * Creates a {@link Browser browser} using the given pre-initialized
+     * {@link WebDriver web driver} and the {@link BrowserFactory factory's}
+     * defaults.
+     *
+     * @param webDriver the web driver to use
+     * @return the created browser
+     * @since 2.0
+     */
+    Browser createBrowser(WebDriver webDriver);
 
     /**
      * Defines a {@link ProxyConfiguration proxy configuration} to use when
