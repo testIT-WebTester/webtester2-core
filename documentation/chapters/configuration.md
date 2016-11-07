@@ -75,7 +75,7 @@ The following shows all default properties loaded by the `DefaultFileConfigurati
 The values are the same as the fallback values of the `BaseConfiguration` implementation.
 
 ```properties
-# Weather or not the events should be fired.
+# Whether or not the events should be fired.
 # TYPE: boolean [true, false]
 events.enabled = true
 
@@ -85,7 +85,7 @@ actions.deceleration = 0
 
 # URL of the default entry point for the application under test.
 # TYPE: String [Resource URL]
-# defaults.entry-point = 
+# defaults.entry-point =
 
 # Folder in which to save screenshots if not otherwise specified.
 # TYPE: String [absolute or relative path to be initialized as a java.io.File instance]
@@ -126,6 +126,26 @@ wait.timeout = 2
 # Default interval in which to check a condition for wait operations.
 # TYPE: int [milliseconds]
 wait.interval = 100
+
+# Name of the browser to use in Selenium Grid
+# TYPE: String [firefox, chrome, safari, ...]
+remote.browser.name = firefox
+
+# Version of the browser to use in Selenium Grid. If not specified, any version will be used!
+# TYPE: String [eg. 46.0.1]
+# remote.browser.version =
+
+# Whether the Marionette driver (Firefox 47++) should be used.
+# TYPE: boolean [true, false]
+remote.firefox.marionette = true
+
+# Host or IO address where Selenium Grid is running
+# TYPE: String [localhost, 192.168.0.1, ...]
+remote.host = localhost
+
+# Host or IO address where Selenium Grid is running
+# TYPE: Integer
+remote.port = 4444
 ```
 
 # Linked Documentation

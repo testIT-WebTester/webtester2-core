@@ -92,6 +92,31 @@ public class BaseConfigurationTest {
             assertThat(cut.getWaitInterval()).isEqualTo(100L);
         }
 
+        @Test
+        public void defaultRemoteBrowserNameIsReturned() {
+            assertThat(cut.getRemoteBrowserName()).isEqualTo("firefox");
+        }
+
+        @Test
+        public void defaultRemoteBrowserVersionIsReturned() {
+            assertThat(cut.getRemoteBrowserVersion()).isEqualTo("");
+        }
+
+        @Test
+        public void defaultRemoteFirefoxMarionetteIsReturned() {
+            assertThat(cut.getRemoteFirefoxMarionette()).isEqualTo(true);
+        }
+
+        @Test
+        public void defaultRemoteHostIsReturned() {
+            assertThat(cut.getRemoteHost()).isEqualTo("localhost");
+        }
+
+        @Test
+        public void defaultRemotePortIsReturned() {
+            assertThat(cut.getRemotePort()).isEqualTo(4444);
+        }
+
     }
 
     public static class NamedProperties {
@@ -190,6 +215,41 @@ public class BaseConfigurationTest {
         public void waitIntervalCanBeChanged() {
             Configuration configuration = cut.setWaitInterval(200L);
             assertThat(cut.getWaitInterval()).isEqualTo(200L);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void remoteBrowserNameCanBeChanged() {
+            Configuration configuration = cut.setRemoteBrowserName("chrome");
+            assertThat(cut.getRemoteBrowserName()).isEqualTo("chrome");
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void remoteBrowserVersionCanBeChanged() {
+            Configuration configuration = cut.setRemoteBrowserVersion("46.0.1");
+            assertThat(cut.getRemoteBrowserVersion()).isEqualTo("46.0.1");
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void remoteFirefoxMarionetteCanBeChanged() {
+            Configuration configuration = cut.setRemoteFirefoxMarionette(false);
+            assertThat(cut.getRemoteFirefoxMarionette()).isEqualTo(false);
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void remoteHostCanBeChanged() {
+            Configuration configuration = cut.setRemoteHost("127.0.0.1");
+            assertThat(cut.getRemoteHost()).isEqualTo("127.0.0.1");
+            assertThat(configuration).isSameAs(cut);
+        }
+
+        @Test
+        public void remotePortCanBeChanged() {
+            Configuration configuration = cut.setRemotePort(1337);
+            assertThat(cut.getRemotePort()).isEqualTo(1337);
             assertThat(configuration).isSameAs(cut);
         }
 

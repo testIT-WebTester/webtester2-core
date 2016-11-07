@@ -68,7 +68,31 @@ public enum NamedProperties {
     @Documentation("Default interval in which to check a condition for wait operations.")
     @TypeDefinition(Constants.MILLISECONDS_AS_INT)
     @DefaultValue("100")
-    WAIT_INTERVAL("wait.interval");
+    WAIT_INTERVAL("wait.interval"),
+
+    @Documentation("Name of the browser to use in Selenium Grid")
+    @TypeDefinition("String [firefox, chrome, safari, ...]")
+    @DefaultValue("firefox")
+    REMOTE_BROWSER_NAME("remote.browser.name"),
+
+    @Documentation("Version of the browser to use in Selenium Grid. If not specified, any version will be used!")
+    @TypeDefinition("String [eg. 46.0.1]")
+    REMOTE_BROWSER_VERSION("remote.browser.version"),
+
+    @Documentation("Whether the Marionette driver (Firefox 47++) should be used.")
+    @TypeDefinition(Constants.BOOLEAN)
+    @DefaultValue("true")
+    REMOTE_FIREFOX_MARIONETTE("remote.firefox.marionette"),
+
+    @Documentation("Host or IO address where Selenium Grid is running")
+    @TypeDefinition("String [localhost, 192.168.0.1, ...]")
+    @DefaultValue("localhost")
+    REMOTE_HOST("remote.host"),
+
+    @Documentation("Host or IO address where Selenium Grid is running")
+    @TypeDefinition("Integer")
+    @DefaultValue("4444")
+    REMOTE_PORT("remote.port");
 
     private final String key;
 
