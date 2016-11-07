@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.support.Color;
 
 import lombok.extern.slf4j.Slf4j;
@@ -177,6 +178,56 @@ public class BaseConfiguration implements Configuration {
     @Override
     public BaseConfiguration setWaitInterval(long waitInterval) {
         return setProperty(key(NamedProperties.WAIT_INTERVAL), waitInterval);
+    }
+
+    @Override
+    public String getRemoteBrowserName() {
+        return getStringProperty(key(NamedProperties.REMOTE_BROWSER_NAME), BrowserType.FIREFOX);
+    }
+
+    @Override
+    public Configuration setRemoteBrowserName(String name) {
+        return setProperty(key(NamedProperties.REMOTE_BROWSER_NAME), name);
+    }
+
+    @Override
+    public String getRemoteBrowserVersion() {
+        return getStringProperty(key(NamedProperties.REMOTE_BROWSER_VERSION), "");
+    }
+
+    @Override
+    public Configuration setRemoteBrowserVersion(String version) {
+        return setProperty(key(NamedProperties.REMOTE_BROWSER_VERSION), version);
+    }
+
+    @Override
+    public boolean getRemoteFirefoxMarionette() {
+        return getBooleanProperty(key(NamedProperties.REMOTE_FIREFOX_MARIONETTE), true);
+    }
+
+    @Override
+    public Configuration setRemoteFirefoxMarionette(boolean marionette) {
+        return setProperty(key(NamedProperties.REMOTE_FIREFOX_MARIONETTE), marionette);
+    }
+
+    @Override
+    public String getRemoteHost() {
+        return getStringProperty(key(NamedProperties.REMOTE_HOST), "localhost");
+    }
+
+    @Override
+    public Configuration setRemoteHost(String host) {
+        return setProperty(key(NamedProperties.REMOTE_HOST), host);
+    }
+
+    @Override
+    public int getRemotePort() {
+        return getIntegerProperty(key(NamedProperties.REMOTE_PORT), 4444);
+    }
+
+    @Override
+    public Configuration setRemotePort(int port) {
+        return setProperty(key(NamedProperties.REMOTE_PORT), port);
     }
 
     private String key(NamedProperties property) {

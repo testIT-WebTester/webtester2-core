@@ -10,4 +10,8 @@ public class ConfigurationException extends WebTesterException {
         super(message);
     }
 
+    protected ConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

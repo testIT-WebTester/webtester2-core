@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.openqa.selenium.support.Color;
 
+import info.novatec.testit.webtester.browser.factories.RemoteFactory;
 import info.novatec.testit.webtester.config.exceptions.SetNullValuesException;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -282,6 +283,96 @@ public interface Configuration {
      * @since 2.0
      */
     Configuration setWaitInterval(long waitInterval);
+
+    /**
+     * Returns the name of the browser to use when working with a remote Selenium Grid.
+     *
+     * @return the name of the browser (e.g. "firefox")
+     * @see RemoteFactory
+     * @since 2.1
+     */
+    String getRemoteBrowserName();
+
+    /**
+     * Sets the name of the browser to use when working with a remote Selenium Grid.
+     *
+     * @param name the browser name - must be lower case!
+     * @return the same configuration for fluent API
+     * @since 2.1
+     */
+    Configuration setRemoteBrowserName(String name);
+
+    /**
+     * Returns the version of the browser to use when working with a remote Selenium Grid.
+     *
+     * @return the version of the browser (e.g. "46.0.1")
+     * @see RemoteFactory
+     * @since 2.1
+     */
+    String getRemoteBrowserVersion();
+
+    /**
+     * Sets the version of the browser to use when working with a remote Selenium Grid.
+     *
+     * @param version the browser version
+     * @return the same configuration for fluent API
+     * @since 2.1
+     */
+    Configuration setRemoteBrowserVersion(String version);
+
+    /**
+     * Returns whether or not the Marionette driver should be used when working with a remote Firefox via Selenium Grid.
+     *
+     * @return true if Marionette driver should be used
+     * @see RemoteFactory
+     * @since 2.1
+     */
+    boolean getRemoteFirefoxMarionette();
+
+    /**
+     * Sets whether or not the Marionette driver should be used when working with a remote Firefox via Selenium Grid.
+     *
+     * @param marionette true to use Marionette driver
+     * @return the same configuration for fluent API
+     * @since 2.1
+     */
+    Configuration setRemoteFirefoxMarionette(boolean marionette);
+
+    /**
+     * Returns the host or IP address to use when working with a remote Selenium Grid.
+     *
+     * @return the host (e.g. "localhost")
+     * @see RemoteFactory
+     * @since 2.1
+     */
+    String getRemoteHost();
+
+    /**
+     * Sets the host or IP address to use when working with a remote Selenium Grid.
+     *
+     * @param host the host (e.g. "localhost")
+     * @return the same configuration for fluent API
+     * @since 2.1
+     */
+    Configuration setRemoteHost(String host);
+
+    /**
+     * Returns the port to use when working with a remote Selenium Grid.
+     *
+     * @return the port (e.g. "4444")
+     * @see RemoteFactory
+     * @since 2.1
+     */
+    int getRemotePort();
+
+    /**
+     * Sets the port to use when working with a remote Selenium Grid.
+     *
+     * @param port the port (e.g. "4444")
+     * @return the same configuration for fluent API
+     * @since 2.1
+     */
+    Configuration setRemotePort(int port);
 
     /**
      * Removes the property with the given key from this {@link Configuration configuration}.
