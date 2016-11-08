@@ -25,13 +25,10 @@ import info.novatec.testit.webtester.pages.Page;
 public class BaseIntegrationTest {
 
     private static final String TEST_PAGE_SERVER_HOST = System.getProperty("testPageServerHost", "localhost");
-
     private static final int TEST_PAGE_SERVER_PORT = Integer.parseInt(System.getProperty("testPageServerPort", "8080"));
-
     private static final String TEST_PAGE_SERVER_BASE_ADDRESS = String.format("http://%s:%d/", TEST_PAGE_SERVER_HOST, TEST_PAGE_SERVER_PORT);
 
     private static Server server;
-
     private static Browser browser;
 
     @BeforeClass
