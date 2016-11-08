@@ -1,0 +1,12 @@
+hub:
+  image: selenium/hub:3.0.1-aluminum
+  ports:
+    - "4444:4444"
+firefox:
+  image: selenium/node-firefox:2.53.1-beryllium
+  links:
+    - hub
+chrome:
+  image: selenium/node-chrome:3.0.1-aluminum
+  links:
+    - hub

@@ -1,20 +1,37 @@
 language: java
 jdk:
   - oraclejdk8
+sudo: required
 
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install --assume-yes --option Dpkg::Options::="--force-confnew" docker-engine
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo cp docker-compose /usr/local/bin && rm docker-compose
 install: true
 
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+  - docker --version
+  - docker-compose --version
+  - docker-compose up -d
 script:
-  - mvn clean
-  - mvn verify -P code-quality,documentation,release
+  - >
+    mvn clean verify
+    -P code-quality,documentation,release
+    -DtestProfile=remote
+    -Dremote.browser.name=firefox
+    -Dremote.firefox.marionette=false
+    -DtestPageServerHost=172.17.0.1
+  - >
+    mvn clean verify
+    -P code-quality,documentation,release
+    -DtestProfile=remote
+    -Dremote.browser.name=chrome
+    -DtestPageServerHost=172.17.0.1
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer

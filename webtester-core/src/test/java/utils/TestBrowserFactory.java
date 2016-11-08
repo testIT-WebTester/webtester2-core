@@ -1,27 +1,48 @@
 package utils;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.browser.WebDriverBrowser;
+import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.factories.FirefoxFactory;
-import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.config.adapters.DefaultFileConfigurationAdapter;
-import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapter;
-import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
+import info.novatec.testit.webtester.browser.factories.RemoteFactory;
+import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
 
 
-public class TestBrowserFactory extends FirefoxFactory {
+public class TestBrowserFactory implements BrowserFactory {
+
+    @Override
+    public Browser createBrowser() {
+        Browser browser = createBrowserFromProfile();
+        Runtime.getRuntime().addShutdownHook(new Thread(browser::close));
+        return browser;
+    }
+
+    private Browser createBrowserFromProfile() {
+        switch (System.getProperty("testProfile", "local")){
+            case "local":
+                return new FirefoxFactory().createBrowser();
+            case "remote":
+                return new RemoteFactory().createBrowser();
+            default:
+                throw new IllegalArgumentException("unknown test profile: " + System.getProperty("testProfile", "local"));
+        }
+    }
+
+    @Override
+    public Browser createBrowser(DesiredCapabilities capabilities) {
+        throw new UnsupportedOperationException("createBrowser(DesiredCapabilities capabilities) not supported in test browser!");
+    }
 
     @Override
     public Browser createBrowser(WebDriver webDriver) {
-        Configuration config = new BaseConfigurationBuilder()
-            .withAdapter(new DefaultFileConfigurationAdapter())
-            .withAdapter(new LocalFileConfigurationAdapter())
-            .build();
-        Browser browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(config).build();
-        Runtime.getRuntime().addShutdownHook(new Thread(browser::close));
-        return browser;
+        throw new UnsupportedOperationException("createBrowser(WebDriver webDriver) not supported in test browser!");
+    }
+
+    @Override
+    public BrowserFactory withProxyConfiguration(ProxyConfiguration configuration) {
+        throw new UnsupportedOperationException("proxy not supported in test browser!");
     }
 
 }
