@@ -19,6 +19,10 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 /**
  * This class is used to perform a variety of mouse related actions.
+ * <p>
+ * <b>Note:</b> Methods provided by this class depend on Selenium's {@link Actions} class.
+ * There are some {@link WebDriver} implementation (e.g. v3.0.1 of the Marionette-based FirefoxDriver)
+ * which do not support the commands issued by {@link Actions}!
  *
  * @see OnPageFragment
  * @see Sequence
