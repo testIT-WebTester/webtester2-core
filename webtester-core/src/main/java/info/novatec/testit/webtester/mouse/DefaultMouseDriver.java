@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.function.BiFunction;
 
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -20,6 +21,10 @@ import info.novatec.testit.webtester.waiting.Wait;
 
 /**
  * The default implementation of a {@link MouseDriver}.
+ * <p>
+ * <b>Note:</b> Methods provided by this class depend on Selenium's {@link Actions} class.
+ * There are some {@link WebDriver} implementation (e.g. v3.0.1 of the Marionette-based FirefoxDriver)
+ * which do not support the commands issued by {@link Actions}!
  *
  * @since 2.0
  */
