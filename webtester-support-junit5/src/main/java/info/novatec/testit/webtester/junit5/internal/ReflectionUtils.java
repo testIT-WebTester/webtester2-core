@@ -2,8 +2,9 @@ package info.novatec.testit.webtester.junit5.internal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,12 +28,13 @@ public class ReflectionUtils {
      * @since 2.1
      */
     public List<Class<?>> getClassLineage(Class<?> testClass) {
-        LinkedList<Class<?>> classes = new LinkedList<>();
+        List<Class<?>> classes = new ArrayList<>();
         Class<?> currentClass = testClass;
         while (currentClass != null) {
-            classes.push(currentClass);
+            classes.add(currentClass);
             currentClass = currentClass.getSuperclass();
         }
+        Collections.reverse(classes);
         return classes;
     }
 

@@ -1,6 +1,6 @@
 package info.novatec.testit.webtester.support.hamcrest.matchers.pagefragments;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Description;
@@ -37,7 +37,7 @@ public class OptionsTextsMatcher<T extends GenericSelect<T>> extends TypeSafeMat
      * @since 2.0
      */
     public OptionsTextsMatcher(List<String> expected) {
-        this.expected = new LinkedList<>(expected);
+        this.expected = new ArrayList<>(expected);
     }
 
     @Override

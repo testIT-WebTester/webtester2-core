@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,7 +45,7 @@ public class BaseConfiguration implements Configuration {
         asSet(String.class, Integer.class, Long.class, Float.class, Double.class, Boolean.class);
 
     private final Map<String, String> properties = new HashMap<>();
-    private final List<ConfigurationExporter> configurationExporters = new LinkedList<>();
+    private final List<ConfigurationExporter> configurationExporters = new ArrayList<>();
 
     /* named properties */
 

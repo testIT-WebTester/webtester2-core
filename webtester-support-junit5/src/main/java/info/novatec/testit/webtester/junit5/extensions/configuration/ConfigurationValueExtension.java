@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.junit5.extensions.configuration;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +89,7 @@ import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshalle
 public class ConfigurationValueExtension extends BaseExtension implements BeforeEachCallback {
 
     @SuppressWarnings("unchecked")
-    private static final List<ConfigurationUnmarshaller<?>> DEFAULT_UNMARSHALLERS = new LinkedList() {{
+    private static final List<ConfigurationUnmarshaller<?>> DEFAULT_UNMARSHALLERS = new ArrayList() {{
         add(new StringUnmarshaller());
         add(new BooleanUnmarshaller());
         add(new IntegerUnmarshaller());

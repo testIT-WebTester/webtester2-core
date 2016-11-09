@@ -3,7 +3,7 @@ package info.novatec.testit.webtester.junit5.extensions.browsers;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -160,13 +160,13 @@ public class ManagedBrowserExtension extends BaseExtension
     @SuppressWarnings("unchecked")
     private List<Browser> getManagedInstanceBrowsers(ExtensionContext context) {
         return ( List<Browser> ) context.getStore(BaseExtension.NAMESPACE)
-            .getOrComputeIfAbsent("managed-instance-browsers", s -> new LinkedList<Browser>());
+            .getOrComputeIfAbsent("managed-instance-browsers", s -> new ArrayList<Browser>());
     }
 
     @SuppressWarnings("unchecked")
     private List<Browser> getManagedStaticBrowsers(ExtensionContext context) {
         return ( List<Browser> ) context.getStore(BaseExtension.NAMESPACE)
-            .getOrComputeIfAbsent("managed-static-browsers", s -> new LinkedList<Browser>());
+            .getOrComputeIfAbsent("managed-static-browsers", s -> new ArrayList<Browser>());
     }
 
 }

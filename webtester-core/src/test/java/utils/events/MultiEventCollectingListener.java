@@ -1,6 +1,6 @@
 package utils.events;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import info.novatec.testit.webtester.events.Event;
@@ -9,7 +9,7 @@ import info.novatec.testit.webtester.events.EventListener;
 
 public class MultiEventCollectingListener implements EventListener {
 
-    private List<Event> events = new LinkedList<>();
+    private List<Event> events = new ArrayList<>();
 
     @Override
     public void eventOccurred(Event event) {

@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.config.builders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class DefaultConfigurationBuilderTest {
     @Test
     public void defaultAdaptersAreAddedInCorrectOrder() {
 
-        List<ConfigurationAdapter> addedAdapters = new LinkedList<>();
+        List<ConfigurationAdapter> addedAdapters = new ArrayList<>();
         new DefaultConfigurationBuilder() {
 
             @Override
@@ -41,7 +41,7 @@ public class DefaultConfigurationBuilderTest {
     @Test
     public void thereAreNoDefaultExporters() {
 
-        List<ConfigurationExporter> addedExporters = new LinkedList<>();
+        List<ConfigurationExporter> addedExporters = new ArrayList<>();
         new DefaultConfigurationBuilder() {
 
             @Override

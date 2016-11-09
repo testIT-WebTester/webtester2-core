@@ -3,7 +3,7 @@ package info.novatec.testit.webtester.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 
@@ -37,7 +37,7 @@ public class PostConstructInvokerTest {
     }
 
     private static class TestContext {
-        static List<String> invokedMethods = new LinkedList<>();
+        static List<String> invokedMethods = new ArrayList<>();
 
         static void clear() {
             invokedMethods.clear();

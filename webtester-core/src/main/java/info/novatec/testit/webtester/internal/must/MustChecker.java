@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -54,7 +54,7 @@ public class MustChecker {
     }
 
     private static List<Method> getMustMethods(Class<?> objectClass) {
-        List<Method> mustMethods = new LinkedList<>();
+        List<Method> mustMethods = new ArrayList<>();
         Arrays.stream(objectClass.getInterfaces())
             .flatMap(aClass -> Arrays.stream(aClass.getDeclaredMethods()))
             .filter(isRelevantMethod)
@@ -64,7 +64,7 @@ public class MustChecker {
     }
 
     private static void assertThatAllMethodsHaveValidSignature(List<Method> mustMethods) {
-        List<Method> illegalMethods = new LinkedList<>();
+        List<Method> illegalMethods = new ArrayList<>();
         mustMethods.forEach(method -> {
             if (!isValidMethod.test(method)) {
                 illegalMethods.add(method);

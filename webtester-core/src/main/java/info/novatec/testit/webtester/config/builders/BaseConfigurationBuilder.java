@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.config.builders;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +27,8 @@ import info.novatec.testit.webtester.config.ConfigurationExporter;
 @Slf4j
 public class BaseConfigurationBuilder implements ConfigurationBuilder {
 
-    private final List<ConfigurationAdapter> adapters = new LinkedList<>();
-    private final List<ConfigurationExporter> exporters = new LinkedList<>();
+    private final List<ConfigurationAdapter> adapters = new ArrayList<>();
+    private final List<ConfigurationExporter> exporters = new ArrayList<>();
 
     public BaseConfigurationBuilder() {
         log.trace("started the build of a new configuration");

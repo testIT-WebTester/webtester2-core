@@ -1,6 +1,6 @@
 package info.novatec.testit.webtester.spring4.config;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.FactoryBean;
@@ -34,8 +34,8 @@ import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
  */
 public class ConfigurationBuilderFactoryBean implements FactoryBean<ConfigurationBuilder>, InitializingBean {
 
-    private List<ConfigurationAdapter> adapters = new LinkedList<>();
-    private List<ConfigurationExporter> exporters = new LinkedList<>();
+    private List<ConfigurationAdapter> adapters = new ArrayList<>();
+    private List<ConfigurationExporter> exporters = new ArrayList<>();
     private ConfigurationBuilder configurationBuilder;
 
     @Override
