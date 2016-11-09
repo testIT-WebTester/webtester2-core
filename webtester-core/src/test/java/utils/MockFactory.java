@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -238,8 +238,8 @@ public class MockFactory {
         private Optional<Integer> selectedIndex = Optional.empty();
         private Optional<String> selectedValue = Optional.empty();
         private Optional<String> selectedText = Optional.empty();
-        private List<String> allTexts = new LinkedList<>();
-        private List<String> allValues = new LinkedList<>();
+        private List<String> allTexts = new ArrayList<>();
+        private List<String> allValues = new ArrayList<>();
         private int numberOfOptions;
 
         public SingleSelectMockBuilder withTexts(String... texts) {
@@ -291,8 +291,8 @@ public class MockFactory {
 
             SingleSelect select = mock(SingleSelect.class);
 
-            doReturn(new LinkedList<>(allTexts)).when(select).getOptionTexts();
-            doReturn(new LinkedList<>(allValues)).when(select).getOptionValues();
+            doReturn(new ArrayList<>(allTexts)).when(select).getOptionTexts();
+            doReturn(new ArrayList<>(allValues)).when(select).getOptionValues();
             doReturn(selectedIndex).when(select).getSelectionIndex();
             doReturn(selectedValue).when(select).getSelectionValue();
             doReturn(selectedText).when(select).getSelectionText();
@@ -306,11 +306,11 @@ public class MockFactory {
 
     public static class MultiSelectMockBuilder {
 
-        private List<Integer> selectedIndices = new LinkedList<>();
-        private List<String> selectedValues = new LinkedList<>();
-        private List<String> selectedTexts = new LinkedList<>();
-        private List<String> allTexts = new LinkedList<>();
-        private List<String> allValues = new LinkedList<>();
+        private List<Integer> selectedIndices = new ArrayList<>();
+        private List<String> selectedValues = new ArrayList<>();
+        private List<String> selectedTexts = new ArrayList<>();
+        private List<String> allTexts = new ArrayList<>();
+        private List<String> allValues = new ArrayList<>();
         private int numberOfOptions;
         private int numberOfSelectedOptions;
 
@@ -368,8 +368,8 @@ public class MockFactory {
 
             MultiSelect select = mock(MultiSelect.class);
 
-            doReturn(new LinkedList<>(allTexts)).when(select).getOptionTexts();
-            doReturn(new LinkedList<>(allValues)).when(select).getOptionValues();
+            doReturn(new ArrayList<>(allTexts)).when(select).getOptionTexts();
+            doReturn(new ArrayList<>(allValues)).when(select).getOptionValues();
 
             doReturn(selectedIndices).when(select).getSelectionIndices();
             doReturn(selectedIndices.stream()).when(select).streamSelectionIndices();

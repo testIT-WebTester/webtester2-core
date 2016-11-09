@@ -2,7 +2,7 @@ package utils;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,7 +82,7 @@ public class TestClassExecutor {
         @Override
         public <T extends DiscoverySelector> List<T> getSelectorsByType(Class<T> selectorType) {
             if (ClassSelector.class.equals(selectorType)) {
-                List<T> list = new LinkedList<>();
+                List<T> list = new ArrayList<>();
                 list.add(( T ) DiscoverySelectors.selectClass(testClass));
                 return list;
             }

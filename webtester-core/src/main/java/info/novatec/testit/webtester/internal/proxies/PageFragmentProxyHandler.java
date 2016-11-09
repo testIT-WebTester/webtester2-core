@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.internal.proxies;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -50,8 +50,8 @@ public class PageFragmentProxyHandler implements InvocationHandler {
     private final Supplier<WebElement> webElementSupplier;
     private final Supplier<SearchContext> searchContextSupplier;
 
-    private final List<BeforeOperation> beforeOperations = new LinkedList<>();
-    private final List<Implementation> implementations = new LinkedList<>();
+    private final List<BeforeOperation> beforeOperations = new ArrayList<>();
+    private final List<Implementation> implementations = new ArrayList<>();
     private final EventProducingImplementationDecorator eventDecorator;
 
     private PageFragmentProxyHandler addBeforeOperations() {

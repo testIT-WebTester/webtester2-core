@@ -3,7 +3,7 @@ package info.novatec.testit.webtester.internal.configuration;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -20,7 +20,7 @@ public final class PropertiesFileGenerator {
 
     public static void main(String[] args) throws NoSuchFieldException, IOException {
 
-        lines = new LinkedList<>();
+        lines = new ArrayList<>();
 
         for (NamedProperties properties : NamedProperties.values()) {
 

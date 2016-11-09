@@ -3,7 +3,6 @@ package info.novatec.testit.webtester.junit.runner;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 
@@ -305,8 +304,6 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
         };
     }
 
-    /* START primary browser calculation */
-
     private AbstractTestBrowser getPrimaryBrowser() {
         if (numberOfManagedBrowsers() == 1) {
             return getAllBrowsersRegardlessOfScope().get(0);
@@ -329,12 +326,10 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
     }
 
     private List<AbstractTestBrowser> getAllBrowsersRegardlessOfScope() {
-        List<AbstractTestBrowser> allBrowser = new LinkedList<>();
+        List<AbstractTestBrowser> allBrowser = new ArrayList<>();
         allBrowser.addAll(classBrowsers);
         allBrowser.addAll(methodBrowsers);
         return allBrowser;
     }
-
-    /* END primary browser calculation */
 
 }

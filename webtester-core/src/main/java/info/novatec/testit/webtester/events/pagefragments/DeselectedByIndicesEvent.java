@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.events.pagefragments;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +38,7 @@ public class DeselectedByIndicesEvent extends AbstractPageFragmentEvent {
 
     public DeselectedByIndicesEvent(PageFragment fragment, Collection<Integer> indices) {
         super(fragment);
-        this.indices = Collections.unmodifiableList(new LinkedList<>(indices));
+        this.indices = Collections.unmodifiableList(new ArrayList<>(indices));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class DeselectedByIndicesEvent extends AbstractPageFragmentEvent {
 
         @Override
         protected DeselectedByIndicesEvent buildWith(PageFragment fragment) {
-            List<Integer> values = new LinkedList<>(before);
+            List<Integer> values = new ArrayList<>(before);
             values.removeAll(after);
             return new DeselectedByIndicesEvent(fragment, values);
         }

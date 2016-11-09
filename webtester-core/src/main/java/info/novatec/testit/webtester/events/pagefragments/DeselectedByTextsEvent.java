@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.events.pagefragments;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +38,7 @@ public class DeselectedByTextsEvent extends AbstractPageFragmentEvent {
 
     public DeselectedByTextsEvent(PageFragment fragment, Collection<String> texts) {
         super(fragment);
-        this.texts = Collections.unmodifiableList(new LinkedList<>(texts));
+        this.texts = Collections.unmodifiableList(new ArrayList<>(texts));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class DeselectedByTextsEvent extends AbstractPageFragmentEvent {
 
         @Override
         protected DeselectedByTextsEvent buildWith(PageFragment fragment) {
-            List<String> values = new LinkedList<>(before);
+            List<String> values = new ArrayList<>(before);
             values.removeAll(after);
             return new DeselectedByTextsEvent(fragment, values);
         }

@@ -1,8 +1,8 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,7 +25,7 @@ import info.novatec.testit.webtester.pagefragments.MultiSelect;
 @Getter
 public class SelectedTexts implements Condition<MultiSelect> {
 
-    private final List<String> expectedTexts = new LinkedList<>();
+    private final List<String> expectedTexts = new ArrayList<>();
 
     public SelectedTexts(String expectedText) {
         this.expectedTexts.add(expectedText);

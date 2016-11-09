@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.events.pagefragments;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +38,7 @@ public class SelectedByTextsEvent extends AbstractPageFragmentEvent {
 
     public SelectedByTextsEvent(PageFragment fragment, Collection<String> texts) {
         super(fragment);
-        this.texts = Collections.unmodifiableList(new LinkedList<>(texts));
+        this.texts = Collections.unmodifiableList(new ArrayList<>(texts));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SelectedByTextsEvent extends AbstractPageFragmentEvent {
 
         @Override
         protected SelectedByTextsEvent buildWith(PageFragment fragment) {
-            List<String> values = new LinkedList<>(after);
+            List<String> values = new ArrayList<>(after);
             values.removeAll(before);
             return new SelectedByTextsEvent(fragment, values);
         }

@@ -1,7 +1,7 @@
 package info.novatec.testit.webtester.conditions.syntax;
 
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +22,7 @@ import info.novatec.testit.webtester.conditions.Condition;
  */
 public class Either<T> implements Condition<T> {
 
-    private final List<Condition<T>> conditions = new LinkedList<>();
+    private final List<Condition<T>> conditions = new ArrayList<>();
 
     public Either(Condition<T> condition) {
         this.conditions.add(condition);

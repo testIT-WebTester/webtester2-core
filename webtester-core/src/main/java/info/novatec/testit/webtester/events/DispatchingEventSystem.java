@@ -1,6 +1,6 @@
 package info.novatec.testit.webtester.events;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import info.novatec.testit.webtester.browser.Browser;
 @AllArgsConstructor
 public class DispatchingEventSystem implements EventSystem {
 
-    private final List<EventListener> listeners = new LinkedList<>();
+    private final List<EventListener> listeners = new ArrayList<>();
     private final Browser browser;
 
     @Override

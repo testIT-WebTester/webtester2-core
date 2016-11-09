@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -50,7 +50,7 @@ public class PostConstructInvoker {
     }
 
     private static List<Method> getPostConstructMethods(Class<?> objectClass) {
-        List<Method> postConstructMethods = new LinkedList<>();
+        List<Method> postConstructMethods = new ArrayList<>();
         Arrays.stream(objectClass.getInterfaces())
             .flatMap(aClass -> Arrays.stream(aClass.getDeclaredMethods()))
             .filter(isPostConstructMethod)
@@ -60,7 +60,7 @@ public class PostConstructInvoker {
     }
 
     private static void assertThatAllMethodsHaveValidSignature(List<Method> postConstructMethods) {
-        List<Method> illegalMethods = new LinkedList<>();
+        List<Method> illegalMethods = new ArrayList<>();
         postConstructMethods.forEach(method -> {
             if (!isValidMethod.test(method)) {
                 illegalMethods.add(method);

@@ -3,7 +3,7 @@ package info.novatec.testit.webtester.junit5.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,7 @@ public class ReflectionUtilsTest {
         List<String> fieldNames =
             cut.allFieldsOfClassLineage(ChildClass.class).map(Field::getName).collect(Collectors.toList());
 
-        List<String> expectedNames = new LinkedList<>();
+        List<String> expectedNames = new ArrayList<>();
 
         expectedNames.add("privateGrandParentField");
         expectedNames.add("protectedGrandParentField");

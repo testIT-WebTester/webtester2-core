@@ -1,6 +1,6 @@
 package info.novatec.testit.webtester.support.hamcrest.matchers.pagefragments;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Description;
@@ -37,7 +37,7 @@ public class SelectionValuesMatcher<T extends MultiSelect> extends TypeSafeMatch
      * @since 2.0
      */
     public SelectionValuesMatcher(List<String> expected) {
-        this.expected = new LinkedList<>(expected);
+        this.expected = new ArrayList<>(expected);
     }
 
     @Override
