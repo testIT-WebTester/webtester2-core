@@ -11,6 +11,7 @@ In case you just want to get started, we provide factories for the most common b
 - `FirefoxFactory`
 - `MarionetteFactory` (new Firefox driver)
 - `InternetExplorerFactory`
+- `RemoteFactory`
 
 All of these are provided by the `webtester-core` module, but need you to provide the corresponding Selenium `WebDriver` dependencies yourself.
 
@@ -91,7 +92,28 @@ The path to the executable must be declared as a system or environment property 
 **Additional Information:**
 - https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver
 
+## RemoteFactory
+
+This `BrowserFactory` uses the `RemoteWebDriver` to connect to a
+[Selenium Grid](https://github.com/SeleniumHQ/selenium/wiki/Grid2).
+
+### Default Driver Configuration
+In order to optimize testing the following properties are set when creating a
+`WebDriver` using the `RemoteFactory`:
+
+- Native events are disabled -> Selenium does not simulate human typing.
+- Untrusted certificates are always accepted.
+- Selenium Grid Host: `localhost:4444`
+- Default Browser: `firefox` with Marionette activated
+
+The connection to the Selenium Grid can be configured in two ways:
+
+1. Set properties in configuration file (see [Configuration](configuration.md)
+for a full list of properties).
+2. Set system properties to override the configuration at runtime
+(eg. `-Dremote.browser.name=chrome`).
+
 # Linked Documentation
 
 - [Browser](browser.md)
-
+- [Configuration](configuration.md)
