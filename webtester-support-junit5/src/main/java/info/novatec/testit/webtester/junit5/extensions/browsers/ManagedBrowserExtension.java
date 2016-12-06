@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -25,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
-import info.novatec.testit.webtester.junit5.extensions.NoTestClassException;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 
 
@@ -84,7 +84,9 @@ public class ManagedBrowserExtension extends BaseExtension
 
     @Override
     public void beforeAll(ContainerExtensionContext context) throws Exception {
-        executeHandlingUndeclaredThrowables(context, this::initializeAndInjectStaticBrowsers);
+        if (isRootContext(context)) {
+            executeHandlingUndeclaredThrowables(context, this::initializeAndInjectStaticBrowsers);
+        }
     }
 
     @Override
@@ -99,7 +101,13 @@ public class ManagedBrowserExtension extends BaseExtension
 
     @Override
     public void afterAll(ContainerExtensionContext context) {
-        getManagedStaticBrowsers(context).forEach(this::closeAndLogErrors);
+        if (isRootContext(context)) {
+            getManagedStaticBrowsers(context).forEach(this::closeAndLogErrors);
+        }
+    }
+
+    private boolean isRootContext(ContainerExtensionContext context) {
+        return !context.getParent().isPresent();
     }
 
     private void closeAndLogErrors(Browser browser) {
@@ -112,10 +120,9 @@ public class ManagedBrowserExtension extends BaseExtension
     }
 
     private void initializeAndInjectStaticBrowsers(ContainerExtensionContext context) {
-        Class<?> testClass = context.getTestClass().orElseThrow(NoTestClassException::new);
         List<Browser> managedBrowsers = getManagedStaticBrowsers(context);
         getModel(context).getBrowserFields().stream().filter(isStaticField).forEach(field -> {
-            Browser browser = createBrowserFor(field, testClass);
+            Browser browser = createBrowserFor(field);
             managedBrowsers.add(browser);
             setValue(field, null, browser);
         });
@@ -125,36 +132,57 @@ public class ManagedBrowserExtension extends BaseExtension
         Object testInstance = context.getTestInstance();
         List<Browser> managedBrowsers = getManagedInstanceBrowsers(context);
         getModel(context).getBrowserFields().stream().filter(isInstanceField).forEach(field -> {
-            Browser browser = createBrowserFor(field, testInstance.getClass());
+            Browser browser = createBrowserFor(field);
             managedBrowsers.add(browser);
             setValue(field, testInstance, browser);
         });
     }
 
-    private Browser createBrowserFor(Field field, Class<?> testClass) {
+    private Browser createBrowserFor(Field field) {
 
-        Class<? extends ProxyConfiguration> proxyConfigurationClass;
-        Class<? extends BrowserFactory> factoryClass;
-
-        if (field.isAnnotationPresent(CreateUsing.class)) {
-            CreateUsing annotation = field.getAnnotation(CreateUsing.class);
-            proxyConfigurationClass = annotation.proxy();
-            factoryClass = annotation.value();
-        } else if (testClass.isAnnotationPresent(CreateBrowsersUsing.class)) {
-            CreateBrowsersUsing annotation = testClass.getAnnotation(CreateBrowsersUsing.class);
-            proxyConfigurationClass = annotation.proxy();
-            factoryClass = annotation.value();
-        } else {
-            throw new NoBrowserFactoryException();
+        CreateUsing createUsing = getFieldLevelAnnotation(field);
+        if (createUsing != null) {
+            Class<? extends ProxyConfiguration> proxyConfigurationClass = createUsing.proxy();
+            Class<? extends BrowserFactory> factoryClass = createUsing.value();
+            return createBrowser(factoryClass, proxyConfigurationClass);
         }
 
+        CreateBrowsersUsing createBrowsersUsing = getClassLevelAnnotation(field);
+        if (createBrowsersUsing != null) {
+            Class<? extends ProxyConfiguration> proxyConfigurationClass = createBrowsersUsing.proxy();
+            Class<? extends BrowserFactory> factoryClass = createBrowsersUsing.value();
+            return createBrowser(factoryClass, proxyConfigurationClass);
+        }
+
+        throw new NoBrowserFactoryException();
+
+    }
+
+    private CreateUsing getFieldLevelAnnotation(Field field) {
+        return field.getAnnotation(CreateUsing.class);
+    }
+
+    private CreateBrowsersUsing getClassLevelAnnotation(Field field) {
+        Class<?> testClass = field.getDeclaringClass();
+        CreateBrowsersUsing isPresent = testClass.getAnnotation(CreateBrowsersUsing.class);
+        if (isPresent == null && testClass.isAnnotationPresent(Nested.class)) {
+            Class<?> declaringClass = testClass.getDeclaringClass();
+            while (declaringClass != null && isPresent == null) {
+                isPresent = declaringClass.getAnnotation(CreateBrowsersUsing.class);
+                declaringClass = declaringClass.getDeclaringClass();
+            }
+        }
+        return isPresent;
+    }
+
+    private Browser createBrowser(Class<? extends BrowserFactory> factoryClass,
+        Class<? extends ProxyConfiguration> proxyConfigurationClass) {
         try {
             ProxyConfiguration proxyConfiguration = proxyConfigurationClass.newInstance();
             return factoryClass.newInstance().withProxyConfiguration(proxyConfiguration).createBrowser();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new UndeclaredThrowableException(e, "error while creating browser factory");
         }
-
     }
 
     @SuppressWarnings("unchecked")

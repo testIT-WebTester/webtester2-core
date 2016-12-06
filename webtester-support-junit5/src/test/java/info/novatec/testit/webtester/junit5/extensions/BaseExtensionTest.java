@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.expectThrows;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.UndeclaredThrowableException;
@@ -27,7 +25,6 @@ import org.mockito.Mock;
 import utils.MockitoExtension;
 
 import info.novatec.testit.webtester.junit5.internal.ReflectionUtils;
-import info.novatec.testit.webtester.junit5.internal.TestClassModel;
 import info.novatec.testit.webtester.junit5.internal.TestClassModelFactory;
 
 
@@ -133,60 +130,6 @@ public class BaseExtensionTest {
             });
         });
         assertThat(actualException.getCause()).isSameAs(cause);
-
-    }
-
-    @Test
-    @DisplayName("getModel(..) model is returned if it was already loaded")
-    void modelIsReturnedIfItAlreadyExist() {
-
-        TestClassModel model = mock(TestClassModel.class);
-        doReturn(model).when(store).get(BaseExtension.EXTENSION_MODEL_KEY, TestClassModel.class);
-
-        TestClassModel actualModel = cut.getModel(context);
-        assertThat(actualModel).isSameAs(model);
-
-    }
-
-    @Test
-    @DisplayName("getModel(..) model is returned if it was already loaded without invoking producer")
-    void modelIsReturnedIfItAlreadyExistWithoutProducer() {
-
-        TestClassModel model = mock(TestClassModel.class);
-        doReturn(model).when(store).get(BaseExtension.EXTENSION_MODEL_KEY, TestClassModel.class);
-
-        cut.getModel(context);
-        verifyZeroInteractions(testClassModelFactory);
-
-    }
-
-    @Test
-    @DisplayName("getModel(..) model is lazily created if it doesn't exist already")
-    void modelIsLoadedLazilyIfItDoesNotExist() {
-
-        // store does not contain model >> lazy load
-        doReturn(null).when(store).get(BaseExtension.EXTENSION_MODEL_KEY, TestClassModel.class);
-
-        TestClassModel model = mock(TestClassModel.class);
-        doReturn(model).when(testClassModelFactory).create(TestClass.class);
-
-        TestClassModel actualModel = cut.getModel(context);
-        assertThat(actualModel).isSameAs(model);
-
-    }
-
-    @Test
-    @DisplayName("getModel(..) lazily created model is stored")
-    void modelIsStoredWhenLazilyLoaded() {
-
-        // store does not contain model >> lazy load
-        doReturn(null).when(store).get(BaseExtension.EXTENSION_MODEL_KEY, TestClassModel.class);
-
-        TestClassModel model = mock(TestClassModel.class);
-        doReturn(model).when(testClassModelFactory).create(TestClass.class);
-
-        cut.getModel(context);
-        verify(store).put(BaseExtension.EXTENSION_MODEL_KEY, model);
 
     }
 
