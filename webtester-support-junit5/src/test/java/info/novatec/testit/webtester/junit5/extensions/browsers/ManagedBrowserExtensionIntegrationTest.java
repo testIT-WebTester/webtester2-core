@@ -1,10 +1,15 @@
 package info.novatec.testit.webtester.junit5.extensions.browsers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static utils.TestClassExecutor.execute;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -212,6 +217,120 @@ public class ManagedBrowserExtensionIntegrationTest {
         @Test
         void triggerClassExecution() {
             // does nothing
+        }
+
+    }
+
+    // TODO Bugs
+
+    @Test
+    @DisplayName("@CreateBrowsersUsing annotation is inherited if not overridden")
+    void classLevelDeclarationOfBrowserFactoryIsInherited() throws Exception {
+        execute(ClassLevelBrowserFactoriesOneLevel.class);
+        execute(ClassLevelBrowserFactoriesTwoLevels.class);
+    }
+
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    @ExtendWith(ManagedBrowserExtension.class)
+    private static class ClassLevelBrowserFactoriesOneLevel {
+
+        @Managed
+        static Browser browser;
+
+        @Test
+        void baseClassTest() {
+            assertThat(browser).isNotNull();
+        }
+
+        @Nested
+        class NestedTestClass {
+
+            @Test
+            void nestedClassTest() {
+                assertThat(browser).isNotNull();
+            }
+
+        }
+
+    }
+
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    @ExtendWith(ManagedBrowserExtension.class)
+    private static class ClassLevelBrowserFactoriesTwoLevels {
+
+        @Managed
+        static Browser browser;
+
+        @Test
+        void baseClassTest() {
+            assertThat(browser).isNotNull();
+        }
+
+        @Nested
+        class NestedTestClass {
+
+            @Test
+            void nestedClassTest() {
+                assertThat(browser).isNotNull();
+            }
+
+            @Nested
+            class DeepNestedTestClass {
+
+                @Test
+                void deepNestedClassTest() {
+                    assertThat(browser).isNotNull();
+                }
+
+            }
+
+        }
+
+    }
+
+    @Test
+    @DisplayName("class level browsers (static) are created once")
+    void classLevelBrowsersAreOnlyInitializedOnce() throws Exception {
+        execute(OnlyOneStaticBrowserCreated.class);
+    }
+
+    @ExtendWith(ManagedBrowserExtension.class)
+    private static class OnlyOneStaticBrowserCreated {
+
+        private static final AtomicInteger BROWSERS_CREATED = new AtomicInteger(0);
+
+        @Managed
+        @CreateUsing(OnlyOneStaticBrowserCreatedBrowserFactory.class)
+        static Browser browser;
+
+        @Test
+        void baseClassTest() {
+            assertThat(browser).isNotNull();
+        }
+
+        @Nested
+        class NestedTestClass {
+
+            @Test
+            void nestedClassTest() {
+                assertThat(browser).isNotNull();
+            }
+
+        }
+
+        @AfterAll
+        static void onlyOneBrowserCreated() {
+            assertThat(BROWSERS_CREATED.get()).isEqualTo(1);
+        }
+
+        public static class OnlyOneStaticBrowserCreatedBrowserFactory extends TestBrowserFactory {
+
+            @Override
+            public Browser createBrowser() {
+                OnlyOneStaticBrowserCreated.BROWSERS_CREATED.incrementAndGet();
+                return super.createBrowser();
+            }
+
         }
 
     }
