@@ -5,7 +5,6 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,7 +25,6 @@ import info.novatec.testit.webtester.junit5.internal.TestClassModelFactory;
 public class BaseExtension {
 
     protected static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create("testit-webtester");
-    protected static final String EXTENSION_MODEL_KEY = "extension-model";
 
     private final ReflectionUtils reflectionUtils;
     private final TestClassModelFactory testClassModelFactory;
@@ -57,14 +55,8 @@ public class BaseExtension {
     }
 
     protected final TestClassModel getModel(ExtensionContext context) {
-        Store store = context.getStore(NAMESPACE);
-        TestClassModel model = store.get(EXTENSION_MODEL_KEY, TestClassModel.class);
-        if (model == null) {
-            Class<?> testClass = getTestClassFrom(context);
-            model = testClassModelFactory.create(testClass);
-            store.put(EXTENSION_MODEL_KEY, model);
-        }
-        return model;
+        Class<?> testClass = getTestClassFrom(context);
+        return testClassModelFactory.create(testClass);
     }
 
     private Class<?> getTestClassFrom(ExtensionContext context) {
