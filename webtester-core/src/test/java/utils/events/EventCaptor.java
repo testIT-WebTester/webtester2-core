@@ -3,7 +3,6 @@ package utils.events;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -57,18 +56,8 @@ public class EventCaptor<E extends Event> {
         assertThat(event).isNull();
     }
 
-    public <T> EventCaptor<E> assertEventAndReturnValue(BiConsumer<E, Optional<T>> consumer) {
-        consumer.accept(listener.getEvent(), (Optional<T>) returnValue);
-        return this;
-    }
-
     public EventCaptor<E> assertEvent(Consumer<E> consumer) {
         consumer.accept(listener.getEvent());
-        return this;
-    }
-
-    public <T> EventCaptor<E> assertReturnValue(Consumer<Optional<T>> consumer) {
-        consumer.accept((Optional<T>) returnValue.get());
         return this;
     }
 

@@ -14,6 +14,7 @@ import org.assertj.core.api.AbstractAssert;
  * @param <B> the type of the "actual" value.
  * @since 2.0
  */
+@SuppressWarnings("unchecked")
 public abstract class AbstractWebTesterAssert<A, B> extends AbstractAssert<AbstractWebTesterAssert<A, B>, B> {
 
     public AbstractWebTesterAssert(B actual, Class<A> selfType) {

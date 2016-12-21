@@ -149,7 +149,7 @@ public abstract class AbstractPageFragmentAssert<A extends AbstractPageFragmentA
      */
     public A hasAttributeValue(String attributeName, String value) {
         hasAttribute(attributeName);
-        String actualValue = actual.getAttribute(attributeName).get();
+        String actualValue = actual.getAttribute(attributeName).orElse(null);
         String errorMessage = "Expected page fragment's <%s> attribute value to be <%s>, but it was <%s>.";
         assertThat(actualValue).overridingErrorMessage(errorMessage, attributeName, value, actualValue).isEqualTo(value);
         return ( A ) this;

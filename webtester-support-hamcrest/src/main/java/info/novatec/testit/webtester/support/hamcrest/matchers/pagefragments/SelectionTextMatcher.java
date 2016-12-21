@@ -25,7 +25,7 @@ public class SelectionTextMatcher<T extends SingleSelect> extends TypeSafeMatche
     private final String expected;
 
     /** The actual text for a possible mismatch description. */
-    private Optional<String> actual;
+    private String actual;
 
     /**
      * Creates a new instance for the given text.
@@ -45,8 +45,9 @@ public class SelectionTextMatcher<T extends SingleSelect> extends TypeSafeMatche
 
     @Override
     protected boolean matchesSafely(T item) {
-        actual = item.getSelectionText();
-        return actual.filter(expected::equals).isPresent();
+        Optional<String> selectionText = item.getSelectionText();
+        actual = selectionText.orElse(null);
+        return selectionText.filter(expected::equals).isPresent();
     }
 
     @Override

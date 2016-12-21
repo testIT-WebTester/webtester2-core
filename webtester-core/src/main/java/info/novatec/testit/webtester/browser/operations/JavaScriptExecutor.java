@@ -85,6 +85,7 @@ public class JavaScriptExecutor extends BaseBrowserOperation {
      * @see JavascriptExecutor#executeScript(String, Object...)
      * @since 2.0
      */
+    @SuppressWarnings("unchecked")
     public <T> T executeWithReturn(String script, Object... parameters) {
         if (!(webDriver() instanceof JavascriptExecutor)) {
             throw new UnsupportedOperationException("WebDriver does not support JavaScript execution!");

@@ -60,7 +60,7 @@ import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyEx
 public class EntryPointExtension extends BaseExtension implements BeforeEachCallback {
 
     /** Matches {@code ${...}} variables in entry point URLs. */
-    private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\$\\{.*?\\}");
+    private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\$\\{.*?}");
     private static final String VARIABLE_INDICATOR = "${";
 
     @Override

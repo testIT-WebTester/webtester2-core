@@ -25,7 +25,7 @@ public class SelectionValueMatcher<T extends SingleSelect> extends TypeSafeMatch
     private final String expected;
 
     /** The actual value for a possible mismatch description. */
-    private Optional<String> actual;
+    private String actual;
 
     /**
      * Creates a new instance for the given value.
@@ -45,8 +45,9 @@ public class SelectionValueMatcher<T extends SingleSelect> extends TypeSafeMatch
 
     @Override
     protected boolean matchesSafely(T item) {
-        actual = item.getSelectionValue();
-        return actual.filter(expected::equals).isPresent();
+        Optional<String> selectionValue = item.getSelectionValue();
+        actual = selectionValue.orElse(null);
+        return selectionValue.filter(expected::equals).isPresent();
     }
 
     @Override

@@ -246,7 +246,7 @@ public class WebTesterJUnitRunner extends BlockJUnit4ClassRunner {
                 }
             }
 
-            private void executeBeforeTestForAllBrowsers() throws ReflectiveOperationException {
+            private void executeBeforeTestForAllBrowsers() {
                 classBrowsers.forEach(ClassTestBrowser::beforeTest);
                 methodBrowsers.forEach(MethodTestBrowser::beforeTest);
             }

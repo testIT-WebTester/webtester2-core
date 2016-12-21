@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.ConfigurationBuilder;
-import info.novatec.testit.webtester.config.ConfigurationExporter;
 import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapter;
 import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
 import info.novatec.testit.webtester.spring4.config.ConfigurationBuilderFactoryBean;
@@ -112,8 +111,7 @@ public class AdapterIntegrationTest {
             public ConfigurationBuilderFactoryBean configurationBuilder() {
                 ConfigurationBuilderFactoryBean bean = new ConfigurationBuilderFactoryBean();
                 bean.setAdapters(asList(new LocalFileConfigurationAdapter(), springEnvironmentConfigurationAdapter()));
-                bean.setExporters(Collections.singletonList(
-                    ( ConfigurationExporter ) (key, value) -> log.debug("exported: {}={}", key, value)));
+                bean.setExporters(Collections.singletonList((key, value) -> log.debug("exported: {}={}", key, value)));
                 return bean;
             }
 

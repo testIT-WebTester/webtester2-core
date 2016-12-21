@@ -88,6 +88,7 @@ public class Conditions {
      * @see Either
      * @since 2.1
      */
+    @SafeVarargs
     public static <T> Either<T> either(Condition<T>... conditions) {
         return new Either<>(conditions);
     }

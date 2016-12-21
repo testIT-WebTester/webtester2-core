@@ -134,7 +134,7 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
             String key = getKey(field);
             Class<?> type = field.getType();
 
-            Object value = null;
+            Object value;
             if (DefaultUnmarshaller.class.equals(annotation.using())) {
                 value = getValueUsingDefaultGetters(config, key, type);
             } else {
