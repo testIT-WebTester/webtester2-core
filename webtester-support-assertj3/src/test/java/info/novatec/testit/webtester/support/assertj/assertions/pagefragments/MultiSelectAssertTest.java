@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static utils.MockFactory.multiSelect;
 
 import org.junit.jupiter.api.Nested;
@@ -25,17 +25,19 @@ public class MultiSelectAssertTest {
         @Test
         void failsForMatchingSelectionInWrongOrder() {
             MultiSelect fooBarSelect = multiSelect().withSelectedTexts("foo", "bar").build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooBarSelect).hasSelectionWithTexts("bar", "foo");
-            })).hasMessage("Expected select's selected texts to be <[bar, foo]>, but they were <[foo, bar]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selected texts to be <[bar, foo]>, but they were <[foo, bar]>.");
         }
 
         @Test
         void failsForDifferentSelection() {
             MultiSelect fooSelect = multiSelect().withSelectedTexts("foo").build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasSelectionWithTexts("bar");
-            })).hasMessage("Expected select's selected texts to be <[bar]>, but they were <[foo]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selected texts to be <[bar]>, but they were <[foo]>.");
         }
 
     }
@@ -52,17 +54,19 @@ public class MultiSelectAssertTest {
         @Test
         void failsForMatchingSelectionInWrongOrder() {
             MultiSelect fooBarSelect = multiSelect().withSelectedValues("foo", "bar").build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooBarSelect).hasSelectionWithValues("bar", "foo");
-            })).hasMessage("Expected select's selected values to be <[bar, foo]>, but they were <[foo, bar]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selected values to be <[bar, foo]>, but they were <[foo, bar]>.");
         }
 
         @Test
         void failsForDifferentSelection() {
             MultiSelect fooSelect = multiSelect().withSelectedValues("foo").build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasSelectionWithValues("bar");
-            })).hasMessage("Expected select's selected values to be <[bar]>, but they were <[foo]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selected values to be <[bar]>, but they were <[foo]>.");
         }
 
     }
@@ -79,17 +83,19 @@ public class MultiSelectAssertTest {
         @Test
         void failsForMatchingSelectionInWrongOrder() {
             MultiSelect oneTwoSelect = multiSelect().withSelectedIndices(1, 2).build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(oneTwoSelect).hasSelectionWithIndices(2, 1);
-            })).hasMessage("Expected select's selected indices to be <[2, 1]>, but they were <[1, 2]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selected indices to be <[2, 1]>, but they were <[1, 2]>.");
         }
 
         @Test
         void failsForDifferentSelection() {
             MultiSelect oneSelect = multiSelect().withSelectedIndices(1).build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(oneSelect).hasSelectionWithIndices(2);
-            })).hasMessage("Expected select's selected indices to be <[2]>, but they were <[1]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selected indices to be <[2]>, but they were <[1]>.");
         }
 
     }
@@ -112,9 +118,10 @@ public class MultiSelectAssertTest {
         @Test
         void failsForZeroSelections() {
             MultiSelect noSelectedOptions = multiSelect().withNumberOfSelectedOptions(0).build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(noSelectedOptions).hasSelectedOptions();
-            })).hasMessage("Expected select to have selected options, but it didn't.");
+            });
+            assertThat(exception).hasMessage("Expected select to have selected options, but it didn't.");
         }
 
     }
@@ -131,9 +138,10 @@ public class MultiSelectAssertTest {
         @Test
         void failsForDifferentNumberOfSelections() {
             MultiSelect fiveSelectedOptions = multiSelect().withNumberOfSelectedOptions(5).build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fiveSelectedOptions).hasSelectedOptions(1);
-            })).hasMessage("Expected select to have <1> selected options, but it had <5>.");
+            });
+            assertThat(exception).hasMessage("Expected select to have <1> selected options, but it had <5>.");
         }
 
     }
@@ -150,9 +158,10 @@ public class MultiSelectAssertTest {
         @Test
         void failsForOneSelection() {
             MultiSelect oneSelectedOption = multiSelect().withNumberOfSelectedOptions(1).build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(oneSelectedOption).hasNoSelectedOptions();
-            })).hasMessage("Expected select to have no selected options, but it had <1>.");
+            });
+            assertThat(exception).hasMessage("Expected select to have no selected options, but it had <1>.");
         }
 
     }

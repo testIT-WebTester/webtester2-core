@@ -2,7 +2,6 @@ package info.novatec.testit.webtester.junit5.extensions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.expectThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -79,7 +78,7 @@ public class BaseExtensionTest {
 
         RuntimeException cause = new RuntimeException();
 
-        RuntimeException actualException = expectThrows(RuntimeException.class, () -> {
+        RuntimeException actualException = assertThrows(RuntimeException.class, () -> {
             cut.executeHandlingUndeclaredThrowables(context, testContext -> {
                 throw new UndeclaredThrowableException(cause);
             });
@@ -94,7 +93,7 @@ public class BaseExtensionTest {
 
         Exception cause = new Exception();
 
-        Exception actualException = expectThrows(Exception.class, () -> {
+        Exception actualException = assertThrows(Exception.class, () -> {
             cut.executeHandlingUndeclaredThrowables(context, testContext -> {
                 throw new UndeclaredThrowableException(cause);
             });
@@ -109,7 +108,7 @@ public class BaseExtensionTest {
 
         Error cause = new Error();
 
-        Error actualException = expectThrows(Error.class, () -> {
+        Error actualException = assertThrows(Error.class, () -> {
             cut.executeHandlingUndeclaredThrowables(context, testContext -> {
                 throw new UndeclaredThrowableException(cause);
             });
@@ -124,7 +123,7 @@ public class BaseExtensionTest {
 
         Throwable cause = new Throwable();
 
-        UndeclaredThrowableException actualException = expectThrows(UndeclaredThrowableException.class, () -> {
+        UndeclaredThrowableException actualException = assertThrows(UndeclaredThrowableException.class, () -> {
             cut.executeHandlingUndeclaredThrowables(context, testContext -> {
                 throw new UndeclaredThrowableException(cause);
             });

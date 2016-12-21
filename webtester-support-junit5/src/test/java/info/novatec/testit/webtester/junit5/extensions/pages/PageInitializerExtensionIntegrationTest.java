@@ -2,7 +2,6 @@ package info.novatec.testit.webtester.junit5.extensions.pages;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.expectThrows;
 import static utils.TestClassExecutor.execute;
 
 import org.junit.jupiter.api.DisplayName;
@@ -95,7 +94,7 @@ public class PageInitializerExtensionIntegrationTest {
     @Test
     @DisplayName("@Initialized needs a managed browser with matching name")
     void needsManagedBrowserWithMatchingName() throws Exception {
-        NoManagedBrowserForNameException exception = expectThrows(NoManagedBrowserForNameException.class, () -> {
+        NoManagedBrowserForNameException exception = assertThrows(NoManagedBrowserForNameException.class, () -> {
             execute(WrongBrowserNameClass.class);
         });
         assertThat(exception.getName()).isEqualTo("wrong-name");
@@ -119,7 +118,7 @@ public class PageInitializerExtensionIntegrationTest {
     @DisplayName("@Initialized throws exception if used on static field")
     void throwsExceptionIfUsedOnStaticField() throws Exception {
         StaticPageFieldsNotSupportedException exception =
-            expectThrows(StaticPageFieldsNotSupportedException.class, () -> {
+            assertThrows(StaticPageFieldsNotSupportedException.class, () -> {
                 execute(StaticFieldClass.class);
             });
         assertThat(exception.getField()).isEqualTo(StaticFieldClass.class.getDeclaredField("page"));

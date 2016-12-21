@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,10 @@ public class SelectableAssertTest {
         @Test
         void failsIfNotSelected() {
             Selectable notSelected = nonSelectedSelectable();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(notSelected).isSelected();
-            })).hasMessage("Expected selectable fragment to be selected, but it wasn't.");
+            });
+            assertThat(exception).hasMessage("Expected selectable fragment to be selected, but it wasn't.");
         }
 
     }
@@ -45,9 +46,10 @@ public class SelectableAssertTest {
         @Test
         void failsIfSelected() {
             Selectable selected = selectedSelectable();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(selected).isNotSelected();
-            })).hasMessage("Expected selectable fragment not to be selected, but it was.");
+            });
+            assertThat(exception).hasMessage("Expected selectable fragment not to be selected, but it was.");
         }
 
     }

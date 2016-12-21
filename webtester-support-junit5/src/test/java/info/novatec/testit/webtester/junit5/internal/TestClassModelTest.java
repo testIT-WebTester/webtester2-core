@@ -2,18 +2,17 @@ package info.novatec.testit.webtester.junit5.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
-import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
-import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
+import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
+import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
+import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.pages.Page;
 
 
@@ -36,7 +35,7 @@ public class TestClassModelTest {
     @Test
     @DisplayName("multiple managed browsers must have names")
     void multipleManagedBrowsersMustHaveNames() {
-        NonUniqueBrowserNameException exception = expectThrows(NonUniqueBrowserNameException.class, () -> {
+        NonUniqueBrowserNameException exception = assertThrows(NonUniqueBrowserNameException.class, () -> {
             TestClassModel.fromTestClass(MultiBrowserWithoutNameTestClass.class);
         });
         assertThat(exception.getName()).isEqualTo("default");
@@ -45,7 +44,7 @@ public class TestClassModelTest {
     @Test
     @DisplayName("multiple managed browsers must have UNIQUE names")
     void multipleManagedBrowsersMustHaveUniqueNames() {
-        NonUniqueBrowserNameException exception = expectThrows(NonUniqueBrowserNameException.class, () -> {
+        NonUniqueBrowserNameException exception = assertThrows(NonUniqueBrowserNameException.class, () -> {
             TestClassModel.fromTestClass(MultiBrowserWithSameNameTestClass.class);
         });
         assertThat(exception.getName()).isEqualTo("name");
