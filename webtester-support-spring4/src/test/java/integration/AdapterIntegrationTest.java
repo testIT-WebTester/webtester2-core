@@ -11,9 +11,11 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import info.novatec.testit.webtester.config.Configuration;
@@ -30,8 +32,16 @@ import info.novatec.testit.webtester.spring4.config.adapters.SpringEnvironmentCo
 @RunWith(Enclosed.class)
 public class AdapterIntegrationTest {
 
+    // TODO remove workaround ASAP
+
+    // The annotation:
+    // @TestExecutionListeners(SpringBootDependencyInjectionTestExecutionListener.class)
+    // is needed because spring does not officially support Mockito 2 and throws an exception
+    // in case the default test listeners are used.
+
     @RunWith(SpringJUnit4ClassRunner.class)
-    @SpringApplicationConfiguration(classes = ManualAdapterDefinitionTest.TestConfiguration.class)
+    @TestExecutionListeners(SpringBootDependencyInjectionTestExecutionListener.class)
+    @SpringBootTest(classes = ManualAdapterDefinitionTest.TestConfiguration.class)
     public static class ManualAdapterDefinitionTest {
 
         @Autowired
@@ -71,7 +81,8 @@ public class AdapterIntegrationTest {
     }
 
     @RunWith(SpringJUnit4ClassRunner.class)
-    @SpringApplicationConfiguration(classes = ConfigurationBuilderFactoryBeanTest.TestConfiguration.class)
+    @TestExecutionListeners(SpringBootDependencyInjectionTestExecutionListener.class)
+    @SpringBootTest(classes = ConfigurationBuilderFactoryBeanTest.TestConfiguration.class)
     public static class ConfigurationBuilderFactoryBeanTest {
 
         public static final Logger log = LoggerFactory.getLogger(ConfigurationBuilderFactoryBeanTest.class);
@@ -116,7 +127,8 @@ public class AdapterIntegrationTest {
     }
 
     @RunWith(SpringJUnit4ClassRunner.class)
-    @SpringApplicationConfiguration(classes = PrototypeConfigurationBuilderFactoryBeanTest.TestConfiguration.class)
+    @TestExecutionListeners(SpringBootDependencyInjectionTestExecutionListener.class)
+    @SpringBootTest(classes = PrototypeConfigurationBuilderFactoryBeanTest.TestConfiguration.class)
     public static class PrototypeConfigurationBuilderFactoryBeanTest {
 
         public static final Logger log = LoggerFactory.getLogger(PrototypeConfigurationBuilderFactoryBeanTest.class);
@@ -159,7 +171,8 @@ public class AdapterIntegrationTest {
     }
 
     @RunWith(SpringJUnit4ClassRunner.class)
-    @SpringApplicationConfiguration(classes = DefaultSpringConfigurationFactoryBeanTest.TestConfiguration.class)
+    @TestExecutionListeners(SpringBootDependencyInjectionTestExecutionListener.class)
+    @SpringBootTest(classes = DefaultSpringConfigurationFactoryBeanTest.TestConfiguration.class)
     public static class DefaultSpringConfigurationFactoryBeanTest {
 
         @Autowired
