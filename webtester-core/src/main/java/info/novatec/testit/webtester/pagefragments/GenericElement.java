@@ -2,16 +2,16 @@ package info.novatec.testit.webtester.pagefragments;
 
 import org.openqa.selenium.WebElement;
 
+import info.novatec.testit.webtester.adhoc.AdHocFinder;
 import info.novatec.testit.webtester.events.Produces;
 import info.novatec.testit.webtester.events.pagefragments.ClearedEvent;
 import info.novatec.testit.webtester.events.pagefragments.FormSubmittedEvent;
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.annotations.Action;
-import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 import info.novatec.testit.webtester.pagefragments.annotations.As;
+import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 import info.novatec.testit.webtester.pagefragments.traits.Clickable;
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
-import info.novatec.testit.webtester.adhoc.AdHocFinder;
 
 
 /**

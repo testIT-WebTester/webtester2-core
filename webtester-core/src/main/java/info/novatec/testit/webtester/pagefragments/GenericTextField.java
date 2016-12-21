@@ -9,10 +9,10 @@ import info.novatec.testit.webtester.events.pagefragments.EnterPressedEvent;
 import info.novatec.testit.webtester.events.pagefragments.TextAppendedEvent;
 import info.novatec.testit.webtester.events.pagefragments.TextSetEvent;
 import info.novatec.testit.webtester.pagefragments.annotations.Action;
+import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.annotations.Attribute;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
 
 
 @Mapping(tag = "input")

@@ -11,9 +11,9 @@ import info.novatec.testit.webtester.events.pagefragments.SelectedByIndexEvent;
 import info.novatec.testit.webtester.events.pagefragments.SelectedByTextEvent;
 import info.novatec.testit.webtester.events.pagefragments.SelectedByValueEvent;
 import info.novatec.testit.webtester.pagefragments.annotations.Action;
+import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 

@@ -15,9 +15,9 @@ import utils.events.EventCaptor;
 import info.novatec.testit.webtester.events.pagefragments.SelectedByIndexEvent;
 import info.novatec.testit.webtester.events.pagefragments.SelectedByTextEvent;
 import info.novatec.testit.webtester.events.pagefragments.SelectedByValueEvent;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pages.Page;
 
 

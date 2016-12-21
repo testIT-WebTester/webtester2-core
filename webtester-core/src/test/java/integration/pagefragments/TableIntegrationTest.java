@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
-import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pagefragments.Table;
 import info.novatec.testit.webtester.pagefragments.TableRow;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pages.Page;
 
 

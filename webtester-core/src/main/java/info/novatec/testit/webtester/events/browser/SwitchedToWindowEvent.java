@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.operations.FocusSetter;
+import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.events.AbstractEvent;
 
 
 /**

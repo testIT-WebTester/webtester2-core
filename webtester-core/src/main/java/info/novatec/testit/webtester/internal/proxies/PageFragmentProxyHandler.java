@@ -34,8 +34,8 @@ import info.novatec.testit.webtester.internal.proxies.impls.PageCreatingImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.ToStringImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.WebElementReturningImpl;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingValidator;
 import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidator;
+import info.novatec.testit.webtester.pagefragments.mapping.MappingValidator;
 
 
 @Builder

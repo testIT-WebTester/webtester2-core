@@ -1,8 +1,8 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;

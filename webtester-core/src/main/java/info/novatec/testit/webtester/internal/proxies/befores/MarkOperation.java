@@ -5,10 +5,10 @@ import java.lang.reflect.Method;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.css.DefaultStyleChanger;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 import info.novatec.testit.webtester.markings.Marker;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.pagefragments.annotations.As;
+import info.novatec.testit.webtester.pagefragments.annotations.Mark;
 
 
 @Slf4j

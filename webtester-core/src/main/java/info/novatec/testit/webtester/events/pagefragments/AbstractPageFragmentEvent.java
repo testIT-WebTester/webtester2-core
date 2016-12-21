@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.apache.commons.lang.StringUtils;
 
+import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 

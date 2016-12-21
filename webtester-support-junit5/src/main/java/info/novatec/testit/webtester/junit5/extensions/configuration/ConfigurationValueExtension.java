@@ -15,19 +15,19 @@ import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
+import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
-import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.BooleanUnmarshaller;
+import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.ConfigurationUnmarshaller;
+import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DefaultUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DoubleUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.FloatUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.IntegerUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.LongUnmarshaller;
-import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DefaultUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.StringUnmarshaller;
-import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.ConfigurationUnmarshaller;
 
 
 /**

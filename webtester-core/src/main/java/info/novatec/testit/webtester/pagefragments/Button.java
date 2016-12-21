@@ -2,10 +2,10 @@ package info.novatec.testit.webtester.pagefragments;
 
 import java.util.Optional;
 
+import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.annotations.Attribute;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.traits.Clickable;
 
 

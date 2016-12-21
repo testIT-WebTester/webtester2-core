@@ -9,9 +9,9 @@ import integration.BaseIntegrationTest;
 import utils.events.EventCaptor;
 
 import info.novatec.testit.webtester.events.pagefragments.SelectionChangedEvent;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pagefragments.Checkbox;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pages.Page;
 
 

@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.events.browser.OpenedUrlEvent;
-import info.novatec.testit.webtester.pages.Page;
 import info.novatec.testit.webtester.internal.ActionTemplate;
+import info.novatec.testit.webtester.pages.Page;
 
 
 /**
