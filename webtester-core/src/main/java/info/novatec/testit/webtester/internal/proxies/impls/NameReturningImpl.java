@@ -8,9 +8,9 @@ import info.novatec.testit.webtester.internal.annotations.ReturnsName;
 
 public class NameReturningImpl implements Implementation {
 
-    private final Optional<String> name;
+    private final String name;
 
-    public NameReturningImpl(Optional<String> name) {
+    public NameReturningImpl(String name) {
         this.name = name;
     }
 
@@ -21,7 +21,7 @@ public class NameReturningImpl implements Implementation {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-        return name;
+        return Optional.ofNullable(name);
     }
 
 }

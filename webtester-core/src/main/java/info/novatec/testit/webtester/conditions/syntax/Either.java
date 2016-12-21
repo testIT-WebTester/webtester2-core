@@ -40,7 +40,7 @@ public class Either<T> implements Condition<T> {
 
     @Override
     public boolean test(T value) {
-        return conditions.stream().filter(condition -> condition.test(value)).findFirst().isPresent();
+        return conditions.stream().anyMatch(condition -> condition.test(value));
     }
 
     @Override

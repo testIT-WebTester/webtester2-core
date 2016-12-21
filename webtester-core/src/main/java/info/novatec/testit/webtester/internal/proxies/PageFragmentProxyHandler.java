@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.openqa.selenium.By;
@@ -45,7 +44,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
     private final Browser browser;
     private final Class<? extends PageFragment> pageFragmentClass;
     private final MappingValidator validator;
-    private final Optional<String> name;
+    private final String name;
 
     private final Supplier<WebElement> webElementSupplier;
     private final Supplier<SearchContext> searchContextSupplier;
@@ -118,7 +117,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
             .validator(validator)
             .webElementSupplier(webElementSupplier)
             .searchContextSupplier(webElementSupplier::get)
-            .name(Optional.ofNullable(model.getName()))
+            .name(model.getName())
             .eventDecorator(eventDecorator)
             .build()
             .addBeforeOperations()
@@ -140,7 +139,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
             .validator(validator)
             .webElementSupplier(webElementSupplier)
             .searchContextSupplier(webElementSupplier::get)
-            .name(Optional.empty())
+            .name(null)
             .eventDecorator(eventDecorator)
             .build()
             .addBeforeOperations()

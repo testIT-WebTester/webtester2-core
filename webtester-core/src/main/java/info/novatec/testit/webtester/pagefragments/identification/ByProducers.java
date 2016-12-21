@@ -163,11 +163,7 @@ public class ByProducers {
      * @since 2.0
      */
     public static By createBy(Class<? extends ByProducer> producerClass, String value) {
-        ByProducer producer = BY_PRODUCER_CACHE.get(producerClass);
-        if (producer == null) {
-            producer = createNewInstanceOf(producerClass);
-            BY_PRODUCER_CACHE.put(producerClass, producer);
-        }
+        ByProducer producer = BY_PRODUCER_CACHE.computeIfAbsent(producerClass, k -> createNewInstanceOf(producerClass));
         return producer.createBy(value);
     }
 

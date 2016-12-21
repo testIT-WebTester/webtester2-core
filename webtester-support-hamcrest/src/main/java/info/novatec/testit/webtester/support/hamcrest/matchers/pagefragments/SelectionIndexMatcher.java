@@ -25,7 +25,7 @@ public class SelectionIndexMatcher<T extends SingleSelect> extends TypeSafeMatch
     private final Integer index;
 
     /** The actual index for a possible mismatch description. */
-    private Optional<Integer> actualIndex;
+    private Integer actualIndex;
 
     /**
      * Creates a new instance for the given index.
@@ -45,8 +45,9 @@ public class SelectionIndexMatcher<T extends SingleSelect> extends TypeSafeMatch
 
     @Override
     protected boolean matchesSafely(T item) {
-        actualIndex = item.getSelectionIndex();
-        return actualIndex.filter(index::equals).isPresent();
+        Optional<Integer> selectionIndex = item.getSelectionIndex();
+        actualIndex = selectionIndex.orElse(null);
+        return selectionIndex.filter(index::equals).isPresent();
     }
 
     @Override

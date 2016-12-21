@@ -44,7 +44,7 @@ public abstract class AbstractTestBrowser {
         return this.field.getAnnotation(annotationClass) != null;
     }
 
-    protected void createBrowserAndSetStaticField() throws ReflectiveOperationException {
+    protected void createBrowserAndSetStaticField() {
         createBrowserIfNecessary(null);
     }
 
@@ -99,7 +99,7 @@ public abstract class AbstractTestBrowser {
         }
     }
 
-    public abstract void beforeTest() throws ReflectiveOperationException;
+    public abstract void beforeTest();
 
     public abstract void afterTest();
 

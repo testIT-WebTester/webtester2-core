@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
 
-import lombok.Getter;
-
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -26,16 +24,23 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
  * @see NumberField
  * @since 2.0
  */
-@Getter
 public class NumberSetEvent extends AbstractPageFragmentEvent {
 
-    private final Optional<Long> before;
-    private final Optional<Long> after;
+    private final Long before;
+    private final Long after;
 
     public NumberSetEvent(PageFragment fragment, Long before, Long after) {
         super(fragment);
-        this.before = Optional.ofNullable(before);
-        this.after = Optional.ofNullable(after);
+        this.before = before;
+        this.after = after;
+    }
+
+    public Optional<Long> getBefore() {
+        return Optional.ofNullable(before);
+    }
+
+    public Optional<Long> getAfter() {
+        return Optional.ofNullable(after);
     }
 
     @Override
