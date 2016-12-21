@@ -13,7 +13,6 @@ import info.novatec.testit.webtester.config.BaseConfiguration;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.ConfigurationAdapter;
 import info.novatec.testit.webtester.config.ConfigurationExporter;
-import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
 
 
 public class BaseConfigurationBuilderTest {

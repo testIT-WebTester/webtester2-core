@@ -10,9 +10,9 @@ import utils.events.EventCaptor;
 
 import info.novatec.testit.webtester.events.pagefragments.ClearedEvent;
 import info.novatec.testit.webtester.events.pagefragments.NumberSetEvent;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pagefragments.NumberField;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pages.Page;
 
 

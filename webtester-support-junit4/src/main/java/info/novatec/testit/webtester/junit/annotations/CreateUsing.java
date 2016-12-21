@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
-import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
 import info.novatec.testit.webtester.browser.proxy.NoProxyConfiguration;
+import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
 import info.novatec.testit.webtester.junit.runner.WebTesterJUnitRunner;
 
 

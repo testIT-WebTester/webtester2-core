@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
-import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DefaultUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.ConfigurationUnmarshaller;
+import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DefaultUnmarshaller;
 
 
 /**

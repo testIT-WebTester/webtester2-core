@@ -1,7 +1,7 @@
 package info.novatec.testit.webtester.conditions.syntax;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;

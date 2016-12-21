@@ -20,9 +20,9 @@ import info.novatec.testit.webtester.events.pagefragments.SelectedByIndicesEvent
 import info.novatec.testit.webtester.events.pagefragments.SelectedByTextsEvent;
 import info.novatec.testit.webtester.events.pagefragments.SelectedByValuesEvent;
 import info.novatec.testit.webtester.pagefragments.annotations.Action;
+import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.utils.EnhancedSelect;
 
 

@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.Set;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
-import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
-import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
+import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
+import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
+import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.pages.Page;
 
 

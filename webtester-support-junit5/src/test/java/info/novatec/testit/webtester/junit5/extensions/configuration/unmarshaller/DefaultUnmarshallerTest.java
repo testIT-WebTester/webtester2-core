@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.DefaultUnmarshaller;
 
 
 public class DefaultUnmarshallerTest {

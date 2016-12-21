@@ -2,12 +2,12 @@ package info.novatec.testit.webtester.events.pagefragments;
 
 import lombok.Getter;
 
+import info.novatec.testit.webtester.events.AbstractEvent;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.events.AbstractEvent;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.mouse.Mouse;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**

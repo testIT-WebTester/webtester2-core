@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
+import info.novatec.testit.webtester.mouse.Mouse;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.Div;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pages.Page;
-import info.novatec.testit.webtester.mouse.Mouse;
 
 
 public class MouseUtilsFeatureTest extends BaseIntegrationTest {

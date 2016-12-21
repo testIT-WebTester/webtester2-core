@@ -5,9 +5,9 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
-import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pagefragments.Span;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
 import info.novatec.testit.webtester.pages.Page;
 
 

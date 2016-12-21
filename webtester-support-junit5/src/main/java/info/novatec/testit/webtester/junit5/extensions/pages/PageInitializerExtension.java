@@ -12,9 +12,9 @@ import org.junit.jupiter.api.extension.TestExtensionContext;
 import lombok.extern.slf4j.Slf4j;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
-import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.pages.Page;
 

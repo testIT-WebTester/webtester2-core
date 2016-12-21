@@ -3,19 +3,19 @@ package info.novatec.testit.webtester.browser;
 import org.openqa.selenium.WebDriver;
 
 import info.novatec.testit.webtester.browser.operations.AlertHandler;
+import info.novatec.testit.webtester.browser.operations.CurrentWindow;
 import info.novatec.testit.webtester.browser.operations.FocusSetter;
 import info.novatec.testit.webtester.browser.operations.JavaScriptExecutor;
 import info.novatec.testit.webtester.browser.operations.Navigator;
-import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.browser.operations.PageSourceSaver;
 import info.novatec.testit.webtester.browser.operations.ScreenshotTaker;
-import info.novatec.testit.webtester.browser.operations.CurrentWindow;
+import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.events.EventSystem;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pages.Page;
 import info.novatec.testit.webtester.internal.OffersAdHocFinding;
 import info.novatec.testit.webtester.internal.OffersPageCreation;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.pages.Page;
 
 
 /**

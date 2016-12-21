@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import integration.BaseIntegrationTest;
 
-import info.novatec.testit.webtester.pagefragments.annotations.Named;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.PasswordField;
 import info.novatec.testit.webtester.pagefragments.TextField;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import info.novatec.testit.webtester.pagefragments.annotations.Named;
 import info.novatec.testit.webtester.pages.Page;
 
 

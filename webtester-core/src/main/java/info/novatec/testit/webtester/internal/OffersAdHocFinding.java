@@ -6,12 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import info.novatec.testit.webtester.adhoc.AdHocFinder;
 import info.novatec.testit.webtester.adhoc.ByFinder;
 import info.novatec.testit.webtester.adhoc.TypeFinder;
 import info.novatec.testit.webtester.pagefragments.GenericElement;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
-import info.novatec.testit.webtester.adhoc.AdHocFinder;
 
 
 public interface OffersAdHocFinding {

@@ -5,14 +5,14 @@ import java.util.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
 
-import info.novatec.testit.webtester.pagefragments.annotations.Action;
-import info.novatec.testit.webtester.pagefragments.annotations.Attribute;
 import info.novatec.testit.webtester.events.Produces;
 import info.novatec.testit.webtester.events.pagefragments.ClearedEvent;
 import info.novatec.testit.webtester.events.pagefragments.NumberSetEvent;
+import info.novatec.testit.webtester.pagefragments.annotations.Action;
+import info.novatec.testit.webtester.pagefragments.annotations.As;
+import info.novatec.testit.webtester.pagefragments.annotations.Attribute;
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
-import info.novatec.testit.webtester.pagefragments.annotations.As;
 
 
 @Mapping(tag = "input", attribute = "type", values = "number")

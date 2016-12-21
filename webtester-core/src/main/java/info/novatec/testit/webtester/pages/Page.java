@@ -1,12 +1,12 @@
 package info.novatec.testit.webtester.pages;
 
-import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.adhoc.AdHocFinder;
+import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.internal.OffersAdHocFinding;
 import info.novatec.testit.webtester.internal.OffersBrowserGetter;
 import info.novatec.testit.webtester.internal.OffersPageCreation;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
+import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 
 
 /**

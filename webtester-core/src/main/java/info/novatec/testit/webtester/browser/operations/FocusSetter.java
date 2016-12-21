@@ -10,8 +10,8 @@ import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.browser.SwitchedToDefaultContentEvent;
 import info.novatec.testit.webtester.events.browser.SwitchedToFrameEvent;
 import info.novatec.testit.webtester.events.browser.SwitchedToWindowEvent;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.internal.ActionTemplate;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
 /**
