@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -33,9 +33,10 @@ public class GenericTextFieldAssertTest {
         @Test
         void failsForDifferentTexts() {
             GenericTextField fooTextField = genericTextField("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooTextField).hasText("bar");
-            })).hasMessage("Expected text field fragment to have text <bar>, but was <foo>.");
+            });
+            assertThat(exception).hasMessage("Expected text field fragment to have text <bar>, but was <foo>.");
         }
 
     }
@@ -52,9 +53,10 @@ public class GenericTextFieldAssertTest {
         @Test
         void failsForMatchingTexts() {
             GenericTextField fooTextField = genericTextField("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooTextField).hasNotText("foo");
-            })).hasMessage("Expected text field fragment not to have text <foo>, but it has.");
+            });
+            assertThat(exception).hasMessage("Expected text field fragment not to have text <foo>, but it has.");
         }
 
     }
@@ -71,9 +73,10 @@ public class GenericTextFieldAssertTest {
         @Test
         void failsIfTextIsNotContained() {
             GenericTextField barBarTextField = genericTextField("bar bar");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(barBarTextField).hasTextContaining("foo");
-            })).hasMessage("Expected text field's text to contain <foo>, but it didn't.");
+            });
+            assertThat(exception).hasMessage("Expected text field's text to contain <foo>, but it didn't.");
         }
 
     }

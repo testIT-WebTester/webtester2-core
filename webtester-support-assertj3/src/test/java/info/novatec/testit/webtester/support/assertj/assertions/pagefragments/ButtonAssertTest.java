@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -26,9 +26,10 @@ public class ButtonAssertTest {
         @Test
         void failsForDifferentLabels() {
             Button barButton = buttonWithLabel("bar");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(barButton).hasLabel("foo");
-            })).hasMessage("Expected buttons's label to be <foo>, but was <bar>.");
+            });
+            assertThat(exception).hasMessage("Expected buttons's label to be <foo>, but was <bar>.");
         }
 
     }
@@ -45,9 +46,10 @@ public class ButtonAssertTest {
         @Test
         void failsForMatchingLabels() {
             Button fooButton = buttonWithLabel("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooButton).hasNotLabel("foo");
-            })).hasMessage("Expected buttons's label not to be <foo>, but it was.");
+            });
+            assertThat(exception).hasMessage("Expected buttons's label not to be <foo>, but it was.");
         }
 
     }

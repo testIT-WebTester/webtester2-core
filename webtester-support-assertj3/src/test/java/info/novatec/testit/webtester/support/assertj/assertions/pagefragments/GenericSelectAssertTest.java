@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -28,17 +28,19 @@ public class GenericSelectAssertTest {
         @Test
         void failsForMatchingOptionsInWrongOrder() {
             GenericSelect fooBarSelect = genericSelectWithTexts("foo", "bar");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooBarSelect).hasOptionsWithTexts("bar", "foo");
-            })).hasMessage("Expected select's option texts to be <[bar, foo]>, but were <[foo, bar]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's option texts to be <[bar, foo]>, but were <[foo, bar]>.");
         }
 
         @Test
         void failsForDifferentOptions() {
             GenericSelect fooSelect = genericSelectWithTexts("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasOptionsWithTexts("xur");
-            })).hasMessage("Expected select's option texts to be <[xur]>, but were <[foo]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's option texts to be <[xur]>, but were <[foo]>.");
         }
 
     }
@@ -61,9 +63,10 @@ public class GenericSelectAssertTest {
         @Test
         void failsForDifferentOptions() {
             GenericSelect fooSelect = genericSelectWithTexts("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasOptionsWithTextsInAnyOrder("xur");
-            })).hasMessage("Expected select's option texts to be <[xur]> in any order, but were <[foo]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's option texts to be <[xur]> in any order, but were <[foo]>.");
         }
 
     }
@@ -80,17 +83,19 @@ public class GenericSelectAssertTest {
         @Test
         void failsForMatchingOptionsInWrongOrder() {
             GenericSelect fooBarSelect = genericSelectWithValues("foo", "bar");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooBarSelect).hasOptionsWithValues("bar", "foo");
-            })).hasMessage("Expected select's option values to be <[bar, foo]>, but were <[foo, bar]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's option values to be <[bar, foo]>, but were <[foo, bar]>.");
         }
 
         @Test
         void failsForDifferentOptions() {
             GenericSelect fooSelect = genericSelectWithValues("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasOptionsWithValues("xur");
-            })).hasMessage("Expected select's option values to be <[xur]>, but were <[foo]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's option values to be <[xur]>, but were <[foo]>.");
         }
 
     }
@@ -113,9 +118,10 @@ public class GenericSelectAssertTest {
         @Test
         void failsForDifferentOptions() {
             GenericSelect fooSelect = genericSelectWithValues("foo");
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasOptionsWithValuesInAnyOrder("xur");
-            })).hasMessage("Expected select's option values to be <[xur]> in any order, but were <[foo]>.");
+            });
+            assertThat(exception).hasMessage("Expected select's option values to be <[xur]> in any order, but were <[foo]>.");
         }
 
     }
@@ -138,9 +144,10 @@ public class GenericSelectAssertTest {
         @Test
         void failsForZeroOptions() {
             GenericSelect selectWithoutOptions = genericSelectWithNumberOfOptions(0);
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(selectWithoutOptions).hasOptions();
-            })).hasMessage("Expected select to have options, but it didn't.");
+            });
+            assertThat(exception).hasMessage("Expected select to have options, but it didn't.");
         }
 
     }
@@ -157,9 +164,10 @@ public class GenericSelectAssertTest {
         @Test
         void failsForDifferentNumberOfOptions() {
             GenericSelect selectWithFifeOptions = genericSelectWithNumberOfOptions(5);
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(selectWithFifeOptions).hasOptions(1);
-            })).hasMessage("Expected select to have <1> options, but it had <5>.");
+            });
+            assertThat(exception).hasMessage("Expected select to have <1> options, but it had <5>.");
         }
 
     }
@@ -176,9 +184,10 @@ public class GenericSelectAssertTest {
         @Test
         void failsForOneOption() {
             GenericSelect selectWithOneOption = genericSelectWithNumberOfOptions(1);
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(selectWithOneOption).hasNoOptions();
-            })).hasMessage("Expected select to have no options, but it did have <1>.");
+            });
+            assertThat(exception).hasMessage("Expected select to have no options, but it did have <1>.");
         }
 
     }

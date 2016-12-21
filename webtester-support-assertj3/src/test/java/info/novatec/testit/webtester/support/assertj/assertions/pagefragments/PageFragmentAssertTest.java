@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,9 +24,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForDifferentTag() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithTag("span")).hasTag("div");
-            })).hasMessage("Expected page fragment to have tag <div>, but was <span>.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to have tag <div>, but was <span>.");
         }
 
     }
@@ -41,9 +42,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForMatchingTag() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithTag("div")).hasNotTag("div");
-            })).hasMessage("Expected page fragment to not to have tag <div>, but it did.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to not to have tag <div>, but it did.");
         }
 
     }
@@ -58,9 +60,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForDifferentVisibleText() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithVisibleText("bar")).hasVisibleText("foo");
-            })).hasMessage("Expected page fragment's visible text to be <foo>, but was <bar>.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment's visible text to be <foo>, but was <bar>.");
         }
 
     }
@@ -75,9 +78,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForMatchingVisibleText() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithVisibleText("foo")).hasNotVisibleText("foo");
-            })).hasMessage("Expected page fragment's visible text not to be <foo>, but it was.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment's visible text not to be <foo>, but it was.");
         }
 
     }
@@ -92,9 +96,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsIfTextIsNotContained() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithVisibleText("bar bar")).hasVisibleTextContaining("foo");
-            })).hasMessage("Expected page fragment's visible text to contain <foo>, but it didn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment's visible text to contain <foo>, but it didn't.");
         }
 
     }
@@ -109,9 +114,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsIfAttributeDoesNotExist() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithoutAttributes()).hasAttribute("foo");
-            })).hasMessage("Expected page fragment to have attribute <foo>, but it didn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to have attribute <foo>, but it didn't.");
         }
 
     }
@@ -126,9 +132,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsIfAttributeExists() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithAttribute("bar")).hasNotAttribute("bar");
-            })).hasMessage("Expected page fragment not to have attribute <bar>, but it did.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment not to have attribute <bar>, but it did.");
         }
 
     }
@@ -143,16 +150,18 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsIfAttributeHasDifferentValue() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithAttributeAndValue("foo", "other")).hasAttributeValue("foo", "val");
-            })).hasMessage("Expected page fragment's <foo> attribute value to be <val>, but it was <other>.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment's <foo> attribute value to be <val>, but it was <other>.");
         }
 
         @Test
         void failsIfAttributeDoesNotExist() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithoutAttributes()).hasAttributeValue("foo", "val");
-            })).hasMessage("Expected page fragment to have attribute <foo>, but it didn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to have attribute <foo>, but it didn't.");
         }
 
     }
@@ -167,9 +176,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForInvisibleFragment() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(invisiblePageFragment()).isVisible();
-            })).hasMessage("Expected page fragment to be visible, but it wasn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to be visible, but it wasn't.");
         }
 
     }
@@ -184,9 +194,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForVisibleFragment() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(visiblePageFragment()).isInvisible();
-            })).hasMessage("Expected page fragment to be invisible, but it wasn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to be invisible, but it wasn't.");
         }
 
     }
@@ -201,9 +212,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForNonExistingFragment() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(nonPresentFragment()).isPresent();
-            })).hasMessage("Expected page fragment to be present, but it wasn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to be present, but it wasn't.");
         }
 
     }
@@ -218,9 +230,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForExistingFragment() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(presentPageFragment()).isNotPresent();
-            })).hasMessage("Expected page fragment not to be present, but it was.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment not to be present, but it was.");
         }
 
     }
@@ -235,9 +248,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForDisabledFragment() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(disabledPageFragment()).isEnabled();
-            })).hasMessage("Expected page fragment to be enabled, but it wasn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to be enabled, but it wasn't.");
         }
 
     }
@@ -252,9 +266,10 @@ public class PageFragmentAssertTest {
 
         @Test
         void failsForEnabledFragment() {
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(enabledPageFragment()).isDisabled();
-            })).hasMessage("Expected page fragment to be disabled, but it wasn't.");
+            });
+            assertThat(exception).hasMessage("Expected page fragment to be disabled, but it wasn't.");
         }
 
     }

@@ -1,7 +1,7 @@
 package info.novatec.testit.webtester.junit5.extensions.browsers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -113,7 +113,7 @@ public class EntryPointExtensionIntegrationTest {
     @Test
     @DisplayName("unknown variable will throw exception")
     void unknownVariable() throws Exception {
-        UnknownConfigurationKeyException exception = expectThrows(UnknownConfigurationKeyException.class, () -> {
+        UnknownConfigurationKeyException exception = assertThrows(UnknownConfigurationKeyException.class, () -> {
             TestClassExecutor.execute(UnknownVariable.class);
         });
         assertThat(exception.getKey()).isEqualTo("unknown-variable");

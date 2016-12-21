@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static utils.MockFactory.singleSelect;
 
 import org.junit.jupiter.api.Nested;
@@ -25,9 +25,10 @@ public class SingleSelectAssertTest {
         @Test
         void failsForDifferentSelection() {
             SingleSelect fooSelect = singleSelect().withSelectedText("foo").build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasSelectionWithText("bar");
-            })).hasMessage("Expected select's selection text to be <bar>, but was <foo>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selection text to be <bar>, but was <foo>.");
         }
 
     }
@@ -44,9 +45,10 @@ public class SingleSelectAssertTest {
         @Test
         void failsForDifferentSelection() {
             SingleSelect fooSelect = singleSelect().withSelectedValue("foo").build();
-            assertThat(expectThrows(AssertionError.class, () -> {
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasSelectionWithValue("bar");
-            })).hasMessage("Expected select's selection value to be <bar>, but was <foo>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selection value to be <bar>, but was <foo>.");
         }
 
     }
@@ -62,10 +64,11 @@ public class SingleSelectAssertTest {
 
         @Test
         void failsForDifferentSelection() {
-            assertThat(expectThrows(AssertionError.class, () -> {
-                SingleSelect indexOneSelect = singleSelect().withSelectedIndex(1).build();
+            SingleSelect indexOneSelect = singleSelect().withSelectedIndex(1).build();
+            AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(indexOneSelect).hasSelectionWithIndex(2);
-            })).hasMessage("Expected select's selection index to be <2>, but was <1>.");
+            });
+            assertThat(exception).hasMessage("Expected select's selection index to be <2>, but was <1>.");
         }
 
     }

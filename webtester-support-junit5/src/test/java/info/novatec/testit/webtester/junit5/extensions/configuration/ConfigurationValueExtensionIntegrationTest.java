@@ -2,7 +2,6 @@ package info.novatec.testit.webtester.junit5.extensions.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.expectThrows;
 import static utils.TestClassExecutor.execute;
 
 import java.util.Optional;
@@ -136,7 +135,7 @@ public class ConfigurationValueExtensionIntegrationTest {
     @Test
     @DisplayName("@ConfigurationValue needs a managed browser with matching name")
     void needsManagedBrowserWithMatchingName() throws Exception {
-        NoManagedBrowserForNameException exception = expectThrows(NoManagedBrowserForNameException.class, () -> {
+        NoManagedBrowserForNameException exception = assertThrows(NoManagedBrowserForNameException.class, () -> {
             execute(WrongBrowserNameClass.class);
         });
         assertThat(exception.getName()).isEqualTo("wrong-name");
@@ -159,7 +158,7 @@ public class ConfigurationValueExtensionIntegrationTest {
     @Test
     @DisplayName("@ConfigurationValue on default type throws exception if there is no value for the key")
     void throwsExceptionIfNoValueForKey_DefaultType() throws Exception {
-        UnknownConfigurationKeyException exception = expectThrows(UnknownConfigurationKeyException.class, () -> {
+        UnknownConfigurationKeyException exception = assertThrows(UnknownConfigurationKeyException.class, () -> {
             execute(UnknownConfigurationKeyDefaultClass.class);
         });
         assertThat(exception.getKey()).isEqualTo("unknown");
@@ -182,7 +181,7 @@ public class ConfigurationValueExtensionIntegrationTest {
     @Test
     @DisplayName("@ConfigurationValue on custom type throws exception if there is no value for the key")
     void throwsExceptionIfNoValueForKey_CustomType() throws Exception {
-        UnknownConfigurationKeyException exception = expectThrows(UnknownConfigurationKeyException.class, () -> {
+        UnknownConfigurationKeyException exception = assertThrows(UnknownConfigurationKeyException.class, () -> {
             execute(UnknownConfigurationKeyCustomClass.class);
         });
         assertThat(exception.getKey()).isEqualTo("unknown");
@@ -206,7 +205,7 @@ public class ConfigurationValueExtensionIntegrationTest {
     @DisplayName("@ConfigurationValue throws exception if no unmarshaller is found")
     void throwsExceptionIfNoUnmarshallerFound() throws Exception {
         NoConfigurationUnmarshallerFoundException exception =
-            expectThrows(NoConfigurationUnmarshallerFoundException.class, () -> {
+            assertThrows(NoConfigurationUnmarshallerFoundException.class, () -> {
                 execute(NoConfigurationUnmarshallerFoundClass.class);
             });
         assertThat(exception.getType()).isEqualTo(MyType.class);
@@ -229,7 +228,7 @@ public class ConfigurationValueExtensionIntegrationTest {
     @Test
     @DisplayName("@ConfigurationValue throws exception if wrong unmarshaller is declared")
     void throwsExceptionIfWrongUnmarshallerDeclared() throws Exception {
-        UnmarshallerCantHandleTypeException exception = expectThrows(UnmarshallerCantHandleTypeException.class, () -> {
+        UnmarshallerCantHandleTypeException exception = assertThrows(UnmarshallerCantHandleTypeException.class, () -> {
             execute(UnmarshallerCantHandleTypeClass.class);
         });
         assertThat(exception.getUnmarshallerType()).isEqualTo(MyTypeUnmarshaller.class);
@@ -254,7 +253,7 @@ public class ConfigurationValueExtensionIntegrationTest {
     @DisplayName("@ConfigurationValue throws exception if used on static field")
     void throwsExceptionIfUsedOnStaticField() throws Exception {
         StaticConfigurationValueFieldsNotSupportedException exception =
-            expectThrows(StaticConfigurationValueFieldsNotSupportedException.class, () -> {
+            assertThrows(StaticConfigurationValueFieldsNotSupportedException.class, () -> {
                 execute(StaticFieldClass.class);
             });
         assertThat(exception.getField()).isEqualTo(StaticFieldClass.class.getDeclaredField("value"));
