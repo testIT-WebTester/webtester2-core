@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import info.novatec.testit.webtester.junit5.extensions.browsers.EntryPointExtension;
 import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserExtension;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValueExtension;
+import info.novatec.testit.webtester.junit5.extensions.eventlisteners.RegisteredEventListenerExtension;
 import info.novatec.testit.webtester.junit5.extensions.pages.PageInitializerExtension;
 
 
@@ -27,6 +28,7 @@ import info.novatec.testit.webtester.junit5.extensions.pages.PageInitializerExte
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(ManagedBrowserExtension.class)
+@ExtendWith(RegisteredEventListenerExtension.class)
 @ExtendWith(EntryPointExtension.class)
 @ExtendWith(ConfigurationValueExtension.class)
 @ExtendWith(PageInitializerExtension.class)
