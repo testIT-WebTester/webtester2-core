@@ -8,8 +8,11 @@ The support module `webtester-support-junit5` provides a set of JUnit 5 extensio
 	- Initialization of static and instance `Browser` fields.
 	- Automatic opening and closing of managed `Browser` depending on field scope.
 - **EntryPointExtension:**
-	- Automatic navigation to 'entry point' URL.
-	- Support variables which are resolved against a `Configuration`.
+    - Automatic navigation to 'entry point' URL.
+    - Support variables which are resolved against a `Configuration`.
+- **RegisteredExtension:**
+    - Initialization of instance `EventListener` fields.
+    - Automatic registration and unregistration of `EventListener` to managed `Browser`.
 - **PageInitializerExtension:**
 	- Initialization of `Page` fields before each test.
 	- Supports multiple `Browser` instances.
@@ -88,6 +91,58 @@ public class ExampleUiTest {
 
 }
 ```
+
+## RegisteredExtension
+
+By annotating any instantiable `EventListener` field with `@Registered` you can specify a browser to which the `EventListener` has to be registered and unregistered automatically.
+
+The extension will initialize the field if it's not pre-initialized and register the `EventListener` before the first @BeforeEach annotated method is invoked. The unregistration will be done after the last @AfterEach annotated method was invoked. 
+
+In case more than one `Browser` is used, the target browsers must be specified explicit.
+
+### Examples
+
+```java
+   @EnableWebTesterExtensions
+   @CreateBrowsersUsing(FooFactory.class)
+   public class ExampleUiTest {
+   
+       @Managed
+       Browser browser;
+   
+       @Registered
+       MyEventListener created; // will have new instance
+       
+       @Registered
+       EventListener preInitialized = new MyEventListener(); // this instance will be used
+   
+       ...
+   
+   }
+```
+
+```java
+   @EnableWebTesterExtensions
+   @CreateBrowsersUsing(FooFactory.class)
+   public class ExampleUiTest {
+   
+       @Managed("browser-1")
+       Browser browser1;
+   
+       @Managed("browser-2")
+       Browser browser2;
+       
+       @Managed("browser-3")
+       Browser browser3;
+   
+       @Registered(targets = { "browser-1", "browser-2" })
+       CustomEventListener listener;
+   
+       ...
+   
+   }
+```
+   
 
 ## PageInitializerExtension
 
