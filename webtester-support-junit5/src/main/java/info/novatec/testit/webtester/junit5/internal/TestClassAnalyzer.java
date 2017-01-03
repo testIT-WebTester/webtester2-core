@@ -11,10 +11,12 @@ import java.util.Map;
 import java.util.Set;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowserNameException;
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
 import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.eventlisteners.Registered;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
 import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.pages.Page;
@@ -33,11 +35,13 @@ class TestClassAnalyzer {
     TestClassModel analyze() {
         List<Field> browserFields = getBrowserFields();
         Map<String, Field> namedBrowserFieldsMap = getNamedBrowserFieldsMap(browserFields);
+        List<Field> eventListenerFields = getEventListenerFields();
         List<Field> pageFields = getPageFields();
         List<Field> configurationValueFields = getConfigurationValueFields();
         return TestClassModel.builder()
             .browserFields(browserFields)
             .namedBrowserFields(namedBrowserFieldsMap)
+            .eventListenerFields(eventListenerFields)
             .pageFields(pageFields)
             .configurationValueFields(configurationValueFields)
             .build();
@@ -62,6 +66,14 @@ class TestClassAnalyzer {
             nameToFieldMap.put(browserName, field);
         });
         return nameToFieldMap;
+    }
+
+    private List<Field> getEventListenerFields() {
+        return reflectionUtils.allFieldsOfClassLineage(testClass)
+            .filter(field -> EventListener.class.isAssignableFrom(field.getType()))
+            .filter(field -> field.isAnnotationPresent(Registered.class))
+            .peek(this::assertNonStaticPageField)
+            .collect(toList());
     }
 
     private List<Field> getPageFields() {
