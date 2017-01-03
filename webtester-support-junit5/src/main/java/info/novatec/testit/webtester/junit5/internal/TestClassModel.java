@@ -23,6 +23,7 @@ public class TestClassModel {
 
     private final List<Field> browserFields;
     private final Map<String, Field> namedBrowserFields;
+    private final List<Field> eventListenerFields;
     private final List<Field> pageFields;
     private final List<Field> configurationValueFields;
 
