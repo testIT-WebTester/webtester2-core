@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
+import utils.SpyableEventsTestBrowserFactory;
 import utils.TestBrowserFactory;
 import utils.TestClassExecutor;
 
@@ -21,24 +22,32 @@ import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
+import info.novatec.testit.webtester.events.browser.OpenedUrlEvent;
 import info.novatec.testit.webtester.junit5.EnableWebTesterExtensions;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
-import info.novatec.testit.webtester.junit5.extensions.eventlisteners.BrowserAssignmentException;
+import info.novatec.testit.webtester.junit5.extensions.eventlisteners.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.eventlisteners.Registered;
-import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
+import info.novatec.testit.webtester.junit5.extensions.eventlisteners.StaticEventListenerFieldsNotSupportedException;
 
 
-public class RegisteredExtensionIntegrationTest {
+public class RegisteredEventListenerExtensionIntegrationTest {
+
+    private static final String TEST_URL = "http://localhost/index.html";
 
     @Test
-    @DisplayName("@Registered registers the EventListener. An event will be handled.")
+    @DisplayName("@Registered registers and unregisters the EventListener")
     void registerEventListenerFieldTest() throws Exception {
         TestClassExecutor.execute(RegisteredField.class);
     }
 
-    private static class RegisteredField extends AbstractManagedBrowser {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class RegisteredField {
+
+        @Managed("myBrowser")
+        Browser browser;
 
         @Registered(targets = "myBrowser")
         private CustomEventListener eventListener;
@@ -46,20 +55,24 @@ public class RegisteredExtensionIntegrationTest {
         @Test
         void test() {
             browser.open(TEST_URL);
-            String eventDescription = eventListener.getRecentEvent().describe();
-            assertThat(eventDescription).isEqualTo("opened url: '" + TEST_URL + "'");
+            assertThat(eventListener.getRecentEvent()).isInstanceOf(OpenedUrlEvent.class);
         }
     }
 
     @Test
     @DisplayName("@Registered with static field will throw exception")
     void registerStaticEventListenerField() throws Exception {
-        expectThrows(StaticPageFieldsNotSupportedException.class, () -> {
+        expectThrows(StaticEventListenerFieldsNotSupportedException.class, () -> {
             TestClassExecutor.execute(RegisteredStaticField.class);
         });
     }
 
-    private static class RegisteredStaticField extends AbstractManagedBrowser {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class RegisteredStaticField {
+
+        @Managed("myBrowser")
+        Browser browser;
 
         @Registered(targets = "myBrowser")
         private static CustomEventListener eventListener;
@@ -70,12 +83,14 @@ public class RegisteredExtensionIntegrationTest {
     }
 
     @Test
-    @DisplayName("@Registered not set for EventListener.")
+    @DisplayName("event listener fields without @Registered annotation will be ignored")
     void noRegisteredAnnotationForEventListenerField() throws Exception {
         TestClassExecutor.execute(NoRegisteredField.class);
     }
 
-    private static class NoRegisteredField extends AbstractManagedBrowser {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class NoRegisteredField {
 
         private CustomEventListener eventListener;
 
@@ -86,12 +101,17 @@ public class RegisteredExtensionIntegrationTest {
     }
 
     @Test
-    @DisplayName("Not reinitialized EventListener if pre-initialized.")
+    @DisplayName("Not reinitialized EventListener if pre-initialized")
     void notReinitializedEventListenerField() throws Exception {
         TestClassExecutor.execute(RegisterPreInitializedField.class);
     }
 
-    private static class RegisterPreInitializedField extends AbstractManagedBrowser {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class RegisterPreInitializedField {
+
+        @Managed("myBrowser")
+        Browser browser;
 
         @Registered(targets = "myBrowser")
         private CustomEventListener registeredEventListener = new CustomEventListener();
@@ -105,12 +125,17 @@ public class RegisteredExtensionIntegrationTest {
     }
 
     @Test
-    @DisplayName("Use default constructor to instantiate event listener.")
+    @DisplayName("Use default constructor to instantiate event listener")
     void useDefaultConstructor() throws Exception {
         TestClassExecutor.execute(DefaultConstructor.class);
     }
 
-    private static class DefaultConstructor extends AbstractManagedBrowser {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class DefaultConstructor {
+
+        @Managed("myBrowser")
+        Browser browser;
 
         @Registered(targets = "myBrowser")
         private CustomEventListener eventListener;
@@ -122,7 +147,7 @@ public class RegisteredExtensionIntegrationTest {
     }
 
     @Test
-    @DisplayName("EventListener is registered at the beginning and unregistered at the end of a test.")
+    @DisplayName("EventListener is registered at the beginning and unregistered at the end of a test")
     void lifecycleOfEventListener() throws Exception {
         TestClassExecutor.execute(LifeCycle.class);
     }
@@ -137,14 +162,10 @@ public class RegisteredExtensionIntegrationTest {
         Browser browser;
 
         @Registered
-        EventListener el = new MyEventListener();
+        EventListener el = new CustomEventListener();
 
         @Test
-        void triggerExecution1() {
-        }
-
-        @Test
-        void triggerExecution2() {
+        void test() {
         }
 
         @AfterEach
@@ -165,12 +186,14 @@ public class RegisteredExtensionIntegrationTest {
     }
 
     @Test
-    @DisplayName("@Registered registers the EventListener to unnamed browser.")
+    @DisplayName("@Registered registers the EventListener to unnamed browser")
     void registerEventListenerToUnnamedBrowser() throws Exception {
         TestClassExecutor.execute(UnnamedBrowser.class);
     }
 
-    private static class UnnamedBrowser extends BaseTestClass {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class UnnamedBrowser {
 
         @Managed
         Browser browser;
@@ -181,18 +204,19 @@ public class RegisteredExtensionIntegrationTest {
         @Test
         void test() {
             browser.open(TEST_URL);
-            String eventDescription = eventListener.getRecentEvent().describe();
             verify(browser.webDriver()).get(TEST_URL);
         }
     }
 
     @Test
-    @DisplayName("@Registered registers the EventListener to named browser.")
+    @DisplayName("@Registered registers the EventListener to named browser")
     void registerEventListenerTo2Browser() throws Exception {
         TestClassExecutor.execute(MultiBrowser.class);
     }
 
-    private static class MultiBrowser extends BaseTestClass {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class MultiBrowser {
 
         @Managed("browser-1")
         Browser browser1;
@@ -209,15 +233,13 @@ public class RegisteredExtensionIntegrationTest {
         @Test
         void testBrowser1() {
             browser1.open(TEST_URL);
-            String eventDescription = eventListener.getRecentEvent().describe();
-            assertThat(eventDescription).isEqualTo("opened url: '" + TEST_URL + "'");
+            assertThat(eventListener.getRecentEvent()).isInstanceOf(OpenedUrlEvent.class);
         }
 
         @Test
         void testBrowser2() {
             browser2.open(TEST_URL);
-            String eventDescription = eventListener.getRecentEvent().describe();
-            assertThat(eventDescription).isEqualTo("opened url: '" + TEST_URL + "'");
+            assertThat(eventListener.getRecentEvent()).isInstanceOf(OpenedUrlEvent.class);
         }
 
         @Test
@@ -233,14 +255,16 @@ public class RegisteredExtensionIntegrationTest {
     }
 
     @Test
-    @DisplayName("@Registered has no clear assignment to multi browser fields.")
+    @DisplayName("@Registered has no clear assignment to multi browser fields")
     void noClearBrowserAssignment() throws Exception {
-        expectThrows(BrowserAssignmentException.class, () -> {
+        expectThrows(NoManagedBrowserForNameException.class, () -> {
             TestClassExecutor.execute(NoClearBrowserAssignment.class);
         });
     }
 
-    private static class NoClearBrowserAssignment extends BaseTestClass {
+    @EnableWebTesterExtensions
+    @CreateBrowsersUsing(TestBrowserFactory.class)
+    private static class NoClearBrowserAssignment {
 
         @Managed("browser-1")
         Browser browser1;
@@ -256,22 +280,11 @@ public class RegisteredExtensionIntegrationTest {
         }
     }
 
-    private static abstract class AbstractManagedBrowser extends BaseTestClass {
-        @Managed("myBrowser")
-        Browser browser;
-    }
-
-    @EnableWebTesterExtensions
-    @CreateBrowsersUsing(TestBrowserFactory.class)
-    private static abstract class BaseTestClass {
-        protected static final String TEST_URL = "http://localhost/index.html";
-    }
-
     public static class CustomEventListener implements EventListener {
 
         private Event recentEvent = null;
 
-        boolean usedDefaultConstructor = false;
+        private boolean usedDefaultConstructor = false;
 
         public CustomEventListener() {
             usedDefaultConstructor = true;
@@ -286,15 +299,15 @@ public class RegisteredExtensionIntegrationTest {
             recentEvent = event;
         }
 
-        public Event getRecentEvent() {
+        private Event getRecentEvent() {
             return recentEvent;
         }
 
-        public boolean isUsedDefaultConstructor() {
+        private boolean isUsedDefaultConstructor() {
             return usedDefaultConstructor;
         }
 
-        public void clear() {
+        private void clear() {
             recentEvent = null;
             usedDefaultConstructor = false;
         }
