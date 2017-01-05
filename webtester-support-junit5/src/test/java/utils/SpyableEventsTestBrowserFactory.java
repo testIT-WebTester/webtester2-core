@@ -1,4 +1,4 @@
-package info.novatec.testit.webtester.junit5.extensions.eventlistener;
+package utils;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
