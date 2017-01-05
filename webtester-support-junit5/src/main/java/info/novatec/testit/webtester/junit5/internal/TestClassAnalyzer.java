@@ -17,6 +17,7 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.NonUniqueBrowser
 import info.novatec.testit.webtester.junit5.extensions.configuration.ConfigurationValue;
 import info.novatec.testit.webtester.junit5.extensions.configuration.StaticConfigurationValueFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.eventlisteners.Registered;
+import info.novatec.testit.webtester.junit5.extensions.eventlisteners.StaticEventListenerFieldsNotSupportedException;
 import info.novatec.testit.webtester.junit5.extensions.pages.Initialized;
 import info.novatec.testit.webtester.junit5.extensions.pages.StaticPageFieldsNotSupportedException;
 import info.novatec.testit.webtester.pages.Page;
@@ -72,8 +73,14 @@ class TestClassAnalyzer {
         return reflectionUtils.allFieldsOfClassLineage(testClass)
             .filter(field -> EventListener.class.isAssignableFrom(field.getType()))
             .filter(field -> field.isAnnotationPresent(Registered.class))
-            .peek(this::assertNonStaticPageField)
+            .peek(this::assertNonStaticEventListenerField)
             .collect(toList());
+    }
+
+    private void assertNonStaticEventListenerField(Field field) {
+        if (Modifier.isStatic(field.getModifiers())) {
+            throw new StaticEventListenerFieldsNotSupportedException(field);
+        }
     }
 
     private List<Field> getPageFields() {
