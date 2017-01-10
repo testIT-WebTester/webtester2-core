@@ -23,6 +23,7 @@ public interface Button extends PageFragment, Clickable<Button> {
      * @see Optional
      * @since 2.0
      */
+    @Mark(As.READ)
     @Attribute("value")
     Optional<String> getValue();
 
@@ -40,7 +41,6 @@ public interface Button extends PageFragment, Clickable<Button> {
      * @see Optional
      * @since 2.0
      */
-    @Mark(As.READ)
     default String getLabel() {
         if ("button".equalsIgnoreCase(getTagName())) {
             return getVisibleText();
