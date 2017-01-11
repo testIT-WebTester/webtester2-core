@@ -74,6 +74,11 @@
 			<artifactId>selenium-ie-driver</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-edge-driver</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- test -->
 
