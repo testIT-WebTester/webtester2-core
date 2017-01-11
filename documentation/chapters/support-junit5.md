@@ -92,13 +92,13 @@ public class ExampleUiTest {
 }
 ```
 
-## RegisteredExtension
+## RegisteredEventListenerExtension
 
 By annotating any instantiable `EventListener` field with `@Registered` you can specify a browser to which the `EventListener` has to be registered and unregistered automatically.
 
 The extension will initialize the field if it's not pre-initialized and register the `EventListener` before the first @BeforeEach annotated method is invoked. The unregistration will be done after the last @AfterEach annotated method was invoked. 
 
-In case more than one `Browser` is used, the target browsers must be specified explicit.
+In case more than one `Browser` is used, the target browsers must be specified explicitly.
 
 ### Examples
 

@@ -6,9 +6,9 @@ import info.novatec.testit.webtester.WebTesterException;
 
 
 @SuppressWarnings("serial")
-public class BrowserAssignmentException extends WebTesterException {
+public class NoManagedBrowserForNameException extends WebTesterException {
 
-    protected BrowserAssignmentException(Field eventListenerField) {
+    protected NoManagedBrowserForNameException(Field eventListenerField) {
         super("Field '" + eventListenerField.getName() + "' can't be assigned to a browser. Specify a target browser!");
     }
 
