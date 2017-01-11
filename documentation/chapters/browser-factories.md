@@ -92,6 +92,24 @@ The path to the executable must be declared as a system or environment property 
 **Additional Information:**
 - https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver
 
+## EdgeFactory
+
+This `BrowserFactory` uses the `selenium-edge-driver` to create new Edge `Browser` instances.
+
+### Default Driver Configuration
+In order to optimize testing the following properties are set when creating a `WebDriver` using the `EdgeFactory`:
+
+- Native events are disabled -> Selenium does not simulate human typing.
+- Untrusted certificates are always accepted.
+
+### Additional Service Executable
+The `EdgeDriver` needs an additional executable to communicate with an Edge browser.
+It can be downloaded [here](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/).
+Please make sure to choose the release version equal to your Windows 10 build.
+
+The path to the executable must be declared as a system or environment property named: `webdriver.edge.driver`
+
+
 ## RemoteFactory
 
 This `BrowserFactory` uses the `RemoteWebDriver` to connect to a
