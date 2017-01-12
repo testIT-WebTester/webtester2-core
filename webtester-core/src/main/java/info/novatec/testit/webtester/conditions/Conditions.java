@@ -25,6 +25,7 @@ import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.conditions.pagefragments.VisibleTextContains;
 import info.novatec.testit.webtester.conditions.pagefragments.VisibleTextEquals;
 import info.novatec.testit.webtester.conditions.syntax.Either;
+import info.novatec.testit.webtester.conditions.values.EqualTo;
 import info.novatec.testit.webtester.conditions.syntax.Has;
 import info.novatec.testit.webtester.conditions.syntax.Is;
 import info.novatec.testit.webtester.conditions.syntax.Not;
@@ -77,6 +78,19 @@ public class Conditions {
      */
     public static <T> Not<T> not(Condition<T> condition) {
         return new Not<>(condition);
+    }
+
+    /**
+     * Creates a new {@link EqualTo} condition.
+     *
+     * @param expected the expected value
+     * @param <T> the type of the value
+     * @return the created condition
+     * @see EqualTo
+     * @since 2.0
+     */
+    public static <T> EqualTo<T> equalTo(T expected) {
+        return new EqualTo<T>(expected);
     }
 
     /**

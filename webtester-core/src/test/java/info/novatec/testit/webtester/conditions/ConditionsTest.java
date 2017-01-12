@@ -32,6 +32,7 @@ import info.novatec.testit.webtester.conditions.syntax.Either;
 import info.novatec.testit.webtester.conditions.syntax.Has;
 import info.novatec.testit.webtester.conditions.syntax.Is;
 import info.novatec.testit.webtester.conditions.syntax.Not;
+import info.novatec.testit.webtester.conditions.values.EqualTo;
 
 
 @RunWith(Enclosed.class)
@@ -54,6 +55,12 @@ public class ConditionsTest {
         @Test
         public void not() {
             Not<Object> condition = Conditions.not(o -> true);
+            assertThat(condition).isNotNull();
+        }
+
+        @Test
+        public void equalTo() {
+            EqualTo<String> condition = Conditions.equalTo("foo");
             assertThat(condition).isNotNull();
         }
 
