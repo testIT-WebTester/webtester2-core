@@ -1,5 +1,6 @@
 package features;
 
+import static info.novatec.testit.webtester.conditions.Conditions.equalTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.Div;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pages.Page;
+import info.novatec.testit.webtester.waiting.Wait;
 
 
 public class MouseUtilsFeatureTest extends BaseIntegrationTest {
@@ -32,6 +34,7 @@ public class MouseUtilsFeatureTest extends BaseIntegrationTest {
             .doubleClick()
             .contextClick();
 
+        Wait.untilSupplied(()-> page.getMessage(1)).is(equalTo("Context Clicked"));
         assertThat(page.getMessage(1)).isEqualTo("Context Clicked");
 
     }
