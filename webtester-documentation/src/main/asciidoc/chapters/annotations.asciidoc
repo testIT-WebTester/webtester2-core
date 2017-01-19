@@ -1,0 +1,20 @@
+
+== Annotations
+
+include::annotations-action.asciidoc[]
+
+include::annotations-attribute.asciidoc[]
+
+include::annotations-identify-using.asciidoc[]
+
+include::annotations-mark.asciidoc[]
+
+include::annotations-named.asciidoc[]
+
+include::annotations-post-construct.asciidoc[]
+
+include::annotations-post-construct-must-be.asciidoc[]
+
+include::annotations-produces.asciidoc[]
+
+include::annotations-wait-until.asciidoc[]

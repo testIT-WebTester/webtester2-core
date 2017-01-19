@@ -1,0 +1,163 @@
+== Event System
+
+WebTester provides an event mechanism where listeners can be registered to be
+infomed of things that occured inside the framework (e.g. navigation, button
+clicks etc.).
+
+*Examples*
+
+[source, java]
+----
+static EventListener customListener;
+
+@BeforeClass
+public static void registerEventListener () {
+    customListener = (event) -> System.out.println(event);
+    browser.events().register(customListener);
+}
+
+@AfterClass
+public static void deregisterEventListener () {
+    browser.events().deregister(customListener);
+}
+----
+
+=== The EventSystem Class
+
+The `EventSystem` is a service providing methods for firing and listening for
+`Events`. `EventListener` instances can be registered at the system as well as
+deregistered once they are no longer needed. Each `Browser` instance has it's
+own instance of `EventSystem`
+
+=== The Event Interface
+
+An `Event` contains all the information needed to understand what happened.
+Since it is an interface implementing a custom event is very easy. In general it
+is recommended to treat events as data objects. They should not contain
+references to services or larger parts of the system. The `webtester-core`
+module provides a number of events for it's actions:
+
+|===
+|Event |Description
+
+|`AcceptedAlertEvent`
+|An alert was closed by accepting it.
+
+|`ClosedBrowserEvent`
+|The browser was closed.
+
+|`ClosedWindowEvent`
+|A browser window was closed.
+
+|`DeclinedAlertEvent`
+|An Alert was closed by declining it.
+
+|`MaximizedWindowEvent`
+|A Window was maximized.
+
+|`NavigatedBackwardsEvent`
+|A backwards navigation was executed.
+
+|`NavigatedForwardsEvent`
+|A forwards navigation was executed.
+
+|`OpenedUrlEvent`
+|An URL was opened.
+
+|`RefreshedPageEvent`
+|The current page was refreshed.
+
+|`SavedSourceCodeEvent`
+|Source code was saved.
+
+|`SetWindowPositionEvent`
+|The window positon was changed.
+
+|`SetWindowSizeEvent`
+|The window size was changed.
+
+|`SwitchedToDefaultContentEvent`
+|The `WebDriver` focus was changed back to the 'default' content.
+
+|`SwitchedToFrameEvent`
+|The `WebDriver` focus was changed to a frame.
+
+|`SwitchedToWindowEvent`
+|The `WebDriver` focus was changed to a window.
+
+|`TookScreenshotEvent`
+|A screenshot was taken.
+
+|`ClearedEvent`
+|An input element was clear of any set value.
+
+|`ClickedEvent`
+|A click was executed.
+
+|`ContextClickedEvent`
+|A context click was executed.
+
+|`DeselectedAllEvent`
+|Every option of a `MultiSelect` was deselected.
+
+|`DeselectedByIndicesEvent`
+|An option of a `MultiSelect` was deselected by index.
+
+|`DeselectedByTextsEvent`
+|An option of a `MultiSelect` was deselected by text.
+
+|`DeselectedByValuesEvent`
+|An option of a `MultiSelect` was deselected by value.
+
+|`DoubleClickedEvent`
+|A double click was executed.
+
+|`EnterPressedEvent`
+|The 'Enter' key was pressed.
+
+|`FormSubmittedEvent`
+|A form was submitted.
+
+|`NumberSetEvent`
+|The value of a `NumberField` was set.
+
+|`SelectedByIndexEvent`
+|An option of a `SingleSelect` or `MultiSelect` was selected by index.
+
+|`SelectedByIndicesEvent`
+|Multiple options of a `MultiSelect` were selected by index.
+
+|`SelectedByTextEvent`
+|An option of a `SingleSelect` or `MultiSelect` was selected by text.
+
+|`SelectedByTextsEvent`
+|Multiple options of a `MultiSelect` were selected by text.
+
+|`SelectedByValueEvent`
+|An option of a `SingleSelect` or `MultiSelect` was selected by value.
+
+|`SelectedByValuesEvent`
+|Multiple options of a `MultiSelect` were selected by value.
+
+|`SelectionChangedEvent`
+|The selection of a `RadioButton` or `Checkbox` was changed.
+
+|`TextAppendedEvent`
+|The value of an input field was appended with additional text.
+
+|`TextSetEvent`
+|The value of an input field was changed.
+
+|===
+
+=== The EventListener Interface
+
+An `EventListener` is a simple interface providing a single method `void
+eventOccurred(Event event);`. Instances of this interface can be registered at
+the `EventSystem` in order to be called every time an `Event` is fired.
+
+=== Configuration
+
+The firing of events can be disabled by setting the `events.enabled` property to
+`false`. This will disable the firing of all events except `ExceptionEvent`
+instances fired by using 'EventSystem#fireExceptionEvent(e)'.

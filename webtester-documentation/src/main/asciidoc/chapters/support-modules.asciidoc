@@ -1,0 +1,12 @@
+
+== Support Modules
+
+include::support-module-assertj3.asciidoc[]
+
+include::support-module-hamcrest.asciidoc[]
+
+include::support-module-junit4.asciidoc[]
+
+include::support-module-junit5.asciidoc[]
+
+include::support-module-spring4.asciidoc[]
