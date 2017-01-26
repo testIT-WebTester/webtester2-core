@@ -27,7 +27,7 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserEx
  *
  * @see EventListener
  * @see ManagedBrowserExtension
- * @since 2.1
+ * @since 2.2
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

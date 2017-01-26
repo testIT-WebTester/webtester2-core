@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 
 
@@ -125,7 +126,7 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
         String browserName = getBrowserName(browserField);
 
         if ("default".equals(targets.get(0)) && !"default".equals(browserName)) {
-            throw new NoManagedBrowserForNameException(listenerField);
+            throw new NoManagedBrowserForNameException(listenerField.getName());
         }
         return targets.stream().anyMatch(target -> target.equals(browserName));
     }

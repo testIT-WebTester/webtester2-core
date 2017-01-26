@@ -10,7 +10,7 @@ The support module `webtester-support-junit5` provides a set of JUnit 5 extensio
 - **EntryPointExtension:**
     - Automatic navigation to 'entry point' URL.
     - Support variables which are resolved against a `Configuration`.
-- **RegisteredExtension:**
+- **RegisteredEventListenerExtension:**
     - Initialization of instance `EventListener` fields.
     - Automatic registration and unregistration of `EventListener` to managed `Browser`.
 - **PageInitializerExtension:**

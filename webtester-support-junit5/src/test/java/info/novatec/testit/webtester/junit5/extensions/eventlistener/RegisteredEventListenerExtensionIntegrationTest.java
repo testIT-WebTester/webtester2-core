@@ -24,10 +24,10 @@ import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.OpenedUrlEvent;
 import info.novatec.testit.webtester.junit5.EnableWebTesterExtensions;
+import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
-import info.novatec.testit.webtester.junit5.extensions.eventlisteners.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.eventlisteners.Registered;
 import info.novatec.testit.webtester.junit5.extensions.eventlisteners.StaticEventListenerFieldsNotSupportedException;
 
