@@ -44,6 +44,7 @@
 							<backend>html5</backend>
 							<doctype>book</doctype>
 							<sourceDocumentName>documentation.asciidoc</sourceDocumentName>
+							<sourceHighlighter>coderay</sourceHighlighter>
 							<attributes>
 								<toc>left</toc>
 								<toclevels>3</toclevels>
