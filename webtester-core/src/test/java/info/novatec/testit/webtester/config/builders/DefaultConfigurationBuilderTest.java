@@ -10,9 +10,9 @@ import org.junit.Test;
 import info.novatec.testit.webtester.config.ConfigurationAdapter;
 import info.novatec.testit.webtester.config.ConfigurationBuilder;
 import info.novatec.testit.webtester.config.ConfigurationExporter;
-import info.novatec.testit.webtester.config.adapters.DefaultFileConfigurationAdapter;
 import info.novatec.testit.webtester.config.adapters.GlobalFileConfigurationAdapter;
 import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapter;
+import info.novatec.testit.webtester.internal.configuration.NamedPropertiesConfigurationAdapter;
 
 
 public class DefaultConfigurationBuilderTest {
@@ -32,7 +32,7 @@ public class DefaultConfigurationBuilderTest {
         };
 
         assertThat(addedAdapters).hasSize(3);
-        assertThat(addedAdapters.get(0)).isInstanceOf(DefaultFileConfigurationAdapter.class);
+        assertThat(addedAdapters.get(0)).isInstanceOf(NamedPropertiesConfigurationAdapter.class);
         assertThat(addedAdapters.get(1)).isInstanceOf(GlobalFileConfigurationAdapter.class);
         assertThat(addedAdapters.get(2)).isInstanceOf(LocalFileConfigurationAdapter.class);
 

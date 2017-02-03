@@ -5,9 +5,9 @@ import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.ConfigurationAdapter;
 import info.novatec.testit.webtester.config.ConfigurationBuilder;
 import info.novatec.testit.webtester.config.ConfigurationExporter;
-import info.novatec.testit.webtester.config.adapters.DefaultFileConfigurationAdapter;
 import info.novatec.testit.webtester.config.adapters.GlobalFileConfigurationAdapter;
 import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapter;
+import info.novatec.testit.webtester.internal.configuration.NamedPropertiesConfigurationAdapter;
 
 
 /**
@@ -17,7 +17,7 @@ import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapt
  * <p>
  * <b>The default adapters are as follows:</b>
  * <ol>
- * <li>{@link DefaultFileConfigurationAdapter}</li>
+ * <li>{@link NamedPropertiesConfigurationAdapter}</li>
  * <li>{@link GlobalFileConfigurationAdapter}</li>
  * <li>{@link LocalFileConfigurationAdapter}</li>
  * </ol>
@@ -31,7 +31,7 @@ import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapt
 public class DefaultConfigurationBuilder extends BaseConfigurationBuilder {
 
     public DefaultConfigurationBuilder() {
-        withAdapter(new DefaultFileConfigurationAdapter());
+        withAdapter(new NamedPropertiesConfigurationAdapter());
         withAdapter(new GlobalFileConfigurationAdapter());
         withAdapter(new LocalFileConfigurationAdapter());
     }
