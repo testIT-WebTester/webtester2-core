@@ -6,20 +6,19 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.env.Environment;
 
 import com.google.common.collect.Sets;
 
+import info.novatec.testit.testutils.mockito.junit5.EnableMocking;
 import info.novatec.testit.webtester.config.Configuration;
 
 
-@RunWith(MockitoJUnitRunner.class)
-public class SpringEnvironmentConfigurationAdapterTest {
+@EnableMocking
+class SpringEnvironmentConfigurationAdapterTest {
 
     @Mock
     Configuration configuration;
@@ -30,13 +29,13 @@ public class SpringEnvironmentConfigurationAdapterTest {
     SpringEnvironmentConfigurationAdapter cut;
 
     @Test
-    public void testThatAdaptationIsNotExecutedIfEnvironmentIsNotSet() {
+    void testThatAdaptationIsNotExecutedIfEnvironmentIsNotSet() {
         cut.setEnvironment(null);
         assertThat(cut.adapt(configuration), is(false));
     }
 
     @Test
-    public void testThatOnlyKeysWhichCouldBeResolvedAgainstTheEnvironmentAreAdapted() {
+    void testThatOnlyKeysWhichCouldBeResolvedAgainstTheEnvironmentAreAdapted() {
 
         doReturn(Sets.newHashSet("foo", "bar")).when(configuration).getKeys();
         doReturn("fooValue").when(environment).getProperty("foo");
@@ -50,7 +49,7 @@ public class SpringEnvironmentConfigurationAdapterTest {
     }
 
     @Test
-    public void testThatAllKeysWhichCouldBeResolvedAgainstTheEnvironmentAreAdapted() {
+    void testThatAllKeysWhichCouldBeResolvedAgainstTheEnvironmentAreAdapted() {
 
         doReturn(Sets.newHashSet("foo", "bar")).when(configuration).getKeys();
         doReturn("fooValue").when(environment).getProperty("foo");

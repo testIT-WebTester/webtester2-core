@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.ConfigurationAdapter;
@@ -13,12 +13,12 @@ import info.novatec.testit.webtester.config.ConfigurationBuilder;
 import info.novatec.testit.webtester.config.ConfigurationExporter;
 
 
-public class PrototypeConfigurationBuilderFactoryBeanTest {
+class PrototypeConfigurationBuilderFactoryBeanTest {
 
     PrototypeConfigurationBuilderFactoryBean cut = new PrototypeConfigurationBuilderFactoryBean();
 
     @Test
-    public void configuredAdaptersAreUsed() {
+    void configuredAdaptersAreUsed() {
 
         ConfigurationAdapter adapter1 = mock(ConfigurationAdapter.class);
         ConfigurationAdapter adapter2 = mock(ConfigurationAdapter.class);
@@ -32,7 +32,7 @@ public class PrototypeConfigurationBuilderFactoryBeanTest {
     }
 
     @Test
-    public void configuredExportersAreUsed() {
+    void configuredExportersAreUsed() {
 
         ConfigurationExporter exporter1 = mock(ConfigurationExporter.class);
         ConfigurationExporter exporter2 = mock(ConfigurationExporter.class);
@@ -46,7 +46,7 @@ public class PrototypeConfigurationBuilderFactoryBeanTest {
     }
 
     @Test
-    public void producesPrototypedBeans() {
+    void producesPrototypedBeans() {
         ConfigurationBuilder builder1 = cut.getObject();
         ConfigurationBuilder builder2 = cut.getObject();
         assertThat(builder1).isNotSameAs(builder2);
