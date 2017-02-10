@@ -1,4 +1,4 @@
-package integration;
+package info.novatec.testit.webtester.spring4.config;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,14 +22,11 @@ import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.config.ConfigurationBuilder;
 import info.novatec.testit.webtester.config.adapters.LocalFileConfigurationAdapter;
 import info.novatec.testit.webtester.config.builders.BaseConfigurationBuilder;
-import info.novatec.testit.webtester.spring4.config.ConfigurationBuilderFactoryBean;
-import info.novatec.testit.webtester.spring4.config.DefaultSpringConfigurationFactoryBean;
-import info.novatec.testit.webtester.spring4.config.PrototypeConfigurationBuilderFactoryBean;
 import info.novatec.testit.webtester.spring4.config.adapters.SpringEnvironmentConfigurationAdapter;
 
 
 @RunWith(Enclosed.class)
-public class AdapterIntegrationTest {
+public class AdapterIntTest {
 
     // TODO remove workaround ASAP
 

@@ -32,7 +32,7 @@ import info.novatec.testit.webtester.junit5.extensions.eventlisteners.Registered
 import info.novatec.testit.webtester.junit5.extensions.eventlisteners.StaticEventListenerFieldsNotSupportedException;
 
 
-public class RegisteredEventListenerExtensionIntegrationTest {
+public class RegisteredEventListenerExtensionIntTest {
 
     private static final String TEST_URL = "http://localhost/index.html";
 

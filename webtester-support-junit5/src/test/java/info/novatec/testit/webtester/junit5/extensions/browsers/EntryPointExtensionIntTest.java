@@ -16,7 +16,7 @@ import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 
 
-public class EntryPointExtensionIntegrationTest {
+public class EntryPointExtensionIntTest {
 
     @Test
     @DisplayName("@EntryPoint with static URL opens page before each test")

@@ -17,7 +17,7 @@ import utils.TestBrowserFactory;
 import info.novatec.testit.webtester.browser.Browser;
 
 
-public class ManagedBrowserExtensionIntegrationTest {
+public class ManagedBrowserExtensionIntTest {
 
     @Test
     @DisplayName("@Managed on static browser field injects new browser")

@@ -23,7 +23,7 @@ import info.novatec.testit.webtester.pages.Page;
  */
 @EnableWebTesterExtensions
 @CreateBrowsersUsing(TestBrowserFactory.class)
-public class EnableWebTesterExtensionsIntegrationTest {
+public class EnableWebTesterExtensionsIntTest {
 
     @Managed("browser-1")
     @EntryPoint("http://${host}:${port}/index1.html")

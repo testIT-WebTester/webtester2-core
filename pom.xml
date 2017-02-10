@@ -448,8 +448,7 @@
 					<configuration>
 						<excludes>
 							<exclude>**/*$*</exclude>
-							<exclude>**/*IntegrationTest.java</exclude>
-							<exclude>**/*FeatureTest.java</exclude>
+							<exclude>**/*IntTest.java</exclude>
 						</excludes>
 					</configuration>
 				</plugin>
@@ -468,8 +467,7 @@
 					</executions>
 					<configuration>
 						<includes>
-							<include>**/*IntegrationTest.java</include>
-							<include>**/*FeatureTest.java</include>
+							<include>**/*IntTest.java</include>
 						</includes>
 					</configuration>
 				</plugin>
