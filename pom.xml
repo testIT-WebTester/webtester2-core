@@ -56,8 +56,9 @@
 
 		<!-- dependency versions -->
 
-		<version.junit>4.12</version.junit>
-		<version.junit5>5.0.0-M3</version.junit5>
+		<version.junit4>4.12</version.junit4>
+		<version.junit5.jupiter>5.0.0-M3</version.junit5.jupiter>
+		<version.junit5.vintage>4.12.0-M3</version.junit5.vintage>
 		<version.junit5.platform>1.0.0-M3</version.junit5.platform>
 		<version.hamcrest>1.3</version.hamcrest>
 		<version.assertj>3.6.1</version.assertj>
@@ -110,6 +111,11 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -209,23 +215,22 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>${version.junit}</version>
+				<version>${version.junit4}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-api</artifactId>
-				<version>${version.junit5}</version>
+				<version>${version.junit5.jupiter}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-engine</artifactId>
-				<version>${version.junit5}</version>
+				<version>${version.junit5.jupiter}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.junit.platform</groupId>
-				<artifactId>junit-platform-surefire-provider</artifactId>
-				<version>${version.junit5.platform}</version>
+				<groupId>org.junit.vintage</groupId>
+				<artifactId>junit-vintage-engine</artifactId>
+				<version>${version.junit5.vintage}</version>
 			</dependency>
 
 			<dependency>
@@ -304,11 +309,6 @@
 				<!-- execute unit tests -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<!-- execute integration tests -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<!-- record coverage metrics -->
@@ -420,7 +420,6 @@
 					</executions>
 				</plugin>
 
-
 				<!-- packaging plugins -->
 
 				<plugin>
@@ -445,31 +444,54 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${version.maven.surefire.plugin}</version>
-					<configuration>
-						<excludes>
-							<exclude>**/*$*</exclude>
-							<exclude>**/*IntTest.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${version.maven.failsafe.plugin}</version>
 					<executions>
 						<execution>
-							<id>integration-test</id>
+							<id>default-test</id>
+							<configuration>
+								<skip>true</skip>
+							</configuration>
+						</execution>
+						<execution>
+							<id>unit-tests</id>
 							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
+								<goal>test</goal>
 							</goals>
+							<configuration>
+								<excludes>
+									<exclude>**/*$*</exclude>
+									<exclude>**/*IntTest.java</exclude>
+								</excludes>
+							</configuration>
+						</execution>
+						<execution>
+							<id>integration-tests</id>
+							<goals>
+								<goal>test</goal>
+							</goals>
+							<configuration>
+								<includes>
+									<include>**/*IntTest.java</include>
+								</includes>
+							</configuration>
 						</execution>
 					</executions>
-					<configuration>
-						<includes>
-							<include>**/*IntTest.java</include>
-						</includes>
-					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.junit.platform</groupId>
+							<artifactId>junit-platform-surefire-provider</artifactId>
+							<version>${version.junit5.platform}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.junit.jupiter</groupId>
+							<artifactId>junit-jupiter-engine</artifactId>
+							<version>${version.junit5.jupiter}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.junit.vintage</groupId>
+							<artifactId>junit-vintage-engine</artifactId>
+							<version>${version.junit5.vintage}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 
 				<!-- code quality plugins -->
