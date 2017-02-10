@@ -6,7 +6,7 @@ import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 
 
-public class SingleEventCollectingListener implements EventListener {
+class SingleEventCollectingListener implements EventListener {
 
     private Event event;
 

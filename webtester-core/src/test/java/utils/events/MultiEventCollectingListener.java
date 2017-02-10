@@ -7,7 +7,7 @@ import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 
 
-public class MultiEventCollectingListener implements EventListener {
+class MultiEventCollectingListener implements EventListener {
 
     private List<Event> events = new ArrayList<>();
 

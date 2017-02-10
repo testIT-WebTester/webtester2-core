@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import utils.MockFactory;
+import utils.unit.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
 

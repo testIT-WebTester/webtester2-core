@@ -24,7 +24,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import utils.MockFactory;
+import utils.unit.MockFactory;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.EventSystem;

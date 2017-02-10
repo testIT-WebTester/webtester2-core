@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import utils.MockFactory;
+import utils.unit.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 

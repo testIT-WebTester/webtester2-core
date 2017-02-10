@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2.0
  */
 @Slf4j
-public class CurrentThreadSleeper implements Sleeper {
+class CurrentThreadSleeper implements Sleeper {
 
     @Override
     public void sleep(long milliseconds) throws InterruptionException {

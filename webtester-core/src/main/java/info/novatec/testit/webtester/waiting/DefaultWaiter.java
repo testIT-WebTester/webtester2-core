@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @AllArgsConstructor
 @Getter(AccessLevel.PROTECTED)
-public class DefaultWaiter implements Waiter {
+class DefaultWaiter implements Waiter {
 
     /** The {@link Sleeper} to use when actually needing to pass time. */
     @NonNull
@@ -39,7 +39,7 @@ public class DefaultWaiter implements Waiter {
      * @see Clock
      * @since 2.0
      */
-    public DefaultWaiter() {
+    DefaultWaiter() {
         this(new CurrentThreadSleeper());
     }
 
@@ -52,7 +52,7 @@ public class DefaultWaiter implements Waiter {
      * @see Clock
      * @since 2.0
      */
-    public DefaultWaiter(Sleeper sleeper) {
+    DefaultWaiter(Sleeper sleeper) {
         this(sleeper, Clock.systemDefaultZone());
     }
 

@@ -3,7 +3,6 @@ package info.novatec.testit.webtester.pagefragments.identification.producers;
 import org.openqa.selenium.By;
 
 import info.novatec.testit.webtester.pagefragments.identification.ByProducer;
-import info.novatec.testit.webtester.pagefragments.identification.CssSelectorUtils;
 
 
 /**

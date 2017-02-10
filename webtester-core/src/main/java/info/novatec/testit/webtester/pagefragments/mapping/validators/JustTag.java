@@ -7,7 +7,7 @@ import lombok.NonNull;
 
 import info.novatec.testit.webtester.pagefragments.annotations.Mapping;
 import info.novatec.testit.webtester.pagefragments.annotations.Mappings;
-import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidator;
+import info.novatec.testit.webtester.internal.mapping.DefaultMappingValidator;
 import info.novatec.testit.webtester.pagefragments.mapping.Validator;
 
 

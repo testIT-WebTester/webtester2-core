@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import org.openqa.selenium.WebElement;
 
 import info.novatec.testit.webtester.internal.annotations.ReturnsWebElement;
-import info.novatec.testit.webtester.pagefragments.mapping.MappingValidator;
+import info.novatec.testit.webtester.internal.mapping.MappingValidator;
 
 
 public class WebElementReturningImpl implements Implementation {

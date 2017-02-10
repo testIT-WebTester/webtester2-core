@@ -3,7 +3,7 @@ package info.novatec.testit.webtester.support.assertj.assertions.pagefragments;
 import static info.novatec.testit.webtester.support.assertj.WebTesterAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static utils.MockFactory.singleSelect;
+import static utils.unit.MockFactory.singleSelect;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

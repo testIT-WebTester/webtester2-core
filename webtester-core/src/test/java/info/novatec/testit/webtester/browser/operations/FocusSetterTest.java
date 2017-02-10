@@ -23,7 +23,7 @@ import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 
-import utils.MockFactory;
+import utils.unit.MockFactory;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.EventSystem;

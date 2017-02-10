@@ -17,15 +17,15 @@ import info.novatec.testit.webtester.config.ConfigurationAdapter;
  * @see ConfigurationAdapter
  * @since 2.0
  */
-public abstract class AbstractPropertiesConfigurationAdapter implements ConfigurationAdapter {
+abstract class AbstractPropertiesConfigurationAdapter implements ConfigurationAdapter {
 
-    protected void loadPropertiesFromResource(URL resource, Properties properties) throws IOException {
+    void loadPropertiesFromResource(URL resource, Properties properties) throws IOException {
         try (InputStreamReader isr = new InputStreamReader(resource.openStream(), Charsets.UTF_8)) {
             properties.load(isr);
         }
     }
 
-    protected void copyInto(Properties source, Configuration target) {
+    void copyInto(Properties source, Configuration target) {
         source.stringPropertyNames().forEach(key -> target.setProperty(key, source.getProperty(key)));
     }
 

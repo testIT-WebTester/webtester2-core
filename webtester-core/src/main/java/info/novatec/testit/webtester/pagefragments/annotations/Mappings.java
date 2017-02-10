@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidator;
+import info.novatec.testit.webtester.internal.mapping.MappingValidator;
 
 
 /**
@@ -16,7 +16,7 @@ import info.novatec.testit.webtester.pagefragments.mapping.DefaultMappingValidat
  * your page fragments multiple times with {@link Mapping @Mapping}.
  *
  * @see Mapping
- * @see DefaultMappingValidator
+ * @see MappingValidator
  * @see PageFragment
  * @since 2.0
  */

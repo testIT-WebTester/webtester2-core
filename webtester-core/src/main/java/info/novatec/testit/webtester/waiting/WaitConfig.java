@@ -24,7 +24,7 @@ import info.novatec.testit.webtester.pagefragments.PageFragment;
 @Setter
 @Accessors(chain = true)
 @SuppressWarnings("PMD")
-public class WaitConfig {
+class WaitConfig {
 
     public static final int DEFAULT_TIMEOUT = 2;
     public static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
@@ -43,7 +43,7 @@ public class WaitConfig {
      * @return the timeout in milliseconds
      * @since 2.0
      */
-    public long getTimeoutInMillis() {
+    long getTimeoutInMillis() {
         return timeUnit.toMillis(timeout);
     }
 

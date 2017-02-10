@@ -1,7 +1,7 @@
 package info.novatec.testit.webtester.conditions.pagefragments;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static utils.MockFactory.multiSelect;
+import static utils.unit.MockFactory.multiSelect;
 
 import java.util.Arrays;
 

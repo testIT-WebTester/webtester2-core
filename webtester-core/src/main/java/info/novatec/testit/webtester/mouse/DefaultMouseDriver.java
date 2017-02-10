@@ -28,7 +28,7 @@ import info.novatec.testit.webtester.waiting.Wait;
  *
  * @since 2.0
  */
-public class DefaultMouseDriver implements MouseDriver {
+class DefaultMouseDriver implements MouseDriver {
 
     @Override
     public void click(PageFragment fragment) {
