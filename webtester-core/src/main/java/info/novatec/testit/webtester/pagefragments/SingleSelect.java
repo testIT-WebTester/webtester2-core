@@ -86,7 +86,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     /**
      * Returns the current selected option's text.
      * <p>
-     * If nothing is selected or there are no options, an empty optional is returned.
+     * If there are no options, an empty optional is returned.
      *
      * @return the selected text
      * @see Select#getFirstSelectedOption()
@@ -107,7 +107,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     /**
      * Returns the current selected option's value.
      * <p>
-     * If nothing is selected or there are no options, an empty optional is returned.
+     * If there are no options, an empty optional is returned.
      *
      * @return the selected value
      * @see Select#getFirstSelectedOption()
@@ -128,7 +128,7 @@ public interface SingleSelect extends GenericSelect<SingleSelect> {
     /**
      * Returns the current selected option's index.
      * <p>
-     * If nothing is selected or there are no options, an empty optional is returned.
+     * If there are no options, an empty optional is returned.
      *
      * @return the selected index
      * @see Select#getFirstSelectedOption()
