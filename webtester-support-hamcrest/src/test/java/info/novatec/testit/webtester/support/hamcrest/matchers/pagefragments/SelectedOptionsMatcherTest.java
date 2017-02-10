@@ -3,26 +3,29 @@ package info.novatec.testit.webtester.support.hamcrest.matchers.pagefragments;
 import static info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers.has;
 import static info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers.selectedOptions;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import utils.unit.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 
 
-public class SelectedOptionsMatcherTest {
+class SelectedOptionsMatcherTest {
 
     @Test
-    public void hasSelectionMatches() {
+    void hasSelectionMatches() {
         MultiSelect fragment = MockFactory.multiSelect().withNumberOfSelectedOptions(1).build();
         assertThat(fragment, has(selectedOptions()));
     }
 
-    @Test(expected = AssertionError.class)
-    public void hasNoSelectionDoesNotMatch() {
-        MultiSelect fragment = MockFactory.multiSelect().withNumberOfSelectedOptions(0).build();
-        assertThat(fragment, has(selectedOptions()));
+    @Test
+    void hasNoSelectionDoesNotMatch() {
+        assertThrows(AssertionError.class, () -> {
+            MultiSelect fragment = MockFactory.multiSelect().withNumberOfSelectedOptions(0).build();
+            assertThat(fragment, has(selectedOptions()));
+        });
     }
 
 }

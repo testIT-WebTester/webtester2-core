@@ -3,44 +3,53 @@ package info.novatec.testit.webtester.support.hamcrest.matchers.pagefragments;
 import static info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers.has;
 import static info.novatec.testit.webtester.support.hamcrest.WebTesterMatchers.selectionWithTexts;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import utils.unit.MockFactory;
 
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 
 
-public class SelectionTextsMatcherTest {
+class SelectionTextsMatcherTest {
 
     @Test
-    public void selectionInOrderMatches() {
+    void selectionInOrderMatches() {
         MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
         assertThat(select, has(selectionWithTexts("foo", "bar")));
     }
 
-    @Test(expected = AssertionError.class)
-    public void selectionOutOfOrderDoesNotMatch() {
-        MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
-        assertThat(select, has(selectionWithTexts("bar", "foo")));
+    @Test
+    void selectionOutOfOrderDoesNotMatch() {
+        assertThrows(AssertionError.class, () -> {
+            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
+            assertThat(select, has(selectionWithTexts("bar", "foo")));
+        });
     }
 
-    @Test(expected = AssertionError.class)
-    public void wrongSelectionDoesNotMatch() {
-        MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo").build();
-        assertThat(select, has(selectionWithTexts("bar")));
+    @Test
+    void wrongSelectionDoesNotMatch() {
+        assertThrows(AssertionError.class, () -> {
+            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo").build();
+            assertThat(select, has(selectionWithTexts("bar")));
+        });
     }
 
-    @Test(expected = AssertionError.class)
-    public void oneToManySelectionDoesNotMatch() {
-        MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
-        assertThat(select, has(selectionWithTexts("foo")));
+    @Test
+    void oneToManySelectionDoesNotMatch() {
+        assertThrows(AssertionError.class, () -> {
+            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo", "bar").build();
+            assertThat(select, has(selectionWithTexts("foo")));
+        });
     }
 
-    @Test(expected = AssertionError.class)
-    public void oneToFewSelectionDoesNotMatch() {
-        MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo").build();
-        assertThat(select, has(selectionWithTexts("foo", "bar")));
+    @Test
+    void oneToFewSelectionDoesNotMatch() {
+        assertThrows(AssertionError.class, () -> {
+            MultiSelect select = MockFactory.multiSelect().withSelectedTexts("foo").build();
+            assertThat(select, has(selectionWithTexts("foo", "bar")));
+        });
     }
 
 }
