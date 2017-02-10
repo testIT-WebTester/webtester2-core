@@ -31,7 +31,7 @@ public class ClasspathPropertiesFileConfigurationAdapter extends AbstractPropert
      * @see ClasspathPropertiesFileConfigurationAdapter
      * @since 2.1
      */
-    public enum Importance {
+    protected enum Importance {
 
         /** Property file is optional - if not found an INFO will be logged. */
         OPTIONAL(path -> {

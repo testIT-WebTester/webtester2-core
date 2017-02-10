@@ -20,20 +20,52 @@ A `ConfigurationAdapter` is used to change properties of an existing
 
 The following adapters are provided by the `webtester-core` module:
 
+* `ClasspathPropertiesFileConfigurationAdapter`
 * `GlobalFileConfigurationAdapter`
 * `LocalFileConfigurationAdapter`
 
+==== ClasspathPropertiesFileConfigurationAdapter
+
+This adapter can be used to load properties from any file on the classpath.
+
+[source, java]
+----
+new ClasspathPropertiesFileConfigurationAdapter("config/foo.properties");
+----
+
+In addition to the file name, you can optionally provide an importance level like this:
+
+[source, java]
+----
+new ClasspathPropertiesFileConfigurationAdapter("config/foo.properties", Importance.REQUIRED);
+----
+
+This will define the behaviour in case the file is not found on the classpath.
+
+There are three levels of importance:
+
+* `OPTIONAL`: there will be an info log message
+* `RECOMMENDED`: there will be a warning log message
+* `REQUIRED`: there will be an exception
+
 ==== GlobalFileConfigurationAdapter
 
-This adapter looks up a properties file called
-`testit-webtester-global.properties` on the classpath's root level and loads
-each contained key / value pair into the provided `Configuration` instance.
+This adapter extends `ClasspathPropertiesFileConfigurationAdapter` and uses the
+a `testit-webtester-global.properties` file on the classpath's root level. Its
+importance level is set to `OPTIONAL`.
+
+It is intended to be used in collaboration with the `LocalFileConfigurationAdapter`.
+The global adapter would define defaults for any number of projects and be provided by
+a common codebase / framework.
 
 ==== LocalFileConfigurationAdapter
 
-This adapter looks up a properties file called `testit-webtester.properties` on
-the classpath's root level and loads each contained key / value pair into the
-provided `Configuration` instance.
+This adapter extends `ClasspathPropertiesFileConfigurationAdapter` and uses the
+a `testit-webtester.properties` file on the classpath's root level. Its
+importance level is set to `RECOMMENDED`.
+
+As stated by the importance level, this file is recommended to be present on the
+classpath because it is the default way of configuring WebTester for your project.
 
 === ConfigurationExporter
 
