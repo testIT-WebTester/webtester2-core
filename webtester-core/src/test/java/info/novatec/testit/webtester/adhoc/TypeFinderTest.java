@@ -2,6 +2,7 @@ package info.novatec.testit.webtester.adhoc;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -10,51 +11,46 @@ import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
+import org.testit.testutils.mockito.junit5.EnableMocking;
 
 import info.novatec.testit.webtester.internal.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
 
 
-@RunWith(Enclosed.class)
-public class TypeFinderTest {
+@EnableMocking
+class TypeFinderTest {
 
-    @RunWith(MockitoJUnitRunner.class)
-    public static abstract class AbstractTypeFinderTest {
+    @Captor
+    ArgumentCaptor<By> byCaptor;
 
-        @Captor
-        ArgumentCaptor<By> byCaptor;
+    @Mock
+    PageFragmentFactory factory;
+    @Mock
+    SearchContext searchContext;
 
-        @Mock
-        PageFragmentFactory factory;
-        @Mock
-        SearchContext searchContext;
+    TypeFinder<TestFragment> cut;
 
-        TypeFinder<TestFragment> cut;
-
-        @Before
-        public void init() {
-            cut = new TypeFinder<>(factory, searchContext, TestFragment.class);
-        }
-
+    @BeforeEach
+    void init() {
+        cut = new TypeFinder<>(factory, searchContext, TestFragment.class);
     }
 
-    public static class ByForString extends AbstractTypeFinderTest {
+    @Nested
+    class ByForString {
 
         @Test
-        public void fragmentIsCreatedForGivenBy() {
+        void fragmentIsCreatedForGivenBy() {
 
             WebElement webElement = mock(WebElement.class);
             TestFragment mockElement = mock(TestFragment.class);
@@ -68,7 +64,7 @@ public class TypeFinderTest {
         }
 
         @Test
-        public void stringIsInterpretedAsCssSelector() {
+        void stringIsInterpretedAsCssSelector() {
 
             cut.by("#someId");
 
@@ -80,18 +76,21 @@ public class TypeFinderTest {
 
         }
 
-        @Test(expected = NoSuchElementException.class)
-        public void noSuchElementExceptionsArePropagated() {
-            doThrow(NoSuchElementException.class).when(searchContext).findElement(any(By.class));
-            cut.by("#someId");
+        @Test
+        void noSuchElementExceptionsArePropagated() {
+            assertThrows(NoSuchElementException.class, () -> {
+                doThrow(NoSuchElementException.class).when(searchContext).findElement(any(By.class));
+                cut.by("#someId");
+            });
         }
 
     }
 
-    public static class ByForBy extends AbstractTypeFinderTest {
+    @Nested
+    class ByForBy {
 
         @Test
-        public void fragmentIsCreatedForGivenBy() {
+        void fragmentIsCreatedForGivenBy() {
 
             WebElement webElement = mock(WebElement.class);
             TestFragment mockElement = mock(TestFragment.class);
@@ -105,7 +104,7 @@ public class TypeFinderTest {
         }
 
         @Test
-        public void stringIsInterpretedAsCssSelector() {
+        void stringIsInterpretedAsCssSelector() {
 
             cut.by(ByProducers.id("someId"));
 
@@ -117,18 +116,21 @@ public class TypeFinderTest {
 
         }
 
-        @Test(expected = NoSuchElementException.class)
-        public void noSuchElementExceptionsArePropagated() {
-            doThrow(NoSuchElementException.class).when(searchContext).findElement(any(By.class));
-            cut.by(ByProducers.id("someId"));
+        @Test
+        void noSuchElementExceptionsArePropagated() {
+            assertThrows(NoSuchElementException.class, () -> {
+                doThrow(NoSuchElementException.class).when(searchContext).findElement(any(By.class));
+                cut.by(ByProducers.id("someId"));
+            });
         }
 
     }
 
-    public static class ManyByForString extends AbstractTypeFinderTest {
+    @Nested
+    class ManyByForString {
 
         @Test
-        public void fragmentIsCreatedForGivenBy() {
+        void fragmentIsCreatedForGivenBy() {
 
             WebElement webElement1 = mock(WebElement.class);
             WebElement webElement2 = mock(WebElement.class);
@@ -145,7 +147,7 @@ public class TypeFinderTest {
         }
 
         @Test
-        public void stringIsInterpretedAsCssSelector() {
+        void stringIsInterpretedAsCssSelector() {
 
             cut.manyBy(".someClass");
 
@@ -157,18 +159,21 @@ public class TypeFinderTest {
 
         }
 
-        @Test(expected = NoSuchElementException.class)
-        public void noSuchElementExceptionsArePropagated() {
-            doThrow(NoSuchElementException.class).when(searchContext).findElements(any(By.class));
-            cut.manyBy(".someClass");
+        @Test
+        void noSuchElementExceptionsArePropagated() {
+            assertThrows(NoSuchElementException.class, () -> {
+                doThrow(NoSuchElementException.class).when(searchContext).findElements(any(By.class));
+                cut.manyBy(".someClass");
+            });
         }
 
     }
 
-    public static class ManyByForBy extends AbstractTypeFinderTest {
+    @Nested
+    class ManyByForBy {
 
         @Test
-        public void fragmentIsCreatedForGivenBy() {
+        void fragmentIsCreatedForGivenBy() {
 
             WebElement webElement1 = mock(WebElement.class);
             WebElement webElement2 = mock(WebElement.class);
@@ -185,7 +190,7 @@ public class TypeFinderTest {
         }
 
         @Test
-        public void stringIsInterpretedAsCssSelector() {
+        void stringIsInterpretedAsCssSelector() {
 
             cut.manyBy(ByProducers.className("someClass"));
 
@@ -197,10 +202,12 @@ public class TypeFinderTest {
 
         }
 
-        @Test(expected = NoSuchElementException.class)
-        public void noSuchElementExceptionsArePropagated() {
-            doThrow(NoSuchElementException.class).when(searchContext).findElements(any(By.class));
-            cut.manyBy(ByProducers.className("someClass"));
+        @Test
+        void noSuchElementExceptionsArePropagated() {
+            assertThrows(NoSuchElementException.class, () -> {
+                doThrow(NoSuchElementException.class).when(searchContext).findElements(any(By.class));
+                cut.manyBy(ByProducers.className("someClass"));
+            });
         }
 
     }

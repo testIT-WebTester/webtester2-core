@@ -49,6 +49,7 @@ import info.novatec.testit.webtester.support.hamcrest.matchers.pagefragments.Vis
  *
  * @since 2.0
  */
+@SuppressWarnings("unchecked")
 public final class WebTesterMatchers extends Matchers {
 
     /**

@@ -9,6 +9,9 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -30,6 +33,7 @@ public class BaseIntTest {
     private static Server server;
     private static Browser browser;
 
+    @BeforeAll
     @BeforeClass
     public static void setupBrowser() {
         if (browser == null) {
@@ -37,6 +41,7 @@ public class BaseIntTest {
         }
     }
 
+    @BeforeAll
     @BeforeClass
     public static void startTestPageServer() throws Exception {
         server = new Server(TEST_PAGE_SERVER_PORT);
@@ -46,12 +51,14 @@ public class BaseIntTest {
         server.start();
     }
 
+    @AfterAll
     @AfterClass
     public static void stopTestPageServer() throws Exception {
         server.stop();
     }
 
     @Before
+    @BeforeEach
     public final void navigateToTestURL() {
         String htmlFilePath = getHTMLFilePath();
         if (htmlFilePath != null) {

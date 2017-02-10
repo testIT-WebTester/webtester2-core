@@ -80,6 +80,7 @@ public class TestClassExecutor {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public <T extends DiscoverySelector> List<T> getSelectorsByType(Class<T> selectorType) {
             if (ClassSelector.class.equals(selectorType)) {
                 List<T> list = new ArrayList<>();

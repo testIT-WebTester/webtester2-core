@@ -1,7 +1,7 @@
 package info.novatec.testit.webtester.junit5.extensions.eventlistener;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
@@ -62,7 +62,7 @@ class RegisteredEventListenerExtensionIntTest {
     @Test
     @DisplayName("@Registered with static field will throw exception")
     void registerStaticEventListenerField() throws Exception {
-        expectThrows(StaticEventListenerFieldsNotSupportedException.class, () -> {
+        assertThrows(StaticEventListenerFieldsNotSupportedException.class, () -> {
             TestClassExecutor.execute(RegisteredStaticField.class);
         });
     }
@@ -257,7 +257,7 @@ class RegisteredEventListenerExtensionIntTest {
     @Test
     @DisplayName("@Registered has no clear assignment to multi browser fields")
     void noClearBrowserAssignment() throws Exception {
-        expectThrows(NoManagedBrowserForNameException.class, () -> {
+        assertThrows(NoManagedBrowserForNameException.class, () -> {
             TestClassExecutor.execute(NoClearBrowserAssignment.class);
         });
     }
