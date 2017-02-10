@@ -12,7 +12,7 @@ import utils.unit.MockFactory;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
-public class PageFragmentAssertTest {
+class PageFragmentAssertTest {
 
     @Nested
     class HasTagAssertion {
@@ -153,7 +153,8 @@ public class PageFragmentAssertTest {
             AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(pageFragmentWithAttributeAndValue("foo", "other")).hasAttributeValue("foo", "val");
             });
-            assertThat(exception).hasMessage("Expected page fragment's <foo> attribute value to be <val>, but it was <other>.");
+            assertThat(exception).hasMessage(
+                "Expected page fragment's <foo> attribute value to be <val>, but it was <other>.");
         }
 
         @Test

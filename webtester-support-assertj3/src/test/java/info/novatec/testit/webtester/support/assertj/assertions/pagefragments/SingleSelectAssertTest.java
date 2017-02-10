@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import info.novatec.testit.webtester.pagefragments.SingleSelect;
 
 
-public class SingleSelectAssertTest {
+class SingleSelectAssertTest {
 
     @Nested
     class HasSelectionWithTextAssertion {

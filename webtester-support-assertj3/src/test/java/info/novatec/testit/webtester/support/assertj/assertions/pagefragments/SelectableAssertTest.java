@@ -12,7 +12,7 @@ import utils.unit.MockFactory;
 import info.novatec.testit.webtester.pagefragments.traits.Selectable;
 
 
-public class SelectableAssertTest {
+class SelectableAssertTest {
 
     @Nested
     class IsSelectedAssertion {

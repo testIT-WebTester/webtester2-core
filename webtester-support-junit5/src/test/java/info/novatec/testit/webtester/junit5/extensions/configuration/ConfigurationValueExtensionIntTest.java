@@ -26,7 +26,7 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserEx
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.ConfigurationUnmarshaller;
 
 
-public class ConfigurationValueExtensionIntTest {
+class ConfigurationValueExtensionIntTest {
 
     @Test
     @DisplayName("@ConfigurationValue can be injected from single browser")

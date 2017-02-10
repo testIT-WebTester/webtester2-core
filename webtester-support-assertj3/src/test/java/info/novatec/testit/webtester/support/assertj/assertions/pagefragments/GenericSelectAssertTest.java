@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import info.novatec.testit.webtester.pagefragments.GenericSelect;
 
 
-public class GenericSelectAssertTest {
+class GenericSelectAssertTest {
 
     @Nested
     class HasOptionsWithTextsAssertion {
@@ -121,7 +121,8 @@ public class GenericSelectAssertTest {
             AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooSelect).hasOptionsWithValuesInAnyOrder("xur");
             });
-            assertThat(exception).hasMessage("Expected select's option values to be <[xur]> in any order, but were <[foo]>.");
+            assertThat(exception).hasMessage(
+                "Expected select's option values to be <[xur]> in any order, but were <[foo]>.");
         }
 
     }

@@ -19,7 +19,7 @@ import info.novatec.testit.webtester.pagefragments.TextField;
 import info.novatec.testit.webtester.pagefragments.UrlField;
 
 
-public class GenericTextFieldAssertTest {
+class GenericTextFieldAssertTest {
 
     @Nested
     class HasTextAssertion {

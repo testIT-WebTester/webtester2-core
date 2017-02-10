@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 
-public class AbstractWebTesterAssertTest {
+class AbstractWebTesterAssertTest {
 
     @Nested
     class AssertionsProvideFluentApi {
 
         @Test
-        public void and() {
+        void and() {
             TestAssert original = new TestAssert("foo");
             TestAssert returned = original.and();
             Assertions.assertThat(returned).isSameAs(original);
@@ -21,7 +21,7 @@ public class AbstractWebTesterAssertTest {
 
     private static class TestAssert extends AbstractWebTesterAssert<TestAssert, String> {
 
-        public TestAssert(String actual) {
+        TestAssert(String actual) {
             super(actual, TestAssert.class);
         }
 

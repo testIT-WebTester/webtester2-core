@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import info.novatec.testit.webtester.pagefragments.Button;
 
 
-public class ButtonAssertTest {
+class ButtonAssertTest {
 
     @Nested
     class HasLabelAssertion {

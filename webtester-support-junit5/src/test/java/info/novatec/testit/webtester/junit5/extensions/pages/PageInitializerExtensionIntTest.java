@@ -19,7 +19,7 @@ import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserEx
 import info.novatec.testit.webtester.pages.Page;
 
 
-public class PageInitializerExtensionIntTest {
+class PageInitializerExtensionIntTest {
 
     @Test
     @DisplayName("@Initialized injects new pages using browser")

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import info.novatec.testit.webtester.pagefragments.MultiSelect;
 
 
-public class MultiSelectAssertTest {
+class MultiSelectAssertTest {
 
     @Nested
     class HasSelectionWithTextsAssertion {
@@ -28,7 +28,8 @@ public class MultiSelectAssertTest {
             AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooBarSelect).hasSelectionWithTexts("bar", "foo");
             });
-            assertThat(exception).hasMessage("Expected select's selected texts to be <[bar, foo]>, but they were <[foo, bar]>.");
+            assertThat(exception).hasMessage(
+                "Expected select's selected texts to be <[bar, foo]>, but they were <[foo, bar]>.");
         }
 
         @Test
@@ -57,7 +58,8 @@ public class MultiSelectAssertTest {
             AssertionError exception = assertThrows(AssertionError.class, () -> {
                 assertThat(fooBarSelect).hasSelectionWithValues("bar", "foo");
             });
-            assertThat(exception).hasMessage("Expected select's selected values to be <[bar, foo]>, but they were <[foo, bar]>.");
+            assertThat(exception).hasMessage(
+                "Expected select's selected values to be <[bar, foo]>, but they were <[foo, bar]>.");
         }
 
         @Test

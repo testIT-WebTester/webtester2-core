@@ -14,21 +14,19 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import utils.MockitoExtension;
-
+import info.novatec.testit.testutils.mockito.junit5.EnableMocking;
 import info.novatec.testit.webtester.junit5.internal.ReflectionUtils;
 import info.novatec.testit.webtester.junit5.internal.TestClassModelFactory;
 
 
-@ExtendWith(MockitoExtension.class)
-public class BaseExtensionTest {
+@EnableMocking
+class BaseExtensionTest {
 
     @Mock
     Store store;

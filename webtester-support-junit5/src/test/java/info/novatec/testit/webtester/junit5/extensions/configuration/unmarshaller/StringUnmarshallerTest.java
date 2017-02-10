@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import info.novatec.testit.webtester.config.Configuration;
 
 
-public class StringUnmarshallerTest {
+class StringUnmarshallerTest {
 
     StringUnmarshaller cut = new StringUnmarshaller();
 
