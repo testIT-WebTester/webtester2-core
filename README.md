@@ -1,7 +1,8 @@
-[![License](https://img.shields.io/badge/License-Apache%20License%202.0-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
-[![Build Status](https://travis-ci.org/testIT-WebTester/webtester2-core.svg?branch=master)](https://travis-ci.org/testIT-WebTester/webtester2-core)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e27ea2197814283bd971e816ae549fb)](https://www.codacy.com/app/github_64/webtester2-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=testIT-WebTester/webtester2-core&amp;utm_campaign=Badge_Grade)
-[![codecov](https://codecov.io/gh/testIT-WebTester/webtester2-core/branch/master/graph/badge.svg)](https://codecov.io/gh/testIT-WebTester/webtester2-core)
+[![License](https://img.shields.io/badge/License-Apache%20License%202.0-brightgreen.svg)][10]
+[![Build Status](https://travis-ci.org/testIT-WebTester/webtester2-core.svg?branch=master)][11]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e27ea2197814283bd971e816ae549fb)][12]
+[![BCH compliance](https://bettercodehub.com/edge/badge/testIT-WebTester/webtester2-core)][13]
+[![Codecov](https://codecov.io/gh/testIT-WebTester/webtester2-core/branch/master/graph/badge.svg)][14]
 
 ![testIT WebTester](logo.png)
 
@@ -71,3 +72,9 @@ a German consultancy firm that drives quality in software development projects.
 [7]: mailto:webtester@novatec-gmbh.de
 [8]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [9]: http://www.novatec-gmbh.de
+
+[10]:http://www.apache.org/licenses/LICENSE-2.0.txt
+[11]:https://travis-ci.org/testIT-WebTester/webtester2-core
+[12]:https://www.codacy.com/app/github_64/webtester2-core
+[13]:https://bettercodehub.com/results/testIT-WebTester/webtester2-core
+[14]:https://codecov.io/gh/testIT-WebTester/webtester2-core
