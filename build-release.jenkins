@@ -7,9 +7,7 @@ node {
     env.PATH="${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
   }
   stage('Set Version to $VERSION') {
-    dir('webtester-build-tools') {
-      sh "mvn versions:set versions:commit -DnewVersion=$VERSION"
-    }
+    sh "mvn -f webtester-build-tools/pom.xml versions:set versions:commit -DnewVersion=$VERSION"
     sh "mvn versions:set versions:commit -DnewVersion=$VERSION"
   }
   stage('Build & Deploy to Sonatype OSS') {
