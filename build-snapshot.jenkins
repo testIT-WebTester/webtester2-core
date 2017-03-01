@@ -9,6 +9,7 @@ node {
    stage('Build & Deploy to Sonatype OSS') {
       def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
       def targetRepository = "-DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots"
-      sh "mvn deploy ${skipTests} ${targetRepository} -P documentation"
+      def profiles = "-P documentation"
+      sh "mvn deploy ${skipTests} ${targetRepository} ${profiles}"
    }
 }

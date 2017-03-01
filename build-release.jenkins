@@ -1,0 +1,23 @@
+node {
+  stage('Prepare Environment') {
+    def mvnHome = tool 'Maven 3.3.9'
+    def javaHome = tool 'Oracle JDK 8'
+    env.JAVA_HOME="${javaHome}"
+    env.MAVEN_HOME="${mvnHome}"
+    env.PATH="${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
+  }
+  stage('Set Version to $VERSION') {
+    dir('webtester-build-tools') {
+      sh "mvn versions:set versions:commit -DnewVersion=$VERSION"
+    }
+    sh "mvn versions:set versions:commit -DnewVersion=$VERSION"
+  }
+  stage('Build & Deploy to Sonatype OSS') {
+    withCredentials([string(credentialsId: 'webtester-gpg-passphrase', variable: 'GPG_PASSPHRASE')]) {
+      def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
+      def gpgPassphrase = "-Dgpg.passphrase=$GPG_PASSPHRASE"
+      def profiles = "-P documentation,release,maven-central"
+      sh "mvn deploy ${skipTests} ${gpgPassphrase} ${profiles}"
+    }
+  }
+}
