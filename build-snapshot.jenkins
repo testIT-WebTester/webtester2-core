@@ -1,0 +1,14 @@
+node {
+   stage('Prepare Environment') {
+      def mvnHome = tool 'Maven 3.3.9'
+      def javaHome = tool 'Oracle JDK 8'
+      env.JAVA_HOME="${javaHome}"
+      env.MAVEN_HOME="${mvnHome}"
+      env.PATH="${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
+   }
+   stage('Build & Deploy to Sonatype OSS') {
+      def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
+      def targetRepository = "-DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots"
+      sh "mvn deploy -P documentation ${skipTests} ${targetRepository}"
+   }
+}
