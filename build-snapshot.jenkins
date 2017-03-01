@@ -10,6 +10,6 @@ node {
       def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
       def targetRepository = "-DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots"
       def profiles = "-P documentation"
-      sh "mvn deploy ${skipTests} ${targetRepository} ${profiles}"
+      sh "mvn clean deploy ${skipTests} ${targetRepository} ${profiles}"
    }
 }

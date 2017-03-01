@@ -19,7 +19,7 @@ node {
       def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
       def gpgPassphrase = "-Dgpg.passphrase=$GPG_PASSPHRASE"
       def profiles = "-P documentation,release,maven-central"
-      sh "mvn deploy ${skipTests} ${gpgPassphrase} ${profiles}"
+      sh "mvn clean deploy ${skipTests} ${gpgPassphrase} ${profiles}"
     }
   }
 }
