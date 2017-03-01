@@ -54,6 +54,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<gpg.keyname>WebTester</gpg.keyname>
+
+		<skipUnitTests>false</skipUnitTests>
+		<skipIntegrationTests>false</skipIntegrationTests>
+
 		<!-- dependency versions -->
 
 		<version.testutils>0.1.beta1</version.testutils>
@@ -473,6 +478,7 @@
 									<exclude>**/*$*</exclude>
 									<exclude>**/*IntTest.java</exclude>
 								</excludes>
+								<skip>${skipUnitTests}</skip>
 							</configuration>
 						</execution>
 						<execution>
@@ -484,6 +490,7 @@
 								<includes>
 									<include>**/*IntTest.java</include>
 								</includes>
+								<skip>${skipIntegrationTests}</skip>
 							</configuration>
 						</execution>
 					</executions>
@@ -626,6 +633,10 @@
 							<goals>
 								<goal>sign</goal>
 							</goals>
+							<configuration>
+								<keyname>${gpg.keyname}</keyname>
+								<passphrase>${gpg.passphrase}</passphrase>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>
