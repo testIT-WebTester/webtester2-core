@@ -6,17 +6,17 @@ node {
     env.MAVEN_HOME="${mvnHome}"
     env.PATH="${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
   }
+  stage('Checkout SCM') {
+    checkout scm
+  }
   stage('Set Version to $VERSION') {
-    sh 'ls -al'
     dir('webtester-build-tools') {
-      sh 'ls -al'
       sh 'mvn versions:set versions:commit -DnewVersion=$VERSION'
     }
     sh 'mvn versions:set versions:commit -DnewVersion=$VERSION'
   }
   stage('Build & Deploy to Sonatype OSS') {
     withCredentials([string(credentialsId: 'webtester-gpg-passphrase', variable: 'GPG_PASSPHRASE')]) {
-      sh 'ls -al'
       def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
       def gpgPassphrase = "-Dgpg.passphrase=$GPG_PASSPHRASE"
       def profiles = "-P documentation,release,maven-central"
