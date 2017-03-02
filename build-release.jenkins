@@ -10,9 +10,7 @@ node {
     checkout scm
   }
   stage('Set Version to $VERSION') {
-    sh 'ls -al'
     dir('webtester-build-tools') {
-      sh 'ls -al'
       sh 'mvn versions:set versions:commit -DnewVersion=$VERSION'
     }
     sh 'mvn versions:set versions:commit -DnewVersion=$VERSION'
