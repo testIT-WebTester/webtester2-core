@@ -60,6 +60,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<gpg.keyname>WebTester</gpg.keyname>
+
+		<skipUnitTests>false</skipUnitTests>
+		<skipIntegrationTests>false</skipIntegrationTests>
+
 		<!-- dependency versions -->
 
 		<version.junit>4.12</version.junit>
@@ -438,6 +443,7 @@
 							<exclude>**/*IntegrationTest.java</exclude>
 							<exclude>**/*FeatureTest.java</exclude>
 						</excludes>
+						<skip>${skipUnitTests}</skip>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -458,6 +464,7 @@
 							<include>**/*IntegrationTest.java</include>
 							<include>**/*FeatureTest.java</include>
 						</includes>
+						<skip>${skipIntegrationTests}</skip>
 					</configuration>
 				</plugin>
 
@@ -581,6 +588,10 @@
 							<goals>
 								<goal>sign</goal>
 							</goals>
+							<configuration>
+								<keyname>${gpg.keyname}</keyname>
+								<passphrase>${gpg.passphrase}</passphrase>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>
