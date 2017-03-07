@@ -29,6 +29,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gpg.keyname>WebTester</gpg.keyname>
         <version.maven.javadoc.plugin>2.10.3</version.maven.javadoc.plugin>
         <version.maven.source.plugin>3.0.0</version.maven.source.plugin>
         <version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
@@ -78,6 +79,10 @@
                             <goals>
                                 <goal>sign</goal>
                             </goals>
+                            <configuration>
+                                <keyname>${gpg.keyname}</keyname>
+                                <passphrase>${gpg.passphrase}</passphrase>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
