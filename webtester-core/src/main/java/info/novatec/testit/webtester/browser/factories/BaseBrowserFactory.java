@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.WebDriverBrowser;
+import info.novatec.testit.webtester.browser.proxy.NoProxyConfiguration;
 import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
 
 
@@ -61,7 +62,7 @@ public class BaseBrowserFactory<T extends  BrowserFactory> implements BrowserFac
     }
 
     protected void setOptionalProxyConfiguration(DesiredCapabilities capabilities) {
-        if (proxyConfiguration != null) {
+        if (proxyConfiguration != null && !(proxyConfiguration instanceof NoProxyConfiguration)) {
             Proxy proxy = new Proxy();
             proxyConfiguration.configureProxy(proxy);
             capabilities.setCapability(CapabilityType.PROXY, proxy);
