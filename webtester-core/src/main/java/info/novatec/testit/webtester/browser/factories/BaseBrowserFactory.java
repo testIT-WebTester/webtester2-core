@@ -60,13 +60,6 @@ public class BaseBrowserFactory<T extends BrowserFactory> implements BrowserFact
         return WebDriverBrowser.forWebDriver(webDriverProducer.apply(capabilities)).withConfiguration(configuration).build();
     }
 
-    @Override
-    public Browser createBrowser(WebDriver webDriver) {
-        Configuration configuration = new DefaultConfigurationBuilder().build();
-        postProcessConfiguration(configuration);
-        return WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
-    }
-
     protected void setOptionalProxyConfiguration(DesiredCapabilities capabilities) {
         if (proxyConfiguration != null && !(proxyConfiguration instanceof NoProxyConfiguration)) {
             Proxy proxy = new Proxy();

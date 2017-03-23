@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.core.env.Environment;
+import org.testit.testutils.mockito.junit5.EnableMocking;
 
 import com.google.common.collect.Sets;
 
-import info.novatec.testit.testutils.mockito.junit5.EnableMocking;
 import info.novatec.testit.webtester.config.Configuration;
 
 

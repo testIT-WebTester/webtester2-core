@@ -10,6 +10,7 @@ to their specific environment. In case you just want to get started, we provide
 factories for the most common browsers:
 
 * `ChromeFactory`
+* `EdgeFactory`
 * `FirefoxFactory`
 * `MarionetteFactory` (new Firefox driver)
 * `InternetExplorerFactory`
@@ -56,9 +57,37 @@ link:https://sites.google.com/a/chromium.org/chromedriver/downloads[here]. The
 path to the executable must be declared as a system or environment property
 named: `webdriver.chrome.driver`
 
+You can also declare this property within your WebTester configuration file(s).
+This will trigger the framework to expose this property for you.
+
 Additional Information:
 
 * https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver
+
+==== EdgeFactory
+
+This `BrowserFactory` uses the `selenium-edge-driver` to create new Edge
+`Browser` instances.
+
+===== Default Driver Configuration
+
+In order to optimize testing the following properties are set when creating a
+`WebDriver` using the `EdgeFactory`:
+
+* Native events are disabled -> Selenium does not simulate human typing.
+* Untrusted certificates are always accepted.
+
+===== Additional Service Executable
+
+The `EdgeDriver` needs an additional executable to communicate with an Edge
+browser. It can be downloaded
+link:https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/[here].
+Please make sure to choose the release version equal to your Windows 10 build.
+The path to the executable must be declared as a system or environment property
+named: `webdriver.edge.driver`
+
+You can also declare this property within your WebTester configuration file(s).
+This will trigger the framework to expose this property for you.
 
 ==== FirefoxFactory and MarionetteFactory
 
@@ -66,7 +95,8 @@ These `BrowserFactory` implementations use the `selenium-firefox-driver` to
 create new Firefox `Browser` instances. To drive Firefox browsers up to version
 46, the `FirefoxFactory` _can_ be used. In order to drive newer versions (47++),
 the `MarionetteFactory` _must_ be used. The only real difference between these
-two factories is the activation of the `marionnette` capability.
+two factories is the activation of the `marionnette` capability, but sadly in doing so
+you will need to provide the location of a `GeckoDriver` installation.
 
 ===== Default Driver Configuration
 
@@ -84,6 +114,9 @@ and the actual Firefox (like with the `ChromeDriver`). it can be downloaded
 link:https://github.com/mozilla/geckodriver/releases[here] The path to the
 executable must be declared as a system or environment property named:
 `webdriver.gecko.driver`
+
+You can also declare this property within your WebTester configuration file(s).
+This will trigger the framework to expose this property for you.
 
 Additional Information:
 
@@ -112,31 +145,12 @@ link:http://selenium-release.storage.googleapis.com/index.html[here]. The path
 to the executable must be declared as a system or environment property named:
 `webdriver.ie.driver`
 
+You can also declare this property within your WebTester configuration file(s).
+This will trigger the framework to expose this property for you.
+
 Additional Information:
 
 * https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver
-
-==== EdgeFactory
-
-This `BrowserFactory` uses the `selenium-edge-driver` to create new Edge
-`Browser` instances.
-
-===== Default Driver Configuration
-
-In order to optimize testing the following properties are set when creating a
-`WebDriver` using the `EdgeFactory`:
-
-* Native events are disabled -> Selenium does not simulate human typing.
-* Untrusted certificates are always accepted.
-
-===== Additional Service Executable
-
-The `EdgeDriver` needs an additional executable to communicate with an Edge
-browser. It can be downloaded
-link:https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/[here].
-Please make sure to choose the release version equal to your Windows 10 build.
-The path to the executable must be declared as a system or environment property
-named: `webdriver.edge.driver`
 
 ==== RemoteFactory
 

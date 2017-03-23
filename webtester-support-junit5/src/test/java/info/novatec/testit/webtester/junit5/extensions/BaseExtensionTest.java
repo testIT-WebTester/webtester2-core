@@ -19,8 +19,8 @@ import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.testit.testutils.mockito.junit5.EnableMocking;
 
-import info.novatec.testit.testutils.mockito.junit5.EnableMocking;
 import info.novatec.testit.webtester.junit5.internal.ReflectionUtils;
 import info.novatec.testit.webtester.junit5.internal.TestClassModelFactory;
 

@@ -1,10 +1,9 @@
 package info.novatec.testit.webtester.browser.factories;
 
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.ie.InternetExplorerDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.config.Configuration;
 
 
 /**
@@ -26,14 +25,17 @@ import info.novatec.testit.webtester.browser.Browser;
  */
 public class InternetExplorerFactory extends BaseBrowserFactory<InternetExplorerFactory> {
 
+    private static final String DRIVER_LOCATION = "webdriver.ie.driver";
+
     public InternetExplorerFactory() {
         super(InternetExplorerDriver::new);
     }
 
-    public Browser createBrowser(int port) {
-        InternetExplorerDriverService service = InternetExplorerDriverService.createDefaultService();
-        DesiredCapabilities capabilities = getDefaultCapabilities();
-        return createBrowser(new InternetExplorerDriver(service, capabilities, port));
+    @Override
+    protected void postProcessConfiguration(Configuration configuration) {
+        configuration.getStringProperty(DRIVER_LOCATION).ifPresent(driverLocation -> {
+            System.setProperty(DRIVER_LOCATION, driverLocation);
+        });
     }
 
 }

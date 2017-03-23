@@ -3,7 +3,6 @@ package utils;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import info.novatec.testit.webtester.browser.Browser;
@@ -31,11 +30,6 @@ public class MockedTestBrowserFactory implements BrowserFactory {
 
     @Override
     public Browser createBrowser() {
-        return browser;
-    }
-
-    @Override
-    public Browser createBrowser(WebDriver webDriver) {
         return browser;
     }
 

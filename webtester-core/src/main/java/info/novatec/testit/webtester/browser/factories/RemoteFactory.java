@@ -88,7 +88,8 @@ public class RemoteFactory implements BrowserFactory {
         String url = "http://" + host + ":" + port + "/wd/hub";
         try {
             log.debug("creating remote driver instance for {} with capabilities: {}", url, capabilities);
-            return createBrowser(webDriverProducer.apply(new URL(url), capabilities));
+            WebDriver webDriver = webDriverProducer.apply(new URL(url), capabilities);
+            return WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
         } catch (MalformedURLException e) {
             throw new MalformedRemoteFactoryUrlException(url, e);
         }
@@ -100,11 +101,6 @@ public class RemoteFactory implements BrowserFactory {
             proxyConfiguration.configureProxy(proxy);
             capabilities.setCapability(CapabilityType.PROXY, proxy);
         }
-    }
-
-    @Override
-    public Browser createBrowser(WebDriver webDriver) {
-        return WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
     }
 
     @Override

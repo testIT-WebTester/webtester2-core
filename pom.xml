@@ -61,7 +61,7 @@
 
 		<!-- dependency versions -->
 
-		<version.testutils>0.1.beta1</version.testutils>
+		<version.testutils>0.2</version.testutils>
 		<version.junit4>4.12</version.junit4>
 		<version.junit5.jupiter>5.0.0-M3</version.junit5.jupiter>
 		<version.junit5.vintage>4.12.0-M3</version.junit5.vintage>

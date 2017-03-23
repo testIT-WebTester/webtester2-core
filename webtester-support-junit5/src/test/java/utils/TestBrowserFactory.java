@@ -20,11 +20,6 @@ public class TestBrowserFactory implements BrowserFactory {
     }
 
     @Override
-    public Browser createBrowser(WebDriver webDriver) {
-        throw new NotImplementedException();
-    }
-
-    @Override
     public Browser createBrowser(DesiredCapabilities capabilities) {
         throw new NotImplementedException();
     }

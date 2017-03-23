@@ -3,10 +3,12 @@ package info.novatec.testit.webtester.browser.factories;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.config.Configuration;
 
 
 /**
  * Factory class for creating Firefox {@link Browser} instances.
+ * Needs the {@code webdriver.gecko.driver} system property pointing to the driver proxy server executable.
  * This will only work for Firefox browsers version 47 and above!
  * All older versions should be initialized using the {@link FirefoxFactory}.
  * <p>
@@ -16,8 +18,10 @@ import info.novatec.testit.webtester.browser.Browser;
  * <li>Unsigned certificates are accepted</li>
  * </ul>
  * <b>Additional information on using the {@link FirefoxDriver}:</b>
- * <p>
- * https://github.com/SeleniumHQ/selenium/wiki/FirefoxDriver
+ * <ul>
+ * <li>https://github.com/SeleniumHQ/selenium/wiki/FirefoxDriver</li>
+ * <li>https://github.com/mozilla/geckodriver</li>
+ * </ul>
  *
  * @see Browser
  * @see FirefoxDriver
@@ -26,10 +30,19 @@ import info.novatec.testit.webtester.browser.Browser;
  */
 public class MarionetteFactory extends BaseBrowserFactory<MarionetteFactory> {
 
+    private static final String DRIVER_LOCATION = "webdriver.gecko.driver";
+
     public MarionetteFactory() {
         super((capabilities) -> {
             capabilities.setCapability("marionette", true);
             return new FirefoxDriver(capabilities);
+        });
+    }
+
+    @Override
+    protected void postProcessConfiguration(Configuration configuration) {
+        configuration.getStringProperty(DRIVER_LOCATION).ifPresent(driverLocation -> {
+            System.setProperty(DRIVER_LOCATION, driverLocation);
         });
     }
 

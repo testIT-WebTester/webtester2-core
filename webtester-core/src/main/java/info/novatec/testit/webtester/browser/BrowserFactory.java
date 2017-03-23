@@ -12,12 +12,10 @@ import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
  * <p>
  * The most important method of a browser factory is {@link #createBrowser()}.
  * It is used by all kinds of reflection based operations to initialize a
- * browser using all the implemented defaults of the actual factory
- * implementation. For more flexibility the
- * {@link #createBrowser(DesiredCapabilities)} and
- * {@link #createBrowser(WebDriver)} methods can be used to create instances
- * based on pre-initialized objects while still setting some common properties
- * with a default implementation.
+ * browser using all the defaults of the actual factory implementation.
+ * For more flexibility the {@link #createBrowser(DesiredCapabilities)} method
+ * can be used to create instances based on your desired capabilities while still setting
+ * some common properties with a default implementation.
  * <p>
  * The difference between a browser factory and a {@link BrowserBuilder browser
  * builder} is in how they are used. Factories are used to initialize a
@@ -76,17 +74,6 @@ public interface BrowserFactory {
      * @since 2.0
      */
     Browser createBrowser(DesiredCapabilities capabilities);
-
-    /**
-     * Creates a {@link Browser browser} using the given pre-initialized
-     * {@link WebDriver web driver} and the {@link BrowserFactory factory's}
-     * defaults.
-     *
-     * @param webDriver the web driver to use
-     * @return the created browser
-     * @since 2.0
-     */
-    Browser createBrowser(WebDriver webDriver);
 
     /**
      * Defines a {@link ProxyConfiguration proxy configuration} to use when

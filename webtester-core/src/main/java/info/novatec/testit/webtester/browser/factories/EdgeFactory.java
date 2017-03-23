@@ -1,9 +1,10 @@
 package info.novatec.testit.webtester.browser.factories;
 
-import info.novatec.testit.webtester.browser.Browser;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
+import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.config.Configuration;
+
 
 /**
  * Factory class for creating Microsoft Edge {@link Browser} instances.
@@ -21,14 +22,17 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class EdgeFactory extends BaseBrowserFactory<EdgeFactory> {
 
+    private static final String DRIVER_LOCATION = "webdriver.edge.driver";
+
     public EdgeFactory() {
         super(EdgeDriver::new);
     }
 
-    public Browser createBrowser() {
-        EdgeDriverService service = EdgeDriverService.createDefaultService();
-        DesiredCapabilities capabilities = getDefaultCapabilities();
-        return createBrowser(new EdgeDriver(service, capabilities));
+    @Override
+    protected void postProcessConfiguration(Configuration configuration) {
+        configuration.getStringProperty(DRIVER_LOCATION).ifPresent(driverLocation -> {
+            System.setProperty(DRIVER_LOCATION, driverLocation);
+        });
     }
 
 }

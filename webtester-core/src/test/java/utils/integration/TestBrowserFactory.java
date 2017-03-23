@@ -1,6 +1,5 @@
 package utils.integration;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import info.novatec.testit.webtester.browser.Browser;
@@ -33,11 +32,6 @@ public class TestBrowserFactory implements BrowserFactory {
     @Override
     public Browser createBrowser(DesiredCapabilities capabilities) {
         throw new UnsupportedOperationException("createBrowser(DesiredCapabilities capabilities) not supported in test browser!");
-    }
-
-    @Override
-    public Browser createBrowser(WebDriver webDriver) {
-        throw new UnsupportedOperationException("createBrowser(WebDriver webDriver) not supported in test browser!");
     }
 
     @Override

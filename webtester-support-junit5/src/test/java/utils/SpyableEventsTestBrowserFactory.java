@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import info.novatec.testit.webtester.browser.Browser;
@@ -24,11 +23,6 @@ public class SpyableEventsTestBrowserFactory implements BrowserFactory {
         EventSystem spyableEventSystem = spy(eventSystem);
         doReturn(spyableEventSystem).when(browser).events();
         return browser;
-    }
-
-    @Override
-    public Browser createBrowser(WebDriver webDriver) {
-        throw new NotImplementedException();
     }
 
     @Override
