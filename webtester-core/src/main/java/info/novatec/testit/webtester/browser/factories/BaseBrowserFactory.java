@@ -12,6 +12,8 @@ import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.WebDriverBrowser;
 import info.novatec.testit.webtester.browser.proxy.NoProxyConfiguration;
 import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
+import info.novatec.testit.webtester.config.Configuration;
+import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder;
 
 
 /**
@@ -28,7 +30,7 @@ import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
  * @param <T> the type of the extending factory implementation - used for fluent API for certain methods
  * @since 2.1
  */
-public class BaseBrowserFactory<T extends  BrowserFactory> implements BrowserFactory {
+public class BaseBrowserFactory<T extends BrowserFactory> implements BrowserFactory {
 
     private final Function<DesiredCapabilities, WebDriver> webDriverProducer;
     private ProxyConfiguration proxyConfiguration;
@@ -53,12 +55,16 @@ public class BaseBrowserFactory<T extends  BrowserFactory> implements BrowserFac
 
     @Override
     public Browser createBrowser(DesiredCapabilities capabilities) {
-        return createBrowser(webDriverProducer.apply(capabilities));
+        Configuration configuration = new DefaultConfigurationBuilder().build();
+        postProcessConfiguration(configuration);
+        return WebDriverBrowser.forWebDriver(webDriverProducer.apply(capabilities)).withConfiguration(configuration).build();
     }
 
     @Override
     public Browser createBrowser(WebDriver webDriver) {
-        return WebDriverBrowser.buildForWebDriver(webDriver);
+        Configuration configuration = new DefaultConfigurationBuilder().build();
+        postProcessConfiguration(configuration);
+        return WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
     }
 
     protected void setOptionalProxyConfiguration(DesiredCapabilities capabilities) {
@@ -69,11 +75,15 @@ public class BaseBrowserFactory<T extends  BrowserFactory> implements BrowserFac
         }
     }
 
+    protected void postProcessConfiguration(Configuration configuration) {
+        // optional hook
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public T withProxyConfiguration(ProxyConfiguration configuration) {
         proxyConfiguration = configuration;
-        return (T) this;
+        return ( T ) this;
     }
 
 }
