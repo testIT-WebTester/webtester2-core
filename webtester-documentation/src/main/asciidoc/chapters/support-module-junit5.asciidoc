@@ -244,3 +244,33 @@ public class ExampleUiTest {
 
 }
 ----
+
+In case you are declaring _multiple_ `Browser` fields, the `source` of the
+configuration properties must be declared. This is necessary because each browser
+might have a different configuration and the extension cannot decide which is the
+'correct' one.
+
+[source, java]
+----
+@EnableWebTesterExtensions
+@CreateBrowsersUsing(FooFactory.class)
+public class ExampleUiTest {
+
+    @Managed("browser-1")
+    Browser browser1;
+
+    @Managed("browser-2")
+    Browser browser2;
+
+    @ConfigurationValue(value = "stringValue", source = "browser-1")
+    String stringValueOfBrowser1;
+
+    @ConfigurationValue(value = "stringValue", source = "browser-2")
+    String stringValueOfBrowser2;
+
+    ...
+
+}
+----
+
+
