@@ -1,82 +1,35 @@
 package info.novatec.testit.webtester.pagefragments;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import utils.integration.BaseIntTest;
 
-import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.mapping.MappingException;
-import info.novatec.testit.webtester.pages.Page;
 
 
-public class HeadlineIntTest extends BaseIntTest {
-
-    TestPage page;
-
-    @Before
-    public void initPage() {
-        page = create(TestPage.class);
-    }
+class HeadlineIntTest extends BaseIntTest {
 
     @Override
     protected String getHTMLFilePath() {
         return "html/pagefragments/headline.html";
     }
 
-    @Test
-    public void h1TypeIsValidMapping() {
-        assertPageFragmentCanBeInitialized(page.headline1());
+    @ParameterizedTest(name = "{0}")
+    @ValueSource(strings = { "h1", "h2", "h3", "h4", "h5", "h6" })
+    void validMappingTypes(String cssSelector) {
+        Headline headline = browser().find(Headline.class).by("#" + cssSelector);
+        assertThat(headline.isPresent()).isTrue();
     }
 
     @Test
-    public void h2TypeIsValidMapping() {
-        assertPageFragmentCanBeInitialized(page.headline2());
-    }
-
-    @Test
-    public void h3TypeIsValidMapping() {
-        assertPageFragmentCanBeInitialized(page.headline3());
-    }
-
-    @Test
-    public void h4TypeIsValidMapping() {
-        assertPageFragmentCanBeInitialized(page.headline4());
-    }
-
-    @Test
-    public void h5TypeIsValidMapping() {
-        assertPageFragmentCanBeInitialized(page.headline5());
-    }
-
-    @Test
-    public void h6TypeIsValidMapping() {
-        assertPageFragmentCanBeInitialized(page.headline6());
-    }
-
-    @Test(expected = MappingException.class)
-    public void nonHeadlineTypeIsInvalidMapping() {
-        assertPageFragmentCanBeInitialized(page.noHeadline());
-    }
-
-    private interface TestPage extends Page {
-
-        @IdentifyUsing("#headline1")
-        Headline headline1();
-        @IdentifyUsing("#headline2")
-        Headline headline2();
-        @IdentifyUsing("#headline3")
-        Headline headline3();
-        @IdentifyUsing("#headline4")
-        Headline headline4();
-        @IdentifyUsing("#headline5")
-        Headline headline5();
-        @IdentifyUsing("#headline6")
-        Headline headline6();
-
-        @IdentifyUsing("#noHeadline")
-        Headline noHeadline();
-
+    void nonHeadlineElementIsInvalidMapping() {
+        Headline headline = browser().find(Headline.class).by("#span");
+        assertThrows(MappingException.class, headline::webElement);
     }
 
 }
