@@ -65,6 +65,11 @@ public class TestClassExecutor {
         }
 
         @Override
+        public Optional<Boolean> getBoolean(String key) {
+            return Optional.empty();
+        }
+
+        @Override
         public int size() {
             return 0;
         }

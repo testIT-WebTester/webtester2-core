@@ -63,9 +63,9 @@
 
 		<version.testutils>0.2</version.testutils>
 		<version.junit4>4.12</version.junit4>
-		<version.junit5.jupiter>5.0.0-M3</version.junit5.jupiter>
-		<version.junit5.vintage>4.12.0-M3</version.junit5.vintage>
-		<version.junit5.platform>1.0.0-M3</version.junit5.platform>
+		<version.junit5.jupiter>5.0.0-M4</version.junit5.jupiter>
+		<version.junit5.vintage>4.12.0-M4</version.junit5.vintage>
+		<version.junit5.platform>1.0.0-M4</version.junit5.platform>
 		<version.hamcrest>1.3</version.hamcrest>
 		<version.assertj>3.6.1</version.assertj>
 		<version.mockito>2.4.0</version.mockito>
