@@ -5,7 +5,10 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 public final class TestUtils {
 
     public static URL toUrl(String url) {
@@ -71,6 +74,27 @@ public final class TestUtils {
             return ( T ) field.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalArgumentException("could not set field value of '" + fieldName + "'", e);
+        }
+    }
+
+    public static void executeWithRetryOf(int times, Runnable beforeBlock, ExceptionThrowingRunnable block) {
+        Throwable lastException = null;
+        for (int i = 0; i < times; i++) {
+            beforeBlock.run();
+            try {
+                block.run();
+                lastException = null;
+                break;
+            } catch (Exception | AssertionError exception) {
+                lastException = exception;
+                log.error("attempt {}/{} failed with exception: {}", (i + 1), times, exception.getMessage());
+            }
+        }
+        if (lastException != null) {
+            if (lastException instanceof AssertionError) {
+                throw ( AssertionError ) lastException;
+            }
+            throw new UndeclaredThrowableException(lastException);
         }
     }
 

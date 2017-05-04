@@ -2,11 +2,11 @@ package info.novatec.testit.webtester.mouse;
 
 import static info.novatec.testit.webtester.conditions.Conditions.equalTo;
 import static org.assertj.core.api.Assertions.assertThat;
+import static utils.TestUtils.executeWithRetryOf;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import utils.integration.BaseIntTest;
 import utils.integration.TestBrowserFactory;
@@ -26,62 +26,61 @@ public class MouseIntTest extends BaseIntTest {
 
     FeaturePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void setupBrowser() {
         // same method name as base class method for logical override in JUnit
         browser = new TestBrowserFactory().createBrowser();
     }
 
-    @AfterClass
-    public static void closeIsolatedBrowser() {
+    @AfterAll
+    static void closeIsolatedBrowser() {
         browser.close();
     }
 
-    @Before
-    public final void openPage() {
+    @Test
+    void demonstrateOnPageFragment() {
+        executeWithRetryOf(10, this::openPage, () -> {
+            Mouse.on(page.firstButton())//
+                .click()//
+                .doubleClick()//
+                .contextClick();
+
+            Wait.untilSupplied(() -> page.getMessage(1)).is(equalTo("Context Clicked"));
+            assertThat(page.getMessage(1)).isEqualTo("Context Clicked");
+        });
+    }
+
+    @Test
+    void demonstrateSequence() {
+        executeWithRetryOf(10, this::openPage, () -> {
+            Mouse.sequence()//
+                .click(page.secondButton())//
+                .moveTo(page.thirdButton())//
+                .moveTo(page.firstButton())//
+                .contextClick();
+
+            assertThat(page.getMessage(1)).isEqualTo("Context Clicked");
+            assertThat(page.getMessage(2)).isEqualTo("Clicked");
+            assertThat(page.getMessage(3)).isEqualTo("Moved To");
+        });
+    }
+
+    @Test
+    void demonstrateMoveToEach() {
+        executeWithRetryOf(10, this::openPage, () -> {
+            // move mouse to each button in the given order
+            Mouse.moveToEach(page.firstButton(), page.secondButton(), page.thirdButton());
+
+            // assert mouse was moved
+            assertThat(page.getMessage(1)).isEqualTo("Moved To");
+            assertThat(page.getMessage(2)).isEqualTo("Moved To");
+            assertThat(page.getMessage(3)).isEqualTo("Moved To");
+        });
+    }
+
+    void openPage() {
         browser.open(getUrlFor("html/features/mouse-utils.html"));
         page = browser.create(FeaturePage.class);
-    }
-
-    @Test
-    public void demonstrateOnPageFragment() {
-
-        Mouse.on(page.firstButton())//
-            .click()//
-            .doubleClick()//
-            .contextClick();
-
-        Wait.untilSupplied(() -> page.getMessage(1)).is(equalTo("Context Clicked"));
-        assertThat(page.getMessage(1)).isEqualTo("Context Clicked");
-
-    }
-
-    @Test
-    public void demonstrateSequence() {
-
-        Mouse.sequence()//
-            .click(page.secondButton())//
-            .moveTo(page.thirdButton())//
-            .moveTo(page.firstButton())//
-            .contextClick();
-
-        assertThat(page.getMessage(1)).isEqualTo("Context Clicked");
-        assertThat(page.getMessage(2)).isEqualTo("Clicked");
-        assertThat(page.getMessage(3)).isEqualTo("Moved To");
-
-    }
-
-    @Test
-    public void demonstrateMoveToEach() {
-
-        // move mouse to each button in the given order
-        Mouse.moveToEach(page.firstButton(), page.secondButton(), page.thirdButton());
-
-        // assert mouse was moved
-        assertThat(page.getMessage(1)).isEqualTo("Moved To");
-        assertThat(page.getMessage(2)).isEqualTo("Moved To");
-        assertThat(page.getMessage(3)).isEqualTo("Moved To");
-
     }
 
     public interface FeaturePage extends Page {
