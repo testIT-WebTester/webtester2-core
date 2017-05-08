@@ -1,3 +1,4 @@
+[![GitHub version](https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core.svg)](https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core)
 [![License](https://img.shields.io/badge/License-Apache%20License%202.0-brightgreen.svg)][10]
 [![Build Status](https://travis-ci.org/testIT-WebTester/webtester2-core.svg?branch=master)][11]
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8e27ea2197814283bd971e816ae549fb)][12]
