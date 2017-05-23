@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache%20License%202.0-brightgreen.svg)][10]
-[![GitHub version](https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core.svg)](https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core)
+[![GitHub version](https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core.svg)][15]
 [![Maven Central Version](https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/webtester-core/badge.svg)][12]
+[![Javadocs](https://www.javadoc.io/badge/info.novatec.testit/webtester-core.svg)][16]
 [![Build Status](https://travis-ci.org/testIT-WebTester/webtester2-core.svg?branch=master)][11]
 [![Codecov](https://codecov.io/gh/testIT-WebTester/webtester2-core/branch/master/graph/badge.svg)][14]
 [![BCH compliance](https://bettercodehub.com/edge/badge/testIT-WebTester/webtester2-core)][13]
@@ -79,3 +80,5 @@ a German consultancy firm that drives quality in software development projects.
 [12]:https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/webtester-core/
 [13]:https://bettercodehub.com/results/testIT-WebTester/webtester2-core
 [14]:https://codecov.io/gh/testIT-WebTester/webtester2-core
+[15]:https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core
+[16]:https://www.javadoc.io/doc/info.novatec.testit/webtester-core
