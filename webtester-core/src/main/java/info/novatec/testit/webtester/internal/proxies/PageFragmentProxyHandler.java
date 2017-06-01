@@ -15,6 +15,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.internal.ClasspathUtils;
+import info.novatec.testit.webtester.internal.mapping.DefaultMappingValidator;
+import info.novatec.testit.webtester.internal.mapping.MappingValidator;
 import info.novatec.testit.webtester.internal.proxies.arounds.EventProducingImplementationDecorator;
 import info.novatec.testit.webtester.internal.proxies.befores.ActionOperation;
 import info.novatec.testit.webtester.internal.proxies.befores.BeforeOperation;
@@ -28,13 +31,12 @@ import info.novatec.testit.webtester.internal.proxies.impls.IdentifyUsingListImp
 import info.novatec.testit.webtester.internal.proxies.impls.IdentifyUsingSetImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.IdentifyUsingStreamImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.Implementation;
+import info.novatec.testit.webtester.internal.proxies.impls.KotlinDefaultMethodImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.NameReturningImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.PageCreatingImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.ToStringImpl;
 import info.novatec.testit.webtester.internal.proxies.impls.WebElementReturningImpl;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
-import info.novatec.testit.webtester.internal.mapping.DefaultMappingValidator;
-import info.novatec.testit.webtester.internal.mapping.MappingValidator;
 
 
 @Builder
@@ -72,6 +74,9 @@ public class PageFragmentProxyHandler implements InvocationHandler {
         implementations.add(new IdentifyUsingListImpl(browser, searchContextSupplier));
         implementations.add(new IdentifyUsingSetImpl(browser, searchContextSupplier));
         implementations.add(new IdentifyUsingStreamImpl(browser, searchContextSupplier));
+        if (ClasspathUtils.KOTLIN_AVAILABLE) {
+            implementations.add(new KotlinDefaultMethodImpl());
+        }
         return this;
     }
 
