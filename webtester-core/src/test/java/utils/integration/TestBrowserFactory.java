@@ -1,5 +1,7 @@
 package utils.integration;
 
+import info.novatec.testit.webtester.browser.factories.ChromeFactory;
+import info.novatec.testit.webtester.browser.factories.MarionetteFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import info.novatec.testit.webtester.browser.Browser;
@@ -21,7 +23,7 @@ public class TestBrowserFactory implements BrowserFactory {
     private Browser createBrowserFromProfile() {
         switch (System.getProperty("testProfile", "local")){
             case "local":
-                return new FirefoxFactory().createBrowser();
+                return new ChromeFactory().createBrowser();
             case "remote":
                 return new RemoteFactory().createBrowser();
             default:
