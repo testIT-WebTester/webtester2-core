@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -36,49 +36,49 @@ abstract class AbstractIdentifyUsingCollectionImpl implements Implementation {
     List<? extends PageFragment> getStreamOfPageFragmentsFor(Method method) {
 
         IdentifyUsing identifyUsing = method.getAnnotation(IdentifyUsing.class);
-        Class<?> type = method.getReturnType();
         Class<PageFragment> genericType = getGenericType(method);
         By by = ByProducers.createBy(identifyUsing);
 
-        waitIfAnnotationPresent(method, type, genericType, by);
+        waitIfAnnotationPresent(method, genericType, by);
         return findPageFragments(genericType, by);
 
     }
 
-    private void waitIfAnnotationPresent(Method method, Class<?> type, Class<PageFragment> genericType, By by) {
+    private void waitIfAnnotationPresent(Method method, Class<PageFragment> genericType, By by) {
         WaitUntil annotation = method.getAnnotation(WaitUntil.class);
         if (annotation != null) {
-            doWaitUntil(annotation, type, genericType, by);
+            doWaitUntil(annotation, genericType, by);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void doWaitUntil(WaitUntil annotation, Class<?> type, Class<PageFragment> genericType, By by) {
+    private void doWaitUntil(WaitUntil annotation, Class<PageFragment> genericType, By by) {
+        Condition condition = getConditionInstance(annotation);
+        assertConditionCanHandleCollection(condition);
+        if (annotation.timeout() > 0) {
+            Wait.withTimeoutOf(annotation.timeout(), annotation.unit())
+                .untilSupplied(() -> findPageFragments(genericType, by))
+                .is(condition);
+        } else {
+            Wait.untilSupplied(() -> findPageFragments(genericType, by)).is(condition);
+        }
+    }
+
+    private Condition getConditionInstance(WaitUntil annotation) {
         try {
-            Condition condition = annotation.value().newInstance();
-            assertConditionCanHandleCollection(type, condition);
-            if (annotation.timeout() > 0) {
-                Wait.withTimeoutOf(annotation.timeout(), annotation.unit())
-                    .untilSupplied(() -> findPageFragments(genericType, by))
-                    .is(condition);
-            } else {
-                Wait.untilSupplied(() -> findPageFragments(genericType, by)).is(condition);
-            }
+            return annotation.value().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalSignatureException(COULD_NOT_CREATE_PREDICATE_INSTANCE_MSG, e);
         }
     }
 
-    private void assertConditionCanHandleCollection(Class<?> type, Condition condition) {
-        Class<? extends Condition> conditionClass = condition.getClass();
-        Method testMethod = Arrays.stream(conditionClass.getMethods())//
-            .filter(method -> "test".equals(method.getName()))
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("test method not found"));
-        if (!testMethod.getParameterTypes()[0].isAssignableFrom(type)) {
+    @SuppressWarnings("unchecked")
+    private void assertConditionCanHandleCollection(Condition condition) {
+        try {
+            condition.test(Collections.<List<? extends PageFragment>>emptyList());
+        } catch (ClassCastException e) {
             throw new IllegalSignatureException(
-                "Condition '" + conditionClass.getSimpleName() + "' cant't handle method return type '"
-                    + type.getSimpleName() + "'");
+                "Condition '" + condition.getClass().getSimpleName() + "' cant't handle List<? extends PageFragment>");
         }
     }
 
