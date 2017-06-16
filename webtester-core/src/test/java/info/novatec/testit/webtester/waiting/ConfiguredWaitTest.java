@@ -5,58 +5,83 @@ import static org.mockito.Mockito.verify;
 
 import java.util.function.Supplier;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.testit.testutils.mockito.junit5.EnableMocking;
 
 
-@RunWith(Enclosed.class)
-public class ConfiguredWaitTest {
+@EnableMocking
+class ConfiguredWaitTest {
 
-    @RunWith(MockitoJUnitRunner.class)
-    public static abstract class AbstractConfiguredWaitTest {
+    @Mock
+    Waiter waiter;
+    @Mock
+    WaitConfig config;
+    @InjectMocks
+    ConfiguredWait cut;
 
-        @Mock
-        Waiter waiter;
-        @Mock
-        WaitConfig config;
-        @InjectMocks
-        ConfiguredWait cut;
-
-    }
-
-    public static class FluentUntil extends AbstractConfiguredWaitTest {
+    @Nested
+    class FluentUntil {
 
         @Mock
         Object object;
 
         @Test
-        public void waitUntilIsCreatedWithSameWaiter() {
+        void waitUntilIsCreatedWithSameWaiter() {
             WaitUntil<Object> waitUntil = cut.until(object);
             assertThat(waitUntil.getWaiter()).isSameAs(waiter);
         }
 
         @Test
-        public void waitUntilIsCreatedWithSameConfiguration() {
+        void waitUntilIsCreatedWithSameConfiguration() {
             WaitUntil<Object> waitUntil = cut.until(object);
             assertThat(waitUntil.getConfig()).isSameAs(config);
         }
 
         @Test
-        public void waitUntilIsCreatedForObject() {
+        void waitUntilIsCreatedForObject() {
             WaitUntil<Object> waitUntil = cut.until(object);
             assertThat(waitUntil.getObjectSupplier().get()).isSameAs(object);
         }
 
     }
 
-    public static class Until extends AbstractConfiguredWaitTest {
+    @Nested
+    class FluentUntilSupplied {
+
+        @Mock
+        Object object;
 
         @Test
-        public void usesWaiterToWaitForSupplierToReturnTrue() {
+        void waitUntilIsCreatedWithSameWaiter() {
+            Supplier<Object> supplier = () -> object;
+            WaitUntil<Object> waitUntil = cut.untilSupplied(supplier);
+            assertThat(waitUntil.getWaiter()).isSameAs(waiter);
+        }
+
+        @Test
+        void waitUntilIsCreatedWithSameConfiguration() {
+            Supplier<Object> supplier = () -> object;
+            WaitUntil<Object> waitUntil = cut.untilSupplied(supplier);
+            assertThat(waitUntil.getConfig()).isSameAs(config);
+        }
+
+        @Test
+        void waitUntilIsCreatedForObject() {
+            Supplier<Object> supplier = () -> object;
+            WaitUntil<Object> waitUntil = cut.untilSupplied(supplier);
+            assertThat(waitUntil.getObjectSupplier().get()).isSameAs(object);
+        }
+
+    }
+
+    @Nested
+    class Until {
+
+        @Test
+        void usesWaiterToWaitForSupplierToReturnTrue() {
             Supplier<Boolean> supplier = () -> true;
             cut.until(supplier);
             verify(waiter).waitUntil(config, supplier);

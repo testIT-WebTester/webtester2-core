@@ -120,6 +120,21 @@ public class Wait {
     }
 
     /**
+     * Executes a wait operation based on the default timeout configuration of {@link WaitConfig} and the given boolean
+     * supplier. The wait is executed until either the supplier returns <code>true</code> or the timeout is reached.
+     *
+     * @param condition the supplier for the wait until operation
+     * @see Wait
+     * @see WaitUntil
+     * @see Waiter
+     * @see WaitConfig
+     * @since 2.0
+     */
+    public static void until(Supplier<Boolean> condition) {
+        waiter.get().waitUntil(new WaitConfig(), condition);
+    }
+
+    /**
      * Waits the given amount of time with the given unit.
      * <p>
      * <b>Example:</b>

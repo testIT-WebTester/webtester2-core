@@ -6,50 +6,45 @@ import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.testit.testutils.mockito.junit5.EnableMocking;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
-@RunWith(Enclosed.class)
-public class WaitTest {
+@EnableMocking
+class WaitTest {
 
-    @RunWith(MockitoJUnitRunner.class)
-    public static abstract class AbstractWaitTest {
+    @Mock
+    Waiter waiter;
 
-        @Mock
-        Waiter waiter;
-
-        @Before
-        public void rememberAndReplaceOriginalWaiter() {
-            Wait.setWaiter(() -> waiter);
-        }
-
-        @After
-        public void restoreOriginalWaiter() {
-            Wait.setWaiter(Wait.DEFAULT_WAITER);
-        }
-
+    @BeforeEach
+    void rememberAndReplaceOriginalWaiter() {
+        Wait.setWaiter(() -> waiter);
     }
 
-    public static class WithTimeoutOf_Timeout extends AbstractWaitTest {
+    @AfterEach
+    void restoreOriginalWaiter() {
+        Wait.setWaiter(Wait.DEFAULT_WAITER);
+    }
+
+    @Nested
+    class WithTimeoutOf_Timeout {
 
         @Test
-        public void configuredWaitIsCreatedWithSameWaiter() {
+        void configuredWaitIsCreatedWithSameWaiter() {
             ConfiguredWait wait = Wait.withTimeoutOf(1);
             assertThat(wait.getWaiter()).isSameAs(waiter);
         }
 
         @Test
-        public void configuredWaitIsCreatedWithCorrectConfiguration() {
+        void configuredWaitIsCreatedWithCorrectConfiguration() {
             ConfiguredWait wait = Wait.withTimeoutOf(1);
             WaitConfig config = wait.getConfig();
             assertThat(config.getTimeout()).isEqualTo(1);
@@ -59,16 +54,17 @@ public class WaitTest {
 
     }
 
-    public static class WithTimeoutOf_TimeoutAndUnit extends AbstractWaitTest {
+    @Nested
+    class WithTimeoutOf_TimeoutAndUnit {
 
         @Test
-        public void configuredWaitIsCreatedWithSameWaiter() {
+        void configuredWaitIsCreatedWithSameWaiter() {
             ConfiguredWait wait = Wait.withTimeoutOf(1, TimeUnit.MINUTES);
             assertThat(wait.getWaiter()).isSameAs(waiter);
         }
 
         @Test
-        public void configuredWaitIsCreatedWithCorrectConfiguration() {
+        void configuredWaitIsCreatedWithCorrectConfiguration() {
             ConfiguredWait wait = Wait.withTimeoutOf(1, TimeUnit.MINUTES);
             WaitConfig config = wait.getConfig();
             assertThat(config.getTimeout()).isEqualTo(1);
@@ -78,19 +74,20 @@ public class WaitTest {
 
     }
 
-    public static class Until_Object extends AbstractWaitTest {
+    @Nested
+    class Until_Object {
 
         @Mock
         Object object;
 
         @Test
-        public void waitUntilIsCreatedWithSameWaiter() {
+        void waitUntilIsCreatedWithSameWaiter() {
             WaitUntil<Object> until = Wait.until(object);
             assertThat(until.getWaiter()).isSameAs(waiter);
         }
 
         @Test
-        public void waitUntilIsCreatedWithDefaultConfiguration() {
+        void waitUntilIsCreatedWithDefaultConfiguration() {
             WaitUntil<Object> until = Wait.until(object);
             WaitConfig config = until.getConfig();
             assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
@@ -99,26 +96,27 @@ public class WaitTest {
         }
 
         @Test
-        public void waitUntilIsCreatedForObject() {
+        void waitUntilIsCreatedForObject() {
             WaitUntil<Object> until = Wait.until(object);
             assertThat(until.getObjectSupplier().get()).isSameAs(object);
         }
 
     }
 
-    public static class Until_ObjectSupplier extends AbstractWaitTest {
+    @Nested
+    class Until_ObjectSupplier {
 
         @Mock
         Object object;
 
         @Test
-        public void waitUntilIsCreatedWithSameWaiter() {
+        void waitUntilIsCreatedWithSameWaiter() {
             WaitUntil<Object> until = Wait.untilSupplied(() -> object);
             assertThat(until.getWaiter()).isSameAs(waiter);
         }
 
         @Test
-        public void waitUntilIsCreatedWithDefaultConfiguration() {
+        void waitUntilIsCreatedWithDefaultConfiguration() {
             WaitUntil<Object> until = Wait.untilSupplied(() -> object);
             WaitConfig config = until.getConfig();
             assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
@@ -127,14 +125,41 @@ public class WaitTest {
         }
 
         @Test
-        public void waitUntilIsCreatedForObject() {
+        void waitUntilIsCreatedForObject() {
             WaitUntil<Object> until = Wait.untilSupplied(() -> object);
             assertThat(until.getObjectSupplier().get()).isSameAs(object);
         }
 
     }
 
-    public static class Until_PageFragment extends AbstractWaitTest {
+    @Nested
+    class Until_BooleanSupplier {
+
+        @Test
+        void waitUntilIsCreatedWithSameWaiter() {
+            WaitUntil<Object> until = Wait.untilSupplied(() -> true);
+            assertThat(until.getWaiter()).isSameAs(waiter);
+        }
+
+        @Test
+        void waitUntilIsCreatedWithDefaultConfiguration() {
+            WaitUntil<Object> until = Wait.untilSupplied(() -> true);
+            WaitConfig config = until.getConfig();
+            assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
+            assertThat(config.getTimeUnit()).isEqualTo(WaitConfig.DEFAULT_TIME_UNIT);
+            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
+        }
+
+        @Test
+        void waitUntilIsCreatedForObject() {
+            WaitUntil<Object> until = Wait.untilSupplied(() -> true);
+            assertThat(until.getObjectSupplier().get()).isEqualTo(true);
+        }
+
+    }
+
+    @Nested
+    class Until_PageFragment {
 
         @Mock
         Configuration configuration;
@@ -143,8 +168,8 @@ public class WaitTest {
         @Mock
         PageFragment fragment;
 
-        @Before
-        public void setUpFragment() {
+        @BeforeEach
+        void setUpFragment() {
             doReturn(configuration).when(browser).configuration();
             doReturn(browser).when(fragment).browser();
             doReturn(1).when(configuration).getWaitTimeout();
@@ -152,13 +177,13 @@ public class WaitTest {
         }
 
         @Test
-        public void waitUntilIsCreatedWithSameWaiter() {
+        void waitUntilIsCreatedWithSameWaiter() {
             WaitUntil<PageFragment> until = Wait.until(fragment);
             assertThat(until.getWaiter()).isSameAs(waiter);
         }
 
         @Test
-        public void waitUntilIsCreatedWithFragmentsConfiguration() {
+        void waitUntilIsCreatedWithFragmentsConfiguration() {
             WaitUntil<PageFragment> until = Wait.until(fragment);
             WaitConfig config = until.getConfig();
             assertThat(config.getTimeout()).isEqualTo(1);
@@ -167,17 +192,18 @@ public class WaitTest {
         }
 
         @Test
-        public void waitUntilIsCreatedForPageFragment() {
+        void waitUntilIsCreatedForPageFragment() {
             WaitUntil<PageFragment> until = Wait.until(fragment);
             assertThat(until.getObjectSupplier().get()).isSameAs(fragment);
         }
 
     }
 
-    public static class Exactly extends AbstractWaitTest {
+    @Nested
+    class Exactly {
 
         @Test
-        public void isDirectlyDelegatedToWaiter() {
+        void isDirectlyDelegatedToWaiter() {
             Wait.exactly(10, TimeUnit.SECONDS);
             verify(waiter).waitExactly(10, TimeUnit.SECONDS);
         }
