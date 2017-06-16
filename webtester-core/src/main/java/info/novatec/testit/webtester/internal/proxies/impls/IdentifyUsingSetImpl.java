@@ -1,6 +1,7 @@
 package info.novatec.testit.webtester.internal.proxies.impls;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class IdentifyUsingSetImpl extends AbstractIdentifyUsingCollectionImpl {
     @Override
     public Set<? extends PageFragment> invoke(Object proxy, Method method, Object[] args) throws Throwable {
         log.debug("creating new set of proxies for '{}'", method);
-        return getStreamOfPageFragmentsFor(method).collect(Collectors.toSet());
+        return new HashSet<>(getStreamOfPageFragmentsFor(method));
     }
 
 }

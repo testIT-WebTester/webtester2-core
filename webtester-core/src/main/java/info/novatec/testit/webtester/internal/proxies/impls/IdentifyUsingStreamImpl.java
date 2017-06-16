@@ -36,7 +36,7 @@ public class IdentifyUsingStreamImpl extends AbstractIdentifyUsingCollectionImpl
     @Override
     public Stream<? extends PageFragment> invoke(Object proxy, Method method, Object[] args) throws Throwable {
         log.debug("creating new stream of proxies for '{}'", method);
-        return getStreamOfPageFragmentsFor(method);
+        return getStreamOfPageFragmentsFor(method).stream();
     }
 
 }

@@ -1,17 +1,14 @@
 package info.novatec.testit.webtester.internal.proxies.impls;
 
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import org.openqa.selenium.SearchContext;
-
-import lombok.extern.slf4j.Slf4j;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.SearchContext;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.function.Supplier;
 
 
 @Slf4j
@@ -37,7 +34,7 @@ public class IdentifyUsingListImpl extends AbstractIdentifyUsingCollectionImpl {
     @Override
     public List<? extends PageFragment> invoke(Object proxy, Method method, Object[] args) throws Throwable {
         log.debug("creating new list of proxies for '{}'", method);
-        return getStreamOfPageFragmentsFor(method).collect(Collectors.toList());
+        return getStreamOfPageFragmentsFor(method);
     }
 
 }
