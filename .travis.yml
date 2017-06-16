@@ -22,7 +22,6 @@ before_script:
   - docker --version
   - docker-compose --version
   - docker-compose up -d
-  - docker-compose scale firefox=2 chrome=2
 script:
   - >
     mvn clean verify
