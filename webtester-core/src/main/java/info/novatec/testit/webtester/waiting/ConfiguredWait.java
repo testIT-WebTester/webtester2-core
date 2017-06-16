@@ -1,11 +1,11 @@
 package info.novatec.testit.webtester.waiting;
 
-import java.util.function.Supplier;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
+
+import java.util.function.Supplier;
 
 
 /**
@@ -21,10 +21,14 @@ import lombok.NonNull;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ConfiguredWait {
 
-    /** The {@link Waiter} to use when executing wait operations. */
+    /**
+     * The {@link Waiter} to use when executing wait operations.
+     */
     @NonNull
     private final Waiter waiter;
-    /** The {@link WaitConfig} to use when deciding how long to wait. */
+    /**
+     * The {@link WaitConfig} to use when deciding how long to wait.
+     */
     @NonNull
     private final WaitConfig config;
 
@@ -32,7 +36,7 @@ public class ConfiguredWait {
      * Creates a {@link WaitUntil} with this {@link ConfiguredWait}'s {@link ConfiguredWait} for the given object.
      *
      * @param object the object for the wait until operation
-     * @param <T> the type of object
+     * @param <T>    the type of object
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil
@@ -42,6 +46,23 @@ public class ConfiguredWait {
      */
     public <T> WaitUntil<T> until(T object) {
         return new WaitUntil<>(waiter, config, object);
+    }
+
+    /**
+     * Creates a {@link WaitUntil} with this {@link ConfiguredWait}'s {@link ConfiguredWait} for the given object {@link
+     * Supplier}.
+     *
+     * @param objectSupplier the object supplier for the wait until operation
+     * @param <T>            the type of the object
+     * @return the fluent wait instance
+     * @see Wait
+     * @see WaitUntil
+     * @see Waiter
+     * @see WaitConfig
+     * @since 2.0
+     */
+    public <T> WaitUntil<T> untilSupplied(Supplier<T> objectSupplier) {
+        return new WaitUntil<>(waiter, config, objectSupplier);
     }
 
     /**
