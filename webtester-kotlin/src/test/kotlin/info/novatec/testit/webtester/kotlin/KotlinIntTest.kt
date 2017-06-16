@@ -1,10 +1,10 @@
-package org.webtester.kotlin
+package info.novatec.testit.webtester.kotlin
 
 import info.novatec.testit.webtester.pagefragments.TextField
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing
-import info.novatec.testit.webtester.pages.Page
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import info.novatec.testit.webtester.kotlin.pages.Page
 import utils.integration.BaseIntTest
 import javax.annotation.PostConstruct
 

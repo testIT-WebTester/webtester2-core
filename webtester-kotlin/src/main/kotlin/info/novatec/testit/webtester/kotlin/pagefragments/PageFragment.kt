@@ -1,4 +1,4 @@
-package org.webtester.kotlin.pagefragments
+package info.novatec.testit.webtester.kotlin.pagefragments
 
 import info.novatec.testit.webtester.adhoc.TypeFinder
 import info.novatec.testit.webtester.internal.OffersAdHocFinding
@@ -22,7 +22,7 @@ interface PageFragment : PageFragment {
      * @since 2.3
      */
     fun <T : PageFragment> find(fragmentClass: KClass<T>): TypeFinder<T> {
-        return finder().find(fragmentClass.java)
+        return find(fragmentClass.java)
     }
 
     /**
@@ -32,7 +32,7 @@ interface PageFragment : PageFragment {
      * @since 2.3
      */
     fun <T : Page> create(pageClass: KClass<T>): T {
-        return browser().create(pageClass.java)
+        return create(pageClass.java)
     }
 
 }
