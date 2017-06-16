@@ -1,10 +1,13 @@
 package info.novatec.testit.webtester.waiting;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -136,24 +139,10 @@ class WaitTest {
     class Until_BooleanSupplier {
 
         @Test
-        void waitUntilIsCreatedWithSameWaiter() {
-            WaitUntil<Object> until = Wait.untilSupplied(() -> true);
-            assertThat(until.getWaiter()).isSameAs(waiter);
-        }
-
-        @Test
-        void waitUntilIsCreatedWithDefaultConfiguration() {
-            WaitUntil<Object> until = Wait.untilSupplied(() -> true);
-            WaitConfig config = until.getConfig();
-            assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
-            assertThat(config.getTimeUnit()).isEqualTo(WaitConfig.DEFAULT_TIME_UNIT);
-            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
-        }
-
-        @Test
-        void waitUntilIsCreatedForObject() {
-            WaitUntil<Object> until = Wait.untilSupplied(() -> true);
-            assertThat(until.getObjectSupplier().get()).isEqualTo(true);
+        void delegatesToWaiter() {
+            Supplier<Boolean> supplier = () -> true;
+            Wait.until(supplier);
+            verify(waiter).waitUntil(any(WaitConfig.class), eq(supplier));
         }
 
     }
