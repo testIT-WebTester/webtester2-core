@@ -378,8 +378,6 @@
 									<requirePluginVersions/>
 									<!-- all-dependency-versions-must-converge -->
 									<dependencyConvergence/>
-									<!-- no-custom-repositories-are-needed -->
-									<requireNoRepositories/>
 									<!-- no-distribution-management-in-poms -->
 									<banDistributionManagement/>
 								</rules>
