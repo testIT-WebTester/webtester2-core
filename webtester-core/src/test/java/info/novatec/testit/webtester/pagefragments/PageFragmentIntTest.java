@@ -133,7 +133,8 @@ public class PageFragmentIntTest extends BaseIntTest {
 
     @Test
     public void cssPropertiesCanBeRead() {
-        Optional<String> value = page.withStyle().getCssValue("text-decoration");
+        String value = page.withStyle().getCssValue("text-decoration")
+                .orElseThrow(IllegalStateException::new);
         assertThat(value).contains("underline");
     }
 
