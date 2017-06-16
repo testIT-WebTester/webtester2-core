@@ -65,7 +65,7 @@ public @interface WaitUntil {
      * @return the until condition to use
      * @since 2.0
      */
-    Class<? extends Condition<PageFragment>> value();
+    Class<? extends Condition> value();
 
     /**
      * The timeout to use. Defaults to {@code 0} which will signal the framework to use the {@link Browser browser's}

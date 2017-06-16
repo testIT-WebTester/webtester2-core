@@ -78,11 +78,14 @@ public class IdentifyUsingImpl implements Implementation {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void doWaitUntil(WaitUntil annotation, PageFragment fragment) {
         try {
-            Condition<? super PageFragment> condition = annotation.value().newInstance();
+            Condition condition = annotation.value().newInstance();
             if (annotation.timeout() > 0) {
-                Wait.withTimeoutOf(annotation.timeout(), annotation.unit()).until(fragment).is(condition);
+                Wait.withTimeoutOf(annotation.timeout(), annotation.unit())//
+                    .until(fragment)//
+                    .is(condition);
             } else {
                 Wait.until(fragment).is(condition);
             }
@@ -97,11 +100,9 @@ public class IdentifyUsingImpl implements Implementation {
     }
 
     private String getName(Method method) {
-        Optional<String> nameFromAnnotation = Optional.ofNullable(method.getAnnotation(Named.class)).map(Named::value);
-        if (nameFromAnnotation.isPresent()) {
-            return nameFromAnnotation.get();
-        }
-        return getIdentifiedByNameFrom(method);
+        return Optional.ofNullable(method.getAnnotation(Named.class))
+            .map(Named::value)
+            .orElseGet(() -> getIdentifiedByNameFrom(method));
     }
 
     private String getIdentifiedByNameFrom(Method method) {

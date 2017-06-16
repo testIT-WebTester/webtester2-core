@@ -11,25 +11,25 @@ import java.util.function.Predicate;
 
 import lombok.experimental.UtilityClass;
 
+import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pagefragments.annotations.PostConstructMustBe;
 import info.novatec.testit.webtester.pages.Page;
 
+
 @UtilityClass
 public class MustChecker {
 
     private static final String ILLEGAL_SIGNATURE_MSG =
-        "invalid @PostConstructMustBe method declarations (returns PageFragment and has no parameters): ";
+        "invalid @PostConstructMustBe method declarations (must not have parameters): ";
 
     private static Predicate<Method> isIdentificationMethod = method -> method.isAnnotationPresent(IdentifyUsing.class);
     private static Predicate<Method> isMustMethod = method -> method.isAnnotationPresent(PostConstructMustBe.class);
     private static Predicate<Method> isRelevantMethod = isIdentificationMethod.and(isMustMethod);
-    private static Predicate<Method> returnsPageFragment =
-        method -> PageFragment.class.isAssignableFrom(method.getReturnType());
     private static Predicate<Method> hasNoParams = method -> method.getParameterCount() == 0;
-    private static Predicate<Method> isValidMethod = returnsPageFragment.and(hasNoParams);
+    private static Predicate<Method> isValidMethod = hasNoParams;
 
     public static <T extends Page> void checkMustMethods(Class<T> pageClass, T page) {
         // NOTE: since page is a proxy, the original class needs to be provided from outside!
@@ -78,14 +78,28 @@ public class MustChecker {
     private static void invoke(Method method, Object object) {
         try {
             PostConstructMustBe annotation = method.getAnnotation(PostConstructMustBe.class);
-            PageFragment fragment = ( PageFragment ) method.invoke(object);
-            Predicate<PageFragment> predicate = annotation.value().newInstance();
-            if (!predicate.test(fragment)) {
-                throw new MustConditionException("condition not met for method (" + method + "): " + predicate);
+            Object fragment = method.invoke(object);
+            Condition condition = annotation.value().newInstance();
+            if (!doInvoke(fragment, condition)) {
+                throw new MustConditionException("condition not met for method (" + method + "): " + condition);
             }
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException | ClassCastException e) {
             throw new MustConditionException(e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static boolean doInvoke(Object fragment, Condition condition) {
+        try {
+            return condition.test(fragment);
+        } catch (ClassCastException e) {
+            throw new MustConditionException(
+                "Condition '" + name(condition) + "' can't handle type '" + name(fragment) + "'!");
+        }
+    }
+
+    private static String name(Object object) {
+        return object.getClass().getSimpleName();
     }
 
 }

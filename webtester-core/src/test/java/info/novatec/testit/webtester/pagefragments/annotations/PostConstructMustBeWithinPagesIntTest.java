@@ -1,10 +1,13 @@
 package info.novatec.testit.webtester.pagefragments.annotations;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import utils.integration.BaseIntTest;
 
+import info.novatec.testit.webtester.conditions.collections.NotEmpty;
 import info.novatec.testit.webtester.conditions.pagefragments.Present;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.internal.must.MustConditionException;
@@ -26,13 +29,23 @@ public class PostConstructMustBeWithinPagesIntTest extends BaseIntTest {
     }
 
     @Test(expected = MustConditionException.class)
-    public void demonstrateFailingMustBeBehaviour() {
-        browser().create(FailingFeaturePage.class);
+    public void demonstrateFailingMustBeBehaviour_PageFragment() {
+        browser().create(FailingBecauseOfFragmentPage.class);
+    }
+
+    @Test(expected = MustConditionException.class)
+    public void demonstrateFailingMustBeBehaviour_Collection() {
+        browser().create(FailingBecauseOfCollectionPage.class);
     }
 
     @Test(expected = MustConditionException.class)
     public void demonstrateInheritanceFailingMustBeBehaviour() {
         browser().create(InheritedFailingFeaturePage.class);
+    }
+
+    @Test(expected = MustConditionException.class)
+    public void exceptionInCaseTheConditionCantHandleMethodReturnType() {
+        browser().create(FailingBecauseOfConditionTypePage.class);
     }
 
     /* test pages */
@@ -43,17 +56,37 @@ public class PostConstructMustBeWithinPagesIntTest extends BaseIntTest {
         @IdentifyUsing("#username")
         TextField username();
 
+        @PostConstructMustBe(NotEmpty.class)
+        @IdentifyUsing("#username")
+        List<TextField> usernames();
+
     }
 
-    public interface InheritedFailingFeaturePage extends FailingFeaturePage {
+    public interface InheritedFailingFeaturePage extends FailingBecauseOfFragmentPage {
         // no own @PostConstructMustBe condition - it should fail because of inheritance
     }
 
-    public interface FailingFeaturePage extends Page {
+    public interface FailingBecauseOfFragmentPage extends Page {
 
         @PostConstructMustBe(Present.class)
         @IdentifyUsing("#unknown")
         PageFragment unknown();
+
+    }
+
+    public interface FailingBecauseOfCollectionPage extends Page {
+
+        @PostConstructMustBe(NotEmpty.class)
+        @IdentifyUsing("#unknown")
+        List<PageFragment> unknowns();
+
+    }
+
+    public interface FailingBecauseOfConditionTypePage extends Page {
+
+        @PostConstructMustBe(Visible.class)
+        @IdentifyUsing("#username")
+        List<TextField> usernames();
 
     }
 

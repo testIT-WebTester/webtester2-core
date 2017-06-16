@@ -1,11 +1,5 @@
 package info.novatec.testit.webtester.pagefragments.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import info.novatec.testit.webtester.conditions.Condition;
 import info.novatec.testit.webtester.conditions.Conditions;
 import info.novatec.testit.webtester.conditions.pagefragments.Disabled;
@@ -20,6 +14,12 @@ import info.novatec.testit.webtester.conditions.pagefragments.Selected;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pages.Page;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 
 /**
@@ -71,6 +71,6 @@ public @interface PostConstructMustBe {
      * @return the condition to use
      * @since 2.0
      */
-    Class<? extends Condition<PageFragment>> value();
+    Class<? extends Condition> value();
 
 }
