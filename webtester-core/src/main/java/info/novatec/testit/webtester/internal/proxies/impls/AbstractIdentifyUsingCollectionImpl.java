@@ -57,12 +57,16 @@ abstract class AbstractIdentifyUsingCollectionImpl implements Implementation {
         try {
             Condition condition = annotation.value().newInstance();
             assertConditionCanHandleCollection(type, condition);
-            if (annotation.timeout() > 0) {
-                Wait.withTimeoutOf(annotation.timeout(), annotation.unit())
-                    .untilSupplied(() -> findPageFragments(genericType, by))
-                    .is(condition);
-            } else {
-                Wait.untilSupplied(() -> findPageFragments(genericType, by)).is(condition);
+            try {
+                if (annotation.timeout() > 0) {
+                    Wait.withTimeoutOf(annotation.timeout(), annotation.unit())
+                        .untilSupplied(() -> findPageFragments(genericType, by))
+                        .is(condition);
+                } else {
+                    Wait.untilSupplied(() -> findPageFragments(genericType, by)).is(condition);
+                }
+            } catch (ClassCastException e) {
+                throw buildIllegalSignatureException(type, condition.getClass());
             }
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalSignatureException(COULD_NOT_CREATE_PREDICATE_INSTANCE_MSG, e);
@@ -76,10 +80,14 @@ abstract class AbstractIdentifyUsingCollectionImpl implements Implementation {
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("test method not found"));
         if (!testMethod.getParameterTypes()[0].isAssignableFrom(type)) {
-            throw new IllegalSignatureException(
-                "Condition '" + conditionClass.getSimpleName() + "' cant't handle method return type '"
-                    + type.getSimpleName() + "'");
+            throw buildIllegalSignatureException(type, conditionClass);
         }
+    }
+
+    private IllegalSignatureException buildIllegalSignatureException(Class<?> type, Class<?> conditionClass) {
+        return new IllegalSignatureException(
+            "Condition '" + conditionClass.getSimpleName() + "' cant't handle method return type '" + type.getSimpleName()
+                + "'");
     }
 
     private List<PageFragment> findPageFragments(Class<PageFragment> type, By by) {
