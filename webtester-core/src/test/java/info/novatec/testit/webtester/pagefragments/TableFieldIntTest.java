@@ -57,7 +57,7 @@ public class TableFieldIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noTableField());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#tableHeaderField")
         TableField tableHeaderField();

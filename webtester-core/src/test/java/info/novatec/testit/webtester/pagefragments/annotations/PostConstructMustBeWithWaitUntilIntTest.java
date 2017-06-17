@@ -7,7 +7,7 @@ import utils.integration.BaseIntTest;
 
 import info.novatec.testit.webtester.conditions.pagefragments.PresentAndVisible;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
-import info.novatec.testit.webtester.internal.must.MustConditionException;
+import info.novatec.testit.webtester.internal.postconstruct.PostConstructMustBeConditionException;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pages.Page;
 
@@ -29,7 +29,7 @@ public class PostConstructMustBeWithWaitUntilIntTest extends BaseIntTest {
         browser().create(PassingFeaturePage.class);
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void demonstrateFailingMustBeBehaviour() {
         browser().create(FailingFeaturePage.class);
     }

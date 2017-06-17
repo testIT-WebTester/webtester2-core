@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.internal.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.GenericElement;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducer;
@@ -51,7 +51,7 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public AdHocFinder(Browser browser) {
-        this.factory = new PageFragmentFactory(browser);
+        this.factory = PageFragmentFactory.createInstanceFor(browser);
         this.searchContext = browser.webDriver();
     }
 
@@ -66,7 +66,7 @@ public final class AdHocFinder {
      * @since 2.0
      */
     public AdHocFinder(PageFragment parent) {
-        this.factory = new PageFragmentFactory(parent.browser());
+        this.factory = PageFragmentFactory.createInstanceFor(parent.browser());
         this.searchContext = parent.webElement();
     }
 

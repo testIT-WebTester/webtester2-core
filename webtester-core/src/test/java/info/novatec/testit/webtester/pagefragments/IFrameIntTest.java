@@ -48,7 +48,7 @@ public class IFrameIntTest extends BaseIntTest {
 
     /* utilities */
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#iframe")
         IFrame iframe();

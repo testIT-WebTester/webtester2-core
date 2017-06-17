@@ -234,7 +234,7 @@ public class PageFragmentIntTest extends BaseIntTest {
         assertThat(enabled).isTrue();
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#unknown")
         PageFragment unknown();

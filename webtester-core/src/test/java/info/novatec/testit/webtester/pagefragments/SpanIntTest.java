@@ -36,7 +36,7 @@ public class SpanIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noSpan());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#span")
         Span span();

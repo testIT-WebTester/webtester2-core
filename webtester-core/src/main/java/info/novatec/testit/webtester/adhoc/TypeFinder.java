@@ -12,7 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
-import info.novatec.testit.webtester.internal.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory.PageFragmentDescriptor;
+import info.novatec.testit.webtester.internal.implementation.pagefragments.StaticWebElementSupplier;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
 
@@ -77,9 +79,14 @@ public class TypeFinder<T extends PageFragment> {
      * @see PageFragment
      * @since 2.0
      */
+    @SuppressWarnings("unchecked")
     public T by(By by) {
         WebElement webElement = searchContext.findElement(by);
-        return factory.pageFragment(fragmentClass, webElement);
+        PageFragmentDescriptor descriptor = PageFragmentDescriptor.builder()
+            .pageFragmentType(fragmentClass)
+            .webElementSupplier(new StaticWebElementSupplier(webElement))
+            .build();
+        return ( T ) factory.createInstanceOf(descriptor);
     }
 
     /**
@@ -114,10 +121,15 @@ public class TypeFinder<T extends PageFragment> {
      * @see Stream
      * @since 2.0
      */
+    @SuppressWarnings("unchecked")
     public Stream<T> manyBy(By by) {
-        return searchContext.findElements(by)
-            .stream()
-            .map(webElement -> factory.pageFragment(fragmentClass, webElement));
+        return searchContext.findElements(by).stream().map(webElement -> {
+            PageFragmentDescriptor descriptor = PageFragmentDescriptor.builder()
+                .pageFragmentType(fragmentClass)
+                .webElementSupplier(new StaticWebElementSupplier(webElement))
+                .build();
+            return ( T ) factory.createInstanceOf(descriptor);
+        });
     }
 
 }

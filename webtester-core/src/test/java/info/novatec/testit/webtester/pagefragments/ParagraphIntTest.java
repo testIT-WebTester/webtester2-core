@@ -36,7 +36,7 @@ public class ParagraphIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noParagraph());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#paragraph")
         Paragraph paragraph();

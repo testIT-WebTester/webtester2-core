@@ -10,7 +10,7 @@ import utils.integration.BaseIntTest;
 import info.novatec.testit.webtester.conditions.collections.NotEmpty;
 import info.novatec.testit.webtester.conditions.pagefragments.Present;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
-import info.novatec.testit.webtester.internal.must.MustConditionException;
+import info.novatec.testit.webtester.internal.postconstruct.PostConstructMustBeConditionException;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.TextField;
 import info.novatec.testit.webtester.pages.Page;
@@ -28,22 +28,22 @@ public class PostConstructMustBeWithinPagesIntTest extends BaseIntTest {
         browser().create(PassingFeaturePage.class);
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void demonstrateFailingMustBeBehaviour_PageFragment() {
         browser().create(FailingBecauseOfFragmentPage.class);
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void demonstrateFailingMustBeBehaviour_Collection() {
         browser().create(FailingBecauseOfCollectionPage.class);
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void demonstrateInheritanceFailingMustBeBehaviour() {
         browser().create(InheritedFailingFeaturePage.class);
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void exceptionInCaseTheConditionCantHandleMethodReturnType() {
         browser().create(FailingBecauseOfConditionTypePage.class);
     }

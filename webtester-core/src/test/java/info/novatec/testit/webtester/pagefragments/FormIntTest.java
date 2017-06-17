@@ -55,7 +55,7 @@ public class FormIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noForm());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#form")
         Form form();

@@ -36,7 +36,7 @@ public class ListItemIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noListItem());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#listItem")
         ListItem listItem();

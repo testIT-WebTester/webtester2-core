@@ -34,6 +34,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
+		<dependency>
+			<!-- Runtime bytecode generation for interface implementations. -->
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+		</dependency>
 
 		<dependency>
 			<!-- Used for data transport classes and other POJOS. -->

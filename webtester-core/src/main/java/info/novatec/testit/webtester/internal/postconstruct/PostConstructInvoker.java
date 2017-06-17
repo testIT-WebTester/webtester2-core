@@ -16,6 +16,7 @@ import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureExcepti
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pages.Page;
 
+
 @UtilityClass
 public class PostConstructInvoker {
 
@@ -27,12 +28,13 @@ public class PostConstructInvoker {
     private static Predicate<Method> hasNoParams = method -> method.getParameterCount() == 0;
     private static Predicate<Method> isValidMethod = returnsVoid.and(hasNoParams);
 
-    public static <T extends Page> void invokePostConstructMethods(Class<T> pageClass, T page) {
+    public static void invokePostConstructMethods(Class<? extends Page> pageClass, Page page) {
         // NOTE: since page is a proxy, the original class needs to be provided from outside!
         doInvokePostConstructMethods(pageClass, page);
     }
 
-    public static <T extends PageFragment> void invokePostConstructMethods(Class<T> pageFragmentClass, T pageFragment) {
+    public static void invokePostConstructMethods(Class<? extends PageFragment> pageFragmentClass,
+        PageFragment pageFragment) {
         // NOTE: since pageFragment is a proxy, the original class needs to be provided from outside!
         doInvokePostConstructMethods(pageFragmentClass, pageFragment);
     }

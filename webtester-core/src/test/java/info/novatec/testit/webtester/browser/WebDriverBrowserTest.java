@@ -20,7 +20,7 @@ import utils.events.EventCaptor;
 import info.novatec.testit.webtester.browser.operations.UrlOpener;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.events.browser.ClosedBrowserEvent;
-import info.novatec.testit.webtester.internal.PageFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFactory;
 import info.novatec.testit.webtester.pages.Page;
 
 
@@ -171,7 +171,7 @@ public class WebDriverBrowserTest {
             TestUtils.setFieldValue(browser, "pageFactory", pageFactory);
 
             TestPage page = mock(TestPage.class);
-            doReturn(page).when(this.pageFactory).page(TestPage.class);
+            doReturn(page).when(this.pageFactory).createInstanceOf(TestPage.class);
 
             TestPage actualPage = browser.create(TestPage.class);
             assertThat(actualPage).isSameAs(page);

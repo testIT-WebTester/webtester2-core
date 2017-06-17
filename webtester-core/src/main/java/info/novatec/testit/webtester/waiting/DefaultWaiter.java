@@ -69,7 +69,7 @@ class DefaultWaiter implements Waiter {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PMD.AvoidRethrowingException"})
     public void waitUntil(WaitConfig config, Supplier<Boolean> condition) {
 
         long effectiveTimeout = config.getTimeoutInMillis();
@@ -81,6 +81,8 @@ class DefaultWaiter implements Waiter {
         do {
             try {
                 conditionMet = condition.get();
+            } catch (ConditionParameterMismatchException e) {
+                throw e;
             } catch (RuntimeException e) {
                 lastException = e;
             }

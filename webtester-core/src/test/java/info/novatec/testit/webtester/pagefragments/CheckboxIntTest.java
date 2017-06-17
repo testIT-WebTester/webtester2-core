@@ -116,7 +116,7 @@ public class CheckboxIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noCheckbox());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#selected")
         Checkbox selected();

@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
-import utils.integration.BaseIntTest;
 import utils.events.EventCaptor;
+import utils.integration.BaseIntTest;
 
 import info.novatec.testit.webtester.events.pagefragments.ClickedEvent;
 import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
@@ -76,7 +76,7 @@ public class ButtonIntTest extends BaseIntTest {
     @Test
     public void clickingButtonsFiresEvents() {
         EventCaptor.capture(eventSystem(), ClickedEvent.class)
-            .execute(()-> page.clickMeButton().click())
+            .execute(() -> page.clickMeButton().click())
             .assertEventWasFired();
     }
 
@@ -107,14 +107,17 @@ public class ButtonIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noButton());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#button")
         Button button();
+
         @IdentifyUsing("#input_submit")
         Button inputSubmit();
+
         @IdentifyUsing("#input_reset")
         Button inputReset();
+
         @IdentifyUsing("#input_button")
         Button inputButton();
 
@@ -123,6 +126,7 @@ public class ButtonIntTest extends BaseIntTest {
 
         @IdentifyUsing("#buttonWithoutLabel")
         Button buttonWithoutLabel();
+
         @IdentifyUsing("#inputButtonWithoutLabel")
         Button inputButtonWithoutLabel();
 
