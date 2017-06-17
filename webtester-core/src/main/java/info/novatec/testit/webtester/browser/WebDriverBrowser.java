@@ -19,7 +19,7 @@ import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder
 import info.novatec.testit.webtester.events.DispatchingEventSystem;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.ClosedBrowserEvent;
-import info.novatec.testit.webtester.internal.PageFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFactory;
 import info.novatec.testit.webtester.pages.Page;
 
 
@@ -77,13 +77,13 @@ public final class WebDriverBrowser implements Browser {
         this.eventSystem = new DispatchingEventSystem(this);
 
         this.adHocFinder = new AdHocFinder(this);
-        this.pageFactory = new PageFactory(this);
+        this.pageFactory = PageFactory.createInstanceFor(this);
 
     }
 
     @Override
     public <T extends Page> T create(Class<T> pageClass) {
-        return pageFactory.page(pageClass);
+        return pageFactory.createInstanceOf(pageClass);
     }
 
     @Override

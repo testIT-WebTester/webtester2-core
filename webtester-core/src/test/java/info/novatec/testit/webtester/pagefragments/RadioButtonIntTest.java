@@ -80,7 +80,7 @@ public class RadioButtonIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noRadioButton());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#selected")
         RadioButton selected();

@@ -30,7 +30,7 @@ public class CurrentWindowIntTest extends BaseIntTest {
         return browser().javaScript().executeWithReturn("return isScrolledIntoView()");
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#outOfView")
         Button outOfView();

@@ -85,6 +85,7 @@
 		<version.commons.codec>1.10</version.commons.codec>
 
 		<version.lombok>1.16.16</version.lombok>
+		<version.bytebuddy>1.7.1</version.bytebuddy>
 
 		<!-- plugin versions -->
 
@@ -198,6 +199,12 @@
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${version.lombok}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy</artifactId>
+				<version>${version.bytebuddy}</version>
 			</dependency>
 
 			<!-- Selenium -->

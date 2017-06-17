@@ -26,7 +26,9 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.testit.testutils.mockito.junit5.EnableMocking;
 
-import info.novatec.testit.webtester.internal.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory.PageFragmentDescriptor;
+import info.novatec.testit.webtester.internal.implementation.pagefragments.StaticWebElementSupplier;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 
 
@@ -56,7 +58,7 @@ class TypeFinderTest {
         TestFragment mockElement = mock(TestFragment.class);
 
         doReturn(webElement).when(searchContext).findElement(any(By.ByCssSelector.class));
-        doReturn(mockElement).when(factory).pageFragment(TestFragment.class, webElement);
+        doReturn(mockElement).when(factory).createInstanceOf(descriptor(TestFragment.class, webElement));
 
         TestFragment element = cut.by("#someId");
         assertThat(element).isSameAs(mockElement);
@@ -71,7 +73,7 @@ class TypeFinderTest {
         TestFragment mockElement = mock(TestFragment.class);
 
         doReturn(webElement).when(searchContext).findElement(any(By.ById.class));
-        doReturn(mockElement).when(factory).pageFragment(TestFragment.class, webElement);
+        doReturn(mockElement).when(factory).createInstanceOf(descriptor(TestFragment.class, webElement));
 
         TestFragment element = cut.by(id("someId"));
         assertThat(element).isSameAs(mockElement);
@@ -88,8 +90,8 @@ class TypeFinderTest {
 
         TestFragment mockElement1 = mock(TestFragment.class);
         TestFragment mockElement2 = mock(TestFragment.class);
-        doReturn(mockElement1).when(factory).pageFragment(TestFragment.class, webElement1);
-        doReturn(mockElement2).when(factory).pageFragment(TestFragment.class, webElement2);
+        doReturn(mockElement1).when(factory).createInstanceOf(descriptor(TestFragment.class, webElement1));
+        doReturn(mockElement2).when(factory).createInstanceOf(descriptor(TestFragment.class, webElement2));
 
         Stream<TestFragment> elements = cut.manyBy(".someClass");
         assertThat(elements).containsExactly(mockElement1, mockElement2);
@@ -106,8 +108,8 @@ class TypeFinderTest {
 
         TestFragment mockElement1 = mock(TestFragment.class);
         TestFragment mockElement2 = mock(TestFragment.class);
-        doReturn(mockElement1).when(factory).pageFragment(TestFragment.class, webElement1);
-        doReturn(mockElement2).when(factory).pageFragment(TestFragment.class, webElement2);
+        doReturn(mockElement1).when(factory).createInstanceOf(descriptor(TestFragment.class, webElement1));
+        doReturn(mockElement2).when(factory).createInstanceOf(descriptor(TestFragment.class, webElement2));
 
         Stream<TestFragment> elements = cut.manyBy(className("someClass"));
         assertThat(elements).containsExactly(mockElement1, mockElement2);
@@ -182,6 +184,13 @@ class TypeFinderTest {
             });
         }
 
+    }
+
+    PageFragmentDescriptor descriptor(Class<? extends PageFragment> pageFragmentType, WebElement webElement) {
+        return PageFragmentDescriptor.builder()
+            .pageFragmentType(pageFragmentType)
+            .webElementSupplier(new StaticWebElementSupplier(webElement))
+            .build();
     }
 
     public interface TestFragment extends PageFragment {

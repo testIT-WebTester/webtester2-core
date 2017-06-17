@@ -36,7 +36,7 @@ public class DivIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noDiv());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#div")
         Div div();

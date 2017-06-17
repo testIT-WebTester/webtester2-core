@@ -6,7 +6,9 @@ import info.novatec.testit.webtester.adhoc.AdHocFinder;
 import info.novatec.testit.webtester.events.Produces;
 import info.novatec.testit.webtester.events.pagefragments.ClearedEvent;
 import info.novatec.testit.webtester.events.pagefragments.FormSubmittedEvent;
-import info.novatec.testit.webtester.internal.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory.PageFragmentDescriptor;
+import info.novatec.testit.webtester.internal.implementation.pagefragments.StaticWebElementSupplier;
 import info.novatec.testit.webtester.pagefragments.annotations.Action;
 import info.novatec.testit.webtester.pagefragments.annotations.As;
 import info.novatec.testit.webtester.pagefragments.annotations.Mark;
@@ -91,8 +93,13 @@ public interface GenericElement extends PageFragment, Clickable<GenericElement>,
      * @see WebElement
      * @since 2.0
      */
+    @SuppressWarnings("unchecked")
     default <T extends PageFragment> T as(Class<T> fragmentClass) {
-        return new PageFragmentFactory(browser()).pageFragment(fragmentClass, webElement());
+        PageFragmentDescriptor descriptor = PageFragmentDescriptor.builder()
+            .pageFragmentType(fragmentClass)
+            .webElementSupplier(new StaticWebElementSupplier(webElement()))
+            .build();
+        return ( T ) PageFragmentFactory.createInstanceFor(browser()).createInstanceOf(descriptor);
     }
 
 }

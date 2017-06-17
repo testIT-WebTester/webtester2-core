@@ -9,7 +9,7 @@ import info.novatec.testit.webtester.conditions.pagefragments.Editable;
 import info.novatec.testit.webtester.conditions.pagefragments.Present;
 import info.novatec.testit.webtester.conditions.pagefragments.PresentAndVisible;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
-import info.novatec.testit.webtester.internal.must.MustConditionException;
+import info.novatec.testit.webtester.internal.postconstruct.PostConstructMustBeConditionException;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pagefragments.Form;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
@@ -30,12 +30,12 @@ public class PostConstructMustBeWithinPageFragmentsIntTest extends BaseIntTest {
         browser().create(FeaturePage.class).passingForm();
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void demonstrateFailingMustBehaviour(){
         browser().create(FeaturePage.class).failingForm();
     }
 
-    @Test(expected = MustConditionException.class)
+    @Test(expected = PostConstructMustBeConditionException.class)
     public void demonstrateInheritanceFailingMustBeBehaviour() {
         browser().create(FeaturePage.class).inheritedFailingForm();
     }

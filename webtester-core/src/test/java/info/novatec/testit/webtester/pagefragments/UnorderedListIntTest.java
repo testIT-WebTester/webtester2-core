@@ -110,7 +110,7 @@ public class UnorderedListIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noList());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#emptyUnorderedList")
         UnorderedList emptyList();

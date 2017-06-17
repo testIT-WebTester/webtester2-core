@@ -83,7 +83,7 @@ public class TableRowIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noTableRow());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#tableRow")
         TableRow tableRow();

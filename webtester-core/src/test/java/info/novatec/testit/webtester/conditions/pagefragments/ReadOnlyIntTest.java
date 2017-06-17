@@ -48,10 +48,11 @@ public class ReadOnlyIntTest extends BaseIntTest {
         assertThat(Conditions.readOnly().test(page.switchable())).isFalse();
     }
 
-    interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#switchable")
         TextField switchable();
+
         @IdentifyUsing("#switch")
         Checkbox switchCheckbox();
 

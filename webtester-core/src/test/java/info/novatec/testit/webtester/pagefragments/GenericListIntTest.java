@@ -47,7 +47,7 @@ public class GenericListIntTest extends BaseIntTest {
         assertPageFragmentCanBeInitialized(page.noList());
     }
 
-    private interface TestPage extends Page {
+    public interface TestPage extends Page {
 
         @IdentifyUsing("#orderedList")
         GenericList orderedList();

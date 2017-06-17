@@ -14,9 +14,9 @@ import utils.integration.BaseIntTest;
 import info.novatec.testit.webtester.conditions.collections.NotEmpty;
 import info.novatec.testit.webtester.conditions.pagefragments.Present;
 import info.novatec.testit.webtester.conditions.pagefragments.Visible;
-import info.novatec.testit.webtester.internal.exceptions.IllegalSignatureException;
 import info.novatec.testit.webtester.pagefragments.Button;
 import info.novatec.testit.webtester.pages.Page;
+import info.novatec.testit.webtester.waiting.ConditionParameterMismatchException;
 import info.novatec.testit.webtester.waiting.TimeoutException;
 
 
@@ -55,7 +55,7 @@ class WaitUntilIntTest extends BaseIntTest {
 
     @Test
     void exceptionInCaseTheConditionDoesNotSupportTheMethodsReturnType() {
-        assertThrows(IllegalSignatureException.class, () -> {
+        assertThrows(ConditionParameterMismatchException.class, () -> {
             create(CollectionsPage.class).wrongConditionType();
         });
     }

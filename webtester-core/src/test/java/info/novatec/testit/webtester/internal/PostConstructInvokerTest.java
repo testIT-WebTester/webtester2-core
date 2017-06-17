@@ -15,6 +15,7 @@ import info.novatec.testit.webtester.browser.WebDriverBrowser;
 import info.novatec.testit.webtester.config.BaseConfiguration;
 import info.novatec.testit.webtester.config.Configuration;
 import info.novatec.testit.webtester.internal.postconstruct.PostConstructInvoker;
+import info.novatec.testit.webtester.internal.implementation.PageFactory;
 import info.novatec.testit.webtester.pages.Page;
 
 
@@ -29,7 +30,7 @@ public class PostConstructInvokerTest {
         Configuration configuration = new BaseConfiguration();
         Browser browser = WebDriverBrowser.forWebDriver(webDriver).withConfiguration(configuration).build();
 
-        TestPage page = new PageFactory(browser).page(TestPage.class);
+        TestPage page = PageFactory.createInstanceFor(browser).createInstanceOf(TestPage.class);
         PostConstructInvoker.invokePostConstructMethods(TestPage.class, page);
 
         assertThat(TestContext.invokedMethods).containsOnly("assertSomethingOnPage", "assertSomethingElseOnPage");

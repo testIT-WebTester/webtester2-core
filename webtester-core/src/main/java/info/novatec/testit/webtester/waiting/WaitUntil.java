@@ -107,8 +107,19 @@ public class WaitUntil<T> {
     }
 
     private WaitUntil<T> doWait(Condition<? super T> condition) {
-        waiter.waitUntil(config, () -> condition.test(objectSupplier.get()));
+        waiter.waitUntil(config, () -> {
+            T value = objectSupplier.get();
+            try {
+                return condition.test(value);
+            } catch (ClassCastException e) {
+                throw handleClassCastException(condition, value, e);
+            }
+        });
         return this;
+    }
+
+    private RuntimeException handleClassCastException(Condition<?> condition, Object value, ClassCastException e) {
+        return new ConditionParameterMismatchException(condition.getClass(), value.getClass(), e);
     }
 
     /**

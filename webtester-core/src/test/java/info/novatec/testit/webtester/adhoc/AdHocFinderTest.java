@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
 import org.testit.testutils.mockito.junit5.EnableMocking;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.internal.PageFragmentFactory;
+import info.novatec.testit.webtester.internal.implementation.PageFragmentFactory;
 import info.novatec.testit.webtester.pagefragments.GenericElement;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import info.novatec.testit.webtester.pagefragments.identification.ByProducers;
