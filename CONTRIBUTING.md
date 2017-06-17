@@ -30,7 +30,7 @@ WebTester 2 makes use of [Project Lombok](https://projectlombok.org). You might 
   * unit over integration tests
   * prove your assumption of Selenium's behavior with a simple integration test
   * use existing tests as guides and how to patterns
-* There is a [user documentation](https://github.com/testIT-WebTester/webtester2-core/blob/master/documentation/README.md)!
+* There is a [user documentation](https://github.com/testIT-WebTester/webtester2-core/tree/master/webtester-documentation)!
   * if you change a feature and there is a documentation for that area of that framework you have to adapt the documentation as well
   * if you create something new, create a matching user documentation as well
   * if you find something missing or wrong in the documentation fix it!
