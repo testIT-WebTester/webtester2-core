@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.internal.ClasspathUtils;
 import info.novatec.testit.webtester.internal.mapping.DefaultMappingValidator;
 import info.novatec.testit.webtester.internal.mapping.MappingValidator;
 import info.novatec.testit.webtester.internal.proxies.arounds.EventProducingImplementationDecorator;
@@ -61,9 +60,9 @@ public class PageFragmentProxyHandler implements InvocationHandler {
         return this;
     }
 
-    private PageFragmentProxyHandler addImplementations() {
+    private PageFragmentProxyHandler addImplementations(Class<? extends PageFragment> pageFragmentClass) {
         implementations.add(new DefaultMethodImpl());
-        implementations.add(new ToStringImpl(pageFragmentClass));
+        implementations.add(new ToStringImpl(this.pageFragmentClass));
         implementations.add(new HashCodeImpl());
         implementations.add(new WebElementReturningImpl(webElementSupplier, validator));
         implementations.add(new BrowserReturningImpl(browser));
@@ -74,10 +73,19 @@ public class PageFragmentProxyHandler implements InvocationHandler {
         implementations.add(new IdentifyUsingListImpl(browser, searchContextSupplier));
         implementations.add(new IdentifyUsingSetImpl(browser, searchContextSupplier));
         implementations.add(new IdentifyUsingStreamImpl(browser, searchContextSupplier));
-        if (ClasspathUtils.KOTLIN_AVAILABLE) {
+        if (isKotlinPageFragment(pageFragmentClass)) {
             implementations.add(new KotlinDefaultMethodImpl());
         }
         return this;
+    }
+
+    private boolean isKotlinPageFragment(Class<? extends PageFragment> pageFragmentClass) {
+        try {
+            Class<?> aClass = Class.forName("info.novatec.testit.webtester.kotlin.pagefragments.PageFragment");
+            return aClass.isAssignableFrom(pageFragmentClass);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
@@ -126,7 +134,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
             .eventDecorator(eventDecorator)
             .build()
             .addBeforeOperations()
-            .addImplementations();
+            .addImplementations(pageFragmentClass);
 
     }
 
@@ -148,7 +156,7 @@ public class PageFragmentProxyHandler implements InvocationHandler {
             .eventDecorator(eventDecorator)
             .build()
             .addBeforeOperations()
-            .addImplementations();
+            .addImplementations(pageFragmentClass);
 
     }
 

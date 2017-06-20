@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 import org.openqa.selenium.SearchContext;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.internal.ClasspathUtils;
 import info.novatec.testit.webtester.internal.proxies.befores.ActionOperation;
 import info.novatec.testit.webtester.internal.proxies.befores.BeforeOperation;
 import info.novatec.testit.webtester.internal.proxies.impls.BrowserReturningImpl;
@@ -29,7 +28,6 @@ import info.novatec.testit.webtester.pages.Page;
 public class PageProxyHandler implements InvocationHandler {
 
     private final Browser browser;
-    private final Class<? extends Page> pageClass;
 
     private final List<BeforeOperation> beforeOperations = new ArrayList<>();
     private final List<Implementation> implementations = new ArrayList<>();
@@ -37,17 +35,16 @@ public class PageProxyHandler implements InvocationHandler {
 
     public PageProxyHandler(Browser browser, Class<? extends Page> pageClass) {
         this.browser = browser;
-        this.pageClass = pageClass;
         this.searchContextSupplier = this.browser::webDriver;
         addBeforeOperations();
-        addImplementations();
+        addImplementations(pageClass);
     }
 
     private void addBeforeOperations() {
         beforeOperations.add(new ActionOperation(browser.configuration()));
     }
 
-    private void addImplementations() {
+    private void addImplementations(Class<? extends Page> pageClass) {
         implementations.add(new DefaultMethodImpl());
         implementations.add(new ToStringImpl(pageClass));
         implementations.add(new HashCodeImpl());
@@ -57,8 +54,17 @@ public class PageProxyHandler implements InvocationHandler {
         implementations.add(new IdentifyUsingListImpl(browser, searchContextSupplier));
         implementations.add(new IdentifyUsingSetImpl(browser, searchContextSupplier));
         implementations.add(new IdentifyUsingStreamImpl(browser, searchContextSupplier));
-        if (ClasspathUtils.KOTLIN_AVAILABLE) {
+        if (isKotlinPage(pageClass)) {
             implementations.add(new KotlinDefaultMethodImpl());
+        }
+    }
+
+    private boolean isKotlinPage(Class<? extends Page> pageClass) {
+        try {
+            Class<?> aClass = Class.forName("info.novatec.testit.webtester.kotlin.pages.Page");
+            return aClass.isAssignableFrom(pageClass);
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 
