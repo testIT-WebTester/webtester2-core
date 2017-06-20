@@ -1,0 +1,18 @@
+== Kotlin
+
+Since version 2.3 WebTester supports the use of Kotlin. Up until then the
+declarative nature of WebTester would not work with the way Kotlin is implementing
+default methods on interfaces.
+
+In order to work with Kotlin, you must add the `webtester-kotlin` module to your
+test dependencies. Within this module you'll find two classes:
+
+* `info.novatec.testit.webtester.kotlin.pages.Page`
+* `info.novatec.testit.webtester.kotlin.pagefragments.PageFragment`
+
+Both of these are alias classes for their corresponding Java counterparts.
+In addition to providing a more Kotlin-esk API, their use will also act as
+a flag for WebTester to consider Kotlin when it's generating code.
+
+Other than using these special classes when creating pages and page fragments,
+everything else should work the same as with Java.
