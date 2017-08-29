@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.Extension;
-import org.junit.jupiter.api.extension.TestExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,8 +64,8 @@ public class EntryPointExtension extends BaseExtension implements BeforeEachCall
     private static final String VARIABLE_INDICATOR = "${";
 
     @Override
-    public void beforeEach(TestExtensionContext context) {
-        Object testInstance = context.getTestInstance();
+    public void beforeEach(ExtensionContext context) {
+        Object testInstance = context.getRequiredTestInstance();
         getModel(context).getBrowserFields()
             .stream()
             .filter(browserField -> browserField.isAnnotationPresent(EntryPoint.class))

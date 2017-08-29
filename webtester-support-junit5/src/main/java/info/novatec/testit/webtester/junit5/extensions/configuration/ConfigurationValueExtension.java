@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.Extension;
-import org.junit.jupiter.api.extension.TestExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -100,11 +100,11 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
 
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void beforeEach(TestExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         executeHandlingUndeclaredThrowables(context, this::injectValuesIntoAnnotatedFields);
     }
 
-    private void injectValuesIntoAnnotatedFields(TestExtensionContext context) {
+    private void injectValuesIntoAnnotatedFields(ExtensionContext context) {
 
         List<Field> valueFields = getModel(context).getConfigurationValueFields();
         if (valueFields.isEmpty()) {
@@ -117,7 +117,7 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
             throw new NoManagedBrowserException();
         }
 
-        Object testInstance = context.getTestInstance();
+        Object testInstance = context.getRequiredTestInstance();
         valueFields.forEach(field -> {
 
             ConfigurationValue annotation = field.getAnnotation(ConfigurationValue.class);
