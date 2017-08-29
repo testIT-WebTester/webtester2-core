@@ -16,7 +16,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
-import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.testit.testutils.mockito.junit5.EnableMocking;
@@ -31,7 +30,7 @@ class BaseExtensionTest {
     @Mock
     Store store;
     @Mock
-    TestExtensionContext context;
+    ExtensionContext context;
     @Mock
     Consumer<ExtensionContext> contextConsumer;
 

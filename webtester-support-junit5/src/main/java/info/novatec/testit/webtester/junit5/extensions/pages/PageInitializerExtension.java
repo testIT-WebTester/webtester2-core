@@ -7,7 +7,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.Extension;
-import org.junit.jupiter.api.extension.TestExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,11 +61,11 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
 
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void beforeEach(TestExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         executeHandlingUndeclaredThrowables(context, this::createPagesForAnnotatedFields);
     }
 
-    private void createPagesForAnnotatedFields(TestExtensionContext context) {
+    private void createPagesForAnnotatedFields(ExtensionContext context) {
 
         List<Field> pageFields = getModel(context).getPageFields();
         if (pageFields.isEmpty()) {
@@ -78,7 +78,7 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
             throw new NoManagedBrowserException();
         }
 
-        Object testInstance = context.getTestInstance();
+        Object testInstance = context.getRequiredTestInstance();
         pageFields.forEach(pageField -> {
 
             String browserName = getBrowserName(pageField);

@@ -96,7 +96,7 @@ public class TestClassExecutor {
         }
 
         @Override
-        public <T extends DiscoveryFilter<?>> List<T> getDiscoveryFiltersByType(Class<T> filterType) {
+        public <T extends DiscoveryFilter<?>> List<T> getFiltersByType(Class<T> filterType) {
             return Collections.emptyList();
         }
 

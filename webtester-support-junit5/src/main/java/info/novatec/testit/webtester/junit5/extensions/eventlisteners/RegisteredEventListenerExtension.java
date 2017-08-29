@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.Extension;
-import org.junit.jupiter.api.extension.TestExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -75,17 +75,17 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
 
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void beforeEach(TestExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         initializeEventListener(context);
     }
 
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void afterEach(TestExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) throws Exception {
         deRegisterAllEventListeners(context);
     }
 
-    private void initializeEventListener(TestExtensionContext context) {
+    private void initializeEventListener(ExtensionContext context) {
         Multimap<EventListener, Browser> registeredEventListener = HashMultimap.create();
         getModel(context).getEventListenerFields().stream().filter(isInstanceField).forEach(listenerField -> {
             createEventListenerFor(listenerField, context);
@@ -101,8 +101,8 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
         context.getStore(BaseExtension.NAMESPACE).put("registered-eventlisteners", registeredEventListener);
     }
 
-    private void createEventListenerFor(Field field, TestExtensionContext context) {
-        Object testInstance = context.getTestInstance();
+    private void createEventListenerFor(Field field, ExtensionContext context) {
+        Object testInstance = context.getRequiredTestInstance();
         try {
             if (field.get(testInstance) == null) {
                 EventListener newEventListener = ( EventListener ) field.getType().newInstance();
@@ -113,7 +113,7 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
         }
     }
 
-    private List<Field> findBrowserFieldFor(Field listenerField, TestExtensionContext context) {
+    private List<Field> findBrowserFieldFor(Field listenerField, ExtensionContext context) {
         return getModel(context).getNamedBrowserFields()
             .values()
             .stream()
@@ -139,28 +139,28 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
         return browserField.getAnnotation(Managed.class).value();
     }
 
-    private Browser getBrowser(Field browserField, TestExtensionContext context) {
+    private Browser getBrowser(Field browserField, ExtensionContext context) {
         try {
-            return ( Browser ) browserField.get(context.getTestInstance());
+            return ( Browser ) browserField.get(context.getRequiredTestInstance());
         } catch (IllegalAccessException e) {
             throw new UndeclaredThrowableException(e, "error while finding managed browser");
         }
     }
 
-    private EventListener registerEventListener(Browser browser, Field listenerField, TestExtensionContext context) {
-        EventListener eventListener = getValue(listenerField, context.getTestInstance());
+    private EventListener registerEventListener(Browser browser, Field listenerField, ExtensionContext context) {
+        EventListener eventListener = getValue(listenerField, context.getRequiredTestInstance());
         browser.events().register(eventListener);
         return eventListener;
     }
 
-    private void deRegisterAllEventListeners(TestExtensionContext context) {
+    private void deRegisterAllEventListeners(ExtensionContext context) {
         getRegisteredEventListeners(context).entries()
             .forEach(entry -> entry.getValue().events().deregister(entry.getKey()));
         log.debug("Unregistered all event listeners each mapped with its target browser");
     }
 
     @SuppressWarnings("unchecked")
-    private Multimap<EventListener, Browser> getRegisteredEventListeners(TestExtensionContext context) {
+    private Multimap<EventListener, Browser> getRegisteredEventListeners(ExtensionContext context) {
         return ( Multimap<EventListener, Browser> ) context.getStore(BaseExtension.NAMESPACE)
             .getOrComputeIfAbsent("registered-eventlisteners", s -> HashMultimap.create());
     }
