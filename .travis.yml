@@ -11,7 +11,7 @@ services:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install --assume-yes --option Dpkg::Options::="--force-confnew" docker-engine
+  - sudo apt-get install --assume-yes --option Dpkg::Options::="--force-confnew" docker-ce
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
