@@ -16,10 +16,8 @@ import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ContainerExtensionContext;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestExtensionContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,31 +81,23 @@ public class ManagedBrowserExtension extends BaseExtension
     private final Predicate<Field> isInstanceField = isStaticField.negate();
 
     @Override
-    public void beforeAll(ContainerExtensionContext context) throws Exception {
-        if (isRootContext(context)) {
-            executeHandlingUndeclaredThrowables(context, this::initializeAndInjectStaticBrowsers);
-        }
+    public void beforeAll(ExtensionContext context) throws Exception {
+        executeHandlingUndeclaredThrowables(context, this::initializeAndInjectStaticBrowsers);
     }
 
     @Override
-    public void beforeEach(TestExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         executeHandlingUndeclaredThrowables(context, this::initializeAndInjectInstanceBrowsers);
     }
 
     @Override
-    public void afterEach(TestExtensionContext context) {
+    public void afterEach(ExtensionContext context) {
         getManagedInstanceBrowsers(context).forEach(this::closeAndLogErrors);
     }
 
     @Override
-    public void afterAll(ContainerExtensionContext context) {
-        if (isRootContext(context)) {
-            getManagedStaticBrowsers(context).forEach(this::closeAndLogErrors);
-        }
-    }
-
-    private boolean isRootContext(ContainerExtensionContext context) {
-        return !context.getParent().isPresent();
+    public void afterAll(ExtensionContext context) {
+        getManagedStaticBrowsers(context).forEach(this::closeAndLogErrors);
     }
 
     private void closeAndLogErrors(Browser browser) {
@@ -119,7 +109,7 @@ public class ManagedBrowserExtension extends BaseExtension
         }
     }
 
-    private void initializeAndInjectStaticBrowsers(ContainerExtensionContext context) {
+    private void initializeAndInjectStaticBrowsers(ExtensionContext context) {
         List<Browser> managedBrowsers = getManagedStaticBrowsers(context);
         getModel(context).getBrowserFields().stream().filter(isStaticField).forEach(field -> {
             Browser browser = createBrowserFor(field);
@@ -128,8 +118,8 @@ public class ManagedBrowserExtension extends BaseExtension
         });
     }
 
-    private void initializeAndInjectInstanceBrowsers(TestExtensionContext context) {
-        Object testInstance = context.getTestInstance();
+    private void initializeAndInjectInstanceBrowsers(ExtensionContext context) {
+        Object testInstance = context.getRequiredTestInstance();
         List<Browser> managedBrowsers = getManagedInstanceBrowsers(context);
         getModel(context).getBrowserFields().stream().filter(isInstanceField).forEach(field -> {
             Browser browser = createBrowserFor(field);
