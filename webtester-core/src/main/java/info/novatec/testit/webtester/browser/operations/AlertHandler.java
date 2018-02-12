@@ -3,11 +3,8 @@ package info.novatec.testit.webtester.browser.operations;
 import java.util.Optional;
 
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.Beta;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.security.Credentials;
-import org.openqa.selenium.security.UserAndPassword;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,36 +34,6 @@ public class AlertHandler extends BaseBrowserOperation {
      */
     public AlertHandler(Browser browser) {
         super(browser);
-    }
-
-    /**
-     * Authenticate a Basic-Auth popup using the given username and password.
-     * <p>
-     * This operation is declared as "BETA" by the Selenium developers and might break in the future in case it changes.
-     *
-     * @param username the username to use
-     * @param password the password to use
-     * @see Alert#authenticateUsing(Credentials)
-     * @since 2.0
-     */
-    @Beta
-    public void authenticateWith(String username, String password) {
-        authenticateWith(new UserAndPassword(username, password));
-    }
-
-    /**
-     * Authenticate a Basic-Auth popup using the given {@link Credentials credendials}.
-     * <p>
-     * This operation is decalred as "BETA" by the Selenium developers and might break in the future in case it changes.
-     *
-     * @param credentials the credentials to use
-     * @see Alert#authenticateUsing(Credentials)
-     * @since 2.0
-     */
-    @Beta
-    public void authenticateWith(Credentials credentials) {
-        ActionTemplate.browser(browser()).execute(browser -> webDriver().switchTo().alert().authenticateUsing(credentials));
-        log.debug("authenticated using credentials: {}", credentials);
     }
 
     /**

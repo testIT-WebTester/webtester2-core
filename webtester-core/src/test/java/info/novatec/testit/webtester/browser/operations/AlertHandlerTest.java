@@ -19,8 +19,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.security.Credentials;
-import org.openqa.selenium.security.UserAndPassword;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.EventSystem;
@@ -211,38 +209,6 @@ public class AlertHandlerTest {
         public void gettingExistentAlertReturnsItAsAnOptional() {
             alertIsPresent("hello alert!");
             assertThat(cut.get()).isPresent();
-        }
-
-    }
-
-    public static class AuthenticateWith extends AbstractAlertHandlerTest {
-
-        @Captor
-        ArgumentCaptor<Credentials> credentialsCaptor;
-
-        @Test
-        public void canAuthenticateWithCredentials() {
-
-            Alert alert = alertIsPresent("please sign in");
-            Credentials credentials = new UserAndPassword("foo", "bar");
-            cut.authenticateWith(credentials);
-
-            verify(alert).authenticateUsing(credentials);
-
-        }
-
-        @Test
-        public void canAuthenticateWithUsernameAndPassword() {
-
-            Alert alert = alertIsPresent("please sign in");
-            cut.authenticateWith("foo", "bar");
-            verify(alert).authenticateUsing(credentialsCaptor.capture());
-
-            Credentials credentials = credentialsCaptor.getValue();
-            assertThat(credentials).isInstanceOf(UserAndPassword.class);
-            assertThat((( UserAndPassword ) credentials).getUsername()).isEqualTo("foo");
-            assertThat((( UserAndPassword ) credentials).getPassword()).isEqualTo("bar");
-
         }
 
     }
