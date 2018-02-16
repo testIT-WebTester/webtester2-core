@@ -1,0 +1,162 @@
+= WebTester Migration Guide
+
+This guide will help you migrate from WebTester v1.x to WebTester 2.x. There
+are a lot of breaking changes. Most of them on a conceptual level.
+
+The main difference between v1.x and v2.x is the move away from classes to a
+more declarative approach based on interfaces. In addtion the concept of
+`PageObject` was split into two different concepts: `Page` and `PageFragment`.
+
+== Pages
+
+In WebTester `v2.x` `Pages` represent the context of the whole currently displayed
+page. In `v1.x` these were the root `Page Objects`.
+
+**WebTester `v1.x` page model represented as a `PageObject`:**
+
+[source, java]
+----
+public class LoginPage extends PageObject {
+
+    @IdentifyUsing ( "username" )
+    TextField usernameField;
+
+    @IdentifyUsing ( "password" )
+    PasswordField passwordField;
+
+    @IdentifyUsing ( "login" )
+    Button loginButton;
+
+    @PostConstruct
+    void assertThatCorrectPageIsDisplayed () {
+        assertThat(getBrowser().getPageTitle(), is("TestApp: Login"));
+    }
+
+    public LoginPage setUsername (String username) {
+        this.usernameField.setText(username);
+        return this;
+    }
+
+    public LoginPage setPassword (String password) {
+        this.passwordField.setText(password);
+        return this;
+    }
+
+    public WelcomePage clickLogin () {
+        this.loginButton.click();
+        return create(WelcomePage.class);
+    }
+
+}
+----
+
+**WebTester `v2.x` page model represented as a `Page`:**
+
+[source, java]
+----
+public interface LoginPage extends Page {
+
+    @IdentifyUsing("#username")
+    TextField usernameField();
+
+    @IdentifyUsing("#password")
+    PasswordField passwordField();
+
+    @IdentifyUsing("#login")
+    Button loginButton();
+
+    default LoginPage setUsername (String username) {
+        this.usernameField().setText(username);
+        return this;
+    }
+
+    default LoginPage setPassword (String password) {
+        this.passwordField().setText(password);
+        return this;
+    }
+
+    default WelcomePage clickLogin () {
+        this.loginButton().click();
+        return create(WelcomePage.class);
+    }
+
+}
+----
+
+=== Migration Steps:
+
+1. Change all page `classes` to `interfaces`.
+2. Instead of extending `PageObject` they should extend the `Page` interface.
+3. Change `fields` to `methods`. (e.g. `TextField usernameField;` to `TextField usernameField();`)
+4. Change all simple `@IdentifyUsing("some-id")` annotation values to `@IdentifyUsing("#some-id")`.
+(In `v1.x` the default interpretation was as an `ID`, in `v2.x` it is interpreted as a `CSS Selctor`)
+5. Change `public` methods to `default` interface methods.
+
+== Page Fragments
+
+In WebTester `v2.x` `Page Fragments` represent the context of a part of the currently
+displayed page. This might be a whole section consisting of multiple HTML elements
+or just a simple `Button`. In `v1.x` these were all non-root `Page Objects`.
+
+**WebTester `v1.x` `<img>` model represented as a `PageObject`:**
+
+[source, java]
+----
+@Mapping(tag = "img")
+public class Image extends PageObject {
+
+    public String getSourcePath() {
+        return StringUtils.defaultString(getAttribute("src"));
+    }
+
+    public Image click() {
+        getWebElement().click();
+        return this;
+    }
+
+}
+----
+
+**WebTester `v2.x` `<img>` model represented as a `PageFragment`:**
+
+[source, java]
+----
+@Mapping(tag = "img")
+public interface Image extends PageFragment, Clickable<Image> {
+
+    @Attribute("src")
+    Optional<String> getSourcePath();
+
+}
+----
+
+=== Migration Steps:
+
+1. Change all page `classes` to `interfaces`.
+2. Instead of extending `PageObject` they should extend the `PageFragment` interface.
+3. Attribute data getter methods can be simplified to an annotation based method without a body.
+4. Common trades, like being `Clickable` can be inherited by also extending that interface.
+5. Wrapper `Page Fragments` (a page fragment containing several other page fragments) can be designed
+like the above `Page` example by replacing fields with method declarations.
+6. Change `public` methods to `default` interface methods.
+
+== Browser
+
+The `Browser` abstraction was refactored by splitting related functionality into own classes accessible
+through methods of a `Browser`.
+
+**Taking a Screenshot with WebTester `v1.x`:**
+
+[source, java]
+----
+browser.takeScreenshot();
+----
+
+**Taking a Screenshot with WebTester `v2.x`:**
+
+[source, java]
+----
+browser.screenshot().take()
+----
+
+For the full set of methods for the `Browser`, please refer to our documentation.
