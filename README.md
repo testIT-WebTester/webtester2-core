@@ -28,6 +28,11 @@ programmatic UI tests in Java.
 - Seamless integration with common frameworks like: AssertJ, Hamcrest, JUnit, Spring, etc.
 - Selenium is always just a method call away!
 
+### Migrating from WebTester v1.x?
+
+If you are migrating from an earlier version of WebTester, you might be interested
+in this [guide][17].
+
 ### Documentation
 
 The user documentation is part of the repository and is generated as an HTML.
@@ -62,7 +67,6 @@ a German consultancy firm that drives quality in software development projects.
 [7]: mailto:webtester@novatec-gmbh.de
 [8]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [9]: http://www.novatec-gmbh.de
-
 [10]:http://www.apache.org/licenses/LICENSE-2.0.txt
 [11]:https://travis-ci.org/testIT-WebTester/webtester2-core
 [12]:https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/webtester-core/
@@ -70,3 +74,4 @@ a German consultancy firm that drives quality in software development projects.
 [14]:https://codecov.io/gh/testIT-WebTester/webtester2-core
 [15]:https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core
 [16]:https://www.javadoc.io/doc/info.novatec.testit/webtester-core
+[17]:https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=info.novatec.testit&a=webtester-migration-guide&v=LATEST&e=html

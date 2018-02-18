@@ -41,6 +41,7 @@
 		<module>webtester-core</module>
 		<module>webtester-documentation</module>
 		<module>webtester-kotlin</module>
+		<module>webtester-migration-guide</module>
 		<module>webtester-support-assertj3</module>
 		<module>webtester-support-hamcrest</module>
 		<module>webtester-support-junit4</module>
