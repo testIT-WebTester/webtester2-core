@@ -4,8 +4,21 @@ This guide will help you migrate from WebTester v1.x to WebTester 2.x. There
 are a lot of breaking changes. Most of them on a conceptual level.
 
 The main difference between v1.x and v2.x is the move away from classes to a
-more declarative approach based on interfaces. In addtion the concept of
+more declarative approach based on interfaces. In addition the concept of
 `PageObject` was split into two different concepts: `Page` and `PageFragment`.
+
+== @IdentifyUsing / @FindBy
+
+The `@IdentifyUsing` annotation has changed significantly:
+
+- The default `value` interpretation has changed from `ID` to `CSS Selector`.
+- Instead of setting a `Method` enumeration value for the `method` attribute,
+you now set a class reference to a `ByProducer` implementing class on the `how`
+attribute.
+- The `elementname` attribute was moved into the new `@Named` annotation.
+
+The Selenium annotation `@FindBy` is no longer supported in WebTester `v2.x`
+since it can't be used on methods.
 
 == Pages
 
