@@ -1,11 +1,26 @@
 = WebTester Migration Guide
 
 This guide will help you migrate from WebTester v1.x to WebTester 2.x. There
-are a lot of breaking changes. Most of them on a conceptual level.
+are a lot of breaking changes. Most of them on a conceptual level, following
+features introduced by Java 8.
 
 The main difference between v1.x and v2.x is the move away from classes to a
 more declarative approach based on interfaces. In addition the concept of
 `PageObject` was split into two different concepts: `Page` and `PageFragment`.
+
+== Preparing technical preconditions
+
+If you did'nt already consider the switch to WebTester 2.x due to upgrading
+to JDK8, please make sure you have JDK8+ and compile to language level 8+.
+
+Further following dependencies have to be adjusted:
+
+- If you upgrade to WebTester 2.1 or above you have to remove the browser
+module dependencies, as they are baked into the core from 2.1 onward. This
+change necessitates the re-import of the browser factories which no reside in
+`info.novatec.testit.webtester.browser.factories`.
+- If you also switch from Junit 4 to Junit 5 you have to include the
+Junit-5-support-module instead.
 
 == @IdentifyUsing / @FindBy
 
