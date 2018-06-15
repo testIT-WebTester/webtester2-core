@@ -72,7 +72,7 @@ public class EntryPointExtension extends BaseExtension implements BeforeEachCall
             .forEach(browserField -> openEntryPoint(browserField, testInstance));
     }
 
-    private void openEntryPoint(Field field, Object testInstance) {
+    void openEntryPoint(Field field, Object testInstance) {
         String url = field.getAnnotation(EntryPoint.class).value();
         log.debug("opening entry point for field '{}': '{}'", field, url);
         Browser browser = getValue(field, testInstance);

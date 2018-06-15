@@ -132,27 +132,6 @@ class ManagedBrowserExtensionIntTest {
     }
 
     @Test
-    @DisplayName("@Managed needs a browser factory to be configured")
-    void browserFactoryNeedsToBeConfigured() throws Exception {
-        Assertions.assertThrows(NoBrowserFactoryException.class, () -> {
-            execute(NoBrowserFactory.class);
-        });
-    }
-
-    @ExtendWith(ManagedBrowserExtension.class)
-    private static class NoBrowserFactory {
-
-        @Managed
-        Browser instanceBrowser;
-
-        @Test
-        void triggerClassExecution() {
-            // does nothing
-        }
-
-    }
-
-    @Test
     @DisplayName("browser factory can be defined on browser field")
     void browserFactoryCanBeDefinedOnBrowserField() throws Exception {
         execute(BrowserFactoryOnField.class);
@@ -170,38 +149,6 @@ class ManagedBrowserExtensionIntTest {
             assertThat(browser).isNotNull();
         }
 
-    }
-
-    @Test
-    @DisplayName("browser factory on field overrides class configuration")
-    void browserFactoryOnFieldOverridesClassConfiguration() throws Exception {
-        execute(BrowserFactoryOnFieldOverride.class);
-        assertThat(SpecialBrowserFactory.used).isTrue();
-    }
-
-    @CreateBrowsersUsing(TestBrowserFactory.class)
-    @ExtendWith(ManagedBrowserExtension.class)
-    private static class BrowserFactoryOnFieldOverride {
-
-        @Managed
-        @CreateUsing(SpecialBrowserFactory.class)
-        Browser browser;
-
-        @Test
-        void staticBrowserInjection() {
-            assertThat(browser).isNotNull();
-        }
-
-    }
-
-    public static class SpecialBrowserFactory extends TestBrowserFactory {
-        static boolean used;
-
-        @Override
-        public Browser createBrowser() {
-            used = true;
-            return super.createBrowser();
-        }
     }
 
     @Test

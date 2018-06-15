@@ -1,7 +1,6 @@
-package info.novatec.testit.webtester.junit5.extensions.eventlistener;
+package info.novatec.testit.webtester.junit5.extensions.eventlisteners;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
@@ -19,17 +18,13 @@ import utils.TestBrowserFactory;
 import utils.TestClassExecutor;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.events.Event;
 import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.events.EventSystem;
 import info.novatec.testit.webtester.events.browser.OpenedUrlEvent;
 import info.novatec.testit.webtester.junit5.EnableWebTesterExtensions;
-import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
-import info.novatec.testit.webtester.junit5.extensions.eventlisteners.Registered;
-import info.novatec.testit.webtester.junit5.extensions.eventlisteners.StaticEventListenerFieldsNotSupportedException;
 
 
 class RegisteredEventListenerExtensionIntTest {
@@ -56,29 +51,6 @@ class RegisteredEventListenerExtensionIntTest {
         void test() {
             browser.open(TEST_URL);
             assertThat(eventListener.getRecentEvent()).isInstanceOf(OpenedUrlEvent.class);
-        }
-    }
-
-    @Test
-    @DisplayName("@Registered with static field will throw exception")
-    void registerStaticEventListenerField() throws Exception {
-        assertThrows(StaticEventListenerFieldsNotSupportedException.class, () -> {
-            TestClassExecutor.execute(RegisteredStaticField.class);
-        });
-    }
-
-    @EnableWebTesterExtensions
-    @CreateBrowsersUsing(TestBrowserFactory.class)
-    private static class RegisteredStaticField {
-
-        @Managed("myBrowser")
-        Browser browser;
-
-        @Registered(targets = "myBrowser")
-        private static CustomEventListener eventListener;
-
-        @Test
-        void test() {
         }
     }
 
@@ -254,62 +226,4 @@ class RegisteredEventListenerExtensionIntTest {
         }
     }
 
-    @Test
-    @DisplayName("@Registered has no clear assignment to multi browser fields")
-    void noClearBrowserAssignment() throws Exception {
-        assertThrows(NoManagedBrowserForNameException.class, () -> {
-            TestClassExecutor.execute(NoClearBrowserAssignment.class);
-        });
-    }
-
-    @EnableWebTesterExtensions
-    @CreateBrowsersUsing(TestBrowserFactory.class)
-    private static class NoClearBrowserAssignment {
-
-        @Managed("browser-1")
-        Browser browser1;
-
-        @Managed("browser-2")
-        Browser browser2;
-
-        @Registered
-        private CustomEventListener eventListener;
-
-        @Test
-        void test() {
-        }
-    }
-
-    public static class CustomEventListener implements EventListener {
-
-        private Event recentEvent = null;
-
-        private boolean usedDefaultConstructor = false;
-
-        public CustomEventListener() {
-            usedDefaultConstructor = true;
-        }
-
-        public CustomEventListener(String aString) {
-            //should be unused
-        }
-
-        @Override
-        public void eventOccurred(Event event) {
-            recentEvent = event;
-        }
-
-        private Event getRecentEvent() {
-            return recentEvent;
-        }
-
-        private boolean isUsedDefaultConstructor() {
-            return usedDefaultConstructor;
-        }
-
-        private void clear() {
-            recentEvent = null;
-            usedDefaultConstructor = false;
-        }
-    }
 }

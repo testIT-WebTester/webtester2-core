@@ -1,7 +1,6 @@
 package info.novatec.testit.webtester.junit5.extensions.pages;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static utils.TestClassExecutor.execute;
 
 import org.junit.jupiter.api.DisplayName;
@@ -11,8 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import utils.TestBrowserFactory;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
-import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.CreateBrowsersUsing;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
 import info.novatec.testit.webtester.junit5.extensions.browsers.ManagedBrowserExtension;
@@ -67,73 +64,6 @@ class PageInitializerExtensionIntTest {
             assertThat(secondaryPage).isNotNull();
             assertThat(primaryPage.browser()).isSameAs(primaryBrowser);
             assertThat(secondaryPage.browser()).isSameAs(secondaryBrowser);
-        }
-
-    }
-
-    @Test
-    @DisplayName("@Initialized needs a managed browser")
-    void needsManagedBrowser() throws Exception {
-        assertThrows(NoManagedBrowserException.class, () -> {
-            execute(NoBrowserClass.class);
-        });
-    }
-
-    private static class NoBrowserClass extends BaseTestClass {
-
-        @Initialized
-        Page page;
-
-        @Test
-        void triggerClassExecution() {
-            // does nothing
-        }
-
-    }
-
-    @Test
-    @DisplayName("@Initialized needs a managed browser with matching name")
-    void needsManagedBrowserWithMatchingName() throws Exception {
-        NoManagedBrowserForNameException exception = assertThrows(NoManagedBrowserForNameException.class, () -> {
-            execute(WrongBrowserNameClass.class);
-        });
-        assertThat(exception.getName()).isEqualTo("wrong-name");
-    }
-
-    private static class WrongBrowserNameClass extends BaseTestClass {
-
-        @Managed("browser")
-        Browser browser;
-        @Initialized(source = "wrong-name")
-        Page page;
-
-        @Test
-        void triggerClassExecution() {
-            // does nothing
-        }
-
-    }
-
-    @Test
-    @DisplayName("@Initialized throws exception if used on static field")
-    void throwsExceptionIfUsedOnStaticField() throws Exception {
-        StaticPageFieldsNotSupportedException exception =
-            assertThrows(StaticPageFieldsNotSupportedException.class, () -> {
-                execute(StaticFieldClass.class);
-            });
-        assertThat(exception.getField()).isEqualTo(StaticFieldClass.class.getDeclaredField("page"));
-    }
-
-    private static class StaticFieldClass extends BaseTestClass {
-
-        @Managed
-        static Browser browser;
-        @Initialized
-        static Page page;
-
-        @Test
-        void triggerClassExecution() {
-            // does nothing
         }
 
     }

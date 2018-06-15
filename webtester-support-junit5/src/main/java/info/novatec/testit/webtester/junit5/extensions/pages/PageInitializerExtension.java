@@ -16,6 +16,7 @@ import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserException;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
+import info.novatec.testit.webtester.junit5.internal.TestClassModel;
 import info.novatec.testit.webtester.pages.Page;
 
 
@@ -62,23 +63,26 @@ public class PageInitializerExtension extends BaseExtension implements BeforeEac
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public void beforeEach(ExtensionContext context) throws Exception {
-        executeHandlingUndeclaredThrowables(context, this::createPagesForAnnotatedFields);
+        executeHandlingUndeclaredThrowables(context, ctx -> {
+            TestClassModel model = getModel(ctx);
+            Object testInstance = ctx.getRequiredTestInstance();
+            createPagesForAnnotatedFields(model, testInstance);
+        });
     }
 
-    private void createPagesForAnnotatedFields(ExtensionContext context) {
+    void createPagesForAnnotatedFields(TestClassModel model, Object testInstance) {
 
-        List<Field> pageFields = getModel(context).getPageFields();
+        List<Field> pageFields = model.getPageFields();
         if (pageFields.isEmpty()) {
             log.debug("no pages to initialize");
             return;
         }
 
-        Map<String, Field> map = getModel(context).getNamedBrowserFields();
+        Map<String, Field> map = model.getNamedBrowserFields();
         if (map.isEmpty()) {
             throw new NoManagedBrowserException();
         }
 
-        Object testInstance = context.getRequiredTestInstance();
         pageFields.forEach(pageField -> {
 
             String browserName = getBrowserName(pageField);

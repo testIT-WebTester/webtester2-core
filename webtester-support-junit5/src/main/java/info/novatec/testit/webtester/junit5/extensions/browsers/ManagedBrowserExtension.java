@@ -25,6 +25,7 @@ import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.browser.BrowserFactory;
 import info.novatec.testit.webtester.browser.proxy.ProxyConfiguration;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
+import info.novatec.testit.webtester.junit5.internal.TestClassModel;
 
 
 /**
@@ -82,12 +83,21 @@ public class ManagedBrowserExtension extends BaseExtension
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
-        executeHandlingUndeclaredThrowables(context, this::initializeAndInjectStaticBrowsers);
+        executeHandlingUndeclaredThrowables(context, ctx -> {
+            TestClassModel model = getModel(ctx);
+            getManagedStaticBrowsers(context) //
+                .addAll(initializeAndInjectStaticBrowsers(model));
+        });
     }
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
-        executeHandlingUndeclaredThrowables(context, this::initializeAndInjectInstanceBrowsers);
+        executeHandlingUndeclaredThrowables(context, ctx -> {
+            TestClassModel model = getModel(ctx);
+            Object testInstance = ctx.getRequiredTestInstance();
+            getManagedInstanceBrowsers(context) //
+                .addAll(initializeAndInjectInstanceBrowsers(model, testInstance));
+        });
     }
 
     @Override
@@ -109,23 +119,24 @@ public class ManagedBrowserExtension extends BaseExtension
         }
     }
 
-    private void initializeAndInjectStaticBrowsers(ExtensionContext context) {
-        List<Browser> managedBrowsers = getManagedStaticBrowsers(context);
-        getModel(context).getBrowserFields().stream().filter(isStaticField).forEach(field -> {
+    List<Browser> initializeAndInjectStaticBrowsers(TestClassModel model) {
+        List<Browser> managedBrowsers = new ArrayList<>();
+        model.getBrowserFields().stream().filter(isStaticField).forEach(field -> {
             Browser browser = createBrowserFor(field);
             managedBrowsers.add(browser);
             setValue(field, null, browser);
         });
+        return managedBrowsers;
     }
 
-    private void initializeAndInjectInstanceBrowsers(ExtensionContext context) {
-        Object testInstance = context.getRequiredTestInstance();
-        List<Browser> managedBrowsers = getManagedInstanceBrowsers(context);
-        getModel(context).getBrowserFields().stream().filter(isInstanceField).forEach(field -> {
+    List<Browser> initializeAndInjectInstanceBrowsers(TestClassModel model, Object testInstance) {
+        List<Browser> managedBrowsers = new ArrayList<>();
+        model.getBrowserFields().stream().filter(isInstanceField).forEach(field -> {
             Browser browser = createBrowserFor(field);
             managedBrowsers.add(browser);
             setValue(field, testInstance, browser);
         });
+        return managedBrowsers;
     }
 
     private Browser createBrowserFor(Field field) {

@@ -1,7 +1,5 @@
 package info.novatec.testit.webtester.junit5.extensions.browsers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +11,6 @@ import utils.TestBrowserFactory;
 import utils.TestClassExecutor;
 
 import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.junit5.extensions.UnknownConfigurationKeyException;
 
 
 class EntryPointExtensionIntTest {
@@ -106,27 +103,6 @@ class EntryPointExtensionIntTest {
         @Test
         void test() {
             verify(browser.webDriver()).get("http://localhost:8080/index.html");
-        }
-
-    }
-
-    @Test
-    @DisplayName("unknown variable will throw exception")
-    void unknownVariable() throws Exception {
-        UnknownConfigurationKeyException exception = assertThrows(UnknownConfigurationKeyException.class, () -> {
-            TestClassExecutor.execute(UnknownVariable.class);
-        });
-        assertThat(exception.getKey()).isEqualTo("unknown-variable");
-    }
-
-    private static class UnknownVariable extends AbstractTestClass {
-
-        @Managed
-        @EntryPoint("${unknown-variable}")
-        Browser browser;
-
-        @Test
-        void triggerTestExecution() {
         }
 
     }

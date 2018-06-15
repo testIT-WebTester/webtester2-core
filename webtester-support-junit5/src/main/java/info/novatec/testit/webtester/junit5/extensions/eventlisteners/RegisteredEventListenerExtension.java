@@ -25,6 +25,7 @@ import info.novatec.testit.webtester.events.EventListener;
 import info.novatec.testit.webtester.junit5.extensions.BaseExtension;
 import info.novatec.testit.webtester.junit5.extensions.NoManagedBrowserForNameException;
 import info.novatec.testit.webtester.junit5.extensions.browsers.Managed;
+import info.novatec.testit.webtester.junit5.internal.TestClassModel;
 
 
 /**
@@ -75,34 +76,36 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
 
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void beforeEach(ExtensionContext context) throws Exception {
-        initializeEventListener(context);
+    public void beforeEach(ExtensionContext context) {
+        TestClassModel model = getModel(context);
+        Object testInstance = context.getRequiredTestInstance();
+        Multimap<EventListener, Browser> eventListeners = initializeEventListener(model, testInstance);
+        context.getStore(BaseExtension.NAMESPACE).put("registered-eventlisteners", eventListeners);
     }
 
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    public void afterEach(ExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) {
         deRegisterAllEventListeners(context);
     }
 
-    private void initializeEventListener(ExtensionContext context) {
+    Multimap<EventListener, Browser> initializeEventListener(TestClassModel model, Object testInstance) {
         Multimap<EventListener, Browser> registeredEventListener = HashMultimap.create();
-        getModel(context).getEventListenerFields().stream().filter(isInstanceField).forEach(listenerField -> {
-            createEventListenerFor(listenerField, context);
-            findBrowserFieldFor(listenerField, context).forEach(browserField -> {
-                Browser browser = getBrowser(browserField, context);
-                EventListener eventListener = registerEventListener(browser, listenerField, context);
+        model.getEventListenerFields().stream().filter(isInstanceField).forEach(listenerField -> {
+            createEventListenerFor(listenerField, testInstance);
+            findBrowserFieldFor(listenerField, model).forEach(browserField -> {
+                Browser browser = getBrowser(browserField, testInstance);
+                EventListener eventListener = registerEventListener(browser, listenerField, testInstance);
                 registeredEventListener.put(eventListener, browser);
                 log.debug(
                     "EventListener '" + listenerField.getName() + "' registered to Browser '" + getBrowserName(browserField)
                         + "'");
             });
         });
-        context.getStore(BaseExtension.NAMESPACE).put("registered-eventlisteners", registeredEventListener);
+        return registeredEventListener;
     }
 
-    private void createEventListenerFor(Field field, ExtensionContext context) {
-        Object testInstance = context.getRequiredTestInstance();
+    private void createEventListenerFor(Field field, Object testInstance) {
         try {
             if (field.get(testInstance) == null) {
                 EventListener newEventListener = ( EventListener ) field.getType().newInstance();
@@ -113,8 +116,8 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
         }
     }
 
-    private List<Field> findBrowserFieldFor(Field listenerField, ExtensionContext context) {
-        return getModel(context).getNamedBrowserFields()
+    private List<Field> findBrowserFieldFor(Field listenerField, TestClassModel model) {
+        return model.getNamedBrowserFields()
             .values()
             .stream()
             .filter(browserField -> isATargetBrowser(browserField, listenerField))
@@ -139,16 +142,16 @@ public class RegisteredEventListenerExtension extends BaseExtension implements B
         return browserField.getAnnotation(Managed.class).value();
     }
 
-    private Browser getBrowser(Field browserField, ExtensionContext context) {
+    private Browser getBrowser(Field browserField, Object testInstance) {
         try {
-            return ( Browser ) browserField.get(context.getRequiredTestInstance());
+            return ( Browser ) browserField.get(testInstance);
         } catch (IllegalAccessException e) {
             throw new UndeclaredThrowableException(e, "error while finding managed browser");
         }
     }
 
-    private EventListener registerEventListener(Browser browser, Field listenerField, ExtensionContext context) {
-        EventListener eventListener = getValue(listenerField, context.getRequiredTestInstance());
+    private EventListener registerEventListener(Browser browser, Field listenerField, Object testInstance) {
+        EventListener eventListener = getValue(listenerField, testInstance);
         browser.events().register(eventListener);
         return eventListener;
     }

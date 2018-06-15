@@ -28,6 +28,7 @@ import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshalle
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.IntegerUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.LongUnmarshaller;
 import info.novatec.testit.webtester.junit5.extensions.configuration.unmarshaller.StringUnmarshaller;
+import info.novatec.testit.webtester.junit5.internal.TestClassModel;
 
 
 /**
@@ -101,23 +102,25 @@ public class ConfigurationValueExtension extends BaseExtension implements Before
     @Override
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     public void beforeEach(ExtensionContext context) throws Exception {
-        executeHandlingUndeclaredThrowables(context, this::injectValuesIntoAnnotatedFields);
+        executeHandlingUndeclaredThrowables(context, ctx -> {
+            TestClassModel model = getModel(ctx);
+            Object testInstance = ctx.getRequiredTestInstance();
+            injectValuesIntoAnnotatedFields(model, testInstance);
+        });
     }
 
-    private void injectValuesIntoAnnotatedFields(ExtensionContext context) {
-
-        List<Field> valueFields = getModel(context).getConfigurationValueFields();
+    void injectValuesIntoAnnotatedFields(TestClassModel model, Object testInstance) {
+        List<Field> valueFields = model.getConfigurationValueFields();
         if (valueFields.isEmpty()) {
             log.debug("no configuration value fields to initialize");
             return;
         }
 
-        Map<String, Field> map = getModel(context).getNamedBrowserFields();
+        Map<String, Field> map = model.getNamedBrowserFields();
         if (map.isEmpty()) {
             throw new NoManagedBrowserException();
         }
 
-        Object testInstance = context.getRequiredTestInstance();
         valueFields.forEach(field -> {
 
             ConfigurationValue annotation = field.getAnnotation(ConfigurationValue.class);
