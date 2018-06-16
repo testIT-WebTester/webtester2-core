@@ -32,7 +32,7 @@ node('docker-based-builds') {
           def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
           def gpgPassphrase = "-Dgpg.passphrase=${gpgPassphrase}"
           def repositoryCredentials = "-Dossrh.username=${ossrhUsername} -Dossrh.password=${ossrhPassword}"
-          def profiles = "-P default-profile,maven-central"
+          def profiles = "-P deploy-release"
 
           sh "mvn clean deploy ${skipTests} ${gpgPassphrase} ${repositoryCredentials} ${profiles}"
 
