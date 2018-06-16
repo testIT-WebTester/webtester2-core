@@ -17,13 +17,13 @@ jobs:
       env: OracleJDK_8
       script: mvn verify -P ci-compile
     - jdk: openjdk8
-      env: TOOL=Checkstyle
+      env: Checkstyle
       script: mvn verify -P ci-codequality-checkstyle
     - jdk: openjdk8
-      env: TOOL=FindBugs
+      env: FindBugs
       script: mvn verify -P ci-codequality-findbugs
     - jdk: openjdk8
-      env: TOOL=PMD
+      env: PMD
       script: mvn verify -P ci-codequality-pmd
 
     - stage: unittests
@@ -38,7 +38,7 @@ jobs:
       jdk: openjdk8
       services: docker
       sudo: required
-      env: BROWSER=Firefox
+      env: Firefox
       before_script: docker-compose up -d
       script: >
         mvn verify
@@ -51,7 +51,7 @@ jobs:
     - jdk: openjdk8
       services: docker
       sudo: required
-      env: BROWSER=Chrome
+      env: Chrome
       before_script: docker-compose up -d
       script: >
         mvn verify
@@ -63,7 +63,7 @@ jobs:
     - jdk: oraclejdk8
       services: docker
       sudo: required
-      env: BROWSER=Firefox
+      env: Firefox
       before_script: docker-compose up -d
       script: >
         mvn verify
@@ -76,7 +76,7 @@ jobs:
     - jdk: oraclejdk8
       services: docker
       sudo: required
-      env: BROWSER=Chrome
+      env: Chrome
       before_script: docker-compose up -d
       script: >
         mvn verify
