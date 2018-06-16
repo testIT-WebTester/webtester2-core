@@ -33,7 +33,7 @@
         <version.maven.javadoc.plugin>2.10.3</version.maven.javadoc.plugin>
         <version.maven.source.plugin>3.0.0</version.maven.source.plugin>
         <version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
-        <version.maven.nexus.staging.plugin> 1.6.7</version.maven.nexus.staging.plugin>
+        <version.maven.nexus.staging.plugin>1.6.7</version.maven.nexus.staging.plugin>
     </properties>
 
     <build>
@@ -105,8 +105,12 @@
     </build>
 
     <profiles>
+
         <profile>
-            <id>documentation</id>
+            <id>default-profile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -120,6 +124,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>maven-central</id>
             <build>

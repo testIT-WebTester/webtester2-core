@@ -1,40 +1,86 @@
 language: java
-jdk:
-  - openjdk8
-  - oraclejdk8
-
 dist: trusty
-sudo: required
+install: skip
 
-services:
-  - docker
+cache:
+  directories:
+    - $HOME/.m2/repository
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install --assume-yes --option Dpkg::Options::="--force-confnew" docker-ce
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo cp docker-compose /usr/local/bin && rm docker-compose
-install: true
+jobs:
+  include:
 
-before_script:
-  - docker --version
-  - docker-compose --version
-  - docker-compose up -d
-script:
-  - >
-    mvn clean verify
-    -P code-quality,documentation,release
-    -DtestProfile=remote
-    -Dremote.browser.name=firefox
-    -Dremote.firefox.marionette=false
-    -DtestPageServerHost=172.17.0.1
-  - >
-    mvn clean verify
-    -P code-quality,documentation,release
-    -DtestProfile=remote
-    -Dremote.browser.name=chrome
-    -DtestPageServerHost=172.17.0.1
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+    - stage: compile
+      jdk: openjdk8
+      script: mvn verify -P ci-compile,ci-codequality
+    - jdk: oraclejdk8
+      script: mvn verify -P ci-compile,ci-codequality
+
+    - stage: unittests
+      jdk: openjdk8
+      script: mvn verify -P ci-unittests
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - jdk: oraclejdk8
+      script: mvn verify -P ci-unittests
+      after_success: bash <(curl -s https://codecov.io/bash)
+
+    - stage: integrationtests
+      jdk: openjdk8
+      services: docker
+      sudo: required
+      env:
+        - BROWSER=Firefox
+      before_script: docker-compose up -d
+      script: >
+        mvn verify
+        -P ci-integrationtests
+        -DtestProfile=remote
+        -Dremote.browser.name=firefox
+        -Dremote.firefox.marionette=false
+        -DtestPageServerHost=172.17.0.1
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - jdk: openjdk8
+      services: docker
+      sudo: required
+      env:
+        - BROWSER=Chrome
+      before_script: docker-compose up -d
+      script: >
+        mvn verify
+        -P ci-integrationtests
+        -DtestProfile=remote
+        -Dremote.browser.name=chrome
+        -DtestPageServerHost=172.17.0.1
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - jdk: oraclejdk8
+      services: docker
+      sudo: required
+      env:
+        - BROWSER=Firefox
+      before_script: docker-compose up -d
+      script: >
+        mvn verify
+        -P ci-integrationtests
+        -DtestProfile=remote
+        -Dremote.browser.name=firefox
+        -Dremote.firefox.marionette=false
+        -DtestPageServerHost=172.17.0.1
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - jdk: oraclejdk8
+      services: docker
+      sudo: required
+      env:
+        - BROWSER=Chrome
+      before_script: docker-compose up -d
+      script: >
+        mvn verify
+        -P ci-integrationtests
+        -DtestProfile=remote
+        -Dremote.browser.name=chrome
+        -DtestPageServerHost=172.17.0.1
+      after_success: bash <(curl -s https://codecov.io/bash)
+
+    - stage: documentation
+      jdk: openjdk8
+      script: mvn verify -P ci-documentation
+    - jdk: oraclejdk8
+      script: mvn verify -P ci-documentation

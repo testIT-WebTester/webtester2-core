@@ -26,9 +26,8 @@ node('docker-based-builds') {
         def skipTests = "-DskipUnitTests=true -DskipIntegrationTests=true"
         def targetRepository = "-DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots"
         def repositoryCredentials = "-Dossrh.username=${ossrhUsername} -Dossrh.password=${ossrhPassword}"
-        def profiles = "-P documentation"
 
-        sh "mvn clean deploy ${skipTests} ${targetRepository} ${repositoryCredentials} ${profiles}"
+        sh "mvn clean deploy ${skipTests} ${targetRepository} ${repositoryCredentials}"
 
       }
 
