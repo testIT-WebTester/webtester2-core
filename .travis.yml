@@ -17,14 +17,14 @@ jobs:
       env: OracleJDK_8
       script: mvn verify -P ci-compile
     - jdk: openjdk8
-      env: TOOL=PMD
-      script: mvn pmd:check
+      env: TOOL=Checkstyle
+      script: mvn verify -P ci-codequality-checkstyle
     - jdk: openjdk8
       env: TOOL=FindBugs
-      script: mvn findbugs:check
+      script: mvn verify -P ci-codequality-findbugs
     - jdk: openjdk8
-      env: TOOL=Checkstyle
-      script: mvn checkstyle:check
+      env: TOOL=PMD
+      script: mvn verify -P ci-codequality-pmd
 
     - stage: unittests
       jdk: openjdk8
