@@ -749,6 +749,9 @@
 
         <profile>
             <id>ci-compile</id>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
