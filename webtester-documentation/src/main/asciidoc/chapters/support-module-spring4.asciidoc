@@ -1,12 +1,12 @@
-=== Spring 4 Integration
+=== Spring 4/5 Integration
 
 ==== Spring Configuration Adapter
 
-The `webtester-support-spring4` module provides a `ConfigurationAdapter`
-implementation called `SpringEnvironmentConfigurationAdapter`. This adapter can
-be used to resolve properties from the existing `Configuration` against a Spring
-`Environment`. All keys which could successfully be resolved against the
-environment will then be overridden in the configuration.
+The `webtester-support-spring4` and `webtester-support-spring5` modules each
+provides a `ConfigurationAdapter` implementation called `SpringEnvironmentConfigurationAdapter`.
+This adapter can be used to resolve properties from the existing `Configuration`
+against a Spring `Environment`. All keys which could successfully be resolved
+against the environment will then be overridden in the configuration.
 
 [source, properties]
 ----
