@@ -45,7 +45,6 @@ jobs:
         -P ci-integrationtests
         -DtestProfile=remote
         -Dremote.browser.name=firefox
-        -Dremote.firefox.marionette=false
         -DtestPageServerHost=172.17.0.1
       after_success: bash <(curl -s https://codecov.io/bash)
     - jdk: openjdk8
@@ -70,7 +69,6 @@ jobs:
         -P ci-integrationtests
         -DtestProfile=remote
         -Dremote.browser.name=firefox
-        -Dremote.firefox.marionette=false
         -DtestPageServerHost=172.17.0.1
       after_success: bash <(curl -s https://codecov.io/bash)
     - jdk: oraclejdk8
