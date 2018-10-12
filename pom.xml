@@ -43,6 +43,7 @@
         <module>webtester-support-junit4</module>
         <module>webtester-support-junit5</module>
         <module>webtester-support-spring4</module>
+        <module>webtester-support-spring5</module>
     </modules>
 
     <properties>
