@@ -38,18 +38,6 @@ jobs:
       jdk: openjdk8
       services: docker
       sudo: required
-      env: Firefox
-      before_script: docker-compose up -d
-      script: >
-        mvn verify
-        -P ci-integrationtests
-        -DtestProfile=remote
-        -Dremote.browser.name=firefox
-        -DtestPageServerHost=172.17.0.1
-      after_success: bash <(curl -s https://codecov.io/bash)
-    - jdk: openjdk8
-      services: docker
-      sudo: required
       env: Chrome
       before_script: docker-compose up -d
       script: >
@@ -57,18 +45,6 @@ jobs:
         -P ci-integrationtests
         -DtestProfile=remote
         -Dremote.browser.name=chrome
-        -DtestPageServerHost=172.17.0.1
-      after_success: bash <(curl -s https://codecov.io/bash)
-    - jdk: oraclejdk8
-      services: docker
-      sudo: required
-      env: Firefox
-      before_script: docker-compose up -d
-      script: >
-        mvn verify
-        -P ci-integrationtests
-        -DtestProfile=remote
-        -Dremote.browser.name=firefox
         -DtestPageServerHost=172.17.0.1
       after_success: bash <(curl -s https://codecov.io/bash)
     - jdk: oraclejdk8
