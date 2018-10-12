@@ -54,7 +54,9 @@ public interface GenericTextField<T extends GenericTextField> extends PageFragme
     @Mark(As.USED)
     @Produces(TextAppendedEvent.class)
     default T appendText(String text) {
-        webElement().sendKeys(text);
+        WebElement webElement = webElement();
+        webElement.sendKeys(Keys.END);
+        webElement.sendKeys(text);
         return (T) this;
     }
 
