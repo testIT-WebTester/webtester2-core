@@ -14,8 +14,8 @@
     <name>testIT | WebTester - Support - Spring 4.x</name>
 
     <properties>
-        <version.spring>4.3.18.RELEASE</version.spring>
-        <version.spring.boot>1.5.14.RELEASE</version.spring.boot>
+        <version.spring>4.3.19.RELEASE</version.spring>
+        <version.spring.boot>1.5.16.RELEASE</version.spring.boot>
     </properties>
 
     <dependencies>
