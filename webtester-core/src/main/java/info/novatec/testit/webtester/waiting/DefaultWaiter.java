@@ -1,14 +1,14 @@
 package info.novatec.testit.webtester.waiting;
 
-import java.time.Clock;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.Clock;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 
 /**
@@ -24,10 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Getter(AccessLevel.PROTECTED)
 class DefaultWaiter implements Waiter {
 
-    /** The {@link Sleeper} to use when actually needing to pass time. */
+    /**
+     * The {@link Sleeper} to use when actually needing to pass time.
+     */
     @NonNull
     private final Sleeper sleeper;
-    /** The {@link Clock} to use for tracking the passing of time. */
+    /**
+     * The {@link Clock} to use for tracking the passing of time.
+     */
     @NonNull
     private final Clock clock;
 
@@ -71,22 +75,34 @@ class DefaultWaiter implements Waiter {
     @Override
     @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PMD.AvoidRethrowingException"})
     public void waitUntil(WaitConfig config, Supplier<Boolean> condition) {
+        waitUntilWithAction(config, condition, new WaitingAction(() -> false, null));
+    }
 
+    @Override
+    public void waitUntilWithAction(WaitConfig config, Supplier<Boolean> condition, WaitingAction waitingAction) {
         long effectiveTimeout = config.getTimeoutInMillis();
+        Supplier<Boolean> actionCondition = waitingAction.getActionCondition();
         long start = now();
 
         boolean conditionMet = false;
+        boolean runWaitAction = false;
         RuntimeException lastException = null;
 
         do {
             try {
                 conditionMet = condition.get();
+                runWaitAction = actionCondition.get();
             } catch (ConditionParameterMismatchException e) {
                 throw e;
             } catch (RuntimeException e) {
                 lastException = e;
             }
             log.trace("condition '{}' met: {}", condition, conditionMet);
+            if (!conditionMet && runWaitAction) {
+                log.trace("condition runWaitAction by '{}'", actionCondition);
+                waitingAction.getAction().perform();
+                log.debug("break action performed: {}", waitingAction.getAction());
+            }
             if (!conditionMet) {
                 waitExactly(config.getInterval(), TimeUnit.MILLISECONDS);
             }
@@ -102,7 +118,6 @@ class DefaultWaiter implements Waiter {
         } else {
             log.debug("condition met: {}", condition);
         }
-
     }
 
     private long timeSince(long start) {

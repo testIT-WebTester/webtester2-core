@@ -35,4 +35,18 @@ public interface Waiter {
      */
     void waitUntil(WaitConfig config, Supplier<Boolean> condition);
 
+    /**
+     * Waits until the given boolean {@link Supplier} returns <code>true</code> or the {@link WaitConfig configured} timeout
+     * is reached.
+     * Additionally provides a {@link WaitingAction}, which provides an {@link Supplier} with a condition, triggering a
+     * {@link WaitAction}.
+     *
+     * @param config the configuration to use
+     * @param condition the condition to evaluate
+     * @param waitingAction the condition for and the action to execute
+     * @see WaitConfig
+     * @see WaitingAction
+     * @since 2.8
+     */
+    void waitUntilWithAction(WaitConfig config, Supplier<Boolean> condition, WaitingAction waitingAction);
 }

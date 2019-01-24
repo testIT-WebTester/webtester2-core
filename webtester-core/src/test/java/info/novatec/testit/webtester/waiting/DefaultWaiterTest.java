@@ -1,19 +1,5 @@
 package info.novatec.testit.webtester.waiting;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-
-import java.time.Clock;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -21,6 +7,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.time.Clock;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(Enclosed.class)
@@ -118,7 +112,7 @@ public class DefaultWaiterTest {
         public void stubClockToMoveTimeEveryTimeTheSleeperIsInvoked() {
             doReturn(currentTime).when(clock).millis();
             doAnswer((invocation) -> {
-                currentTime += ( Long ) invocation.getArguments()[0];
+                currentTime += (Long) invocation.getArguments()[0];
                 doReturn(currentTime).when(clock).millis();
                 return null;
             }).when(sleeper).sleep(anyLong());
@@ -202,5 +196,63 @@ public class DefaultWaiterTest {
         }
 
     }
+
+    @RunWith(MockitoJUnitRunner.class)
+    public static class WaitUntilWithAction {
+        @Mock
+        Sleeper sleeper;
+        @Mock
+        Clock clock;
+        @InjectMocks
+        DefaultWaiter cut;
+
+        @Mock
+        Supplier<Boolean> condition;
+        @Mock
+        Supplier<Boolean> actionCondition;
+        @Mock
+        WaitAction action;
+
+        WaitConfig config;
+        WaitingAction waitingAction;
+
+        long currentTime = 42L;
+
+        @Before
+        public void setup() {
+            config = new WaitConfig();
+            config.setTimeout(1);
+            config.setTimeUnit(TimeUnit.SECONDS);
+            config.setInterval(100);
+
+            doReturn(currentTime).when(clock).millis();
+            doAnswer((invocation) -> {
+                currentTime += (Long) invocation.getArguments()[0];
+                doReturn(currentTime).when(clock).millis();
+                return null;
+            }).when(sleeper).sleep(anyLong());
+        }
+
+        @Test
+        public void whenConditionIsMetInstantlyActionIsNotExecuted() {
+            doReturn(true).when(condition).get();
+            doReturn(true).when(actionCondition).get();
+            waitingAction = new WaitingAction(actionCondition, action);
+
+            cut.waitUntilWithAction(config, condition, waitingAction);
+            verify(action, never()).perform();
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void executesAlwaysWhenConditionIsNotMetButActionConditionIsMet() {
+            doReturn(false).when(condition).get();
+            doReturn(true).when(actionCondition).get();
+            waitingAction = new WaitingAction(actionCondition, action);
+
+            cut.waitUntilWithAction(config, condition, waitingAction);
+            verify(action, times(10)).perform();
+        }
+    }
+
 
 }
