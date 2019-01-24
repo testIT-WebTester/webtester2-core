@@ -1,12 +1,11 @@
 package info.novatec.testit.webtester.waiting;
 
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
+import info.novatec.testit.webtester.pagefragments.PageFragment;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
-import info.novatec.testit.webtester.pagefragments.PageFragment;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 
 /**
@@ -132,6 +131,25 @@ public class Wait {
      */
     public static void until(Supplier<Boolean> condition) {
         waiter.get().waitUntil(new WaitConfig(), condition);
+    }
+
+    /**
+     * Executes a wait operation based on the default timeout configuration of {@link WaitConfig} and the given boolean
+     * supplier. The wait is executed until either the supplier returns <code>true</code> or the timeout is reached.
+     * Additionally executes a {@link WaitAction} configured by the given {@link WaitingAction}.
+     *
+     * @param condition the supplier for the wait until operation
+     * @param waitingAction the configured condition and action to execute during waiting
+     * @see Wait
+     * @see WaitUntil
+     * @see Waiter
+     * @see WaitConfig
+     * @see WaitingAction
+     * @see WaitAction
+     * @since 2.8
+     */
+    public static void untilWithAction(Supplier<Boolean> condition, WaitingAction waitingAction) {
+        waiter.get().waitUntilWithAction(new WaitConfig(), condition, waitingAction);
     }
 
     /**

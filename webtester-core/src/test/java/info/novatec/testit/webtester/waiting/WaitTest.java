@@ -1,14 +1,8 @@
 package info.novatec.testit.webtester.waiting;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
-
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
+import info.novatec.testit.webtester.browser.Browser;
+import info.novatec.testit.webtester.config.Configuration;
+import info.novatec.testit.webtester.pagefragments.PageFragment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -16,9 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.testit.testutils.mockito.junit5.EnableMocking;
 
-import info.novatec.testit.webtester.browser.Browser;
-import info.novatec.testit.webtester.config.Configuration;
-import info.novatec.testit.webtester.pagefragments.PageFragment;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 
 @EnableMocking
@@ -146,6 +145,19 @@ class WaitTest {
         }
 
     }
+
+    @Nested
+    class Until_WithAction {
+
+        @Test
+        void delegateToWaiter() {
+            Supplier<Boolean> supplier = () -> true;
+            WaitingAction waitingAction = new WaitingAction(() -> false, null);
+            Wait.untilWithAction(supplier, waitingAction);
+            verify(waiter).waitUntilWithAction(any(WaitConfig.class), eq(supplier), eq(waitingAction));
+        }
+    }
+
 
     @Nested
     class Until_PageFragment {

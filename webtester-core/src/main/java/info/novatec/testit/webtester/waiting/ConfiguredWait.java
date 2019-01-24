@@ -80,4 +80,23 @@ public class ConfiguredWait {
         waiter.waitUntil(config, condition);
     }
 
+    /**
+     * Executes a wait operation based on this {@link ConfiguredWait}'s {@link ConfiguredWait} and the given boolean
+     * supplier. The wait is executed until either the supplier returns <code>true</code> or the timeout is reached.
+     * Additionally executes a {@link WaitAction} configured by the given {@link WaitingAction}.
+     *
+     * @param condition the supplier for the wait until operation
+     * @param waitingAction the configured condition and action to execute during waiting
+     * @see Wait
+     * @see WaitUntil
+     * @see Waiter
+     * @see WaitConfig
+     * @see WaitingAction
+     * @see WaitAction
+     * @since 2.8
+     */
+    public void untilWithAction(Supplier<Boolean> condition, WaitingAction waitingAction) {
+        waiter.waitUntilWithAction(config, condition, waitingAction);
+    }
+
 }

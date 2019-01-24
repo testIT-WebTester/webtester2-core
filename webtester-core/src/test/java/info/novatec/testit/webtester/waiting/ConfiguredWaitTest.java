@@ -1,15 +1,15 @@
 package info.novatec.testit.webtester.waiting;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-
-import java.util.function.Supplier;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.testit.testutils.mockito.junit5.EnableMocking;
+
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 
 @EnableMocking
@@ -88,5 +88,18 @@ class ConfiguredWaitTest {
         }
 
     }
+
+    @Nested
+    class UntilWithAction {
+
+        @Test
+        void usesWaiterToWaitForSupplierToReturnTrue() {
+            Supplier<Boolean> supplier = () -> true;
+            WaitingAction waitingAction = new WaitingAction(() -> false, null);
+            cut.untilWithAction(supplier, waitingAction);
+            verify(waiter).waitUntilWithAction(config, supplier, waitingAction);
+        }
+    }
+
 
 }
