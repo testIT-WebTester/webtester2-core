@@ -74,25 +74,22 @@ class DefaultWaiter implements Waiter {
 
     @Override
     public void waitUntil(WaitConfig config, Supplier<Boolean> condition) {
-        waitUntilWithAction(config, condition, new WaitingAction(() -> false, null));
+        waitUntilWithAction(config, condition, WaitingAction.doNothing());
     }
 
     @Override
     @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PMD.AvoidRethrowingException"})
     public void waitUntilWithAction(WaitConfig config, Supplier<Boolean> condition, WaitingAction waitingAction) {
         long effectiveTimeout = config.getTimeoutInMillis();
-        Supplier<Boolean> actionCondition = waitingAction.getActionCondition();
         long start = now();
 
         boolean conditionMet = false;
-        boolean runWaitAction = false;
         RuntimeException lastException = null;
 
         do {
             try {
                 conditionMet = condition.get();
-                runWaitAction = actionCondition.get();
-                runWaitaction(conditionMet, runWaitAction, waitingAction);
+                runWaitaction(conditionMet, waitingAction);
             } catch (ConditionParameterMismatchException | WaitActionFailedException e) {
                 throw e;
             } catch (RuntimeException e) {
@@ -116,8 +113,8 @@ class DefaultWaiter implements Waiter {
         }
     }
 
-    private void runWaitaction(boolean runWaitAction, boolean conditionMet, WaitingAction waitingAction) throws WaitActionFailedException{
-        if (!conditionMet && runWaitAction) {
+    private void runWaitaction(boolean conditionMet, WaitingAction waitingAction) throws WaitActionFailedException {
+        if (!conditionMet && waitingAction.getActionCondition().get()) {
             log.trace("condition runWaitAction by '{}'", waitingAction.getActionCondition());
             waitingAction.getAction().perform();
             log.debug("wait action performed: {}", waitingAction.getAction());

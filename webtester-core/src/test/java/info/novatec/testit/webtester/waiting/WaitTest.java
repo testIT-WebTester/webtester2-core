@@ -152,7 +152,7 @@ class WaitTest {
         @Test
         void delegateToWaiter() {
             Supplier<Boolean> supplier = () -> true;
-            WaitingAction waitingAction = new WaitingAction(() -> false, null);
+            WaitingAction waitingAction = WaitingAction.doNothing();
             Wait.untilWithAction(supplier, waitingAction);
             verify(waiter).waitUntilWithAction(any(WaitConfig.class), eq(supplier), eq(waitingAction));
         }

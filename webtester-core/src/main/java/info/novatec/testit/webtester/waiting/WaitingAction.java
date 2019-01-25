@@ -29,4 +29,12 @@ class WaitingAction {
      */
     private final WaitAction action;
 
+    /**
+     * Convenience method to create a {@link WaitingAction} which does nothing.
+     *
+     * @return empty WaitingAction
+     */
+    public static WaitingAction doNothing() {
+        return new WaitingAction(() -> false, null);
+    }
 }
