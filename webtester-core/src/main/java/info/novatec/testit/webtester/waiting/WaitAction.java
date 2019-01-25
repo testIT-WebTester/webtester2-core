@@ -6,15 +6,13 @@ package info.novatec.testit.webtester.waiting;
  *
  * <b>Example usage:</b>
  * <pre>
- *
  * public void preparingMethod() {
- *     executingMethod(() -> doSomething());
+ *     executingMethod(() -&gt; doSomething());
  * }
  *
  * public void executingMethod(UIAction action) {
  *     action.perform();
  * }
- *
  * </pre>
  *
  * @see WaitingAction
