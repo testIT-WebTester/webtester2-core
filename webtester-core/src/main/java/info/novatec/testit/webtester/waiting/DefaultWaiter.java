@@ -73,12 +73,12 @@ class DefaultWaiter implements Waiter {
     }
 
     @Override
-    @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PMD.AvoidRethrowingException"})
     public void waitUntil(WaitConfig config, Supplier<Boolean> condition) {
         waitUntilWithAction(config, condition, new WaitingAction(() -> false, null));
     }
 
     @Override
+    @SuppressWarnings({"PMD.AvoidCatchingGenericException", "PMD.AvoidRethrowingException"})
     public void waitUntilWithAction(WaitConfig config, Supplier<Boolean> condition, WaitingAction waitingAction) {
         long effectiveTimeout = config.getTimeoutInMillis();
         Supplier<Boolean> actionCondition = waitingAction.getActionCondition();
@@ -92,17 +92,13 @@ class DefaultWaiter implements Waiter {
             try {
                 conditionMet = condition.get();
                 runWaitAction = actionCondition.get();
-            } catch (ConditionParameterMismatchException e) {
+                runWaitaction(conditionMet, runWaitAction, waitingAction);
+            } catch (ConditionParameterMismatchException | WaitActionFailedException e) {
                 throw e;
             } catch (RuntimeException e) {
                 lastException = e;
             }
             log.trace("condition '{}' met: {}", condition, conditionMet);
-            if (!conditionMet && runWaitAction) {
-                log.trace("condition runWaitAction by '{}'", actionCondition);
-                waitingAction.getAction().perform();
-                log.debug("break action performed: {}", waitingAction.getAction());
-            }
             if (!conditionMet) {
                 waitExactly(config.getInterval(), TimeUnit.MILLISECONDS);
             }
@@ -117,6 +113,14 @@ class DefaultWaiter implements Waiter {
             throw new TimeoutException(message);
         } else {
             log.debug("condition met: {}", condition);
+        }
+    }
+
+    private void runWaitaction(boolean runWaitAction, boolean conditionMet, WaitingAction waitingAction) throws WaitActionFailedException{
+        if (!conditionMet && runWaitAction) {
+            log.trace("condition runWaitAction by '{}'", waitingAction.getActionCondition());
+            waitingAction.getAction().perform();
+            log.debug("wait action performed: {}", waitingAction.getAction());
         }
     }
 
