@@ -236,11 +236,41 @@ public class DefaultWaiterTest {
         @Test
         public void whenConditionIsMetInstantlyActionIsNotExecuted() {
             doReturn(true).when(condition).get();
-            doReturn(true).when(actionCondition).get();
             waitingAction = new WaitingAction(actionCondition, action);
 
             cut.waitUntilWithAction(config, condition, waitingAction);
             verify(action, never()).perform();
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void whenActionConditionIsNotMetBecauseOfExceptionTheTimeoutHasACause() {
+            doReturn(false).when(condition).get();
+            RuntimeException exception = mock(RuntimeException.class);
+            doThrow(exception).when(actionCondition).get();
+            waitingAction = new WaitingAction(actionCondition, action);
+
+            try {
+                cut.waitUntilWithAction(config, condition, waitingAction);
+            } catch (TimeoutException e) {
+                assertThat(e.getCause()).isSameAs(exception);
+                throw e;
+            }
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void whenConditionIsNotMetAndWaitActionFailsBecauseOfExceptionTheTimeoutHasACause() {
+            doReturn(false).when(condition).get();
+            doReturn(true).when(actionCondition).get();
+            RuntimeException exception = mock(RuntimeException.class);
+            doThrow(exception).when(action).perform();
+            waitingAction = new WaitingAction(actionCondition, action);
+
+            try {
+                cut.waitUntilWithAction(config, condition, waitingAction);
+            } catch (TimeoutException e) {
+                assertThat(e.getCause()).isSameAs(exception);
+                throw e;
+            }
         }
 
         @Test(expected = TimeoutException.class)

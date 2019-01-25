@@ -95,7 +95,7 @@ class ConfiguredWaitTest {
         @Test
         void usesWaiterToWaitForSupplierToReturnTrue() {
             Supplier<Boolean> supplier = () -> true;
-            WaitingAction waitingAction = new WaitingAction(() -> false, null);
+            WaitingAction waitingAction = WaitingAction.doNothing();
             cut.untilWithAction(supplier, waitingAction);
             verify(waiter).waitUntilWithAction(config, supplier, waitingAction);
         }
