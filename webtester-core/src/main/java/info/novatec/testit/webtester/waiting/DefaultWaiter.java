@@ -7,8 +7,12 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Clock;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 
 /**
@@ -84,16 +88,17 @@ class DefaultWaiter implements Waiter {
         long start = now();
 
         boolean conditionMet = false;
-        RuntimeException lastException = null;
+        Optional<RuntimeException> lastException = empty();
 
         do {
             try {
                 conditionMet = condition.get();
-                runWaitaction(conditionMet, waitingAction);
-            } catch (ConditionParameterMismatchException | WaitActionFailedException e) {
+                runWaitAction(conditionMet, waitingAction);
+            } catch (ConditionParameterMismatchException e) {
                 throw e;
             } catch (RuntimeException e) {
-                lastException = e;
+                lastException = lastException.isPresent() ?
+                        lastException.map(ex -> handleLastException(ex, e)) : of(e);
             }
             log.trace("condition '{}' met: {}", condition, conditionMet);
             if (!conditionMet) {
@@ -104,21 +109,32 @@ class DefaultWaiter implements Waiter {
         if (!conditionMet) {
             String message = "condition not met within the given timeout";
             log.debug("condition not met: {}", condition);
-            if (lastException != null) {
-                throw new TimeoutException(message, lastException);
-            }
-            throw new TimeoutException(message);
+            throw lastException
+                    .map(lastEx -> new TimeoutException(message, lastEx))
+                    .orElse(new TimeoutException(message));
         } else {
             log.debug("condition met: {}", condition);
         }
     }
 
-    private void runWaitaction(boolean conditionMet, WaitingAction waitingAction) throws WaitActionFailedException {
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    private void runWaitAction(boolean conditionMet, WaitingAction waitingAction) throws WaitActionFailedException {
         if (!conditionMet && waitingAction.getActionCondition().get()) {
-            log.trace("condition runWaitAction by '{}'", waitingAction.getActionCondition());
-            waitingAction.getAction().perform();
-            log.debug("wait action performed: {}", waitingAction.getAction());
+            log.trace("condition for WaitAction met by '{}'", waitingAction.getActionCondition());
+            try {
+                waitingAction.getAction().perform();
+                log.debug("wait action performed: {}", waitingAction.getAction());
+            } catch (Exception e) {
+                throw new WaitActionFailedException(waitingAction.getAction().getClass(), e);
+            }
         }
+    }
+
+    private RuntimeException handleLastException(RuntimeException lastEx, RuntimeException newEx) {
+        if (newEx instanceof WaitActionFailedException && !(lastEx instanceof WaitActionFailedException)) {
+            lastEx.addSuppressed(newEx);
+        }
+        return lastEx;
     }
 
     private long timeSince(long start) {
@@ -128,5 +144,4 @@ class DefaultWaiter implements Waiter {
     private long now() {
         return clock.millis();
     }
-
 }
