@@ -268,7 +268,31 @@ public class DefaultWaiterTest {
             try {
                 cut.waitUntilWithAction(config, condition, waitingAction);
             } catch (TimeoutException e) {
-                assertThat(e.getCause()).isSameAs(exception);
+                assertThat(e.getCause()).hasCause(exception)
+                        .isInstanceOf(WaitActionFailedException.class);
+                throw e;
+            }
+        }
+
+        @Test(expected = TimeoutException.class)
+        public void wrapsWaitingActionFailsIntoWaitConditionExceptionWhenBothThrowExceptions() {
+            RuntimeException conditionException = spy(new RuntimeException("conditionspy"));
+            RuntimeException performException = mock(RuntimeException.class);
+            when(condition.get())
+                    .thenThrow(conditionException)
+                    .thenReturn(false);
+            when(actionCondition.get())
+                    .thenReturn(true)
+                    .thenReturn(false);
+            doThrow(performException).when(action).perform();
+            waitingAction = new WaitingAction(actionCondition, action);
+
+            try {
+                cut.waitUntilWithAction(config, condition, waitingAction);
+            } catch (TimeoutException e) {
+                assertThat(e.getCause()).isSameAs(conditionException);
+                assertThat(e.getCause().getSuppressed()[0]).hasCause(performException)
+                        .isInstanceOf(WaitActionFailedException.class);
                 throw e;
             }
         }
