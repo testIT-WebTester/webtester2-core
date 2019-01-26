@@ -1,9 +1,9 @@
 package info.novatec.testit.webtester.browser.factories;
 
-import org.openqa.selenium.ie.InternetExplorerDriver;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 
 
 /**
@@ -28,7 +28,10 @@ public class InternetExplorerFactory extends BaseBrowserFactory<InternetExplorer
     private static final String DRIVER_LOCATION = "webdriver.ie.driver";
 
     public InternetExplorerFactory() {
-        super(InternetExplorerDriver::new);
+        super((capabilities) -> {
+            InternetExplorerOptions ieOptions = new InternetExplorerOptions().merge(capabilities);
+            return new InternetExplorerDriver(ieOptions);
+        });
     }
 
     @Override

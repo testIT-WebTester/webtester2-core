@@ -12,7 +12,8 @@ factories for the most common browsers:
 * `ChromeFactory`
 * `EdgeFactory`
 * `FirefoxFactory`
-* `MarionetteFactory` (new Firefox driver)
+* `MarionetteFactory` (new Firefox Geckodriver)
+* `OperaFactory`
 * `InternetExplorerFactory`
 * `RemoteFactory`
 

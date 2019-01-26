@@ -4,11 +4,12 @@ The `Wait` utility class provides a fluent API for all kinds of wait operations.
 This includes waiting an exact amount of time and waiting for certain conditions
 with a timeout.
 
-There are 3 distinct kinds of Wait operations:
+There are 4 distinct kinds of Wait operations:
 
 1. Waiting an exact amount of time: `Wait.exactly(..)`
 2. Waiting until an object state is reached: `Wait.until(..)`
 3. Waiting until an object supplier return value's state is reached: `Wait.untilSupplied(..)`
+4. Waiting like "2." but executing another action during waiting for a given condition: `Wait.untilWithAction(..)`
 
 *Examples*
 
@@ -32,6 +33,12 @@ Wait.withTimeoutOf(10, TimeUnit.SECONDS).until(hiddenField).is(visible());
 
 // waits until the call to 'findMany(".foo")' returns a non empty list
 Wait.untilSupplied(() -> findMany(".foo")).is((foos) -> !foos.isEmpty());
+
+// waits until the hidden field is visible on the DOM - with default timeout
+PageFragment hiddenField = ...;
+PageFragment wrongField = ...;
+WaitingAction action = new WaitingAction(isVisible(wrongField), () -> refresh())
+Wait.untilWithAction(isVisible(hiddenField), );
 ----
 
 ==== Wait.exactly(...)
@@ -61,6 +68,16 @@ you want to wait until the list has a certain size. In this case the size of the
 list will never change unless it's contents is manipulated asynchronously.
 
 In order to check something like this take a look at `Wait.untilSupplied(..)`.
+
+==== Wait.untilWithAction(..)
+
+This behaves essentially like the Wait.until(..) operation, but with the option to
+execute a given command. This is managed by an instance of the WaitingAction class.
+This class takes an a condition in form of an object supplier to check if the given
+command has to be executed. The command can be any method call provided by an empty
+lamda.
+
+The operation is designed to help you stabilize tests in flaky environments.
 
 ==== Wait.untilSupplied(..)
 

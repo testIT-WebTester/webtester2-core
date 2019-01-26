@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 
 /**
@@ -28,7 +29,10 @@ public class ChromeFactory extends BaseBrowserFactory<ChromeFactory> {
     private static final String DRIVER_LOCATION = "webdriver.chrome.driver";
 
     public ChromeFactory() {
-        super(ChromeDriver::new);
+        super((capabilities) -> {
+            ChromeOptions chromeOptions = new ChromeOptions().merge(capabilities);
+            return new ChromeDriver(chromeOptions);
+        });
     }
 
     @Override

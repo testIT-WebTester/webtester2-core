@@ -1,9 +1,9 @@
 package info.novatec.testit.webtester.browser.factories;
 
-import org.openqa.selenium.firefox.FirefoxDriver;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 
 /**
@@ -34,8 +34,8 @@ public class MarionetteFactory extends BaseBrowserFactory<MarionetteFactory> {
 
     public MarionetteFactory() {
         super((capabilities) -> {
-            capabilities.setCapability("marionette", true);
-            return new FirefoxDriver(capabilities);
+            FirefoxOptions firefoxOptions = new FirefoxOptions().merge(capabilities);
+            return new FirefoxDriver(firefoxOptions);
         });
     }
 
