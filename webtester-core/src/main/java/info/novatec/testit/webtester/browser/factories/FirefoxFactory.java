@@ -3,6 +3,7 @@ package info.novatec.testit.webtester.browser.factories;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import info.novatec.testit.webtester.browser.Browser;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 
 /**
@@ -28,8 +29,11 @@ public class FirefoxFactory extends BaseBrowserFactory<FirefoxFactory> {
 
     public FirefoxFactory() {
         super((capabilities) -> {
-            capabilities.setCapability("marionette", false);
-            return new FirefoxDriver(capabilities);
+            FirefoxOptions firefoxOptions = new FirefoxOptions()
+                    .setLegacy(true)
+                    .merge(capabilities);
+
+            return new FirefoxDriver(firefoxOptions);
         });
     }
 

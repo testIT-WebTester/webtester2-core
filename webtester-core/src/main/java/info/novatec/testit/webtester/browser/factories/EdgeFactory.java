@@ -1,9 +1,9 @@
 package info.novatec.testit.webtester.browser.factories;
 
-import org.openqa.selenium.edge.EdgeDriver;
-
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 
 
 /**
@@ -25,7 +25,10 @@ public class EdgeFactory extends BaseBrowserFactory<EdgeFactory> {
     private static final String DRIVER_LOCATION = "webdriver.edge.driver";
 
     public EdgeFactory() {
-        super(EdgeDriver::new);
+        super((capabilities) -> {
+            EdgeOptions edgeOptions = new EdgeOptions().merge(capabilities);
+            return new EdgeDriver(edgeOptions);
+        });
     }
 
     @Override
