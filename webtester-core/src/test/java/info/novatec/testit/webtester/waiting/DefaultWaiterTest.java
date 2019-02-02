@@ -282,6 +282,7 @@ public class DefaultWaiterTest {
                     .thenThrow(conditionException)
                     .thenReturn(false);
             when(actionCondition.get())
+                    .thenReturn(false)
                     .thenReturn(true)
                     .thenReturn(false);
             doThrow(performException).when(action).perform();
@@ -306,7 +307,17 @@ public class DefaultWaiterTest {
             cut.waitUntilWithAction(config, condition, waitingAction);
             verify(action, times(10)).perform();
         }
+
+        @Test
+        public void runsWaitActionWhenConditionThrowsException() {
+            when(condition.get())
+                    .thenThrow(RuntimeException.class)
+                    .thenReturn(true);
+            when(actionCondition.get()).thenReturn(true);
+            waitingAction = new WaitingAction(actionCondition, action);
+
+            cut.waitUntilWithAction(config, condition, waitingAction);
+            verify(action, times(1)).perform();
+        }
     }
-
-
 }
