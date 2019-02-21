@@ -117,6 +117,7 @@ class DefaultWaiter implements Waiter {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     private Boolean checkCondition(Supplier<Boolean> condition, WaitingAction waitingAction) {
         try {
             return condition.get();
