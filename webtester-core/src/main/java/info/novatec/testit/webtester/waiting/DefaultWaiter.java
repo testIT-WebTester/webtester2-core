@@ -92,7 +92,7 @@ class DefaultWaiter implements Waiter {
 
         do {
             try {
-                conditionMet = condition.get();
+                conditionMet = checkCondition(condition, waitingAction);
                 runWaitAction(conditionMet, waitingAction);
             } catch (ConditionParameterMismatchException e) {
                 throw e;
@@ -114,6 +114,16 @@ class DefaultWaiter implements Waiter {
                     .orElse(new TimeoutException(message));
         } else {
             log.debug("condition met: {}", condition);
+        }
+    }
+
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    private Boolean checkCondition(Supplier<Boolean> condition, WaitingAction waitingAction) {
+        try {
+            return condition.get();
+        } catch (RuntimeException e) {
+            runWaitAction(false, waitingAction);
+            throw e;
         }
     }
 
