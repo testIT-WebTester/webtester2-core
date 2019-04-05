@@ -1,0 +1,173 @@
+version: 2
+
+jobs:
+  compile:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - run:
+          name: Download Dependencies and Compile
+          command: mvn --batch-mode verify -P ci-compile
+      - save_cache:
+          paths:
+            - ~/.m2/repository
+          key: dependencies-{{ checksum "pom.xml" }}
+
+  checkstyle:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Execute Checkstyle Checks
+          command: mvn --batch-mode verify -P ci-codequality-checkstyle
+  findbugs:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Execute Findbugs Checks
+          command: mvn --batch-mode verify -P ci-codequality-findbugs
+  pmd:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Execute PMD Checks
+          command: mvn --batch-mode verify -P ci-codequality-pmd
+
+  unit-tests:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Execute Unit Tests
+          command: mvn --batch-mode verify -P ci-unittests
+      - run:
+          name: Gather Test results
+          command: |
+            mkdir ~/test-results
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/ \;
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results
+
+  integration-tests:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+      - image: selenium/standalone-chrome:3.14.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Execute Integration Tests (Chrome)
+          command: mvn --batch-mode verify -P ci-integrationtests -DtestProfile=remote -Dremote.browser.name=chrome
+      - run:
+          name: Gather Test results
+          command: |
+            mkdir ~/test-results
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/ \;
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results
+
+  documentation:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Generate Documentation
+          command: mvn --batch-mode verify -P ci-documentation
+
+  build-and-deploy-snapshot:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Build and Deploy Snapshot to Sonatype Nexus
+          command:
+            - >-
+              mvn --batch-mode deploy
+              -DskipUnitTests=true
+              -DskipIntegrationTests=true
+              -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots
+              -Dossrh.username=$OSSRH_USERNAME
+              -Dossrh.password=$OSSRH_PASSWORD
+              -P deploy-snapshot
+
+workflows:
+  version: 2
+  ci-build:
+    jobs:
+      - compile
+
+      - checkstyle:
+          requires:
+            - compile
+      - findbugs:
+          requires:
+            - compile
+      - pmd:
+          requires:
+            - compile
+
+      - unit-tests:
+          requires:
+            - checkstyle
+            - findbugs
+            - pmd
+      - integration-tests:
+          requires:
+            - checkstyle
+            - findbugs
+            - pmd
+
+      - documentation:
+          requires:
+            - unit-tests
+            - integration-tests
+
+      - build-and-deploy-snapshot:
+          requires:
+            - documentation
+          filters:
+            branches:
+              only:
+                - master
+                - releases/*.*.x
