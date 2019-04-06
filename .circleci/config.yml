@@ -121,15 +121,14 @@ jobs:
             - dependencies-{{ checksum "pom.xml" }}
       - run:
           name: Build and Deploy Snapshot to Sonatype Nexus
-          command:
-            - >-
-              mvn --batch-mode deploy
-              -DskipUnitTests=true
-              -DskipIntegrationTests=true
-              -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots
-              -Dossrh.username=$OSSRH_USERNAME
-              -Dossrh.password=$OSSRH_PASSWORD
-              -P deploy-snapshot
+          command: >-
+            mvn --batch-mode deploy
+            -DskipUnitTests=true
+            -DskipIntegrationTests=true
+            -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots
+            -Dossrh.username=$OSSRH_USERNAME
+            -Dossrh.password=$OSSRH_PASSWORD
+            -P deploy-snapshot
 
 workflows:
   version: 2
