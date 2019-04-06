@@ -2,7 +2,7 @@
 [![GitHub version](https://badge.fury.io/gh/testIT-WebTester%2Fwebtester2-core.svg)][15]
 [![Maven Central Version](https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/webtester-core/badge.svg)][12]
 [![Javadocs](https://www.javadoc.io/badge/info.novatec.testit/webtester-core.svg)][16]
-[![Build Status](https://travis-ci.org/testIT-WebTester/webtester2-core.svg?branch=master)][11]
+[![Build Status](https://circleci.com/gh/testIT-WebTester/webtester2-core/tree/master.svg?style=svg)][11]
 [![Codecov](https://codecov.io/gh/testIT-WebTester/webtester2-core/branch/master/graph/badge.svg)][14]
 [![BCH compliance](https://bettercodehub.com/edge/badge/testIT-WebTester/webtester2-core)][13]
 
@@ -12,8 +12,8 @@
 
 testIT WebTester is a web-application UI test automation framework based on [Selenium][2].
 
-It is the product of years of consulting experience in various projects and 
-aims at providing a very intuitive, declarative and extendable API for writing 
+It is the product of years of consulting experience in various projects and
+aims at providing a very intuitive, declarative and extendable API for writing
 programmatic UI tests in Java.
 
 ### Features
@@ -55,7 +55,7 @@ WebTester is licensed under [The Apache License, Version 2.0][8].
 
 ### Sponsoring
 
-WebTester is mainly developed by [NovaTec Consulting GmbH][9], 
+WebTester is mainly developed by [NovaTec Consulting GmbH][9],
 a German consultancy firm that drives quality in software development projects.
 
 [1]: https://github.com/testIT-WebTester/webtester-core
@@ -68,7 +68,7 @@ a German consultancy firm that drives quality in software development projects.
 [8]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [9]: http://www.novatec-gmbh.de
 [10]:http://www.apache.org/licenses/LICENSE-2.0.txt
-[11]:https://travis-ci.org/testIT-WebTester/webtester2-core
+[11]:https://circleci.com/gh/testIT-WebTester/webtester2-core/tree/master
 [12]:https://maven-badges.herokuapp.com/maven-central/info.novatec.testit/webtester-core/
 [13]:https://bettercodehub.com/results/testIT-WebTester/webtester2-core
 [14]:https://codecov.io/gh/testIT-WebTester/webtester2-core
