@@ -120,7 +120,7 @@ jobs:
           keys:
             - dependencies-{{ checksum "pom.xml" }}
       - run:
-          name: Build and Deploy Snapshot to Sonatype Nexus
+          name: Deploy Snapshot to Sonatype Nexus
           command: >-
             mvn --batch-mode deploy
             -DskipUnitTests=true
@@ -130,12 +130,45 @@ jobs:
             -Dossrh.password=$OSSRH_PASSWORD
             -P deploy-snapshot
 
+  build-and-deploy-release:
+    working_directory: ~/work
+    docker:
+      - image: caaqe/webtester2-build-environment
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Set Build Tools Version
+          command: |
+            VERSION=$(echo $CIRCLE_TAG | cut -d 'v' -f 2)
+            cd webtester-build-tools
+            mvn versions:set versions:commit -DnewVersion=$VERSION
+      - run:
+          name: Set Project Version
+          command: |
+            VERSION=$(echo $CIRCLE_TAG | cut -d 'v' -f 2)
+            mvn versions:set versions:commit -DnewVersion=$VERSION
+      - run:
+          name: Deploy Release to Sonatype Nexus
+          command: >-
+            mvn --batch-mode deploy
+            -DskipUnitTests=true
+            -DskipIntegrationTests=true
+            -Dgpg.passphrase=$GPG_PASSPHRASE
+            -Dossrh.username=$OSSRH_USERNAME
+            -Dossrh.password=$OSSRH_PASSWORD
+            -P deploy-release
+
 workflows:
   version: 2
   ci-build:
     jobs:
-      - compile
-
+      - compile:
+          filters:
+            tags:
+              ignore: /.*/
       - checkstyle:
           requires:
             - compile
@@ -145,7 +178,6 @@ workflows:
       - pmd:
           requires:
             - compile
-
       - unit-tests:
           requires:
             - checkstyle
@@ -156,12 +188,10 @@ workflows:
             - checkstyle
             - findbugs
             - pmd
-
       - documentation:
           requires:
             - unit-tests
             - integration-tests
-
       - build-and-deploy-snapshot:
           requires:
             - documentation
@@ -170,3 +200,12 @@ workflows:
               only:
                 - master
                 - releases/*.*.x
+
+  release:
+    jobs:
+      - build-and-deploy-release:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
