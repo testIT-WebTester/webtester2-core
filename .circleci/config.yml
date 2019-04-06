@@ -73,6 +73,9 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results
+      - run:
+          name: Export Code Coverage Metrics
+          command: bash <(curl -s https://codecov.io/bash)
 
   integration-tests:
     working_directory: ~/work
@@ -96,6 +99,9 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results
+      - run:
+          name: Export Code Coverage Metrics
+          command: bash <(curl -s https://codecov.io/bash)
 
   documentation:
     working_directory: ~/work
