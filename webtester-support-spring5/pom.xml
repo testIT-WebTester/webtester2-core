@@ -14,8 +14,8 @@
     <name>testIT | WebTester - Support - Spring 5.x</name>
 
     <properties>
-        <version.spring>5.1.0.RELEASE</version.spring>
-        <version.spring.boot>2.0.5.RELEASE</version.spring.boot>
+        <version.spring>5.1.8.RELEASE</version.spring>
+        <version.spring.boot>2.1.6.RELEASE</version.spring.boot>
     </properties>
 
     <dependencies>
