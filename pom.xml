@@ -67,7 +67,7 @@
         <version.mockito>2.23.0</version.mockito>
         <version.checkstyle>8.18</version.checkstyle>
 
-        <version.jetty-server>9.4.12.v20180830</version.jetty-server>
+        <version.jetty-server>9.4.17.v20190418</version.jetty-server>
         <version.okio>1.14.1</version.okio>
 
         <version.selenium>3.14.0</version.selenium>
