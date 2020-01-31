@@ -65,7 +65,7 @@
         <version.hamcrest>2.1</version.hamcrest>
         <version.assertj>3.12.2</version.assertj>
         <version.mockito>3.0.0</version.mockito>
-        <version.checkstyle>8.22</version.checkstyle>
+        <version.checkstyle>8.29</version.checkstyle>
 
         <version.jetty-server>9.4.19.v20190610</version.jetty-server>
         <version.okio>2.2.2</version.okio>
