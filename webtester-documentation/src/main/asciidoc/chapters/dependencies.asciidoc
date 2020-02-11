@@ -1,0 +1,44 @@
+== Dependencies
+
+WebTester generally handles its dependencies by relying on the host project to provide them in the version it wants them as.
+
+This means, as an example, that even though you declare a dependency on
+`info.novatec.testit:webtester-support-assertj3` you will not inherit `assertj`
+automatically.
+
+For a base setup of WebTester you _could_ declare the following dependencies:
+
+[source,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>info.novatec.testit</groupId>
+        <artifactId>webtester-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>info.novatec.testit</groupId>
+        <artifactId>webtester-support-assertj3</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>info.novatec.testit</groupId>
+        <artifactId>webtester-support-junit5</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-chrome-driver</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+    </dependency>
+</dependencies>
+----

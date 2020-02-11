@@ -1,5 +1,7 @@
 = WebTester Documentation
 
+include::chapters/dependencies.asciidoc[]
+
 include::chapters/browser.asciidoc[]
 
 include::chapters/browser-factories.asciidoc[]
