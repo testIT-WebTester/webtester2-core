@@ -115,6 +115,13 @@ jobs:
       - run:
           name: Generate Documentation
           command: mvn --batch-mode verify -P ci-documentation
+      - run:
+          name: Gather Generated Documentation
+          command: |
+            mkdir ~/documentation
+            find . -type f -regex ".*/target/generated-docs/.*html" -exec cp {} ~/documentation/ \;
+      - store_artifacts:
+          path: ~/documentation
 
   build-and-deploy-snapshot:
     working_directory: ~/work
