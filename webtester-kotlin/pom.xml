@@ -13,7 +13,7 @@
     <name>testIT | WebTester - Kotlin</name>
 
     <properties>
-        <version.kotlin>1.3.41</version.kotlin>
+        <version.kotlin>1.3.61</version.kotlin>
         <version.dokka>0.9.17</version.dokka>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <skipDokka>false</skipDokka>
