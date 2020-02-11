@@ -14,10 +14,46 @@ include::chapters/ad-hoc-finding.asciidoc[]
 
 include::chapters/event-system.asciidoc[]
 
-include::chapters/annotations.asciidoc[]
+== Annotations
 
-include::chapters/utilities.asciidoc[]
+include::chapters/annotations-action.asciidoc[]
 
-include::chapters/support-modules.asciidoc[]
+include::chapters/annotations-attribute.asciidoc[]
+
+include::chapters/annotations-identify-using.asciidoc[]
+
+include::chapters/annotations-mark.asciidoc[]
+
+include::chapters/annotations-named.asciidoc[]
+
+include::chapters/annotations-post-construct.asciidoc[]
+
+include::chapters/annotations-post-construct-must-be.asciidoc[]
+
+include::chapters/annotations-produces.asciidoc[]
+
+include::chapters/annotations-wait-until.asciidoc[]
+
+== Utilities
+
+include::chapters/utility-conditions.asciidoc[]
+
+include::chapters/utility-by-producers.asciidoc[]
+
+include::chapters/utility-mouse.asciidoc[]
+
+include::chapters/utility-waiting.asciidoc[]
+
+== Support Modules
+
+include::chapters/support-module-assertj3.asciidoc[]
+
+include::chapters/support-module-hamcrest.asciidoc[]
+
+include::chapters/support-module-junit4.asciidoc[]
+
+include::chapters/support-module-junit5.asciidoc[]
+
+include::chapters/support-module-spring4.asciidoc[]
 
 include::chapters/kotlin.asciidoc[]

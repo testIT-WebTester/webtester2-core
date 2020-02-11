@@ -113,6 +113,10 @@ In order for a `Browser` to be automatically navigated to an applications entry
 point before each test, the `@EntryPoint` annotation can used. The navigation at
 the beginning of each test is done whether or not a `Browser` is static!
 
+The URL can be static or contain variables. These variables are resolved against
+the annotated `Browser's` `Configuration` as `String` values. In case a variable
+could not be resolved an `IllegalStateException` is thrown before the first test.
+
 [source, java]
 ----
 @RunWith ( WebTesterJUnitRunner.class )
@@ -129,6 +133,12 @@ public class EntryPointsTest {
     @CreateUsing ( ... )
     @EntryPoint ( "http://www.bing.com" )
     Browser testScopedBrowser;
+
+    // Will use url provided by property
+    @Resource
+    @CreateUsing ( ... )
+    @EntryPoint("${properties.url}")
+    Browser variableUrl;
 
     ...
 
