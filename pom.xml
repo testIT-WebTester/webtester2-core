@@ -456,6 +456,33 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${version.maven.surefire.plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>default-test</id>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/*$*</exclude>
+                                    <exclude>**/*IntTest.java</exclude>
+                                </excludes>
+                                <skip>${skipUnitTests}</skip>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>integration-tests</id>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <includes>
+                                    <include>**/*IntTest.java</include>
+                                </includes>
+                                <skip>${skipIntegrationTests}</skip>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- code quality plugins -->
@@ -674,33 +701,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-test</id>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <excludes>
-                                        <exclude>**/*$*</exclude>
-                                        <exclude>**/*IntTest.java</exclude>
-                                    </excludes>
-                                    <skip>${skipUnitTests}</skip>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>integration-tests</id>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*IntTest.java</include>
-                                    </includes>
-                                    <skip>${skipIntegrationTests}</skip>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.jacoco</groupId>
@@ -739,7 +739,8 @@
         <profile>
             <id>ci-compile</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
@@ -753,18 +754,12 @@
 
         <profile>
             <id>ci-unittests</id>
+            <properties>
+                <skipUnitTests>false</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
+            </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/*$*</exclude>
-                                <exclude>**/*IntTest.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
@@ -775,17 +770,12 @@
 
         <profile>
             <id>ci-integrationtests</id>
+            <properties>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>false</skipIntegrationTests>
+            </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/*IntTest.java</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
@@ -797,7 +787,8 @@
         <profile>
             <id>ci-codequality-checkstyle</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
@@ -811,7 +802,8 @@
         <profile>
             <id>ci-codequality-findbugs</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
@@ -825,7 +817,8 @@
         <profile>
             <id>ci-codequality-pmd</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
@@ -840,7 +833,8 @@
         <profile>
             <id>ci-documentation</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
@@ -863,7 +857,8 @@
         <profile>
             <id>deploy-snapshot</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
@@ -886,7 +881,8 @@
         <profile>
             <id>deploy-release</id>
             <properties>
-                <skipTests>true</skipTests>
+                <skipUnitTests>true</skipUnitTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
             </properties>
             <build>
                 <plugins>
