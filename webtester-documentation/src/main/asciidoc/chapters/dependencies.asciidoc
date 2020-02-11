@@ -26,6 +26,10 @@ For a base setup of WebTester you _could_ declare the following dependencies:
 
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-support</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-chrome-driver</artifactId>
     </dependency>
     <dependency>
