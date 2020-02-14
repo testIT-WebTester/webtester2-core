@@ -1,5 +1,7 @@
 package info.novatec.testit.webtester.waiting;
 
+import info.novatec.testit.webtester.config.Configuration;
+import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
@@ -26,8 +28,11 @@ import java.util.function.Supplier;
 @UtilityClass
 public class Wait {
 
-    /** The default {@link Waiter} supplier. Generates a new {@link DefaultWaiter} for each call. */
+    /**
+     * The default {@link Waiter} supplier. Generates a new {@link DefaultWaiter} for each call.
+     */
     public static final Supplier<Waiter> DEFAULT_WAITER = DefaultWaiter::new;
+    public static final Configuration DEFAULT_CONFIGURATION = new DefaultConfigurationBuilder().build();
 
     /**
      * A supplier used to get a {@link Waiter} instance to use when executing any wait operations.
@@ -52,7 +57,8 @@ public class Wait {
      * @since 2.0
      */
     public static ConfiguredWait withTimeoutOf(int timeout) {
-        return new ConfiguredWait(waiter.get(), new WaitConfig().setTimeout(timeout));
+        WaitConfig config = WaitConfig.from(DEFAULT_CONFIGURATION).setTimeout(timeout);
+        return new ConfiguredWait(waiter.get(), config);
     }
 
     /**
@@ -69,14 +75,15 @@ public class Wait {
      * @since 2.0
      */
     public static ConfiguredWait withTimeoutOf(int timeout, TimeUnit timeUnit) {
-        return new ConfiguredWait(waiter.get(), new WaitConfig().setTimeout(timeout).setTimeUnit(timeUnit));
+        WaitConfig config = WaitConfig.from(DEFAULT_CONFIGURATION).setTimeout(timeout).setTimeUnit(timeUnit);
+        return new ConfiguredWait(waiter.get(), config);
     }
 
     /**
      * Creates a {@link WaitUntil} with the default timeout configuration of {@link WaitConfig} for the given object.
      *
      * @param object the object for the wait until operation
-     * @param <T> the type of the object
+     * @param <T>    the type of the object
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil
@@ -84,7 +91,8 @@ public class Wait {
      * @since 2.0
      */
     public static <T> WaitUntil<T> until(T object) {
-        return new WaitUntil<>(waiter.get(), new WaitConfig(), object);
+        WaitConfig from = WaitConfig.from(DEFAULT_CONFIGURATION);
+        return new WaitUntil<>(waiter.get(), from, object);
     }
 
     /**
@@ -92,7 +100,7 @@ public class Wait {
      * Supplier}.
      *
      * @param objectSupplier the object supplier for the wait until operation
-     * @param <T> the type of the object
+     * @param <T>            the type of the object
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil
@@ -100,14 +108,15 @@ public class Wait {
      * @since 2.0
      */
     public static <T> WaitUntil<T> untilSupplied(Supplier<T> objectSupplier) {
-        return new WaitUntil<>(waiter.get(), new WaitConfig(), objectSupplier);
+        WaitConfig from = WaitConfig.from(DEFAULT_CONFIGURATION);
+        return new WaitUntil<>(waiter.get(), from, objectSupplier);
     }
 
     /**
      * Creates a {@link WaitUntil} with the default timeout from the given {@link PageFragment}'s configuration.
      *
      * @param fragment the fragment for the wait until operation
-     * @param <T> the type of the page fragment subclass
+     * @param <T>      the type of the page fragment subclass
      * @return the fluent wait instance
      * @see Wait
      * @see WaitUntil
@@ -115,7 +124,8 @@ public class Wait {
      * @since 2.0
      */
     public static <T extends PageFragment> WaitUntil<T> until(T fragment) {
-        return new WaitUntil<>(waiter.get(), WaitConfig.from(fragment), fragment);
+        WaitConfig from = WaitConfig.from(fragment);
+        return new WaitUntil<>(waiter.get(), from, fragment);
     }
 
     /**
@@ -130,7 +140,8 @@ public class Wait {
      * @since 2.0
      */
     public static void until(Supplier<Boolean> condition) {
-        waiter.get().waitUntil(new WaitConfig(), condition);
+        WaitConfig from = WaitConfig.from(DEFAULT_CONFIGURATION);
+        waiter.get().waitUntil(from, condition);
     }
 
     /**
@@ -138,7 +149,7 @@ public class Wait {
      * supplier. The wait is executed until either the supplier returns <code>true</code> or the timeout is reached.
      * Additionally executes a {@link WaitAction} configured by the given {@link WaitingAction}.
      *
-     * @param condition the supplier for the wait until operation
+     * @param condition     the supplier for the wait until operation
      * @param waitingAction the configured condition and action to execute during waiting
      * @see Wait
      * @see WaitUntil
@@ -149,7 +160,8 @@ public class Wait {
      * @since 2.8
      */
     public static void untilWithAction(Supplier<Boolean> condition, WaitingAction waitingAction) {
-        waiter.get().waitUntilWithAction(new WaitConfig(), condition, waitingAction);
+        WaitConfig from = WaitConfig.from(DEFAULT_CONFIGURATION);
+        waiter.get().waitUntilWithAction(from, condition, waitingAction);
     }
 
     /**

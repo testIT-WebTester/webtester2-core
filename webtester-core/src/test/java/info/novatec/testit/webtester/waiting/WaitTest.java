@@ -2,6 +2,7 @@ package info.novatec.testit.webtester.waiting;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.config.Configuration;
+import info.novatec.testit.webtester.config.builders.DefaultConfigurationBuilder;
 import info.novatec.testit.webtester.pagefragments.PageFragment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +52,7 @@ class WaitTest {
             WaitConfig config = wait.getConfig();
             assertThat(config.getTimeout()).isEqualTo(1);
             assertThat(config.getTimeUnit()).isEqualTo(WaitConfig.DEFAULT_TIME_UNIT);
-            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
+            assertThat(config.getInterval()).isEqualTo(Wait.DEFAULT_CONFIGURATION.getWaitInterval());
         }
 
     }
@@ -71,7 +72,7 @@ class WaitTest {
             WaitConfig config = wait.getConfig();
             assertThat(config.getTimeout()).isEqualTo(1);
             assertThat(config.getTimeUnit()).isEqualTo(TimeUnit.MINUTES);
-            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
+            assertThat(config.getInterval()).isEqualTo(Wait.DEFAULT_CONFIGURATION.getWaitInterval());
         }
 
     }
@@ -92,9 +93,9 @@ class WaitTest {
         void waitUntilIsCreatedWithDefaultConfiguration() {
             WaitUntil<Object> until = Wait.until(object);
             WaitConfig config = until.getConfig();
-            assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
+            assertThat(config.getTimeout()).isEqualTo(Wait.DEFAULT_CONFIGURATION.getWaitTimeout());
             assertThat(config.getTimeUnit()).isEqualTo(WaitConfig.DEFAULT_TIME_UNIT);
-            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
+            assertThat(config.getInterval()).isEqualTo(Wait.DEFAULT_CONFIGURATION.getWaitInterval());
         }
 
         @Test
@@ -121,9 +122,9 @@ class WaitTest {
         void waitUntilIsCreatedWithDefaultConfiguration() {
             WaitUntil<Object> until = Wait.untilSupplied(() -> object);
             WaitConfig config = until.getConfig();
-            assertThat(config.getTimeout()).isEqualTo(WaitConfig.DEFAULT_TIMEOUT);
+            assertThat(config.getTimeout()).isEqualTo(Wait.DEFAULT_CONFIGURATION.getWaitTimeout());
             assertThat(config.getTimeUnit()).isEqualTo(WaitConfig.DEFAULT_TIME_UNIT);
-            assertThat(config.getInterval()).isEqualTo(WaitConfig.DEFAULT_INTERVAL);
+            assertThat(config.getInterval()).isEqualTo(Wait.DEFAULT_CONFIGURATION.getWaitInterval());
         }
 
         @Test
