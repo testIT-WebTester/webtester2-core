@@ -47,7 +47,7 @@ See [contribution](CONTRIBUTING.md) document.
 
 ### Get in touch
 
-You can contact us by writing an [e-mail][7] or create an [issue][5].
+You can contact us by creating an [issue][5].
 
 ### Licensing
 
@@ -64,7 +64,6 @@ a German consultancy firm that drives quality in software development projects.
 [4]: https://github.com/testIT-WebTester/webtester2-core/wiki
 [5]: https://github.com/testIT-WebTester/webtester2-core/issues
 [6]: https://github.com/testIT-WebTester/webtester2-core/wiki/Contribution
-[7]: mailto:webtester@novatec-gmbh.de
 [8]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [9]: http://www.novatec-gmbh.de
 [10]:http://www.apache.org/licenses/LICENSE-2.0.txt
