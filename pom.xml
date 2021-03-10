@@ -68,7 +68,7 @@
         <version.mockito>3.2.4</version.mockito>
         <version.checkstyle>8.29</version.checkstyle>
 
-        <version.jetty-server>9.4.26.v20200117</version.jetty-server>
+        <version.jetty-server>9.4.38.v20210224</version.jetty-server>
         <version.okio>2.4.3</version.okio>
 
         <version.selenium>3.141.59</version.selenium>
