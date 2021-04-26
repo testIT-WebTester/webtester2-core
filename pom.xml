@@ -77,7 +77,7 @@
         <version.logback>1.2.3</version.logback>
 
         <version.commons.lang>2.6</version.commons.lang>
-        <version.commons.io>2.6</version.commons.io>
+        <version.commons.io>2.7</version.commons.io>
         <version.commons.logging>1.2</version.commons.logging>
         <version.commons.codec>1.14</version.commons.codec>
 
