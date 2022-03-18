@@ -44,7 +44,7 @@ jobs:
     working_directory: ~/work
     docker:
       - image: caaqe/webtester2-build-environment
-      - image: selenium/standalone-chrome:3.14.0
+      - image: selenium/standalone-chrome:4.1.2
     steps:
       - checkout
       - restore_cache:
