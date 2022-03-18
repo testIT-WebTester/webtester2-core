@@ -141,14 +141,6 @@
                         <skip>${skipDokka}</skip>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>${version.findbugs.maven.plugin}</version>
-                    <configuration>
-                        <skip>true</skip>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>

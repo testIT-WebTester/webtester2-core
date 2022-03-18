@@ -33,7 +33,6 @@
     </scm>
 
     <modules>
-        <module>webtester-build-tools</module>
         <module>webtester-core</module>
         <module>webtester-documentation</module>
         <module>webtester-kotlin</module>
@@ -66,7 +65,6 @@
         <version.hamcrest>2.2</version.hamcrest>
         <version.assertj>3.22.0</version.assertj>
         <version.mockito>4.4.0</version.mockito>
-        <version.checkstyle>9.3</version.checkstyle>
 
         <version.jetty-server>9.4.45.v20220203</version.jetty-server>
 
@@ -104,12 +102,9 @@
         <version.maven.source.plugin>3.1.0</version.maven.source.plugin>
         <version.maven.surefire.plugin>2.22.2</version.maven.surefire.plugin>
         <version.maven.failsafe.plugin>2.22.2</version.maven.failsafe.plugin>
-        <version.maven.pmd.plugin>3.8</version.maven.pmd.plugin>
-        <version.maven.checkstyle.plugin>3.1.0</version.maven.checkstyle.plugin>
         <version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
         <version.maven.nexus.staging.plugin>1.6.8</version.maven.nexus.staging.plugin>
 
-        <version.findbugs.maven.plugin>3.0.5</version.findbugs.maven.plugin>
         <version.license.maven.plugin>1.14</version.license.maven.plugin>
         <version.jacoco.maven.plugin>0.8.4</version.jacoco.maven.plugin>
         <version.pitest.maven.plugin>1.4.9</version.pitest.maven.plugin>
@@ -299,11 +294,6 @@
                 <artifactId>mockito-core</artifactId>
                 <version>${version.mockito}</version>
             </dependency>
-            <dependency>
-                <groupId>com.puppycrawl.tools</groupId>
-                <artifactId>checkstyle</artifactId>
-                <version>${version.checkstyle}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
@@ -490,85 +480,6 @@
                 <!-- code quality plugins -->
 
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>${version.maven.pmd.plugin}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>info.novatec.testit</groupId>
-                            <artifactId>webtester-build-tools</artifactId>
-                            <version>${project.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <rulesets>
-                            <ruleset>pmd_rules.xml</ruleset>
-                        </rulesets>
-                        <aggregate>true</aggregate>
-                        <minimumTokens>100</minimumTokens>
-                        <failOnViolation>true</failOnViolation>
-                        <failurePriority>5</failurePriority>
-                        <minimumPriority>5</minimumPriority>
-                        <linkXRef>false</linkXRef>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${version.maven.checkstyle.plugin}</version>
-                    <executions>
-                        <execution>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>info.novatec.testit</groupId>
-                            <artifactId>webtester-build-tools</artifactId>
-                            <version>${project.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.puppycrawl.tools</groupId>
-                            <artifactId>checkstyle</artifactId>
-                            <version>${version.checkstyle}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <configLocation>checkstyle_rules.xml</configLocation>
-                        <consoleOutput>true</consoleOutput>
-                        <failsOnError>true</failsOnError>
-                        <failOnViolation>true</failOnViolation>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>${version.findbugs.maven.plugin}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <effort>Max</effort>
-                        <maxRank>20</maxRank>
-                        <xmlOutput>true</xmlOutput>
-                    </configuration>
-                </plugin>
-
-                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${version.jacoco.maven.plugin}</version>
@@ -710,18 +621,6 @@
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                     </plugin>
                     <plugin>
@@ -781,52 +680,6 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>ci-codequality-checkstyle</id>
-            <properties>
-                <skipUnitTests>true</skipUnitTests>
-                <skipIntegrationTests>true</skipIntegrationTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>ci-codequality-findbugs</id>
-            <properties>
-                <skipUnitTests>true</skipUnitTests>
-                <skipIntegrationTests>true</skipIntegrationTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>ci-codequality-pmd</id>
-            <properties>
-                <skipUnitTests>true</skipUnitTests>
-                <skipIntegrationTests>true</skipIntegrationTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>

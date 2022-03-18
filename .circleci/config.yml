@@ -15,43 +15,6 @@ jobs:
             - ~/.m2/repository
           key: dependencies-{{ checksum "pom.xml" }}
 
-  checkstyle:
-    working_directory: ~/work
-    docker:
-      - image: caaqe/webtester2-build-environment
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-      - run:
-          name: Execute Checkstyle Checks
-          command: mvn --batch-mode verify -P ci-codequality-checkstyle
-  findbugs:
-    working_directory: ~/work
-    docker:
-      - image: caaqe/webtester2-build-environment
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-      - run:
-          name: Execute Findbugs Checks
-          command: mvn --batch-mode verify -P ci-codequality-findbugs
-  pmd:
-    working_directory: ~/work
-    docker:
-      - image: caaqe/webtester2-build-environment
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-      - run:
-          name: Execute PMD Checks
-          command: mvn --batch-mode verify -P ci-codequality-pmd
-
   unit-tests:
     working_directory: ~/work
     docker:
@@ -153,12 +116,6 @@ jobs:
           keys:
             - dependencies-{{ checksum "pom.xml" }}
       - run:
-          name: Set Build Tools Version
-          command: |
-            VERSION=$(echo $CIRCLE_TAG | cut -d 'v' -f 2)
-            cd webtester-build-tools
-            mvn versions:set versions:commit -DnewVersion=$VERSION
-      - run:
           name: Set Project Version
           command: |
             VERSION=$(echo $CIRCLE_TAG | cut -d 'v' -f 2)
@@ -182,25 +139,12 @@ workflows:
           filters:
             tags:
               ignore: /.*/
-      - checkstyle:
-          requires:
-            - compile
-      - findbugs:
-          requires:
-            - compile
-      - pmd:
-          requires:
-            - compile
       - unit-tests:
           requires:
-            - checkstyle
-            - findbugs
-            - pmd
+            - compile
       - integration-tests:
           requires:
-            - checkstyle
-            - findbugs
-            - pmd
+            - compile
       - documentation:
           requires:
             - unit-tests
