@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.events.listeners;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class TakeScreenshotOnExceptionListenerTest {
     public void screenshotIsNotTakenForNonExceptionEvents() {
         AbstractEvent event = mock(AbstractEvent.class);
         cut.eventOccurred(event);
-        verifyZeroInteractions(browser);
+        verifyNoInteractions(browser);
     }
 
 }

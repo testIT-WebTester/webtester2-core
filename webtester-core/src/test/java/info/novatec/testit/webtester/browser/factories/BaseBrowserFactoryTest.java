@@ -6,7 +6,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.function.Function;
 
@@ -82,7 +82,7 @@ public class BaseBrowserFactoryTest {
         DesiredCapabilities capabilities = mock(DesiredCapabilities.class);
         cut.createBrowser(capabilities);
         verify(webDriverProducer).apply(capabilities);
-        verifyZeroInteractions(capabilities);
+        verifyNoInteractions(capabilities);
     }
 
 }

@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -118,7 +118,7 @@ public class RemoteFactoryTest {
         DesiredCapabilities capabilities = mock(DesiredCapabilities.class);
         cut.createBrowser(capabilities);
         verify(webDriverProducer).apply(any(URL.class), eq(capabilities));
-        verifyZeroInteractions(capabilities);
+        verifyNoInteractions(capabilities);
     }
 
 }

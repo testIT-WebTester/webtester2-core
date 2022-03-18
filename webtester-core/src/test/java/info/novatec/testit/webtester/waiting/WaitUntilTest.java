@@ -3,7 +3,7 @@ package info.novatec.testit.webtester.waiting;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.function.Supplier;
 
@@ -158,7 +158,7 @@ public class WaitUntilTest {
         @Test
         public void doesNotChangeState() {
             cut.and();
-            verifyZeroInteractions(waiter, config, object);
+            verifyNoInteractions(waiter, config, object);
         }
 
     }
@@ -174,7 +174,7 @@ public class WaitUntilTest {
         @Test
         public void doesNotChangeState() {
             cut.but();
-            verifyZeroInteractions(waiter, config, object);
+            verifyNoInteractions(waiter, config, object);
         }
 
     }

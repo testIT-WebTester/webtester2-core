@@ -1,6 +1,7 @@
 package info.novatec.testit.webtester.pagefragments.utils;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

@@ -5,7 +5,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +76,7 @@ public class EitherTest {
 
             new Either<>(mockedTrueCondition1, mockedTrueCondition2).test(fragment);
             verify(mockedTrueCondition1).test(fragment);
-            verifyZeroInteractions(mockedTrueCondition2);
+            verifyNoInteractions(mockedTrueCondition2);
 
         }
 
