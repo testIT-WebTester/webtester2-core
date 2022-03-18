@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
@@ -58,7 +58,7 @@ public class MarkerTest {
         public void styleIsNotChangedIfMarkingsAreDeactivated() {
             doReturn(false).when(configuration).isMarkingsEnabled();
             cut.markAsRead(fragment);
-            verifyZeroInteractions(styleChanger);
+            verifyNoInteractions(styleChanger);
         }
 
         @Test
@@ -88,7 +88,7 @@ public class MarkerTest {
         public void styleIsNotChangedIfMarkingsAreDeactivated() {
             doReturn(false).when(configuration).isMarkingsEnabled();
             cut.markAsUsed(fragment);
-            verifyZeroInteractions(styleChanger);
+            verifyNoInteractions(styleChanger);
         }
 
         @Test

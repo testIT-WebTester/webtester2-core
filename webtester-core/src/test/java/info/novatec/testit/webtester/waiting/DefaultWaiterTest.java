@@ -73,7 +73,7 @@ public class DefaultWaiterTest {
         @Test
         public void waitingLittleLessThanOneMillisecondDoesNotSleep() {
             cut.waitExactly(999, TimeUnit.MICROSECONDS);
-            verifyZeroInteractions(sleeper);
+            verifyNoInteractions(sleeper);
         }
 
         @Test
@@ -151,7 +151,7 @@ public class DefaultWaiterTest {
                 cut.waitUntil(config, condition);
             } finally {
                 verify(condition, times(1)).get();
-                verifyZeroInteractions(sleeper);
+                verifyNoInteractions(sleeper);
             }
 
         }

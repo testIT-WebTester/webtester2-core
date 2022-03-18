@@ -2,7 +2,7 @@ package info.novatec.testit.webtester.junit5.extensions.configuration.unmarshall
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ class DefaultUnmarshallerTest {
         String key = "key";
         Optional<Object> value = cut.unmarshal(config, key);
         assertThat(value).isEmpty();
-        verifyZeroInteractions(config);
+        verifyNoInteractions(config);
     }
 
 }
