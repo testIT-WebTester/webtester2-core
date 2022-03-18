@@ -6,6 +6,7 @@ import static utils.TestUtils.executeWithRetryOf;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import utils.integration.BaseIntTest;
@@ -18,8 +19,8 @@ import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 import info.novatec.testit.webtester.pages.Page;
 import info.novatec.testit.webtester.waiting.Wait;
 
-
 /** NOTE: This test will break other tests because of the context menu. It has to be executed in its own Browser! */
+@Disabled("breaks current CI build")
 public class MouseIntTest extends BaseIntTest {
 
     static Browser browser;
