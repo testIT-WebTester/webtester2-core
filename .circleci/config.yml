@@ -84,6 +84,7 @@ jobs:
       - run:
           name: Create Maven Settings
           command: |
+            mkdir ~/.m2
             echo $SETTINGS_BASE64 | base64 --decode > ~/.m2/settings.xml
       - run:
           name: Deploy Snapshot to Sonatype Nexus
@@ -105,6 +106,7 @@ jobs:
       - run:
           name: Create Maven Settings
           command: |
+            mkdir ~/.m2
             echo $SETTINGS_BASE64 | base64 --decode > ~/.m2/settings.xml
       - run:
           name: Import GPG Key
