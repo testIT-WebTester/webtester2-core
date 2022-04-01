@@ -80,6 +80,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Create Maven Settings
+          command: |
+            rm -f $MAVEN_HOME/conf/settings.xml
+            echo $SETTINGS_BASE64 | base64 --decode > $MAVEN_HOME/conf/settings.xml
+      - run:
           name: Deploy Snapshot to Sonatype Nexus
           command: >-
             mvn --batch-mode deploy
@@ -96,6 +101,11 @@ jobs:
       - image: cimg/openjdk:8.0
     steps:
       - checkout
+      - run:
+          name: Create Maven Settings
+          command: |
+            rm -f $MAVEN_HOME/conf/settings.xml
+            echo $SETTINGS_BASE64 | base64 --decode > $MAVEN_HOME/conf/settings.xml
       - run:
           name: Import GPG Key
           command: |
