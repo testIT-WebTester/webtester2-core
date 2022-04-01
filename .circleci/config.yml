@@ -8,6 +8,8 @@ jobs:
     steps:
       - checkout
       - run:
+          command: mvn --version
+      - run:
           name: Download Dependencies and Compile
           command: mvn --batch-mode verify -P ci-compile
 
