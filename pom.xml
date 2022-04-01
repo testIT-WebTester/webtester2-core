@@ -52,8 +52,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <gpg.keyname>WebTester</gpg.keyname>
-
         <skipUnitTests>false</skipUnitTests>
         <skipIntegrationTests>false</skipIntegrationTests>
 
@@ -511,12 +509,14 @@
                             <goals>
                                 <goal>sign</goal>
                             </goals>
-                            <configuration>
-                                <keyname>${gpg.keyname}</keyname>
-                                <passphrase>${gpg.passphrase}</passphrase>
-                            </configuration>
                         </execution>
                     </executions>
+                    <configuration>
+                        <gpgArguments>
+                            <arg>--pinentry-mode</arg>
+                            <arg>loopback</arg>
+                        </gpgArguments>
+                    </configuration>
                 </plugin>
                 <!-- maven central release plugin -->
                 <plugin>
