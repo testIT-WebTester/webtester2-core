@@ -4,7 +4,7 @@ jobs:
   compile:
     working_directory: ~/work
     docker:
-      - image: caaqe/webtester2-build-environment
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - run:
@@ -18,7 +18,7 @@ jobs:
   unit-tests:
     working_directory: ~/work
     docker:
-      - image: caaqe/webtester2-build-environment
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - restore_cache:
@@ -43,7 +43,7 @@ jobs:
   integration-tests:
     working_directory: ~/work
     docker:
-      - image: caaqe/webtester2-build-environment
+      - image: cimg/openjdk:8.0
       - image: selenium/standalone-chrome:4.1.2
     steps:
       - checkout
@@ -69,7 +69,7 @@ jobs:
   documentation:
     working_directory: ~/work
     docker:
-      - image: caaqe/webtester2-build-environment
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - restore_cache:
@@ -89,7 +89,7 @@ jobs:
   build-and-deploy-snapshot:
     working_directory: ~/work
     docker:
-      - image: caaqe/webtester2-build-environment
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - restore_cache:
@@ -109,12 +109,16 @@ jobs:
   build-and-deploy-release:
     working_directory: ~/work
     docker:
-      - image: caaqe/webtester2-build-environment
+      - image: cimg/openjdk:8.0
     steps:
       - checkout
       - restore_cache:
           keys:
             - dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Import GPG Key
+          command: |
+            echo $GPG_KEY_BASE64 | base64 --decode | gpg --batch --import
       - run:
           name: Set Project Version
           command: |
