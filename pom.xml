@@ -103,7 +103,7 @@
         <version.maven.gpg.plugin>1.6</version.maven.gpg.plugin>
         <version.maven.nexus.staging.plugin>1.6.8</version.maven.nexus.staging.plugin>
 
-        <version.license.maven.plugin>1.14</version.license.maven.plugin>
+        <version.license.maven.plugin>2.0.0</version.license.maven.plugin>
         <version.jacoco.maven.plugin>0.8.4</version.jacoco.maven.plugin>
         <version.pitest.maven.plugin>1.4.9</version.pitest.maven.plugin>
 
@@ -573,6 +573,31 @@
                                 <failIfWarning>true</failIfWarning>
                                 <useMissingFile>true</useMissingFile>
                                 <sortArtifactByName>true</sortArtifactByName>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>enforce-licenses</id>
+                            <goals>
+                                <goal>aggregate-add-third-party</goal>
+                            </goals>
+                            <phase>validate</phase>
+                            <configuration>
+                                <failOnBlacklist>true</failOnBlacklist>
+                                <excludedScopes>test</excludedScopes>
+                                <includedLicenses>
+                                    <includedLicense>Apache 2.0</includedLicense>
+                                    <includedLicense>Apache License, Version 2.0</includedLicense>
+                                    <includedLicense>The Apache License, Version 2.0</includedLicense>
+                                    <includedLicense>The Apache Software License, Version 2.0</includedLicense>
+                                    <includedLicense>EDL 1.0</includedLicense>
+                                    <includedLicense>Eclipse Public License 1.0</includedLicense>
+                                    <includedLicense>Eclipse Public License v2.0</includedLicense>
+                                    <includedLicense>GNU Lesser General Public License</includedLicense>
+                                    <includedLicense>MIT License</includedLicense>
+                                    <includedLicense>The MIT License</includedLicense>
+                                    <includedLicense>BSD License 3</includedLicense>
+                                    <includedLicense>CC0</includedLicense>
+                                </includedLicenses>
                             </configuration>
                         </execution>
                     </executions>
