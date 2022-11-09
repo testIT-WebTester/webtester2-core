@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import info.novatec.testit.webtester.browser.Browser;
 import info.novatec.testit.webtester.events.EventListener;
@@ -57,7 +58,7 @@ class TestClassAnalyzer {
 
     private Map<String, Field> getNamedBrowserFieldsMap(List<Field> browserFields) {
         Set<String> uniqueNames = new HashSet<>();
-        Map<String, Field> nameToFieldMap = new HashMap<>();
+        Map<String, Field> nameToFieldMap = new ConcurrentHashMap<>();
         browserFields.forEach(field -> {
             String browserName = field.getAnnotation(Managed.class).value();
             if (uniqueNames.contains(browserName)) {

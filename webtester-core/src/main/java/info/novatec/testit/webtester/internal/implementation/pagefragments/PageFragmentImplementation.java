@@ -6,8 +6,8 @@ import static net.bytebuddy.matcher.ElementMatchers.isDefaultMethod;
 import static net.bytebuddy.matcher.ElementMatchers.takesArguments;
 
 import java.lang.reflect.InvocationHandler;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
@@ -32,12 +32,12 @@ import info.novatec.testit.webtester.pagefragments.annotations.IdentifyUsing;
 final class PageFragmentImplementation {
 
     private static final Map<ClassLoader, Map<Class<? extends PageFragment>, Class<? extends PageFragment>>> CACHE =
-        new HashMap<>();
+        new ConcurrentHashMap<>();
 
     static Class<? extends PageFragment> getOrCreate(Class<? extends PageFragment> pageFragmentType) {
         ClassLoader classLoader = pageFragmentType.getClassLoader();
         Map<Class<? extends PageFragment>, Class<? extends PageFragment>> implementationMap =
-            CACHE.computeIfAbsent(classLoader, cl -> new HashMap<>());
+            CACHE.computeIfAbsent(classLoader, cl -> new ConcurrentHashMap<>());
         return implementationMap.computeIfAbsent(pageFragmentType, PageFragmentImplementation::create);
     }
 
