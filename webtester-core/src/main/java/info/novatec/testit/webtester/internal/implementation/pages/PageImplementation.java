@@ -6,8 +6,8 @@ import static net.bytebuddy.matcher.ElementMatchers.isDefaultMethod;
 import static net.bytebuddy.matcher.ElementMatchers.takesArguments;
 
 import java.lang.reflect.InvocationHandler;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
@@ -27,12 +27,12 @@ import info.novatec.testit.webtester.pages.Page;
 
 final class PageImplementation {
 
-    private static final Map<ClassLoader, Map<Class<? extends Page>, Class<? extends Page>>> CACHE = new HashMap<>();
+    private static final Map<ClassLoader, Map<Class<? extends Page>, Class<? extends Page>>> CACHE = new ConcurrentHashMap<>();
 
     static Class<? extends Page> getOrCreate(Class<? extends Page> pageType) {
         ClassLoader classLoader = pageType.getClassLoader();
         Map<Class<? extends Page>, Class<? extends Page>> implementationMap =
-            CACHE.computeIfAbsent(classLoader, cl -> new HashMap<>());
+            CACHE.computeIfAbsent(classLoader, cl -> new ConcurrentHashMap<>());
         return implementationMap.computeIfAbsent(pageType, PageImplementation::create);
     }
 
