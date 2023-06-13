@@ -64,7 +64,7 @@
         <version.assertj>3.22.0</version.assertj>
         <version.mockito>4.4.0</version.mockito>
 
-        <version.jetty-server>9.4.45.v20220203</version.jetty-server>
+        <version.jetty-server>9.4.51.v20230217</version.jetty-server>
 
         <version.selenium>4.1.2</version.selenium>
 
